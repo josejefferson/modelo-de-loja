@@ -19,14 +19,19 @@ routes.get('/', async (req, res) => {
 })
 
 routes.post('/confirm', async (req, res) => {
-	// req.body.id
-	// req.body.confirm
-	// Se req.body.confirm == true, confirmado, se não, não confirmado
+	// >> ao confirmar, diminuir do estoque
 	const request = await Pedidos.findOne({ where: { id: req.body.id } }) // ** trocar findAll por findOne em algumas situações
+	const product = await Produtos.findOne({ where: { id: request.product } })
+
+	if (req.body.confirm) await product.update({
+		stock: product.stock ? product.stock - 1 : 0
+	})
+
 	await request.update({
 		pending: false,
 		confirmed: req.body.confirm
 	})
+	
 	res.json({ success: true })
 })
 

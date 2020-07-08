@@ -10,6 +10,8 @@
 			<div>E-mail: <%= request.email %></div>
 			<div>Mais informações: <%= request.other %></div>
 			<div>Data: <%= request.createdAt %></div>
+			<button class="btn btn-success act" data-action="confirm" data-request-id="<%= request.id %>">Confirmar</button>
+			<button class="btn btn-success act" data-action="reject" data-request-id="<%= request.id %>">Rejeitar</button>
 		</div>
 	</div>
 	<% }) %>
@@ -19,3 +21,22 @@
 <pre>
 	<%= JSON.stringify(requests, null, '\t') %>
 </pre>
+
+<script>
+	$('.act').click(function () {
+		const $this = $(this)
+		const id = $this.data('request-id')
+		const confirm = $this.data('action') == 'confirm'
+
+		$.ajax({
+			method: 'POST',
+			url: '/admin/requests/confirm',
+			data: { id, confirm },
+			beforeSend: () => $this.parent().find('.act').prop('disabled', true),
+			success: res => {
+				if (res.success) $this.closest('.card').remove()
+				$this.parent().find('.act').prop('disabled', false)
+			}
+		})
+	})
+</script>

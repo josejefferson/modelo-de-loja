@@ -45,22 +45,22 @@ if (data.length) {
 
 				<label class="form-group d-block">
 					<div>Nome completo <span class="text-danger">*</span></div>
-					<input type="text" class="form-control" name="name" value="<%= name %>" required>
+					<input type="text" class="form-control" name="name" id="name" value="<%= name %>" required>
 				</label>
 
 				<label class="form-group d-block">
 					<div>Endereço <span class="text-danger">*</span></div>
-					<input type="text" class="form-control" name="address" value="<%= address %>" required>
+					<input type="text" class="form-control" name="address" id="address" value="<%= address %>" required>
 				</label>
 
 				<label class="form-group d-block">
 					<div>Telefone</div>
-					<input type="tel" class="form-control" name="phone" value="<%= phone %>">
+					<input type="tel" class="form-control" name="phone" id="phone" value="<%= phone %>">
 				</label>
 
 				<label class="form-group d-block">
 					<div>E-mail</div>
-					<input type="email" class="form-control" name="email" value="<%= email %>">
+					<input type="email" class="form-control" name="email" id="email" value="<%= email %>">
 				</label>
 
 				<label class="form-group d-block">
@@ -71,10 +71,25 @@ if (data.length) {
 				<button class="btn btn-success" type="submit">Comprar</button>
 			</form>
 
+			<input type="checkbox" id="saveuserdata" checked> Salvar dados do usuário para próximas compras
+
 		</div>
 	</div>
-
-	<!-- >> inserir dados do produto aqui -->
-
-
 </div>
+
+<script>
+	$(document).ready(() => {
+		localStorage.getItem('name') && $('#name').val() == '' && $('#name').val(localStorage.getItem('name'))
+		localStorage.getItem('address') && $('#address').val() == '' && $('#address').val(localStorage.getItem('address'))
+		localStorage.getItem('phone') && $('#phone').val() == '' && $('#phone').val(localStorage.getItem('phone'))
+		localStorage.getItem('email') && $('#email').val() == '' && $('#email').val(localStorage.getItem('email'))
+	})
+	$('form').submit(() => {
+		if ($('#saveuserdata').prop('checked')) {
+			localStorage.setItem('name', $('#name').val())
+			localStorage.setItem('address', $('#address').val())
+			localStorage.setItem('phone', $('#phone').val())
+			localStorage.setItem('email', $('#email').val())
+		}
+	})
+</script>
