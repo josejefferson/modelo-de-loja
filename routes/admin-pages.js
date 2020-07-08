@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
-const Usuarios = require('../models/Usuarios')
-const Produtos = require('../models/Produtos')
+const Usuario = require('../models/Usuario')
+const Produto = require('../models/Produto')
 const { param, validationResult } = require('express-validator')
 
 const products = require('./admin-products')
@@ -17,7 +17,7 @@ routes.get('/', (req, res) => {
 })
 
 routes.get('/users', async (req, res) => {
-	const users = await Usuarios.findAll({ attributes: { exclude: ['password'] } }).catch(err => {
+	const users = await Usuario.findAll({ attributes: { exclude: ['password'] } }).catch(err => {
 		req.flash('error_msg', 'Falha ao carregar lista de usuários')
 		res.redirect('/admin')
 	})
@@ -47,7 +47,7 @@ routes.get('/update/:id', [
 		return res.redirect('users')
 	}
 
-	const user = await Usuarios.findOne({ where: { id: req.params.id } }).catch(err => {
+	const user = await Usuario.findOne({ where: { id: req.params.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro interno')
 		res.redirect('users')
 		throw err

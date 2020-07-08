@@ -1,10 +1,10 @@
 const express = require('express')
 const routes = express.Router()
 const check = require('../helpers/checks')
-const Produtos = require('../models/Produtos')
+const Produto = require('../models/Produto')
 
 routes.get('/', async (req, res) => {
-	const produtos = await Produtos.findAll() // *todo adicionar catch
+	const produtos = await Produto.findAll() // *todo adicionar catch
 	res.render('pages/home', {
 		_page: 'home',
 		_title: 'Início',
@@ -13,7 +13,7 @@ routes.get('/', async (req, res) => {
 })
 
 routes.get('/product/:id', async (req, res) => {// >> validar id
-	const product = await Produtos.findAll({ where: { id: req.params.id } }) // *todo adicionar catch
+	const product = await Produto.findAll({ where: { id: req.params.id } }) // *todo adicionar catch
 	res.render('pages/product', {
 		_page: 'home',
 		_title: 'Início',
@@ -22,7 +22,7 @@ routes.get('/product/:id', async (req, res) => {// >> validar id
 })
 
 routes.get('/buy/:id', async (req, res) => {
-	const product = await Produtos.findAll({ where: { id: req.params.id } }) // *todo adicionar catch
+	const product = await Produto.findAll({ where: { id: req.params.id } }) // *todo adicionar catch
 	
 	if (!product[0].stock) {
 		req.flash('error_msg', 'Este produto está esgotado')

@@ -2,11 +2,11 @@ const express = require('express')
 const routes = express.Router()
 const passport = require('passport')
 const check = require('../helpers/checks')
-const Usuarios = require('../models/Usuarios')
+const Usuario = require('../models/Usuario')
 const validators = require('../helpers/validators')
 const { body, validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
-const Pedidos = require('../models/Pedidos')
+const Pedido = require('../models/Pedido')
 
 routes.post('/buy', [
 	// >> fazer auth
@@ -20,7 +20,7 @@ routes.post('/buy', [
 			return res.redirect(`/`)
 		}
 
-		await Pedidos.create({
+		await Pedido.create({
 			userid: req.body.userid,
 			product: req.body.product,
 			name: req.body.name,

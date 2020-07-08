@@ -1,6 +1,6 @@
 const { Sequelize, sequelize } = require('../config/connect')
 
-const Pedidos = sequelize.define('pedidos', {
+const Pedido = sequelize.define('pedidos', {
 	userid: { type: Sequelize.STRING, allowNull: false },
 	product: { type: Sequelize.INTEGER, allowNull: false },
 	name: { type: Sequelize.STRING, allowNull: false },
@@ -13,6 +13,6 @@ const Pedidos = sequelize.define('pedidos', {
 	// >> quantidade
 })
 
-Pedidos.sync({ alter: true })
+Pedido.sync({ alter: true })
 
-module.exports = Pedidos
+module.exports = Pedido

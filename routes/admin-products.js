@@ -1,14 +1,14 @@
 const express = require('express')
 const routes = express.Router()
-const Produtos = require('../models/Produtos')
+const Produto = require('../models/Produto')
 const { body, param, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
 
 routes.get('/', async (req, res) => {
-	const produtos = await Produtos.findAll() // *todo adicionar catch
+	const produtos = await Produto.findAll() // *todo adicionar catch
 	res.render('pages/admin/products', {
 		_page: 'products',
-		_title: 'Produtos',
+		_title: 'Produto',
 		produtos: produtos
 	})
 })
@@ -31,7 +31,7 @@ routes.get('/edit/:id', [
 		return res.redirect('/admin/products')
 	}
 
-	const product = await Produtos.findOne({ where: { id: req.params.id } }).catch(err => {
+	const product = await Produto.findOne({ where: { id: req.params.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro interno')
 		res.redirect('/admin/products')
 		throw err
@@ -66,7 +66,7 @@ routes.post('/new', [
 		return res.redirect('/admin/products/new')
 	}
 
-	await Produtos.create({
+	await Produto.create({
 		name: req.body.name,
 		description: req.body.description,
 		price: req.body.price,
@@ -102,7 +102,7 @@ routes.post('/edit', [
 		return res.redirect(`/admin/products/edit/${req.body.id}`)
 	}
 
-	const product = await Produtos.findOne({ where: { id: req.body.id } }).catch(err => {
+	const product = await Produto.findOne({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
 		req.flash('data', req.body)
 		res.redirect(`/admin/products/edit/${req.body.id}`)
@@ -144,7 +144,7 @@ routes.post('/remove', [
 		return res.redirect('/admin/products')
 	}
 
-	await Produtos.destroy({ where: { id: req.body.id } }).catch(err => {
+	await Produto.destroy({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')
 		res.redirect('/admin/products')
 		throw err

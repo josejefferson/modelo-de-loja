@@ -1,6 +1,6 @@
 const express = require('express')
 const routes = express.Router()
-const Usuarios = require('../models/Usuarios')
+const Usuario = require('../models/Usuario')
 const { body, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
 const bcrypt = require('bcryptjs')
@@ -21,7 +21,7 @@ routes.post('/signup', [
 	}
 
 	// Cria o usuário
-	await Usuarios.create({
+	await Usuario.create({
 		name: req.body.name,
 		email: req.body.email,
 		password: bcrypt.hashSync(req.body.password, 10),
@@ -54,7 +54,7 @@ routes.post('/product/update', [
 	}
 
 	// Procura o usuário
-	const product = await Produtos.findOne({ where: { id: req.body.id } }).catch(err => {
+	const product = await Produto.findOne({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
 		req.flash('data', req.body)
 		res.redirect(`product/update/${req.body.id}`)
@@ -97,7 +97,7 @@ routes.post('/product/remove', [
 	}
 
 	// >> Remove usuários
-	await Produtos.destroy({ where: { id: req.body.id } }).catch(err => {
+	await Produto.destroy({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produtp')
 		res.redirect('products')
 		throw err
@@ -122,7 +122,7 @@ routes.post('/update', [
 	}
 
 	// Procura o usuário
-	const user = await Usuarios.findOne({ where: { id: req.body.id } }).catch(err => {
+	const user = await Usuario.findOne({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar usuário')
 		req.flash('data', req.body)
 		res.redirect(`update/${req.body.id}`)
@@ -164,7 +164,7 @@ routes.post('/remove', [
 	}
 
 	// Remove usuários
-	await Usuarios.destroy({ where: { id: req.body.id } }).catch(err => {
+	await Usuario.destroy({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir usuário')
 		res.redirect('users')
 		throw err
