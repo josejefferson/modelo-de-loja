@@ -1,0 +1,65 @@
+<div class="container my-5">
+	<h1>Produtos</h1>
+	<a href="/admin/products/new" class="btn btn-primary">Novo produto</a>
+	<div class="row">
+		<% produtos.forEach(produto => { %>
+		<div class="col col-sm-12 col-md-4 col-lg-3 mt-3">
+			<div class="card">
+				<% if (produto.image) { %>
+				<a href="<%= `/admin/products/edit/${produto.id}` %>">
+					<img src="<%= produto.image %>" class="card-img-top">
+				</a>
+				<% } %>
+				<div class="card-body">
+					<h5 class="card-title"><%= produto.name %></h5>
+					<p class="card-text"><%- produto.description.replace(/\n/g, '<br>') %></p>
+					<a href="<%= `/admin/products/edit/${produto.id}` %>" class="btn btn-warning">Editar</a>
+					<button class="btn btn-danger mt-1" data-toggle="modal" data-target="#deleteModal" data-productid="<%= produto.id %>"
+						data-productname="<%= produto.name %>">Excluir</button>
+				</div>
+				<div class="card-footer text-muted">
+					<% if (produto.stock) { %>
+					<div>R$<%= produto.price.replace('.',',') %> (<%= produto.stock %> em estoque)</div>
+					<% } else { %>
+					R$<%= produto.price.replace('.',',') %> (Não disponível)
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<% }) %>
+	</div>
+</div>
+
+<div class="modal fade" id="deleteModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirmar exclusão</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Tem certeza que deseja excluir o produto <i class="productname"></i>?</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				<form action="/admin/products/remove" method="POST" class="d-inline-block">
+					<input type="hidden" name="id" id="productid">
+					<button type="submit" class="btn btn-danger">Excluir</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('#deleteModal').on('show.bs.modal', function (e) {
+		const button = $(e.relatedTarget);
+		const productid = button.data('productid');
+		const productname = button.data('productname');
+		const modal = $(this);
+		modal.find('.productname').text(productname);
+		modal.find('#productid').val(productid);
+	});
+</script>

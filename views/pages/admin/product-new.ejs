@@ -1,0 +1,51 @@
+<% 
+
+let name, description, price, image, stock
+if (data.length) {
+	name = data[0].name
+	description = data[0].description
+	price = data[0].price
+	image = data[0].image
+	stock = data[0].stock
+}
+
+%>
+
+<div class="container my-4">
+	<h1 class="mb-4">Registrar</h1>
+
+	<form action="/admin/products/new" method="POST">
+		<label class="form-group d-block">
+			<div>Nome</div>
+			<input type="text" class="form-control" name="name" value="<%= name %>" required>
+		</label>
+
+		<label class="form-group d-block">
+			<div>Descrição</div>
+			<textarea class="form-control" name="description" value="<%= description %>"></textarea>
+		</label>
+
+		<label class="form-group d-block">
+			<div>Preço</div>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<div class="input-group-text">R$</div>
+				</div>
+				<input type="number" step=".01" class="form-control" name="price" value="<%= price %>" required>
+			</div>
+		</label>
+
+		<label class="form-group d-block">
+			<div>Imagem</div>
+			<input type="url" class="form-control" name="image" value="<%= image %>">
+		</label>
+
+		<label class="form-group d-block">
+			<div>Estoque</div>
+			<input type="number" class="form-control" name="stock" value="<%= stock %>" required>
+		</label>
+
+		<button class="btn btn-success" type="submit">Criar conta</button>
+	</form>
+
+</div>

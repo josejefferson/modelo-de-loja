@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container">
+		<a class="navbar-brand" href="/">Protótipo de loja</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+
+				<li class="nav-item <%- (_page == ((user && user.admin) ? 'admin' : 'home')) && 'active' %>">
+					<a class="nav-link" href="<%- (user && user.admin) ? '/admin' : '/' %>">Início</a>
+				</li>
+
+
+				<% if (user) { %>
+				<% if (user.admin) { %>
+				<li class="nav-item <%- (_page == 'products') && 'active' %>">
+					<a class="nav-link" href="/admin/products">Produtos</a>
+				</li>
+				
+				<li class="nav-item <%- (_page == 'requests') && 'active' %>">
+					<a class="nav-link" href="/admin/requests">Pedidos</a>
+				</li>
+
+				<li class="nav-item <%- (_page == 'users') && 'active' %>">
+					<a class="nav-link" href="/admin/users">Administradores</a>
+				</li>
+				<% } %>
+
+				<li class="nav-item">
+					<a class="nav-link" href="/logout">Sair</a>
+				</li>
+
+				<% } else { %>
+				<li class="nav-item <%- (_page == 'login') && 'active' %>">
+					<a class="nav-link" href="/login">Painel do administrador</a>
+				</li>
+
+				<% } %>
+
+			</ul>
+		</div>
+	</div>
+</nav>

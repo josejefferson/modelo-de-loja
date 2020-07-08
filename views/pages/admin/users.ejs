@@ -1,0 +1,57 @@
+<div class="container my-4">
+	<h1 class="mb-2">Usuários</h1>
+	<% if (users.length) { %>
+	<div class="row">
+		<% users.forEach(user => { %>
+		<div class="col col-sm-12 col-md-4 col-lg-3">
+
+			<div class="card mt-4">
+				<div class="card-body">
+					<h5 class="card-title"><%= user.name %></h5>
+					<div class="card-text mb-3"><%= user.email %></div>
+
+					<a class="btn btn-warning mt-1" href="/admin/update/<%= user.id %>">EDITAR</a>
+					<button class="btn btn-danger mt-1" data-toggle="modal" data-target="#deleteModal" data-userid="<%= user.id %>" data-username="<%= user.name %>">EXCLUIR</button>
+				</div>
+			</div>
+		</div>
+		<% }) %>
+	</div>
+	<% } else { %>
+	<div class="alert alert-info">SEM USUÁRIOS</div>
+	<% } %>
+</div>
+
+<div class="modal fade" id="deleteModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirmar exclusão</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Tem certeza que deseja excluir o usuário <i class="username"></i>?</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				<form action="/admin/remove" method="POST" class="d-inline-block">
+					<input type="hidden" name="id" id="userid">
+					<button type="submit" class="btn btn-danger">Excluir</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('#deleteModal').on('show.bs.modal', function (e) {
+			const button = $(e.relatedTarget);
+			const userid = button.data('userid');
+			const username = button.data('username');
+			const modal = $(this);
+			modal.find('.username').text(username);
+			modal.find('#userid').val(userid);
+		});
+</script>

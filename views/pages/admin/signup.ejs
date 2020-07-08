@@ -1,0 +1,37 @@
+<% 
+
+let name, email
+if (data.length) {
+	name = data[0].name
+	email = data[0].email
+}
+
+%>
+
+<div class="container my-4">
+	<h1 class="mb-4">Registrar</h1>
+
+	<form action="/admin/signup" method="POST">
+		<label class="form-group d-block">
+			<div>Nome <span class="text-danger">*</span></div>
+			<input type="text" class="form-control" name="name" value="<%= name %>" required>
+		</label>
+
+		<label class="form-group d-block">
+			<div>E-mail <span class="text-danger">*</span></div>
+			<input type="email" class="form-control" name="email" value="<%= email %>" required>
+		</label>
+
+		<label class="form-group d-block">
+			<div>Senha <span class="text-danger">*</span></div>
+			<input type="password" class="form-control" name="password" required>
+		</label>
+
+		<label class="form-group d-block">
+			<div>Confirmar senha <span class="text-danger">*</span></div>
+			<input type="password" class="form-control" name="confirmpassword" required>
+		</label>
+
+		<button class="btn btn-success" type="submit">Criar conta</button>
+	</form>
+</div>

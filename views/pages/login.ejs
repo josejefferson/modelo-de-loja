@@ -1,0 +1,25 @@
+<% 
+
+let email
+if (data.length) {
+	email = data[0].email
+}
+
+%>
+
+<div class="container my-4">
+	<h1 class="mb-4">Login</h1>
+	<form action="/login" method="POST">
+		<label class="form-group d-block">
+			<div>E-mail <span class="text-danger">*</span></div>
+			<input type="email" class="form-control" name="email" value="<%= email %>" required>
+		</label>
+
+		<label class="form-group d-block">
+			<div>Senha <span class="text-danger">*</span></div>
+			<input type="password" class="form-control" name="password" required>
+		</label>
+
+		<button class="btn btn-success" type="submit">Entrar</button>
+	</form>
+</div>

@@ -1,0 +1,80 @@
+<%# >> adicionar um campo hidden com ID do usuário %>
+
+<% 
+
+let name, address, phone, email, other
+if (data.length) {
+	name = data[0].name
+	address = data[0].address
+	phone = data[0].phone
+	email = data[0].email
+	other = data[0].other
+}
+
+%>
+
+<div class="container my-4">
+	<h1>Comprar</h1>
+
+	<div class="row">
+		<div class="col col-12 col-md-4 col-lg-3">
+			<div class="card">
+				<% if (product[0].image) { %>
+				<img src="<%= product[0].image %>" class="card-img-top">
+				<% } %>
+				<div class="card-body">
+					<h5 class="card-title"><%= product[0].name %></h5>
+					<p class="card-text"><%- product[0].description.replace(/\n/g, '<br>') %></p>
+				</div>
+				<div class="card-footer text-muted">
+					<% if (product[0].stock) { %>
+					<div>R$<%= product[0].price.replace('.',',') %> (<%= product[0].stock %> em estoque)</div>
+					<% } else { %>
+					R$<%= product[0].price.replace('.',',') %> (Não disponível)
+					<% } %>
+				</div>
+			</div>
+		</div>
+
+		<div class="col col-12 col-md-8 col-lg-9">
+
+			<form action="/buy" method="POST">
+				<input type="hidden" name="userid" value="9jnsw3809g493"><!-- >> isso e colocar data no backend! -->
+				<!-- $$ seria interessante identificar usuário pelo nome -->
+				<input type="hidden" name="product" value="<%= product[0].id %>">
+
+				<label class="form-group d-block">
+					<div>Nome completo <span class="text-danger">*</span></div>
+					<input type="text" class="form-control" name="name" value="<%= name %>" required>
+				</label>
+
+				<label class="form-group d-block">
+					<div>Endereço <span class="text-danger">*</span></div>
+					<input type="text" class="form-control" name="address" value="<%= address %>" required>
+				</label>
+
+				<label class="form-group d-block">
+					<div>Telefone</div>
+					<input type="tel" class="form-control" name="phone" value="<%= phone %>">
+				</label>
+
+				<label class="form-group d-block">
+					<div>E-mail</div>
+					<input type="email" class="form-control" name="email" value="<%= email %>">
+				</label>
+
+				<label class="form-group d-block">
+					<div>Mais alguma informação?</div>
+					<textarea class="form-control" name="other"><%= other %></textarea>
+				</label>
+
+				<button class="btn btn-success" type="submit">Comprar</button>
+			</form>
+
+		</div>
+	</div>
+
+	<!-- >> inserir dados do produto aqui -->
+
+
+</div>
