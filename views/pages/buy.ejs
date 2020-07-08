@@ -30,7 +30,7 @@ if (data.length) {
 					<% if (product[0].stock) { %>
 					<div>R$<%= product[0].price.replace('.',',') %> (<%= product[0].stock %> em estoque)</div>
 					<% } else { %>
-					R$<%= product[0].price.replace('.',',') %> (Não disponível)
+					R$<%= product[0].price.replace('.',',') %> (Esgotado)
 					<% } %>
 				</div>
 			</div>

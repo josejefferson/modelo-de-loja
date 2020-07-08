@@ -21,7 +21,7 @@
 					<% if (produto.stock) { %>
 					<div>R$<%= produto.price.replace('.',',') %> (<%= produto.stock %> em estoque)</div>
 					<% } else { %>
-					R$<%= produto.price.replace('.',',') %> (Não disponível)
+					R$<%= produto.price.replace('.',',') %> (Esgotado)
 					<% } %>
 				</div>
 			</div>
