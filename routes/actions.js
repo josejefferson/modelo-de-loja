@@ -22,7 +22,7 @@ routes.post('/buy', [
 
 		await Pedido.create({
 			userid: req.body.userid,
-			product: req.body.product,
+			produtoId: req.body.product,
 			name: req.body.name,
 			address: req.body.address,
 			phone: req.body.phone,

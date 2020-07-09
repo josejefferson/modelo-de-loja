@@ -8,7 +8,8 @@ const Pedido = require('../models/Pedido')
 routes.get('/', async (req, res) => {
 
 	const requests = await Pedido.findAll({
-		where: { pending: true }
+		where: { pending: true },
+		include: [{ model: Produto }] 
 	})
 
 	res.render('pages/admin/requests', {
@@ -20,8 +21,10 @@ routes.get('/', async (req, res) => {
 
 routes.post('/confirm', async (req, res) => {
 	// >> ao confirmar, diminuir do estoque
-	const request = await Pedido.findOne({ where: { id: req.body.id } }) // ** trocar findAll por findOne em algumas situações
-	const product = await Produto.findOne({ where: { id: request.product } })
+	const request = await Pedido.findOne({
+		where: { id: req.body.id },
+	}) // ** trocar findAll por findOne em algumas situações
+	const product = await Produto.findOne({ where: { id: request.produtoId } })
 
 	if (req.body.confirm) await product.update({
 		stock: product.stock ? product.stock - 1 : 0
