@@ -9,6 +9,6 @@ const Produto = sequelize.define('produtos', {
 	stock: { type: Sequelize.INTEGER, allowNull: false }
 })
 
-// Produto.sync({alter:true})
+// Produto.sync({force:true})
 
 module.exports = Produto

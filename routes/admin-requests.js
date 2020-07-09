@@ -14,7 +14,7 @@ routes.get('/', async (req, res) => {
 
 	res.render('pages/admin/requests', {
 		_page: 'requests',
-		_title: 'Pedido',
+		_title: 'Pedidos',
 		requests
 	})
 })
@@ -26,7 +26,7 @@ routes.post('/confirm', async (req, res) => {
 	}) // ** trocar findAll por findOne em algumas situações
 	const product = await Produto.findOne({ where: { id: request.produtoId } })
 
-	if (req.body.confirm) await product.update({
+	if (req.body.confirm == "true") await product.update({
 		stock: product.stock ? product.stock - 1 : 0
 	})
 

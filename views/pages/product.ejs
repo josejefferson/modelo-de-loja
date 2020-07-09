@@ -6,7 +6,7 @@
 	<% if (product[0].stock) { %>
 	<p><%= product[0].stock %> em estoque</p>
 	<% } else { %>
-	<p>Sem estoque</p>
+	<p class="text-danger">Esgotado</p>
 	<% } %>
 	
 	<% if (product[0].stock) { %>

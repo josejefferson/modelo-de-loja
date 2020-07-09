@@ -7,6 +7,6 @@ const Usuario = sequelize.define('usuarios', {
 	admin: { type: Sequelize.BOOLEAN, defaultValue: false }
 })
 
-Usuario.sync()
+// Usuario.sync({force:true})
 
 module.exports = Usuario

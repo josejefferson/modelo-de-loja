@@ -90,6 +90,11 @@ if (data.length) {
 			localStorage.setItem('address', $('#address').val())
 			localStorage.setItem('phone', $('#phone').val())
 			localStorage.setItem('email', $('#email').val())
+		} else {
+			localStorage.removeItem('name')
+			localStorage.removeItem('address')
+			localStorage.removeItem('phone')
+			localStorage.removeItem('email')
 		}
 	})
 </script>
