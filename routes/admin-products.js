@@ -3,6 +3,7 @@ const routes = express.Router()
 const Produto = require('../models/Produto')
 const { body, param, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
+const Pedido = require('../models/Pedido')
 
 routes.get('/', async (req, res) => {
 	const produtos = await Produto.findAll() // *todo adicionar catch
@@ -144,6 +145,8 @@ routes.post('/remove', [
 		return res.redirect('/admin/products')
 	}
 
+		// destrói todos os pedidos referentes ao produto (necessário)
+	await Pedido.destroy({ where: { produtoId: req.body.id } })
 	await Produto.destroy({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')
 		res.redirect('/admin/products')
