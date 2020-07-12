@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
-const sequelize = new Sequelize('sql10353680', 'sql10353680', 'WpsIPTGfav', {
-	host: 'sql10.freemysqlhosting.net',
+const sequelize = new Sequelize('loja', 'root', null, {
+	host: 'localhost',
 	dialect: 'mysql',
 	logging: false
 })
