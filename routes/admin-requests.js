@@ -4,6 +4,7 @@ const Produto = require('../models/Produto')
 const { body, param, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
 const Pedido = require('../models/Pedido')
+const moment = require('moment')
 
 routes.get('/', async (req, res) => {
 
@@ -15,7 +16,8 @@ routes.get('/', async (req, res) => {
 	res.render('pages/admin/requests', {
 		_page: 'requests',
 		_title: 'Pedidos',
-		requests
+		requests,
+		moment
 	})
 })
 
