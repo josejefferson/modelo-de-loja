@@ -48,7 +48,7 @@ requests = requests.reduce(function (r, b) {
 								<div><%- request.other.replace(/\n/g, '<br>') %></div>
 							</div><% } %>
 
-							<div><b>Data/hora:</b> <%= moment(request.createdAt).format('DD/MM/YYYY - h:mm A') %></div>
+							<div><b>Data/hora:</b> <%= moment(request.createdAt).format('DD/MM/YYYY - LT') %></div>
 						</div>
 						<div class="col col-12 col-md-3 col-lg-2 p-3">
 							<button class="btn btn-sm btn-success act w-100" data-action="confirm"
@@ -84,7 +84,7 @@ requests = requests.reduce(function (r, b) {
 			data: { id, confirm },
 			beforeSend: () => $this.parent().find('.act').prop('disabled', true),
 			success: res => {
-				if (res.success) $this.closest('.card').slideUp(/* >> definir tempo*/, function () { this.remove() })
+				if (res.success) $this.closest('.card').slideUp('slow', function () { $(this).remove() })
 				$this.parent().find('.act').prop('disabled', false)
 			}
 		})

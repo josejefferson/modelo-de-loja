@@ -4,6 +4,8 @@ const Produto = require('../models/Produto')
 const { body, param, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
 const Pedido = require('../models/Pedido')
+const check = require('../helpers/checks')
+const validate = check.validate
 
 routes.get('/', async (req, res) => {
 	const produtos = await Produto.findAll() // *todo adicionar catch
@@ -23,14 +25,7 @@ routes.get('/new', (req, res) => {
 
 routes.get('/edit/:id', [
 	param('id').isInt().withMessage('ID inválido')
-], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-		})
-		return res.redirect('/admin/products')
-	}
+], validate('/admin/products'), async (req, res) => {
 
 	const product = await Produto.findOne({ where: { id: req.params.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro interno')
@@ -57,15 +52,7 @@ routes.post('/new', [
 	body('price').notEmpty().withMessage('Digite um preço').bail().isDecimal().withMessage('Preço inválido'),
 	body('image').optional({ checkFalsy: true }).isURL().withMessage('Imagem inválida'),
 	body('stock').notEmpty().withMessage('Digite a quantidade em estoque').bail().isInt().withMessage('Estoque inválido'),
-], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-			req.flash('data', req.body)
-		})
-		return res.redirect('/admin/products/new')
-	}
+], validate('/admin/products/new'), async (req, res) => {
 
 	await Produto.create({
 		name: req.body.name,
@@ -94,14 +81,7 @@ routes.post('/edit', [
 	body('stock').optional({ checkFalsy: true }).isInt().withMessage('Estoque inválido'),
 	// >> validar
 ], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-			req.flash('data', req.body)
-		})
-		return res.redirect(`/admin/products/edit/${req.body.id}`)
-	}
+	if (check.isValid(req, res)) return res.redirect(`/admin/products/edit/${req.body.id}`)
 
 	const product = await Produto.findOne({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
@@ -136,16 +116,9 @@ routes.post('/edit', [
 
 routes.post('/remove', [
 	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findProduct) // >> corrigir custom()
-], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-		})
-		return res.redirect('/admin/products')
-	}
+], validate('/admin/products'), async (req, res) => {
 
-		// destrói todos os pedidos referentes ao produto (necessário)
+	// >> destrói todos os pedidos referentes ao produto (necessário)
 	await Pedido.destroy({ where: { produtoId: req.body.id } })
 	await Produto.destroy({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')

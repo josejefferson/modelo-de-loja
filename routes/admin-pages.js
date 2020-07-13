@@ -3,6 +3,8 @@ const routes = express.Router()
 const Usuario = require('../models/Usuario')
 const Produto = require('../models/Produto')
 const { param, validationResult } = require('express-validator')
+const check = require('../helpers/checks')
+const validate = check.validate
 
 const products = require('./admin-products')
 const requests = require('./admin-requests')
@@ -38,14 +40,7 @@ routes.get('/signup', (req, res) => {
 
 routes.get('/update/:id', [
 	param('id').isInt().withMessage('ID inválido')
-], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-		})
-		return res.redirect('users')
-	}
+], validate('users'), async (req, res) => {
 
 	const user = await Usuario.findOne({ where: { id: req.params.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro interno')

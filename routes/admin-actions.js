@@ -4,21 +4,15 @@ const Usuario = require('../models/Usuario')
 const { body, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
 const bcrypt = require('bcryptjs')
+const check = require('../helpers/checks')
+const validate = check.validate
 
 routes.post('/signup', [
 	body('name').notEmpty().trim().withMessage('Digite seu nome'),
 	body('email').notEmpty().trim().withMessage('Digite seu e-mail').bail().isEmail().withMessage('E-mail inválido')
 		.bail().custom(validators.findEmail),
 	body('password').notEmpty().withMessage('Digite uma senha').bail().custom(validators.comparePasswords)
-], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-			req.flash('data', req.body)
-		})
-		return res.redirect(`signup`)
-	}
+], validate(), async (req, res) => {
 
 	// Cria o usuário
 	await Usuario.create({
@@ -44,14 +38,8 @@ routes.post('/product/update', [
 	// body('password').optional({ checkFalsy: true }).custom(validators.comparePasswords)
 	// >> validar
 ], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-			req.flash('data', req.body)
-		})
-		return res.redirect(`product/update/${req.body.id}`)
-	}
+
+	if (check.isValid(req, res)) return res.redirect(`product/update/${req.body.id}`) // >> testar
 
 	// Procura o usuário
 	const product = await Produto.findOne({ where: { id: req.body.id } }).catch(err => {
@@ -87,14 +75,7 @@ routes.post('/product/update', [
 
 routes.post('/product/remove', [
 	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser) // >> corrigir custom()
-], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-		})
-		return res.redirect('/admin/products')
-	}
+], validate('/admin/products'), async (req, res) => {
 
 	// >> Remove usuários
 	await Produto.destroy({ where: { id: req.body.id } }).catch(err => {
@@ -112,14 +93,8 @@ routes.post('/update', [
 	body('email').optional({ checkFalsy: true }).isEmail().withMessage('E-mail inválido').bail().custom(validators.findEmail),
 	body('password').optional({ checkFalsy: true }).custom(validators.comparePasswords)
 ], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-			req.flash('data', req.body)
-		})
-		return res.redirect(`update/${req.body.id}`)
-	}
+
+	if (check.isValid(req, res)) return res.redirect(`update/${req.body.id}`)
 
 	// Procura o usuário
 	const user = await Usuario.findOne({ where: { id: req.body.id } }).catch(err => {
@@ -154,14 +129,7 @@ routes.post('/update', [
 
 routes.post('/remove', [
 	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser)
-], async (req, res) => {
-	const errors = validationResult(req)
-	if (!errors.isEmpty()) {
-		errors.errors.forEach(err => {
-			req.flash('error_msg', err.msg)
-		})
-		return res.redirect('users')
-	}
+], validate('users'), async (req, res) => {
 
 	// Remove usuários
 	await Usuario.destroy({ where: { id: req.body.id } }).catch(err => {

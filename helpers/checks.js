@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator')
+
 module.exports = {
 	// Somente pessoas logadas
 	loggedIn: function (req, res, next) {
@@ -33,5 +35,31 @@ module.exports = {
 		if (!req.isAuthenticated() || req.user.admin === true) { return next() }
 		req.flash('error_msg', 'Você precisa deslogar para entrar aqui')
 		res.redirect('/')
+	},
+
+	validate: function (redir) {
+		return function (req, res, next) {
+			const errors = validationResult(req)
+			if (!errors.isEmpty()) {
+				errors.errors.forEach(err => {
+					req.flash('error_msg', err.msg)
+					req.flash('data', req.body)
+				})
+				return res.redirect(redir || req.originalUrl)
+			}
+			return next()
+		}
+	},
+
+	isValid: function (req, res) {
+		const errors = validationResult(req)
+		if (!errors.isEmpty()) {
+			errors.errors.forEach(err => {
+				req.flash('error_msg', err.msg)
+				req.flash('data', req.body)
+			})
+			return false
+		}
+		return true
 	}
 }
