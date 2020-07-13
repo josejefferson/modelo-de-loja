@@ -1,0 +1,32 @@
+<div class="container my-4">
+	<h1 class="mb-4">Usuários</h1>
+	<a href="/users/add" class="btn btn-success">Adicionar usuário</a>
+	<div class="users">
+
+		<% users.forEach(user => { %>
+		<div class="card user">
+			<div class="card-body">
+				<h4><%= user.name %></h4>
+				<div><b>Endereço:</b> <%= user.address %></div>
+				<div><b>Telefone:</b> <%= user.phone %></div>
+				<div><b>E-mail:</b> <%= user.email %></div>
+				<a href="/users/add?edit=<%= user.clientId %>" class="btn btn-warning">Editar</a>
+				<button class="btn btn-danger remove" data-client-id="<%= user.clientId %>">Remover</button>
+			</div>
+		</div>
+		<% }) %>
+
+	</div>
+</div>
+
+<script>
+	$('.remove').click(function () {
+		$this = $(this)
+		clientId = $this.data('clientId')
+		userIds = Cookies.get('userIds').split(',')
+		userIds.splice(userIds.indexOf(clientId), userIds.indexOf(clientId) + 1)
+		userIds = userIds.join(',')
+		Cookies.set('userIds', userIds, {expires: 3650})
+		$this.closest('.user').slideUp('fast', function () { $(this).remove() })
+	})
+</script>

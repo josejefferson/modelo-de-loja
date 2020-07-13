@@ -1,0 +1,42 @@
+<%
+
+let name, address, phone, email
+if (user) {
+	name = user.name
+	address = user.address
+	phone = user.phone
+	email = user.email
+}
+
+%>
+
+<div class="container my-4">
+	<h1 class="mb-4">Adicionar usuário</h1>
+
+	<form action="/users/add" method="POST">
+		<input type="hidden" name="oldId" value="<%= oldId %>">
+
+		<label class="form-group d-block">
+			<div>Nome</div>
+			<input type="text" class="form-control" name="name" value="<%= name %>" required>
+		</label>
+
+		<label class="form-group d-block">
+			<div>Endereço</div>
+			<input type="text" class="form-control" name="address" value="<%= address %>">
+		</label>
+
+		<label class="form-group d-block">
+			<div>Telefone</div>
+			<input type="tel" class="form-control" name="phone" value="<%= phone %>">
+		</label>
+
+		<label class="form-group d-block">
+			<div>E-mail</div>
+			<input type="email" class="form-control" name="email" value="<%= email %>">
+		</label>
+
+		<button class="btn btn-success" type="submit">Salvar usuário</button>
+	</form>
+
+</div>

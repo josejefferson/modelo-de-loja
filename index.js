@@ -7,6 +7,7 @@ const expressLayouts = require('express-ejs-layouts')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('passport')
+const cookieParser = require('cookie-parser')
 require('./config/auth')(passport)
 
 // Rotas
@@ -40,9 +41,10 @@ app.set('view engine', 'ejs')
 app.use(expressLayouts)
 app.set('layout extractScripts', true)
 
-// Body Parser
+// Body Parser e Cookie Parser
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 // Diretório público
 app.use(express.static('public'))

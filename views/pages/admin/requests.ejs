@@ -1,9 +1,9 @@
 <%
 
-requests = requests.reduce(function (r, b) {
-	r[b.name] = r[b.name] || [];
-	r[b.name].push(b);
-	return r;
+requests = requests.reduce(function (a, b) {
+	a[b.client.clientId] = a[b.client.clientId] || []
+	a[b.client.clientId].push(b)
+	return a
 }, Object.create(null))
 
 %>
@@ -11,24 +11,28 @@ requests = requests.reduce(function (r, b) {
 <div class="container my-4">
 	<h1>Pedidos</h1>
 
-	<% for (request in requests) { %>
+	<% 
+	for (request in requests) { 
+		const client = requests[request][0].client		
+	%>
+	
 	<div class="card mt-4 client">
 		<div class="card-body">
-			<h4><%= request %></h4>
-			<div><b>Endereço:</b> <%= requests[request][0].address %></div>
-			<div><b>Telefone:</b> <a href><%= requests[request][0].phone %></a></div>
+			<h4><%= client.name %></h4>
+			<div><b>Endereço:</b> <%= client.address %></div>
+			<div><b>Telefone:</b> <a href><%= client.phone %></a></div>
 			<!-- >> verificar se foi inserido um telefone -->
-			<div><b>E-mail:</b> <a href="mailto:<%= requests[request][0].email %>"><%= requests[request][0].email %></a></div>
+			<div><b>E-mail:</b> <a href="mailto:<%= client.email %>"><%= client.email %></a></div>
 
 			<%
 			let sum = 0
-			requests[request].reverse().forEach(r => sum += parseFloat(r.produto.price))
+			requests[request].reverse().forEach(r => sum += parseFloat(r.product.price))
 			sum = sum.toLocaleString(undefined , {
 				minimumFractionDigits: 2
-			})
+			}).replace('.', ',')
 			%>
 
-			<div><b>Total:</b> R$ <%= sum.replace('.', ',') %></div>
+			<div><b>Total:</b> R$ <%= sum %></div>
 
 			<div class="requests">
 
@@ -37,13 +41,13 @@ requests = requests.reduce(function (r, b) {
 				<div class="card mt-3 request">
 					<div class="row m-0">
 						<div class="col col-12 col-md-2 p-2 rounded">
-							<img src="<%= request.produto.image %>" class="rounded w-100">
+							<img src="<%= request.product.image %>" class="rounded w-100">
 						</div>
 						<div class="col col-12 col-md-7 col-lg-8 py-3">
-							<h5><%= '1' %> &times; <%= request.produto.name %></h5>
+							<h5><%= '1' %> &times; <%= request.product.name %></h5>
 
-							<h6 class="text-muted"><%= '1' %> &times; R$ <%= request.produto.price.replace('.', ',') %> = <b>R$
-									<%= request.produto.price.replace('.', ',') %></b></h6>
+							<h6 class="text-muted"><%= '1' %> &times; R$ <%= request.product.price.replace('.', ',') %> = <b>R$
+									<%= request.product.price.replace('.', ',') %></b></h6>
 
 							<% if (request.other) { %><div><b>Mais informações:</b>
 								<div><%- request.other.replace(/\n/g, '<br>') %></div>
@@ -74,9 +78,9 @@ requests = requests.reduce(function (r, b) {
 
 </div>
 
-<!-- <pre>
-	<%= JSON.stringify(requests, null, '\t') %>
-</pre> -->
+// <pre>
+// 	<%= JSON.stringify(requests, null, '\t') %>
+// </pre>
 
 <script>
 	$('.act').click(function () {
@@ -98,7 +102,7 @@ requests = requests.reduce(function (r, b) {
 					}
 
 					if (!$this.closest('.requests').find('.request').length) {
-						$this.closest('.client').slideUp('fast', function() { $(this).remove() })
+						$this.closest('.client').slideUp('fast', function () { $(this).remove() })
 					}
 				}
 				$this.parent().find('.act').prop('disabled', false)

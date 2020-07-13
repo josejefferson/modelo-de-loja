@@ -6,6 +6,7 @@ const validators = require('../helpers/validators')
 const Request = require('../models/Request')
 const { Op } = require('sequelize')
 const moment = require('moment')
+const Client = require('../models/Client')
 
 routes.get('/', async (req, res) => {
 
@@ -19,7 +20,7 @@ routes.get('/', async (req, res) => {
 				}
 			],
 		},
-		include: [{ model: Product }]
+		include: [{ model: Product }, { model: Client }]
 	})
 
 	res.render('pages/admin/requests', {
@@ -35,7 +36,7 @@ routes.post('/confirm', async (req, res) => {
 	const request = await Request.findOne({
 		where: { id: req.body.id },
 	}) // ** trocar findAll por findOne em algumas situações
-	const product = await Product.findOne({ where: { id: request.produtoId } })
+	const product = await Product.findOne({ where: { id: request.productId } })
 
 	switch (req.body.confirm) {
 		case 'confirm':
