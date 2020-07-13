@@ -1,16 +1,25 @@
 const express = require('express')
 const routes = express.Router()
-const Produto = require('../models/Produto')
+const Product = require('../models/Product')
 const { body, param, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
-const Pedido = require('../models/Pedido')
+const Request = require('../models/Request')
+const { Op } = require('sequelize')
 const moment = require('moment')
 
 routes.get('/', async (req, res) => {
 
-	const requests = await Pedido.findAll({
-		where: { pending: true },
-		include: [{ model: Produto }] 
+	// pending: true OR (pending: false AND confirmed: true AND done: false)
+	const requests = await Request.findAll({
+		where: {
+			[Op.or]: [
+				{ pending: true },
+				{
+					[Op.and]: [{ pending: false }, { confirmed: true }, { done: false }]
+				}
+			],
+		},
+		include: [{ model: Product }]
 	})
 
 	res.render('pages/admin/requests', {
@@ -23,20 +32,38 @@ routes.get('/', async (req, res) => {
 
 routes.post('/confirm', async (req, res) => {
 	// >> ao confirmar, diminuir do estoque
-	const request = await Pedido.findOne({
+	const request = await Request.findOne({
 		where: { id: req.body.id },
 	}) // ** trocar findAll por findOne em algumas situações
-	const product = await Produto.findOne({ where: { id: request.produtoId } })
+	const product = await Product.findOne({ where: { id: request.produtoId } })
 
-	if (req.body.confirm == "true") await product.update({
-		stock: product.stock ? product.stock - 1 : 0
-	})
+	switch (req.body.confirm) {
+		case 'confirm':
+			await request.update({
+				pending: false,
+				confirmed: true
+			})
+			await product.update({
+				stock: product.stock ? product.stock - 1 : 0
+			})
+			break;
+		
+		case 'reject':
+			await request.update({
+				pending: false,
+				confirmed: false
+			})
+			break;
+		
+		case 'done':
+			await request.update({
+				pending: false,
+				confirmed: true,
+				done: true
+			})
+			break;
+	}
 
-	await request.update({
-		pending: false,
-		confirmed: req.body.confirm
-	})
-	
 	res.json({ success: true })
 })
 

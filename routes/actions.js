@@ -3,15 +3,15 @@ const routes = express.Router()
 const passport = require('passport')
 const check = require('../helpers/checks')
 const validate = check.validate
-const Usuario = require('../models/Usuario')
+const User = require('../models/User')
 const validators = require('../helpers/validators')
 const { body } = require('express-validator')
-const Pedido = require('../models/Pedido')
+const Request = require('../models/Request')
 
 routes.post('/buy', [
 	// >> fazer auth
 ], validate(), async (req, res) => {
-	await Pedido.create({
+	await Request.create({
 		userid: req.body.userid,
 		produtoId: req.body.product,
 		name: req.body.name,

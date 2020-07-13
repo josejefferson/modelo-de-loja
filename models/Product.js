@@ -1,7 +1,7 @@
 const { Sequelize, sequelize } = require('../config/connect');
-const Usuario = require('./Usuario');
+const User = require('./User');
 
-const Produto = sequelize.define('produtos', {
+const Product = sequelize.define('produtos', {
 	name: { type: Sequelize.STRING, allowNull: false },
 	description: Sequelize.TEXT,
 	price: { type: Sequelize.DECIMAL(10, 2), allowNull: false },
@@ -9,6 +9,6 @@ const Produto = sequelize.define('produtos', {
 	stock: { type: Sequelize.INTEGER, allowNull: false }
 })
 
-// Produto.sync({force:true})
+// Product.sync({force:true})
 
-module.exports = Produto
+module.exports = Product

@@ -12,11 +12,12 @@ requests = requests.reduce(function (r, b) {
 	<h1>Pedidos</h1>
 
 	<% for (request in requests) { %>
-	<div class="card mt-4">
+	<div class="card mt-4 client">
 		<div class="card-body">
 			<h4><%= request %></h4>
 			<div><b>Endereço:</b> <%= requests[request][0].address %></div>
-			<div><b>Telefone:</b> <a href><%= requests[request][0].phone %></a></div> <!-- >> verificar se foi inserido um telefone -->
+			<div><b>Telefone:</b> <a href><%= requests[request][0].phone %></a></div>
+			<!-- >> verificar se foi inserido um telefone -->
 			<div><b>E-mail:</b> <a href="mailto:<%= requests[request][0].email %>"><%= requests[request][0].email %></a></div>
 
 			<%
@@ -33,7 +34,7 @@ requests = requests.reduce(function (r, b) {
 
 				<% requests[request].reverse().forEach(request => { %>
 
-				<div class="card mt-3">
+				<div class="card mt-3 request">
 					<div class="row m-0">
 						<div class="col col-12 col-md-2 p-2 rounded">
 							<img src="<%= request.produto.image %>" class="rounded w-100">
@@ -51,11 +52,16 @@ requests = requests.reduce(function (r, b) {
 							<div><b>Data/hora:</b> <%= moment(request.createdAt).format('DD/MM/YYYY - LT') %></div>
 						</div>
 						<div class="col col-12 col-md-3 col-lg-2 p-3">
-							<button class="btn btn-sm btn-success act w-100" data-action="confirm"
-								data-request-id="<%= request.id %>">Confirmar</button>
-							<button class="btn btn-sm btn-danger act w-100" data-action="reject"
-								data-request-id="<%= request.id %>">Rejeitar</button>
-							<button class="btn btn-sm btn-warning act w-100" data-action="confirm"
+							<% if (!request.confirmed) { %>
+							<div class="confirmation-buttons">
+								<button class="btn btn-sm btn-success act w-100" data-action="confirm"
+									data-request-id="<%= request.id %>">Confirmar</button>
+								<button class="btn btn-sm btn-danger act w-100" data-action="reject"
+									data-request-id="<%= request.id %>">Rejeitar</button>
+							</div>
+							<% } %>
+
+							<button class="btn btn-sm btn-warning act w-100" data-action="done"
 								data-request-id="<%= request.id %>">Pronto</button>
 						</div>
 					</div>
@@ -76,7 +82,7 @@ requests = requests.reduce(function (r, b) {
 	$('.act').click(function () {
 		const $this = $(this)
 		const id = $this.data('request-id')
-		const confirm = $this.data('action') == 'confirm'
+		const confirm = $this.data('action')
 
 		$.ajax({
 			method: 'POST',
@@ -84,9 +90,20 @@ requests = requests.reduce(function (r, b) {
 			data: { id, confirm },
 			beforeSend: () => $this.parent().find('.act').prop('disabled', true),
 			success: res => {
-				if (res.success) $this.closest('.card').slideUp('slow', function () { $(this).remove() })
+				if (res.success) {
+					if (confirm == 'reject' || confirm == 'done') {
+						$this.closest('.request').removeClass('request').slideUp('fast', function () { $(this).remove() })
+					} else if (confirm == 'confirm') {
+						$this.closest('.confirmation-buttons').slideUp('fast', function () { $(this).remove() })
+					}
+
+					if (!$this.closest('.requests').find('.request').length) {
+						$this.closest('.client').slideUp('fast', function() { $(this).remove() })
+					}
+				}
 				$this.parent().find('.act').prop('disabled', false)
-			}
+			},
+			err: () => {/* >> */ }
 		})
 	})
 </script>

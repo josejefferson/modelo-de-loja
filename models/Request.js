@@ -1,7 +1,7 @@
 const { Sequelize, sequelize } = require('../config/connect')
-const Produto = require('./Produto')
+const Product = require('./Product')
 
-const Pedido = sequelize.define('pedidos', {
+const Request = sequelize.define('pedidos', {
 	userid: { type: Sequelize.STRING, allowNull: false },
 	produtoId: { type: Sequelize.INTEGER, allowNull: false },
 	name: { type: Sequelize.STRING, allowNull: false },
@@ -10,12 +10,13 @@ const Pedido = sequelize.define('pedidos', {
 	email: Sequelize.STRING,
 	other: Sequelize.TEXT,
 	pending: { type: Sequelize.BOOLEAN, defaultValue: true },
-	confirmed: { type: Sequelize.BOOLEAN, defaultValue: false }
+	confirmed: { type: Sequelize.BOOLEAN, defaultValue: false },
+	done: { type: Sequelize.BOOLEAN, defaultValue: false }
 	// >> quantidade
 })
 
-Pedido.belongsTo(Produto)
+Request.belongsTo(Product)
 
-// Pedido.sync({force: true})
+// Request.sync({force: true})
 
-module.exports = Pedido
+module.exports = Request

@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
-const Usuario = require('../models/Usuario')
-const Produto = require('../models/Produto')
+const User = require('../models/User')
+const Product = require('../models/Product')
 const { param, validationResult } = require('express-validator')
 const check = require('../helpers/checks')
 const validate = check.validate
@@ -19,7 +19,7 @@ routes.get('/', (req, res) => {
 })
 
 routes.get('/users', async (req, res) => {
-	const users = await Usuario.findAll({ attributes: { exclude: ['password'] } }).catch(err => {
+	const users = await User.findAll({ attributes: { exclude: ['password'] } }).catch(err => {
 		req.flash('error_msg', 'Falha ao carregar lista de usuários')
 		res.redirect('/admin')
 	})
@@ -42,7 +42,7 @@ routes.get('/update/:id', [
 	param('id').isInt().withMessage('ID inválido')
 ], validate('users'), async (req, res) => {
 
-	const user = await Usuario.findOne({ where: { id: req.params.id } }).catch(err => {
+	const user = await User.findOne({ where: { id: req.params.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro interno')
 		res.redirect('users')
 		throw err

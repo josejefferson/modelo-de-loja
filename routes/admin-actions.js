@@ -1,6 +1,6 @@
 const express = require('express')
 const routes = express.Router()
-const Usuario = require('../models/Usuario')
+const User = require('../models/User')
 const { body, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
 const bcrypt = require('bcryptjs')
@@ -15,7 +15,7 @@ routes.post('/signup', [
 ], validate(), async (req, res) => {
 
 	// Cria o usuário
-	await Usuario.create({
+	await User.create({
 		name: req.body.name,
 		email: req.body.email,
 		password: bcrypt.hashSync(req.body.password, 10),
@@ -32,59 +32,59 @@ routes.post('/signup', [
 	return res.redirect('/admin')
 })
 
-routes.post('/product/update', [
-	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser),
-	// body('email').optional({ checkFalsy: true }).isEmail().withMessage('E-mail inválido').bail().custom(validators.findEmail),
-	// body('password').optional({ checkFalsy: true }).custom(validators.comparePasswords)
-	// >> validar
-], async (req, res) => {
+// routes.post('/products/edit', [
+// 	// body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser),
+// 	// body('email').optional({ checkFalsy: true }).isEmail().withMessage('E-mail inválido').bail().custom(validators.findEmail),
+// 	// body('password').optional({ checkFalsy: true }).custom(validators.comparePasswords)
+// 	// >> validar
+// ], async (req, res) => {
 
-	if (check.isValid(req, res)) return res.redirect(`product/update/${req.body.id}`) // >> testar
+// 	// if (check.isValid(req, res)) return res.redirect(`products/edit/${req.body.id}`) // >> testar
 
-	// Procura o usuário
-	const product = await Produto.findOne({ where: { id: req.body.id } }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
-		req.flash('data', req.body)
-		res.redirect(`product/update/${req.body.id}`)
-		throw err
-	})
+// 	// Procura o usuário
+// 	const product = await Product.findOne({ where: { id: req.body.id } }).catch(err => {
+// 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
+// 		req.flash('data', req.body)
+// 		res.redirect(`product/update/${req.body.id}`)
+// 		throw err
+// 	})
 
-	if (product) {
-		// Atualiza dados do usuário
-		await product.update({
-			// >> adicionar detalhes
-			// name: req.body.name || undefined,
-			// email: req.body.email || undefined,
-			// password: bcrypt.hashSync(req.body.password, 10) || undefined
-		}).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar produto')
-			req.flash('data', req.body)
-			res.redirect(`product/update/${req.body.id}`)
-			throw err
-		})
-	} else {
-		// Caso o usuário não exista
-		req.flash('error_msg', 'O produto não foi encontrado')
-		res.redirect('products')
-		throw 'Produto não encontrado'
-	}
+// 	if (product) {
+// 		// Atualiza dados do usuário
+// 		await product.update({
+// 			// >> adicionar detalhes
+// 			// name: req.body.name || undefined,
+// 			// email: req.body.email || undefined,
+// 			// password: bcrypt.hashSync(req.body.password, 10) || undefined
+// 		}).catch(err => {
+// 			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar produto')
+// 			req.flash('data', req.body)
+// 			res.redirect(`product/update/${req.body.id}`)
+// 			throw err
+// 		})
+// 	} else {
+// 		// Caso o usuário não exista
+// 		req.flash('error_msg', 'O produto não foi encontrado')
+// 		res.redirect('products')
+// 		throw 'Product não encontrado'
+// 	}
 
-	req.flash('success_msg', 'Editado com sucesso')
-	res.redirect('products')
-})
+// 	req.flash('success_msg', 'Editado com sucesso')
+// 	res.redirect('products')
+// })
 
 routes.post('/product/remove', [
 	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser) // >> corrigir custom()
 ], validate('/admin/products'), async (req, res) => {
 
 	// >> Remove usuários
-	await Produto.destroy({ where: { id: req.body.id } }).catch(err => {
+	await Product.destroy({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produtp')
 		res.redirect('products')
 		throw err
 	})
 
-	req.flash('success_msg', 'Produto excluído com sucesso')
+	req.flash('success_msg', 'Product excluído com sucesso')
 	res.redirect('/admin/products')
 })
 
@@ -94,10 +94,10 @@ routes.post('/update', [
 	body('password').optional({ checkFalsy: true }).custom(validators.comparePasswords)
 ], async (req, res) => {
 
-	if (check.isValid(req, res)) return res.redirect(`update/${req.body.id}`)
+	if (!check.isValid(req, res)) return res.redirect(`update/${req.body.id}`)
 
 	// Procura o usuário
-	const user = await Usuario.findOne({ where: { id: req.body.id } }).catch(err => {
+	const user = await User.findOne({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar usuário')
 		req.flash('data', req.body)
 		res.redirect(`update/${req.body.id}`)
@@ -132,7 +132,7 @@ routes.post('/remove', [
 ], validate('users'), async (req, res) => {
 
 	// Remove usuários
-	await Usuario.destroy({ where: { id: req.body.id } }).catch(err => {
+	await User.destroy({ where: { id: req.body.id } }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir usuário')
 		res.redirect('users')
 		throw err
