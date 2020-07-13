@@ -28,7 +28,7 @@ module.exports = {
 	notAdmin: function (req, res, next) {
 		if (req.isAuthenticated() && req.user.admin === false) return next()
 		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
-		res.redirect('/admin')
+		res.redirect('/')
 	},
 
 	// Somente pessoas não logadas ou admins
@@ -46,7 +46,7 @@ module.exports = {
 			if (clients.length) return next()
 		}
 		req.flash('error_msg', 'Cadastre seus dados para comprar')
-		res.redirect('/')
+		res.redirect('/users/add')
 	},
 
 	validate: function (redir) {

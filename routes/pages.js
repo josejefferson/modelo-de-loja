@@ -5,7 +5,6 @@ const Product = require('../models/Product')
 const Client = require('../models/Client')
 
 routes.get('/', async (req, res) => {
-	console.log(req.cookies)
 	const produtos = await Product.findAll() // *todo adicionar catch
 	res.render('pages/home', {
 		_page: 'home',
@@ -15,7 +14,7 @@ routes.get('/', async (req, res) => {
 })
 
 routes.get('/product/:id', async (req, res) => {// >> validar id
-	const product = await Product.findAll({ where: { id: req.params.id } }) // *todo adicionar catch
+	const product = await Product.findOne({ where: { id: req.params.id } }) // *todo adicionar catch
 	res.render('pages/product', {
 		_page: 'home',
 		_title: 'Início',
@@ -24,9 +23,9 @@ routes.get('/product/:id', async (req, res) => {// >> validar id
 })
 
 routes.get('/buy/:id', check.userIdValid, async (req, res) => {
-	const product = await Product.findAll({ where: { id: req.params.id } }) // *todo adicionar catch
+	const product = await Product.findOne({ where: { id: req.params.id } }) // *todo adicionar catch
 	
-	if (!product[0].stock) {
+	if (!product.stock) {
 		req.flash('error_msg', 'Este produto está esgotado')
 		return res.redirect('/')
 	}

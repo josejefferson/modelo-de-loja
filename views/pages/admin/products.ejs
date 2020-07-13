@@ -3,7 +3,7 @@
 	<a href="/admin/products/new" class="btn btn-primary">Novo produto</a>
 	<div class="row">
 		<% produtos.forEach(produto => { %>
-		<div class="col col-sm-12 col-md-4 col-lg-3 mt-3">
+		<div class="col col-12 col-md-4 col-lg-3 mt-3">
 			<div class="card">
 				<% if (produto.image) { %>
 				<a href="<%= `/admin/products/edit/${produto.id}` %>">

@@ -14,30 +14,37 @@ if (data.length) {
 <div class="container my-4">
 	<h1>Comprar</h1>
 
-	<div class="row">
-		<div class="col col-12 col-md-4 col-lg-3">
-			<div class="card">
-				<% if (product[0].image) { %>
-				<img src="<%= product[0].image %>" class="card-img-top">
-				<% } %>
-				<div class="card-body">
-					<h5 class="card-title"><%= product[0].name %></h5>
-					<p class="card-text"><%- product[0].description.replace(/\n/g, '<br>') %></p>
-				</div>
-				<div class="card-footer text-muted">
-					<% if (product[0].stock) { %>
-					<div>R$<%= product[0].price.replace('.',',') %> (<%= product[0].stock %> em estoque)</div>
-					<% } else { %>
-					R$<%= product[0].price.replace('.',',') %> (Esgotado)
+	<form action="/buy" method="POST">
+		<div class="row">
+			<div class="col col-12 col-md-4 col-lg-3">
+				<div class="card product" data-price="<%= product.price %>">
+					<% if (product.image) { %>
+					<img src="<%= product.image %>" class="card-img-top">
 					<% } %>
+					<div class="card-body">
+						<h5 class="card-title"><%= product.name %></h5>
+						<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
+						<label>
+							<div><b>Quantidade:</b></div>
+							<input type="number" class="form-control quantity" name="quantity" value="1" min="1"
+								max="<%= product.stock %>" required>
+						</label>
+					</div>
+					<div class="card-footer text-muted">
+						<% if (product.stock) { %>
+						<div>R$<%= product.price.replace('.',',') %> (<%= product.stock %> em estoque)</div>
+						<% } else { %>
+						R$<%= product.price.replace('.',',') %> (Esgotado)
+						<% } %>
+						Total: <b>R$ <span class="total"><%= product.price.replace('.', ',') %></span></b>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="col col-12 col-md-8 col-lg-9">
+			<div class="col col-12 col-md-8 col-lg-9">
 
-			<form action="/buy" method="POST">
-				<input type="hidden" name="product" value="<%= product[0].id %>">
+
+				<input type="hidden" name="product" value="<%= product.id %>">
 
 				<h3>Comprar como:</h3>
 				<% users.forEach((user, i) => { %>
@@ -45,7 +52,7 @@ if (data.length) {
 					<div class="card-body">
 						<div class="row">
 							<div class="col col-1 d-flex align-items-center text-center">
-								<input type="radio" name="clientId" value="<%= user.clientId %>"<%= i == 0 ? ' checked' : '' %>>
+								<input type="radio" name="clientId" value="<%= user.clientId %>" <%= i == 0 ? ' checked' : '' %>>
 							</div>
 							<div class="col col-10 col-sm-11">
 								<h4><%= user.name %></h4>
@@ -57,14 +64,23 @@ if (data.length) {
 					</div>
 				</label>
 				<% }) %>
-				
+
 				<label class="form-group d-block">
 					<div>Observações</div>
 					<textarea class="form-control" name="other" placeholder="Mais alguma informação?"><%= other %></textarea>
 				</label>
 
 				<button class="btn btn-success" type="submit">Comprar</button>
-			</form>
-		</div>
-	</div>
+	</form>
 </div>
+</div>
+</div>
+
+<script>
+	$('.quantity').on('keyup change', function () {
+		const price = parseFloat($(this).closest('.product').data('price'))
+		const quantity = $(this).val()
+		const total = quantity * price
+		$(this).closest('.product').find('.total').text(total.toLocaleString(undefined, { minimumFractionDigits: 2 }))
+	})
+</script>

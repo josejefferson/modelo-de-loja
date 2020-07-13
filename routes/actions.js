@@ -17,6 +17,7 @@ routes.post('/buy', check.userIdValid, [
 	await Request.create({
 		clientId: client.id,
 		productId: req.body.product,
+		quantity: req.body.quantity,
 		other: req.body.other
 	})
 
@@ -87,7 +88,7 @@ routes.post('/login', check.notLoggedIn, [
 
 			// Logado com sucesso
 			req.flash('success_msg', 'Logado com sucesso!')
-			return res.redirect('/admin')
+			return res.redirect('/')
 		});
 	})(req, res, next)
 })

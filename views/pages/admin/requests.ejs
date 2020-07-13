@@ -26,10 +26,10 @@ requests = requests.reduce(function (a, b) {
 
 			<%
 			let sum = 0
-			requests[request].reverse().forEach(r => sum += parseFloat(r.product.price))
+			requests[request].reverse().forEach(r => sum += parseFloat(r.product.price) * r.quantity)
 			sum = sum.toLocaleString(undefined , {
 				minimumFractionDigits: 2
-			}).replace('.', ',')
+			})
 			%>
 
 			<div><b>Total:</b> R$ <%= sum %></div>
@@ -44,10 +44,10 @@ requests = requests.reduce(function (a, b) {
 							<img src="<%= request.product.image %>" class="rounded w-100">
 						</div>
 						<div class="col col-12 col-md-7 col-lg-8 py-3">
-							<h5><%= '1' %> &times; <%= request.product.name %></h5>
+							<h5><%= request.quantity %> × <%= request.product.name %></h5>
 
-							<h6 class="text-muted"><%= '1' %> &times; R$ <%= request.product.price.replace('.', ',') %> = <b>R$
-									<%= request.product.price.replace('.', ',') %></b></h6>
+							<h6 class="text-muted"><%= request.quantity %> × R$ <%= request.product.price.replace('.', ',') %> = <b>R$
+									<%= (request.quantity * request.product.price).toLocaleString(undefined, {minimumFractionDigits: 2}) %></b></h6>
 
 							<% if (request.other) { %><div><b>Mais informações:</b>
 								<div><%- request.other.replace(/\n/g, '<br>') %></div>
@@ -78,9 +78,9 @@ requests = requests.reduce(function (a, b) {
 
 </div>
 
-// <pre>
-// 	<%= JSON.stringify(requests, null, '\t') %>
-// </pre>
+<!--<pre>
+	<%= JSON.stringify(requests, null, '\t') %>
+</pre>-->
 
 <script>
 	$('.act').click(function () {

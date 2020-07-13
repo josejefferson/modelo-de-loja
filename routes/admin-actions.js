@@ -29,7 +29,7 @@ routes.post('/signup', [
 
 	req.flash('success_msg', `Usuário ${req.body.name} criado com sucesso`)
 	if (req.user && req.user.admin) return res.redirect('users')
-	return res.redirect('/admin')
+	return res.redirect('/')
 })
 
 // routes.post('/products/edit', [

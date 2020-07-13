@@ -12,20 +12,17 @@ routes.use('/products', products)
 routes.use('/requests', requests)
 
 routes.get('/', (req, res) => {
-	res.render('pages/admin/admin', {
-		_page: 'admin',
-		_title: 'Página inicial'
-	})
+	res.redirect('/')
 })
 
 routes.get('/users', async (req, res) => {
 	const users = await User.findAll({ attributes: { exclude: ['password'] } }).catch(err => {
 		req.flash('error_msg', 'Falha ao carregar lista de usuários')
-		res.redirect('/admin')
+		res.redirect('/')
 	})
 
 	res.render('pages/admin/users', {
-		_page: 'users',
+		_page: 'admins',
 		_title: 'Lista de usuários',
 		users
 	})

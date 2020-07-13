@@ -5,6 +5,7 @@ const Client = require('./Client')
 const Request = sequelize.define('requests', {
 	clientId: { type: Sequelize.INTEGER, allowNull: false },
 	productId: { type: Sequelize.INTEGER, allowNull: false },
+	quantity: { type: Sequelize.INTEGER, defaultValue: 1 },
 	other: Sequelize.TEXT,
 	pending: { type: Sequelize.BOOLEAN, defaultValue: true },
 	confirmed: { type: Sequelize.BOOLEAN, defaultValue: false },
