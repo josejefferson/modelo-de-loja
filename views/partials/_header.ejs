@@ -15,6 +15,10 @@
 				<li class="nav-item <%- (_page == 'users') && 'active' %>">
 					<a class="nav-link" href="/users">Usuários</a>
 				</li>
+				
+				<li class="nav-item <%- (_page == 'cart') && 'active' %>">
+					<a class="nav-link" href="/cart">Carrinho</a>
+				</li>
 
 				<% if (user) { %>
 				<% if (user.admin) { %>

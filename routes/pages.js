@@ -24,7 +24,7 @@ routes.get('/product/:id', async (req, res) => {// >> validar id
 
 routes.get('/buy/:id', check.userIdValid, async (req, res) => {
 	const product = await Product.findOne({ where: { id: req.params.id } }) // *todo adicionar catch
-	
+
 	if (!product.stock) {
 		req.flash('error_msg', 'Este produto está esgotado')
 		return res.redirect('/')
@@ -58,6 +58,31 @@ routes.get('/users/add', async (req, res) => {
 		_title: `Adicionar usuário`,
 		oldId: req.query.edit,
 		user
+	})
+})
+
+routes.get('/cart', check.userIdValid, async (req, res) => {
+	if (req.cookies.cart) var cart = req.cookies.cart.split(',')
+
+	let products = [] // >> criar uma função corrigirCarrinho(carrinho, removerEsgotados?)
+	for (item of cart) {
+		const product = await Product.findOne({ where: { id: item } })
+		if (product) {
+			products.push(JSON.parse(JSON.stringify(product)))
+		} else {
+			cart.splice(cart.indexOf(item), cart.indexOf(item) + 1)
+			res.cookie('cart', cart.join(','), { maxAge: 315360000000 })
+		}
+	}
+
+	const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
+	const users = await Client.findAll({ where: { clientId: userIds } })
+
+	res.render('pages/cart', {
+		_page: 'cart',
+		_title: 'Carrinho de compras',
+		products,
+		users
 	})
 })
 

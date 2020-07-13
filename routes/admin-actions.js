@@ -32,62 +32,6 @@ routes.post('/signup', [
 	return res.redirect('/')
 })
 
-// routes.post('/products/edit', [
-// 	// body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser),
-// 	// body('email').optional({ checkFalsy: true }).isEmail().withMessage('E-mail inválido').bail().custom(validators.findEmail),
-// 	// body('password').optional({ checkFalsy: true }).custom(validators.comparePasswords)
-// 	// >> validar
-// ], async (req, res) => {
-
-// 	// if (check.isValid(req, res)) return res.redirect(`products/edit/${req.body.id}`) // >> testar
-
-// 	// Procura o usuário
-// 	const product = await Product.findOne({ where: { id: req.body.id } }).catch(err => {
-// 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
-// 		req.flash('data', req.body)
-// 		res.redirect(`product/update/${req.body.id}`)
-// 		throw err
-// 	})
-
-// 	if (product) {
-// 		// Atualiza dados do usuário
-// 		await product.update({
-// 			// >> adicionar detalhes
-// 			// name: req.body.name || undefined,
-// 			// email: req.body.email || undefined,
-// 			// password: bcrypt.hashSync(req.body.password, 10) || undefined
-// 		}).catch(err => {
-// 			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar produto')
-// 			req.flash('data', req.body)
-// 			res.redirect(`product/update/${req.body.id}`)
-// 			throw err
-// 		})
-// 	} else {
-// 		// Caso o usuário não exista
-// 		req.flash('error_msg', 'O produto não foi encontrado')
-// 		res.redirect('products')
-// 		throw 'Product não encontrado'
-// 	}
-
-// 	req.flash('success_msg', 'Editado com sucesso')
-// 	res.redirect('products')
-// })
-
-routes.post('/product/remove', [
-	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser) // >> corrigir custom()
-], validate('/admin/products'), async (req, res) => {
-
-	// >> Remove usuários
-	await Product.destroy({ where: { id: req.body.id } }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produtp')
-		res.redirect('products')
-		throw err
-	})
-
-	req.flash('success_msg', 'Product excluído com sucesso')
-	res.redirect('/admin/products')
-})
-
 routes.post('/update', [
 	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser),
 	body('email').optional({ checkFalsy: true }).isEmail().withMessage('E-mail inválido').bail().custom(validators.findEmail),

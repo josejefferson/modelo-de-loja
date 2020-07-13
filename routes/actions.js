@@ -45,7 +45,7 @@ routes.post('/users/add', [/** >> verificar se o id já existe */], async (req, 
 	})
 
 	if (!req.cookies.userIds) {
-		res.cookie('userIds', clientId, { maxAge: 1000 * 60 * 60 * 24 * 365 * 10 })
+		res.cookie('userIds', clientId, { maxAge: 315360000000 })
 	} else {
 		let userIds = req.cookies.userIds.split(',')
 
@@ -56,7 +56,7 @@ routes.post('/users/add', [/** >> verificar se o id já existe */], async (req, 
 		}
 
 		userIds = userIds.join(',')
-		res.cookie('userIds', userIds, { maxAge: 1000 * 60 * 60 * 24 * 365 * 10 })
+		res.cookie('userIds', userIds, { maxAge: 315360000000 })
 	}
 
 	res.redirect('/users')

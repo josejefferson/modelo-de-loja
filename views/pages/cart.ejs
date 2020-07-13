@@ -1,0 +1,63 @@
+<div class="container my-4">
+	<div class="row">
+		<% products.forEach(product => { %>
+		<div class="col col-12 col-md-4 col-lg-3 mt-3 product">
+			<div class="card">
+				<% if (product.image) { %>
+				<a href="<%= `/product/${product.id}` %>">
+					<img src="<%= product.image %>" class="card-img-top">
+				</a>
+				<% } %>
+				<div class="card-body">
+					<h5 class="card-title"><%= product.name %></h5>
+					<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
+					<a href="<%= `/product/${product.id}` %>" class="btn btn-success">Ver detalhes</a>
+					<button data-product="<%= product.id %>" class="btn btn-danger removeFromCart">Remover</a>
+				</div>
+				<div class="card-footer text-muted">
+					<% if (product.stock) { %>
+					<div>R$<%= product.price.replace('.',',') %> (<%= product.stock %> em estoque)</div>
+					<% } else { %>
+					R$<%= product.price.replace('.',',') %> (Esgotado)
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<% }) %>
+	</div>
+
+	<h4>Comprar como:</h4>
+	<% users.forEach((user, i) => { %>
+	<label class="card user">
+		<div class="card-body">
+			<div class="row">
+				<div class="col col-1 d-flex align-items-center text-center">
+					<input type="radio" name="clientId" value="<%= user.clientId %>" <%= i == 0 ? ' checked' : '' %>>
+				</div>
+				<div class="col col-10 col-sm-11">
+					<h4><%= user.name %></h4>
+					<div><b>Endereço:</b> <%= user.address %></div>
+					<div><b>Telefone:</b> <%= user.phone %></div>
+					<div><b>E-mail:</b> <%= user.email %></div>
+				</div>
+			</div>
+		</div>
+	</label>
+	<% }) %>
+
+</div>
+
+<script>
+	$('.removeFromCart').click(function () {
+		$this = $(this)
+		const productId = $this.data('product')
+		let cart = Cookies.get('cart')
+		cart = cart.split(',')
+		console.log(cart.indexOf(productId.toString()))
+		cart.splice(cart.indexOf(productId.toString()), cart.indexOf(productId.toString()) + 1)
+		Cookies.set('cart', cart.join(','))
+		$this.closest('.product').slideUp('fast', function () { $(this).remove() })
+		// >> verificar se o item já está no carrinho
+		// >> verificar se o cookie do carrinho existe
+	})
+</script>

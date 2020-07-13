@@ -23,6 +23,7 @@
 
 					<% if (produto.stock) { %>
 					<a href="/buy/<%= produto.id %>" class="btn btn-warning">Comprar</a>
+					<button data-product="<%= produto.id %>" class="btn btn-primary addToCart">Carrinho</button>
 					<% } %>
 
 				</div>
@@ -38,3 +39,16 @@
 		<% }) %>
 	</div>
 </div>
+
+<script>
+	$('.addToCart').click(function () {
+		$this = $(this)
+		const productId = $this.data('product')
+		let cart = Cookies.get('cart')
+		cart = cart.split(',')
+		cart.push(productId)
+		Cookies.set('cart', cart.join(','))
+		// >> verificar se o item já está no carrinho
+		// >> verificar se o carrinho existe
+	})
+</script>
