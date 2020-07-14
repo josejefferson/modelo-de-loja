@@ -2,26 +2,26 @@
 	<h1>Produtos</h1>
 	<a href="/admin/products/new" class="btn btn-primary">Novo produto</a>
 	<div class="row">
-		<% produtos.forEach(produto => { %>
+		<% products.forEach(product => { %>
 		<div class="col col-12 col-md-4 col-lg-3 mt-3">
 			<div class="card">
-				<% if (produto.image) { %>
-				<a href="<%= `/admin/products/edit/${produto.id}` %>">
-					<img src="<%= produto.image %>" class="card-img-top">
+				<% if (product.image) { %>
+				<a href="<%= `/admin/products/edit/${product.id}` %>">
+					<img src="<%= product.image %>" class="card-img-top">
 				</a>
 				<% } %>
 				<div class="card-body">
-					<h5 class="card-title"><%= produto.name %></h5>
-					<p class="card-text"><%- produto.description.replace(/\n/g, '<br>') %></p>
-					<a href="<%= `/admin/products/edit/${produto.id}` %>" class="btn btn-warning">Editar</a>
-					<button class="btn btn-danger mt-1" data-toggle="modal" data-target="#deleteModal" data-productid="<%= produto.id %>"
-						data-productname="<%= produto.name %>">Excluir</button>
+					<h5 class="card-title"><%= product.name %></h5>
+					<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
+					<a href="<%= `/admin/products/edit/${product.id}` %>" class="btn btn-warning">Editar</a>
+					<button class="btn btn-danger mt-1" data-toggle="modal" data-target="#deleteModal" data-productid="<%= product.id %>"
+						data-productname="<%= product.name %>">Excluir</button>
 				</div>
 				<div class="card-footer text-muted">
-					<% if (produto.stock) { %>
-					<div>R$<%= produto.price.replace('.',',') %> (<%= produto.stock %> em estoque)</div>
+					<% if (product.stock) { %>
+					<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
 					<% } else { %>
-					R$<%= produto.price.replace('.',',') %> (Esgotado)
+					R$<%= product.price.replace('.',',') %> (Esgotado)
 					<% } %>
 				</div>
 			</div>

@@ -8,11 +8,11 @@ const check = require('../helpers/checks')
 const validate = check.validate
 
 routes.get('/', async (req, res) => {
-	const produtos = await Product.findAll() // *todo adicionar catch
+	const products = await Product.findAll() // *todo adicionar catch
 	res.render('pages/admin/products', {
 		_page: 'products',
 		_title: 'Product',
-		produtos: produtos
+		products
 	})
 })
 

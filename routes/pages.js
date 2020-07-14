@@ -77,7 +77,8 @@ routes.get('/cart', check.userIdValid, async (req, res) => {
 		_page: 'cart',
 		_title: 'Carrinho de compras',
 		products,
-		users
+		users,
+		cart: cart.join(',')
 	})
 })
 

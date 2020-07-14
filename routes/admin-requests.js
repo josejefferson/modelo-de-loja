@@ -45,7 +45,7 @@ routes.post('/confirm', async (req, res) => {
 				confirmed: true
 			})
 			await product.update({
-				stock: product.stock ? product.stock - request.quantity : 0
+				stock: product.stock > 0 ? product.stock - request.quantity : product.stock < 0 ? -1 : 0
 			})
 			break;
 		

@@ -4,7 +4,7 @@
 	<p>R$<%= product.price.replace('.', ',') %></p>
 
 	<% if (product.stock) { %>
-	<p><%= product.stock %> em estoque</p>
+	<p><% if (product.stock >= 0) { %><%= product.stock %> em estoque<% } %></p>
 	<% } else { %>
 	<p class="text-danger">Esgotado</p>
 	<% } %>

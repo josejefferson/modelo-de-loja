@@ -16,7 +16,7 @@
 				</div>
 				<div class="card-footer text-muted">
 					<% if (product.stock) { %>
-					<div>R$<%= product.price.replace('.',',') %> (<%= product.stock %> em estoque)</div>
+					<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
 					<% } else { %>
 					R$<%= product.price.replace('.',',') %> (Esgotado)
 					<% } %>
@@ -45,6 +45,12 @@
 	</label>
 	<% }) %>
 
+	<form action="/cart" method="POST">
+		<input type="hidden" name="products" value="<%= cart %>">
+		<input type="hidden" name="clientId" value="dQlOUDNWjmF5Am72bGBpWqXt5p4w0l5AyObBeFSJXXExqbv9mo1ab1QNN1H1fkAq">
+		<button type="submit">Enviar</button>
+	</form>
+
 </div>
 
 <script>
@@ -57,7 +63,6 @@
 		cart.splice(cart.indexOf(productId.toString()), 1)
 		Cookies.set('cart', cart.join(','))
 		$this.closest('.product').slideUp('fast', function () { $(this).remove() })
-		// >> verificar se o item já está no carrinho
-		// >> verificar se o cookie do carrinho existe
+		toast('O item foi removido do carrinho')
 	})
 </script>

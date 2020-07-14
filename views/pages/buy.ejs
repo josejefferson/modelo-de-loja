@@ -27,12 +27,12 @@ if (data.length) {
 						<label>
 							<div><b>Quantidade:</b></div>
 							<input type="number" class="form-control quantity" name="quantity" value="1" min="1"
-								max="<%= product.stock %>" required>
+								<% if (product.stock > 0) { %>max="<%= product.stock %>"<% } %> required>
 						</label>
 					</div>
 					<div class="card-footer text-muted">
 						<% if (product.stock) { %>
-						<div>R$<%= product.price.replace('.',',') %> (<%= product.stock %> em estoque)</div>
+						<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
 						<% } else { %>
 						R$<%= product.price.replace('.',',') %> (Esgotado)
 						<% } %>

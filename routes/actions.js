@@ -8,6 +8,8 @@ const validators = require('../helpers/validators')
 const { body } = require('express-validator')
 const Request = require('../models/Request')
 const Client = require('../models/Client')
+const functions = require('../helpers/functions')
+const Product = require('../models/Product')
 
 routes.post('/buy', check.userIdValid, [
 	// >> fazer auth
@@ -25,17 +27,25 @@ routes.post('/buy', check.userIdValid, [
 	res.redirect('/')
 })
 
-function rndString() {
-	const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	let string = '';
-	for (let i = 0; i < 64; i++) {
-		string += chars[Math.floor(Math.random() * chars.length)];
+routes.post('/cart', async (req, res) => {
+	const products = req.body.products.split(',')
+	const { cart } = await functions.getCartItems(products, true)
+	
+	for (item of cart) {
+		const client = await Client.findOne({ where: { clientId: req.body.clientId } })
+		await Request.create({
+			clientId: client.id,
+			productId: item,
+			quantity: 1
+		})
 	}
-	return string;
-}
+
+	req.flash('success_msg', 'Compras efetuadas com sucesso')
+	res.redirect('/')
+})
 
 routes.post('/users/add', [/** >> verificar se o id já existe */], async (req, res) => {
-	const clientId = rndString()
+	const clientId = functions.rndString()
 	await Client.create({
 		clientId,
 		name: req.body.name,
