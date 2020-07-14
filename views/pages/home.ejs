@@ -8,30 +8,32 @@
 
 	<h1>Nossos produtos</h1>
 	<div class="row">
-		<% produtos.forEach(produto => { %>
+		<% products.forEach(product => { %>
 		<div class="col col-12 col-md-4 col-lg-3 mt-3">
 			<div class="card">
-				<% if (produto.image) { %>
-				<a href="<%= `/product/${produto.id}` %>">
-					<img src="<%= produto.image %>" class="card-img-top">
+				<% if (product.image) { %>
+				<a href="<%= `/product/${product.id}` %>">
+					<img src="<%= product.image %>" class="card-img-top">
 				</a>
 				<% } %>
 				<div class="card-body">
-					<h5 class="card-title"><%= produto.name %></h5>
-					<p class="card-text"><%- produto.description.replace(/\n/g, '<br>') %></p>
-					<a href="<%= `/product/${produto.id}` %>" class="btn btn-success">Ver detalhes</a>
+					<h5 class="card-title"><%= product.name %></h5>
+					<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
+					<a href="<%= `/product/${product.id}` %>" class="btn btn-success">Ver detalhes</a>
 
-					<% if (produto.stock) { %>
-					<a href="/buy/<%= produto.id %>" class="btn btn-warning">Comprar</a>
-					<button data-product="<%= produto.id %>" class="btn btn-primary addToCart">Carrinho</button>
+					<% if (product.stock) { %>
+					<a href="/buy/<%= product.id %>" class="btn btn-warning">Comprar</a>
+					<% if (!cart.includes(product.id.toString())) { %>
+					<button data-product="<%= product.id %>" class="btn btn-primary addToCart">Carrinho</button>
+					<% } %>
 					<% } %>
 
 				</div>
 				<div class="card-footer text-muted">
-					<% if (produto.stock) { %>
-					<div>R$<%= produto.price.replace('.',',') %> (<%= produto.stock %> em estoque)</div>
+					<% if (product.stock) { %>
+					<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
 					<% } else { %>
-					R$<%= produto.price.replace('.',',') %> (Esgotado)
+					R$<%= product.price.replace('.',',') %> (Esgotado)
 					<% } %>
 				</div>
 			</div>
@@ -44,11 +46,14 @@
 	$('.addToCart').click(function () {
 		$this = $(this)
 		const productId = $this.data('product')
-		let cart = Cookies.get('cart')
-		cart = cart.split(',')
-		cart.push(productId)
-		Cookies.set('cart', cart.join(','))
-		// >> verificar se o item já está no carrinho
-		// >> verificar se o carrinho existe
+		Cookies.get('cart') || Cookies.set('cart', '')
+		let cart = Cookies.get('cart') ? Cookies.get('cart').split(',') : []
+		if (!cart.includes(productId.toString())) {
+			cart.push(productId)
+			Cookies.set('cart', cart.join(','))
+		} else {
+			alert('O item já está no carrinho!')
+		}
+		$this.slideUp('fast', function () { $(this).remove() })
 	})
 </script>

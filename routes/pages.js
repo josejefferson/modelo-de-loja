@@ -3,13 +3,16 @@ const routes = express.Router()
 const check = require('../helpers/checks')
 const Product = require('../models/Product')
 const Client = require('../models/Client')
+const functions = require('../helpers/functions')
 
 routes.get('/', async (req, res) => {
-	const produtos = await Product.findAll() // *todo adicionar catch
+	const cart = (req.cookies.cart && req.cookies.cart.split(',')) || []
+	const products = await Product.findAll() // *todo adicionar catch
 	res.render('pages/home', {
 		_page: 'home',
 		_title: 'Início',
-		produtos // ** corrigir produtos: produtos em admin
+		products, // ** corrigir produtos: produtos em admin
+		cart
 	})
 })
 
@@ -62,18 +65,10 @@ routes.get('/users/add', async (req, res) => {
 })
 
 routes.get('/cart', check.userIdValid, async (req, res) => {
-	if (req.cookies.cart) var cart = req.cookies.cart.split(',')
+	let mycart = (req.cookies.cart && req.cookies.cart.split(',')) || []
 
-	let products = [] // >> criar uma função corrigirCarrinho(carrinho, removerEsgotados?)
-	for (item of cart) {
-		const product = await Product.findOne({ where: { id: item } })
-		if (product) {
-			products.push(JSON.parse(JSON.stringify(product)))
-		} else {
-			cart.splice(cart.indexOf(item), cart.indexOf(item) + 1)
-			res.cookie('cart', cart.join(','), { maxAge: 315360000000 })
-		}
-	}
+	const { cart, products } = await functions.getCartItems(mycart)
+	res.cookie('cart', cart.join(','), { maxAge: 315360000000 })
 
 	const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
 	const users = await Client.findAll({ where: { clientId: userIds } })

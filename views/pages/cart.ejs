@@ -54,7 +54,7 @@
 		let cart = Cookies.get('cart')
 		cart = cart.split(',')
 		console.log(cart.indexOf(productId.toString()))
-		cart.splice(cart.indexOf(productId.toString()), cart.indexOf(productId.toString()) + 1)
+		cart.splice(cart.indexOf(productId.toString()), 1)
 		Cookies.set('cart', cart.join(','))
 		$this.closest('.product').slideUp('fast', function () { $(this).remove() })
 		// >> verificar se o item já está no carrinho

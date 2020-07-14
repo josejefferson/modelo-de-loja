@@ -24,7 +24,7 @@
 		$this = $(this)
 		clientId = $this.data('clientId')
 		userIds = Cookies.get('userIds').split(',')
-		userIds.splice(userIds.indexOf(clientId), userIds.indexOf(clientId) + 1)
+		userIds.splice(userIds.indexOf(clientId), 1)
 		userIds = userIds.join(',')
 		Cookies.set('userIds', userIds, {expires: 3650})
 		$this.closest('.user').slideUp('fast', function () { $(this).remove() })
