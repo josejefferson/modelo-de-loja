@@ -27,12 +27,13 @@ if (data.length) {
 						<label>
 							<div><b>Quantidade:</b></div>
 							<input type="number" class="form-control quantity" name="quantity" value="1" min="1"
-								<% if (product.stock > 0) { %>max="<%= product.stock %>"<% } %> required>
+								<% if (product.stock > 0) { %>max="<%= product.stock %>" <% } %> required>
 						</label>
 					</div>
 					<div class="card-footer text-muted">
 						<% if (product.stock) { %>
-						<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
+						<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em
+							estoque)<% } %></div>
 						<% } else { %>
 						R$<%= product.price.replace('.',',') %> (Esgotado)
 						<% } %>
@@ -82,5 +83,9 @@ if (data.length) {
 		const quantity = $(this).val()
 		const total = quantity * price
 		$(this).closest('.product').find('.total').text(total.toLocaleString(undefined, { minimumFractionDigits: 2 }))
+	})
+
+	$('form').on('submit', function (e) {
+		if (!confirm('Tem certeza que deseja realizar esta compra?')) e.preventDefault()
 	})
 </script>

@@ -42,9 +42,10 @@ routes.post('/cart', async (req, res) => {
 
 	req.flash('success_msg', 'Compras efetuadas com sucesso')
 	res.redirect('/')
+	// >> limpar carrinho
 })
 
-routes.post('/users/add', [/** >> verificar se o id já existe */], async (req, res) => {
+routes.post('/users/add', [/* >> verificar se o id já existe */], async (req, res) => {
 	const clientId = functions.rndString()
 	await Client.create({
 		clientId,

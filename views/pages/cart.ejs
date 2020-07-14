@@ -2,7 +2,7 @@
 	<div class="row">
 		<% products.forEach(product => { %>
 		<div class="col col-12 col-md-4 col-lg-3 mt-3 product">
-			<div class="card">
+			<div class="card product" data-price="<%= product.price %>">
 				<% if (product.image) { %>
 				<a href="<%= `/product/${product.id}` %>">
 					<img src="<%= product.image %>" class="card-img-top">
@@ -11,49 +11,62 @@
 				<div class="card-body">
 					<h5 class="card-title"><%= product.name %></h5>
 					<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
+					<label>
+						<div><b>Quantidade:</b></div>
+						<input type="number" class="form-control quantity" name="quantity" value="1" min="1"
+							<% if (product.stock > 0) { %>max="<%= product.stock %>" <% } %> required>
+					</label>
 					<a href="<%= `/product/${product.id}` %>" class="btn btn-success">Ver detalhes</a>
 					<button data-product="<%= product.id %>" class="btn btn-danger removeFromCart">Remover</a>
 				</div>
 				<div class="card-footer text-muted">
 					<% if (product.stock) { %>
-					<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
+					<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em
+						estoque)<% } %></div>
 					<% } else { %>
 					R$<%= product.price.replace('.',',') %> (Esgotado)
 					<% } %>
+					Total: <b>R$ <span class="total"><%= product.price.replace('.', ',') %></span></b>
 				</div>
 			</div>
 		</div>
 		<% }) %>
 	</div>
 
-	<h4>Comprar como:</h4>
-	<% users.forEach((user, i) => { %>
-	<label class="card user">
-		<div class="card-body">
-			<div class="row">
-				<div class="col col-1 d-flex align-items-center text-center">
-					<input type="radio" name="clientId" value="<%= user.clientId %>" <%= i == 0 ? ' checked' : '' %>>
-				</div>
-				<div class="col col-10 col-sm-11">
-					<h4><%= user.name %></h4>
-					<div><b>Endereço:</b> <%= user.address %></div>
-					<div><b>Telefone:</b> <%= user.phone %></div>
-					<div><b>E-mail:</b> <%= user.email %></div>
+	<form action="/cart" method="POST">
+		<h4>Comprar como:</h4>
+		<% users.forEach((user, i) => { %>
+		<label class="card user">
+			<div class="card-body">
+				<div class="row">
+					<div class="col col-1 d-flex align-items-center text-center">
+						<input type="radio" name="clientId" value="<%= user.clientId %>" <%= i == 0 ? ' checked' : '' %>>
+					</div>
+					<div class="col col-10 col-sm-11">
+						<h4><%= user.name %></h4>
+						<div><b>Endereço:</b> <%= user.address %></div>
+						<div><b>Telefone:</b> <%= user.phone %></div>
+						<div><b>E-mail:</b> <%= user.email %></div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</label>
-	<% }) %>
+		</label>
+		<% }) %>
 
-	<form action="/cart" method="POST">
-		<input type="hidden" name="products" value="<%= cart %>">
-		<input type="hidden" name="clientId" value="dQlOUDNWjmF5Am72bGBpWqXt5p4w0l5AyObBeFSJXXExqbv9mo1ab1QNN1H1fkAq">
-		<button type="submit">Enviar</button>
+		<input type="hidden" name="products" id="products" value="<%= cart %>">
+		<button type="submit" class="btn btn-success">Comprar</button>
 	</form>
 
 </div>
 
 <script>
+	$('.quantity').on('keyup change', function () {
+		const price = parseFloat($(this).closest('.product').data('price'))
+		const quantity = $(this).val()
+		const total = quantity * price
+		$(this).closest('.product').find('.total').text(total.toLocaleString(undefined, { minimumFractionDigits: 2 }))
+	})
+
 	$('.removeFromCart').click(function () {
 		$this = $(this)
 		const productId = $this.data('product')
@@ -62,7 +75,12 @@
 		console.log(cart.indexOf(productId.toString()))
 		cart.splice(cart.indexOf(productId.toString()), 1)
 		Cookies.set('cart', cart.join(','))
+		$('#products').val(cart.join(','))
 		$this.closest('.product').slideUp('fast', function () { $(this).remove() })
 		toast('O item foi removido do carrinho')
+	})
+
+	$('form').on('submit', function (e) {
+		if (!confirm('Tem certeza que deseja realizar esta compra?')) return e.preventDefault()
 	})
 </script>
