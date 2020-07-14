@@ -51,9 +51,11 @@
 		if (!cart.includes(productId.toString())) {
 			cart.push(productId)
 			Cookies.set('cart', cart.join(','))
+			toast('O item foi adicionado ao carrinho')
 		} else {
-			alert('O item já está no carrinho!')
+			toast('O item já está no carrinho', 'error')
 		}
 		$this.slideUp('fast', function () { $(this).remove() })
 	})
 </script>
+
