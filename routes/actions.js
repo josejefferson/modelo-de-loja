@@ -15,7 +15,7 @@ routes.post('/buy', check.userIdValid, [
 	// >> fazer auth
 ], validate(), async (req, res) => {
 
-	const client = await Client.findOne({ where: { clientId: req.body.clientId } })
+	const client = await Client.findOne({ clientId: req.body.clientId })
 	await Request.create({
 		clientId: client.id,
 		productId: req.body.product,
@@ -30,9 +30,9 @@ routes.post('/buy', check.userIdValid, [
 routes.post('/cart', async (req, res) => {
 	const products = req.body.products.split(',')
 	const { cart } = await functions.getCartItems(products, true)
-	
+
 	for (item of cart) {
-		const client = await Client.findOne({ where: { clientId: req.body.clientId } })
+		const client = await Client.findOne({ clientId: req.body.clientId })
 		await Request.create({
 			clientId: client.id,
 			productId: item,
@@ -100,7 +100,7 @@ routes.post('/login', check.notLoggedIn, [
 			// Logado com sucesso
 			req.flash('success_msg', 'Logado com sucesso!')
 			return res.redirect('/')
-		});
+		})
 	})(req, res, next)
 })
 

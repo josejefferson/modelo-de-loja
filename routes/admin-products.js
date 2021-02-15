@@ -8,7 +8,7 @@ const check = require('../helpers/checks')
 const validate = check.validate
 
 routes.get('/', async (req, res) => {
-	const products = await Product.findAll() // *todo adicionar catch
+	const products = await Product.find() // *todo adicionar catch
 	res.render('pages/admin/products', {
 		_page: 'products',
 		_title: 'Product',
@@ -24,10 +24,10 @@ routes.get('/new', (req, res) => {
 })
 
 routes.get('/edit/:id', [
-	param('id').isInt().withMessage('ID inválido')
+	param('id').notEmpty().withMessage('ID inválido')
 ], validate('/admin/products'), async (req, res) => {
 
-	const product = await Product.findOne({ where: { id: req.params.id } }).catch(err => {
+	const product = await Product.findOne({ _id: req.params.id }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro interno')
 		res.redirect('/admin/products')
 		throw err
@@ -73,7 +73,7 @@ routes.post('/new', [
 
 // >> trocar update para edit
 routes.post('/edit', [
-	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findProduct),
+	body('id').bail().custom(validators.findProduct),
 	body('name').optional({ checkFalsy: true }),
 	body('description').optional().if(body('description').notEmpty()),
 	body('price').optional({ checkFalsy: true }).isDecimal().withMessage('Preço inválido'),
@@ -83,7 +83,7 @@ routes.post('/edit', [
 ], async (req, res) => {
 	if (!check.isValid(req, res)) return res.redirect(`/admin/products/edit/${req.body.id || 0}`)
 
-	const product = await Product.findOne({ where: { id: req.body.id } }).catch(err => {
+	const product = await Product.findOne({ _id: req.body.id }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
 		req.flash('data', req.body)
 		res.redirect(`/admin/products/edit/${req.body.id}`)
@@ -91,14 +91,13 @@ routes.post('/edit', [
 	})
 
 	if (product) {
-		await product.update({
-			// >> adicionar detalhes
-			name: req.body.name || undefined,
-			description: (req.body.description == '' ? '' : (req.body.description || undefined)),
-			price: req.body.price || undefined,
-			image: (req.body.image == '' ? '' : (req.body.image || undefined)),
-			stock: req.body.stock || undefined,
-		}).catch(err => {
+		if (req.body.name) product.name = req.body.name
+		if (req.body.description) product.description = (req.body.description === '' ? '' : (req.body.description))
+		if (req.body.price) product.price = req.body.price
+		if (req.body.image) product.image = (req.body.image == '' ? '' : (req.body.image))
+		if (req.body.stock) product.stock = req.body.stock
+
+		await product.save().catch(err => {
 			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar produto')
 			req.flash('data', req.body)
 			res.redirect(`/admin/products/edit/${req.body.id}`)
@@ -115,12 +114,12 @@ routes.post('/edit', [
 })
 
 routes.post('/remove', [
-	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findProduct) // >> corrigir custom()
+	body('id').notEmpty().withMessage('Id inválido').bail().custom(validators.findProduct) // >> corrigir custom()
 ], validate('/admin/products'), async (req, res) => {
 
 	// >> destrói todos os pedidos referentes ao produto (necessário)
-	await Request.destroy({ where: { produtoId: req.body.id } })
-	await Product.destroy({ where: { id: req.body.id } }).catch(err => {
+	await Request.deleteMany({ productId: req.body.id })
+	await Product.deleteMany({ _id: req.body.id }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')
 		res.redirect('/admin/products')
 		throw err

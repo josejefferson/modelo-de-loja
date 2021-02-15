@@ -1,8 +1,8 @@
 <%
 
 requests = requests.reduce(function (a, b) {
-	a[b.client.clientId] = a[b.client.clientId] || []
-	a[b.client.clientId].push(b)
+	a[b.clientId.clientId] = a[b.clientId.clientId] || []
+	a[b.clientId.clientId].push(b)
 	return a
 }, Object.create(null))
 
@@ -13,7 +13,7 @@ requests = requests.reduce(function (a, b) {
 
 	<% 
 	for (request in requests) { 
-		const client = requests[request][0].client		
+		const client = requests[request][0].clientId
 	%>
 	
 	<div class="card mt-4 client">
@@ -26,7 +26,7 @@ requests = requests.reduce(function (a, b) {
 
 			<%
 			let sum = 0
-			requests[request].reverse().forEach(r => sum += parseFloat(r.product.price) * r.quantity)
+			requests[request].reverse().forEach(r => sum += parseFloat(r.productId.price) * r.quantity)
 			sum = sum.toLocaleString(undefined , {
 				minimumFractionDigits: 2
 			})
@@ -41,13 +41,13 @@ requests = requests.reduce(function (a, b) {
 				<div class="card mt-3 request">
 					<div class="row m-0">
 						<div class="col col-12 col-md-2 p-2 rounded">
-							<img src="<%= request.product.image %>" class="rounded w-100">
+							<img src="<%= request.productId.image %>" class="rounded w-100">
 						</div>
 						<div class="col col-12 col-md-7 col-lg-8 py-3">
-							<h5><%= request.quantity %> × <%= request.product.name %></h5>
+							<h5><%= request.quantity %> × <%= request.productId.name %></h5>
 
-							<h6 class="text-muted"><%= request.quantity %> × R$ <%= request.product.price.replace('.', ',') %> = <b>R$
-									<%= (request.quantity * request.product.price).toLocaleString(undefined, {minimumFractionDigits: 2}) %></b></h6>
+							<h6 class="text-muted"><%= request.quantity %> × R$ <%= String(request.productId.price).replace('.', ',') %> = <b>R$
+									<%= (request.quantity * request.productId.price).toLocaleString(undefined, {minimumFractionDigits: 2}) %></b></h6>
 
 							<% if (request.other) { %><div><b>Mais informações:</b>
 								<div><%- request.other.replace(/\n/g, '<br>') %></div>

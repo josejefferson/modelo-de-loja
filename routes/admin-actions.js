@@ -33,7 +33,7 @@ routes.post('/signup', [
 })
 
 routes.post('/update', [
-	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser),
+	body('id').notEmpty().withMessage('Id inválido').bail().custom(validators.findUser),
 	body('email').optional({ checkFalsy: true }).isEmail().withMessage('E-mail inválido').bail().custom(validators.findEmail),
 	body('password').optional({ checkFalsy: true }).custom(validators.comparePasswords)
 ], async (req, res) => {
@@ -41,7 +41,7 @@ routes.post('/update', [
 	if (!check.isValid(req, res)) return res.redirect(`update/${req.body.id}`)
 
 	// Procura o usuário
-	const user = await User.findOne({ where: { id: req.body.id } }).catch(err => {
+	const user = await User.findOne({ _id: req.body.id }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar usuário')
 		req.flash('data', req.body)
 		res.redirect(`update/${req.body.id}`)
@@ -50,11 +50,11 @@ routes.post('/update', [
 
 	if (user) {
 		// Atualiza dados do usuário
-		await user.update({
-			name: req.body.name || undefined,
-			email: req.body.email || undefined,
-			password: bcrypt.hashSync(req.body.password, 10) || undefined
-		}).catch(err => {
+		if (req.body.name) user.name = req.body.name
+		if (req.body.email) user.email = req.body.email
+		if (req.body.password) user.password = bcrypt.hashSync(req.body.password, 10)
+
+		await user.save().catch(err => {
 			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar usuário')
 			req.flash('data', req.body)
 			res.redirect(`update/${req.body.id}`)
@@ -72,11 +72,11 @@ routes.post('/update', [
 })
 
 routes.post('/remove', [
-	body('id').isInt().withMessage('Id inválido').bail().custom(validators.findUser)
+	body('id').notEmpty().withMessage('Id inválido').bail().custom(validators.findUser)
 ], validate('users'), async (req, res) => {
 
 	// Remove usuários
-	await User.destroy({ where: { id: req.body.id } }).catch(err => {
+	await User.deleteMany({ _id: req.body.id }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir usuário')
 		res.redirect('users')
 		throw err

@@ -1,14 +1,11 @@
-const { Sequelize, sequelize } = require('../config/connect');
-const User = require('./User');
+const mongoose = require('mongoose')
 
-const Product = sequelize.define('products', {
-	name: { type: Sequelize.STRING, allowNull: false },
-	description: Sequelize.TEXT,
-	price: { type: Sequelize.DECIMAL(10, 2), allowNull: false },
-	image: Sequelize.STRING,
-	stock: { type: Sequelize.INTEGER, allowNull: false }
+const Product = mongoose.model('Products', {
+	name: { type: String, required: true },
+	description: String,
+	price: { type: Number, required: true },
+	image: String,
+	stock: {type: Number, required: true}
 })
-
-// Product.sync({force:true})
 
 module.exports = Product

@@ -4,24 +4,18 @@ const Product = require('../models/Product')
 const { body, param, validationResult } = require('express-validator')
 const validators = require('../helpers/validators')
 const Request = require('../models/Request')
-const { Op } = require('sequelize')
 const moment = require('moment')
 const Client = require('../models/Client')
 
 routes.get('/', async (req, res) => {
 
 	// pending: true OR (pending: false AND confirmed: true AND done: false)
-	const requests = await Request.findAll({
-		where: {
-			[Op.or]: [
-				{ pending: true },
-				{
-					[Op.and]: [{ pending: false }, { confirmed: true }, { done: false }]
-				}
-			],
-		},
-		include: [{ model: Product }, { model: Client }]
-	})
+	const requests = await Request.find({
+		$or: [
+			{ pending: true },
+			{ $and: [{ pending: false }, { confirmed: true }, { done: false }] }
+		],
+	}).populate('productId').populate('clientId')
 
 	res.render('pages/admin/requests', {
 		_page: 'requests',
@@ -33,36 +27,30 @@ routes.get('/', async (req, res) => {
 
 routes.post('/confirm', async (req, res) => {
 	// >> ao confirmar, diminuir do estoque
-	const request = await Request.findOne({
-		where: { id: req.body.id },
-	}) // ** trocar findAll por findOne em algumas situações
-	const product = await Product.findOne({ where: { id: request.productId } })
+	const request = await Request.findOne({ _id: req.body.id }) // ** trocar find por findOne em algumas situações
+	const product = await Product.findOne({ _id: request.productId })
 
 	switch (req.body.confirm) {
 		case 'confirm':
-			await request.update({
-				pending: false,
-				confirmed: true
-			})
-			await product.update({
-				stock: product.stock > 0 ? product.stock - request.quantity : product.stock < 0 ? -1 : 0
-			})
+			request.pending = false
+			request.confirmed = true
+			product.stock = product.stock > 0 ? product.stock - request.quantity : product.stock < 0 ? -1 : 0
+			await request.save()
+			await product.save()
 			break;
-		
+
 		case 'reject':
-			await request.update({
-				pending: false,
-				confirmed: false
-			})
+			request.pending = false
+			request.confirmed = false
+			await request.save()
 			break;
-		
+
 		case 'done':
-			await request.update({
-				pending: false,
-				confirmed: true,
-				done: true
-			})
-			break;
+
+			request.pending = false
+			request.confirmed = true
+			request.done = true
+			await request.save()
 	}
 
 	res.json({ success: true })

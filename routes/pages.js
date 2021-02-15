@@ -7,7 +7,7 @@ const functions = require('../helpers/functions')
 
 routes.get('/', async (req, res) => {
 	const cart = (req.cookies.cart && req.cookies.cart.split(',')) || []
-	const products = await Product.findAll() // *todo adicionar catch
+	const products = await Product.find() // *todo adicionar catch
 	res.render('pages/home', {
 		_page: 'home',
 		_title: 'Início',
@@ -17,7 +17,7 @@ routes.get('/', async (req, res) => {
 })
 
 routes.get('/product/:id', async (req, res) => {// >> validar id
-	const product = await Product.findOne({ where: { id: req.params.id } }) // *todo adicionar catch
+	const product = await Product.findOne({ _id: req.params.id }) // *todo adicionar catch
 	res.render('pages/product', {
 		_page: 'home',
 		_title: 'Início',
@@ -26,7 +26,7 @@ routes.get('/product/:id', async (req, res) => {// >> validar id
 })
 
 routes.get('/buy/:id', check.userIdValid, async (req, res) => {
-	const product = await Product.findOne({ where: { id: req.params.id } }) // *todo adicionar catch
+	const product = await Product.findOne({ _id: req.params.id }) // *todo adicionar catch
 
 	if (!product.stock) {
 		req.flash('error_msg', 'Este produto está esgotado')
@@ -34,7 +34,7 @@ routes.get('/buy/:id', check.userIdValid, async (req, res) => {
 	}
 
 	const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
-	const users = await Client.findAll({ where: { clientId: userIds } })
+	const users = await Client.find({ clientId: userIds })
 
 	res.render('pages/buy', {
 		_page: 'buy',
@@ -46,7 +46,7 @@ routes.get('/buy/:id', check.userIdValid, async (req, res) => {
 
 routes.get('/users', async (req, res) => {
 	const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
-	const users = await Client.findAll({ where: { clientId: userIds } })
+	const users = await Client.find({ clientId: userIds })
 	res.render('pages/users', {
 		_page: 'users',
 		_title: 'Usuários',
@@ -55,7 +55,7 @@ routes.get('/users', async (req, res) => {
 })
 
 routes.get('/users/add', async (req, res) => {
-	if (req.query.edit) var user = await Client.findOne({ where: { clientId: req.query.edit } })
+	if (req.query.edit) var user = await Client.findOne({ clientId: req.query.edit })
 	res.render('pages/users-add', {
 		_page: 'add_user',
 		_title: `Adicionar usuário`,
@@ -67,11 +67,12 @@ routes.get('/users/add', async (req, res) => {
 routes.get('/cart', check.userIdValid, async (req, res) => {
 	let mycart = (req.cookies.cart && req.cookies.cart.split(',')) || []
 
+	console.log(mycart)
 	const { cart, products } = await functions.getCartItems(mycart)
 	res.cookie('cart', cart.join(','), { maxAge: 315360000000 })
 
 	const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
-	const users = await Client.findAll({ where: { clientId: userIds } })
+	const users = await Client.find({ clientId: userIds })
 
 	res.render('pages/cart', {
 		_page: 'cart',

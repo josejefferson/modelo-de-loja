@@ -1,7 +1,7 @@
 <div class="container my-4">
 	<h1><%= product.name %></h1>
 	<p><%= product.description %></p>
-	<p>R$<%= product.price.replace('.', ',') %></p>
+	<p>R$<%= String(product.price).replace('.', ',') %></p>
 
 	<% if (product.stock) { %>
 	<p><% if (product.stock >= 0) { %><%= product.stock %> em estoque<% } %></p>

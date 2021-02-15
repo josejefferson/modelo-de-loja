@@ -19,9 +19,9 @@
 				</div>
 				<div class="card-footer text-muted">
 					<% if (product.stock) { %>
-					<div>R$<%= product.price.replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
+					<div>R$<%= String(product.price).replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
 					<% } else { %>
-					R$<%= product.price.replace('.',',') %> (Esgotado)
+					R$<%= String(product.price).replace('.',',') %> (Esgotado)
 					<% } %>
 				</div>
 			</div>

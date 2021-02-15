@@ -1,12 +1,10 @@
-const { Sequelize, sequelize } = require('../config/connect')
+const mongoose = require('mongoose')
 
-const User = sequelize.define('users', {
-	name: { type: Sequelize.STRING, allowNull: false },
-	email: { type: Sequelize.STRING, allowNull: false, unique: true, validate: { isEmail: true } },
-	password: { type: Sequelize.STRING, allowNull: false },
-	admin: { type: Sequelize.BOOLEAN, defaultValue: false }
+const User = mongoose.model('User', {
+	name: { type: String, required: true },
+	email: { type: String, required: true, unique: true }, // validate
+	password: { type: String, required: true },
+	admin: { type: Boolean, default: false },
 })
-
-// sequelize.sync({force:true})
 
 module.exports = User

@@ -1,21 +1,21 @@
-const { Sequelize, sequelize } = require('../config/connect')
-const Product = require('./Product')
-const Client = require('./Client')
+const mongoose = require('mongoose')
 
-const Request = sequelize.define('requests', {
-	clientId: { type: Sequelize.INTEGER, allowNull: false },
-	productId: { type: Sequelize.INTEGER, allowNull: false },
-	quantity: { type: Sequelize.INTEGER, defaultValue: 1 },
-	other: Sequelize.TEXT,
-	pending: { type: Sequelize.BOOLEAN, defaultValue: true },
-	confirmed: { type: Sequelize.BOOLEAN, defaultValue: false },
-	done: { type: Sequelize.BOOLEAN, defaultValue: false }
-	// >> quantidade
+const Request = mongoose.model('Requests', {
+	clientId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Clients',
+		required: true
+	},
+	productId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Products',
+		required: true
+	},
+	quantity: { type: Number, default: 1 },
+	other: String,
+	pending: { type: Boolean, default: true },
+	confirmed: { type: Boolean, default: false },
+	done: { type: Boolean, default: false }
 })
-
-Request.belongsTo(Product)
-Request.belongsTo(Client)
-
-// Request.sync({force: true})
 
 module.exports = Request

@@ -16,7 +16,7 @@ routes.get('/', (req, res) => {
 })
 
 routes.get('/users', async (req, res) => {
-	const users = await User.findAll({ attributes: { exclude: ['password'] } }).catch(err => {
+	const users = await User.find().select('-password').catch(err => {
 		req.flash('error_msg', 'Falha ao carregar lista de usuários')
 		res.redirect('/')
 	})
@@ -36,10 +36,10 @@ routes.get('/signup', (req, res) => {
 })
 
 routes.get('/update/:id', [
-	param('id').isInt().withMessage('ID inválido')
+	param('id').notEmpty().withMessage('ID inválido')
 ], validate('users'), async (req, res) => {
 
-	const user = await User.findOne({ where: { id: req.params.id } }).catch(err => {
+	const user = await User.findOne({ _id: req.params.id }).catch(err => {
 		req.flash('error_msg', 'Ocorreu um erro interno')
 		res.redirect('users')
 		throw err

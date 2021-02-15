@@ -42,7 +42,7 @@ module.exports = {
 		const userIds = req.cookies.userIds
 		if (userIds) {
 			const userIdsArr = userIds.split(',')
-			const clients = await Client.findAll({ where: { clientId: userIdsArr } })
+			const clients = await Client.find({ clientId: userIdsArr })
 			if (clients.length) return next()
 		}
 		req.flash('error_msg', 'Cadastre seus dados para comprar')
