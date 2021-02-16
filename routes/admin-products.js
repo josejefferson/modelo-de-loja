@@ -67,7 +67,7 @@ routes.post('/new', [
 		throw err
 	})
 
-	req.flash('success_msg', `Product ${req.body.name} adicionado com sucesso`)
+	req.flash('success_msg', `Produto "${req.body.name}" adicionado com sucesso`)
 	return res.redirect('/admin/products')
 })
 

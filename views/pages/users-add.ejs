@@ -18,22 +18,22 @@ if (user) {
 
 		<label class="form-group d-block">
 			<div>Nome</div>
-			<input type="text" class="form-control" name="name" value="<%= name %>" required>
+			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
 			<div>Endereço</div>
-			<input type="text" class="form-control" name="address" value="<%= address %>">
+			<input type="text" class="form-control" name="address" value="<%= address %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
 			<div>Telefone</div>
-			<input type="tel" class="form-control" name="phone" value="<%= phone %>">
+			<input type="tel" class="form-control" name="phone" value="<%= phone %>" autocomplete="off">
 		</label>
 
 		<label class="form-group d-block">
 			<div>E-mail</div>
-			<input type="email" class="form-control" name="email" value="<%= email %>">
+			<input type="email" class="form-control" name="email" value="<%= email %>" autocomplete="off" required>
 		</label>
 
 		<button class="btn btn-success" type="submit">Salvar usuário</button>
