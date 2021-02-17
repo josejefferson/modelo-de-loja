@@ -10,7 +10,7 @@ module.exports = {
 				...(removeSoldOut && { stock: { $ne: 0 } })
 			})
 			if (product) {
-				products.push(JSON.parse(JSON.stringify(product)))
+				products.push(JSON.parse(JSON.stringify(product))) // porque json parse e stringify
 			} else {
 				cart.splice(cart.indexOf(item), 1)
 			}
