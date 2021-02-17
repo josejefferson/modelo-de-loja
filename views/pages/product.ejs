@@ -1,19 +1,59 @@
+<%
+product.priceStr = product.price.toFixed(2).toString().replace('.', ',')
+product.description = product.description.replace(/\n/g, '<br>')
+%>
+
 <div class="container my-4">
-	<h1><%= product.name %></h1>
-	<p><%= product.description %></p>
-	<p>R$<%= String(product.price).replace('.', ',') %></p>
+	<h1 class="display-2"><%= product.name %></h1>
+	<p><%- product.description %></p>
+	<p class="fs-4">
+		R$<%= product.priceStr %>
+		<% if (!product.stock) { %>
+			<span class="text-danger fs-4">(esgotado)</span>
+		<% } %>
+	</p>
 
 	<% if (product.stock) { %>
-	<p><% if (product.stock >= 0) { %><%= product.stock %> em estoque<% } %></p>
-	<% } else { %>
-	<p class="text-danger">Esgotado</p>
-	<% } %>
-	
-	<% if (product.stock) { %>
-	<div><a href="/buy/<%= product.id %>" class="btn btn-warning">Comprar</a></div>
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<a href="/buy/<%= product.id %>" class="btn btn-lg btn-warning w-100">
+					<i class="fas fa-dollar-sign"></i> Comprar
+					<%= (product.stock>= 0) ? `(${product.stock} em estoque)` : '' %>
+				</a>
+			</div>
+			<div class="col-12 col-md-6">
+				<button data-product="<%= product.id %>"
+					class="btn btn-lg btn-primary w-100 mt-1 mt-md-0 addToCart <%= cart.includes(product.id) ? 'hidden' : '' %>">
+					<i class="fas fa-cart-plus"></i> Carrinho
+				</button>
+				<button data-product="<%= product.id %>"
+					class="btn btn-lg btn-danger w-100 mt-1 mt-md-0 removeFromCart <%= !cart.includes(product.id) ? 'hidden' : '' %>">
+					<i class="fas fa-cart-arrow-down"></i> Carrinho
+				</button>
+			</div>
+		</div>
 	<% } %>
 
 	<% if (product.image) { %>
-	<img src="<%= product.image %>" class="mt-3 w-100">
+		<h3 class="mt-5"><i class="fas fa-image"></i> Imagens</h3>
+		<img src="<%= product.image %>" class="mt-3 w-100">
 	<% } %>
 </div>
+
+<script>
+	$('.addToCart').click(function () {
+		const productID = $(this).data('product')
+		cart({ add: productID })
+		toast('O item foi adicionado ao carrinho')
+		$(this).toggleClass('hidden')
+		$(this).next().toggleClass('hidden')
+	})
+
+	$('.removeFromCart').click(function () {
+		const productID = $(this).data('product')
+		cart({ remove: productID })
+		toast('O item foi removido do carrinho')
+		$(this).toggleClass('hidden')
+		$(this).prev().toggleClass('hidden')
+	})
+</script>

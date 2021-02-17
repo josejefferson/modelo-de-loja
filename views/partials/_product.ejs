@@ -14,20 +14,6 @@ product.description = product.description.replace(/\n/g, '<br>')
 		<div class="card-body">
 			<h5 class="card-title"><%= product.name %></h5>
 			<p class="card-text"><%- product.description %></p>
-			
-			<!-- <a href="<%= `/product/${product.id}` %>" class="btn btn-success">
-				<i class="fas fa-info-circle"></i> Ver detalhes
-			</a>
-
-			<% if (product.stock) { %>
-				<a href="/buy/<%= product.id %>" class="btn btn-warning"><i class="fas fa-dollar-sign"></i> Comprar</a>
-				<button data-product="<%= product.id %>" class="btn btn-primary addToCart <%- cart.includes(product.id) ? 'hidden' : '' %>">
-					<i class="fas fa-cart-plus"></i> Carrinho
-				</button>
-				<button data-product="<%= product.id %>" class="btn btn-danger removeFromCart <%- !cart.includes(product.id) ? 'hidden' : '' %>">
-					<i class="fas fa-cart-arrow-down"></i> Carrinho
-				</button>
-			<% } %> -->
 		</div>
 
 		<ul class="list-group list-group-flush">
@@ -39,10 +25,10 @@ product.description = product.description.replace(/\n/g, '<br>')
 				<a href="/buy/<%= product.id %>" class="list-group-item list-group-item-action list-group-item-warning">
 					<b><i class="fas fa-dollar-sign"></i> Comprar</b>
 				</a>
-				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-primary addToCart <%- cart.includes(product.id) ? 'hidden' : '' %>">
+				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-primary addToCart <%= cart.includes(product.id) ? 'hidden' : '' %>">
 					<i class="fas fa-cart-plus"></i> Carrinho
 				</button>
-				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-danger removeFromCart <%- !cart.includes(product.id) ? 'hidden' : '' %>">
+				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-danger removeFromCart <%= !cart.includes(product.id) ? 'hidden' : '' %>">
 					<i class="fas fa-cart-arrow-down"></i> Carrinho
 				</button>
 			<% } %>
@@ -51,7 +37,7 @@ product.description = product.description.replace(/\n/g, '<br>')
 		<div class="card-footer text-muted">
 			<b class="fs-5">R$<%= product.priceStr %></b>
 			<% if (product.stock) { %>
-				<%- (product.stock >= 0) ? `(${product.stock} em estoque)` : '(disponível)' %>
+				<%= (product.stock >= 0) ? `(${product.stock} em estoque)` : '(disponível)' %>
 			<% } else { %>
 				<span class="text-danger">(esgotado)</span>
 			<% } %>

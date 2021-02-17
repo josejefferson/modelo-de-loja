@@ -17,11 +17,13 @@ routes.get('/', async (req, res) => {
 })
 
 routes.get('/product/:id', async (req, res) => {// >> validar id
+	const cart = (req.cookies.cart && req.cookies.cart.split(',')) || []
 	const product = await Product.findOne({ _id: req.params.id }) // *todo adicionar catch
 	res.render('pages/product', {
 		_page: 'home',
 		_title: 'Início',
-		product
+		product,
+		cart
 	})
 })
 
