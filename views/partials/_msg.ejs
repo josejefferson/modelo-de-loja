@@ -1,37 +1,11 @@
-<% if (success_msg.length) { %>
 <script>
 	(async () => {
-		<% success_msg.forEach(msg => { %>
-		await Swal.fire({
-			toast: true,
-			position: 'top-end',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			icon: 'success',
-			title: '<%- msg %>',
-			showCloseButton: true
-		})
-		<% }) %>
-	})()
-</script>
-<% } %>
+		// <% success_msg.forEach(msg => { %>
+		await toast('<%= msg %>')
+		// <% }) %>
 
-<% if (error_msg.length) { %>
-<script>
-	(async () => {
-		<% error_msg.forEach(msg => { %>
-		await Swal.fire({
-			toast: true,
-			position: 'top-end',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			icon: 'error',
-			title: '<%- msg %>',
-			showCloseButton: true
-		})
-		<% }) %>
+		// <% error_msg.forEach(msg => { %>
+		await toast('<%= msg %>')
+		// <% }) %>
 	})()
 </script>
-<% } %>

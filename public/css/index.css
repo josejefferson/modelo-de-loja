@@ -1,4 +1,8 @@
-nav .fas, nav .far, nav .fab {
-	width: 20px;
+.fas, .far, .fab {
+	width: 1.5em;
 	text-align: center;
+}
+
+.hidden {
+	display: none !important;
 }

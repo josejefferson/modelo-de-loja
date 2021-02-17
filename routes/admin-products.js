@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const Product = require('../models/Product')
-const { body, param, validationResult } = require('express-validator')
+const { body, param } = require('express-validator')
 const validators = require('../helpers/validators')
 const Request = require('../models/Request')
 const check = require('../helpers/checks')

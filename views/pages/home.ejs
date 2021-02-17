@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="bg-light py-5">
 	<div class="container">
 		<h1 class="display-4">Bem-vindo(a)!</h1>
 	</div>
@@ -9,53 +9,25 @@
 	<h1>Nossos produtos</h1>
 	<div class="row">
 		<% products.forEach(product => { %>
-		<div class="col col-12 col-md-4 col-lg-3 mt-3">
-			<div class="card">
-				<% if (product.image) { %>
-				<a href="<%= `/product/${product.id}` %>">
-					<img src="<%= product.image %>" class="card-img-top">
-				</a>
-				<% } %>
-				<div class="card-body">
-					<h5 class="card-title"><%= product.name %></h5>
-					<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
-					<a href="<%= `/product/${product.id}` %>" class="btn btn-success">Ver detalhes</a>
-
-					<% if (product.stock) { %>
-					<a href="/buy/<%= product.id %>" class="btn btn-warning">Comprar</a>
-					<% if (!cart.includes(product.id.toString())) { %>
-					<button data-product="<%= product.id %>" class="btn btn-primary addToCart">Carrinho</button>
-					<% } %>
-					<% } %>
-
-				</div>
-				<div class="card-footer text-muted">
-					<% if (product.stock) { %>
-					<div>R$<%= String(product.price).replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
-					<% } else { %>
-					R$<%= String(product.price).replace('.',',') %> (Esgotado)
-					<% } %>
-				</div>
-			</div>
-		</div>
+			<%- include('../partials/_product.ejs', {product}) %>
 		<% }) %>
 	</div>
 </div>
 
 <script>
 	$('.addToCart').click(function () {
-		$this = $(this)
-		const productId = $this.data('product')
-		Cookies.get('cart') || Cookies.set('cart', '')
-		let cart = Cookies.get('cart') ? Cookies.get('cart').split(',') : []
-		if (!cart.includes(productId.toString())) {
-			cart.push(productId)
-			Cookies.set('cart', cart.join(','))
-			toast('O item foi adicionado ao carrinho')
-		} else {
-			toast('O item já está no carrinho', 'error')
-		}
-		$this.slideUp('fast', function () { $(this).remove() })
+		const productID = $(this).data('product')
+		cart({ add: productID })
+		toast('O item foi adicionado ao carrinho')
+		$(this).toggleClass('hidden')
+		$(this).next().toggleClass('hidden')
+	})
+
+	$('.removeFromCart').click(function () {
+		const productID = $(this).data('product')
+		cart({ remove: productID })
+		toast('O item foi removido do carrinho')
+		$(this).toggleClass('hidden')
+		$(this).prev().toggleClass('hidden')
 	})
 </script>
-

@@ -1,5 +1,5 @@
 {
-  "name": "sistema-de-cadastro",
+  "name": "prototipo-de-loja",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -21,9 +21,7 @@
     "express-validator": "^6.6.0",
     "moment": "^2.27.0",
     "mongoose": "^5.11.16",
-    "mysql2": "^2.1.0",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "sequelize": "^6.2.0"
+    "passport-local": "^1.0.0"
   }
 }

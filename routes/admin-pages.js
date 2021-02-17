@@ -1,8 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const User = require('../models/User')
-const Product = require('../models/Product')
-const { param, validationResult } = require('express-validator')
+const { param } = require('express-validator')
 const check = require('../helpers/checks')
 const validate = check.validate
 

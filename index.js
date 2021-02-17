@@ -19,7 +19,7 @@
 	
 	// Sessão
 	app.use(session({
-		secret: 'sistema-de-cadastro',
+		secret: 'aVOkg6yTfi',
 		resave: true,
 		saveUninitialized: true
 	}))
