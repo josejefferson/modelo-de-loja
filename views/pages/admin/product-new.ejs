@@ -17,12 +17,12 @@ if (data.length) {
 	<form action="/admin/products/new" method="POST">
 		<label class="form-group d-block">
 			<div>Nome</div>
-			<input type="text" class="form-control" name="name" value="<%= name %>" required> <!--TODO: autocomplete off-->
+			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" required> <!--TODO: autocomplete off-->
 		</label>
 
 		<label class="form-group d-block">
 			<div>Descrição</div>
-			<textarea class="form-control" name="description" value="<%= description %>"></textarea>
+			<textarea class="form-control" name="description" value="<%= description %>" autocomplete="off"></textarea>
 		</label>
 
 		<label class="form-group d-block">
@@ -31,18 +31,18 @@ if (data.length) {
 				<div class="input-group-prepend">
 					<div class="input-group-text">R$</div>
 				</div>
-				<input type="number" step=".01" class="form-control" name="price" value="<%= price %>" required>
+				<input type="number" step=".01" class="form-control" name="price" value="<%= price %>" autocomplete="off" required>
 			</div>
 		</label>
 
 		<label class="form-group d-block">
 			<div>Imagem</div>
-			<input type="url" class="form-control" name="image" value="<%= image %>">
+			<input type="url" class="form-control" name="image" value="<%= image %>" autocomplete="off">
 		</label>
 
 		<label class="form-group d-block">
 			<div>Estoque</div>
-			<input type="number" class="form-control" name="stock" value="<%= stock %>" required>
+			<input type="number" class="form-control" name="stock" value="<%= stock %>" autocomplete="off" required>
 		</label>
 
 		<button class="btn btn-success" type="submit">Criar produto</button>

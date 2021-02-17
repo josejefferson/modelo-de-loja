@@ -7,21 +7,22 @@
 	<title>Protótipo de loja - <%- _title %></title>
 	<link rel="stylesheet" href="/css/fontawesome-all.min.css">
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/sweetalert2.min.css">
+	<link rel="stylesheet" href="/css/index.css">
 </head>
 
 <body>
 	<%- include('partials/_header.ejs') %>
-	<%- include('partials/_msg.ejs') %>
 	<%- defineContent('body') %>
 	<%- include('partials/_footer.ejs') %>
-
+	
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/sweetalert2.min.js"></script>
 	<script src="/js/js.cookie.min.js"></script>
 	<script src="/js/index.js"></script>
 	<%- defineContent('script') %>
-	<script>$('.toast').toast('show')</script>
+	<%- include('partials/_msg.ejs') %>
 </body>
 
 </html>

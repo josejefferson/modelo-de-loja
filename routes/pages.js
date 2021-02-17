@@ -55,12 +55,12 @@ routes.get('/users', async (req, res) => {
 })
 
 routes.get('/users/add', async (req, res) => {
-	if (req.query.edit) var user = await Client.findOne({ clientId: req.query.edit })
+	if (req.query.edit) var selectedUser = await Client.findOne({ clientId: req.query.edit })
 	res.render('pages/users-add', {
 		_page: 'add_user',
 		_title: `Adicionar usuário`,
 		oldId: req.query.edit,
-		user
+		selectedUser
 	})
 })
 

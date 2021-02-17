@@ -20,13 +20,13 @@ if (data.length) {
 		<label class="form-group d-block">
 			<div>Novo nome</div>
 			<input type="text" class="form-control" name="name" placeholder="<%= product.name %>"
-				value="<%= name || product.name %>">
+				value="<%= name || product.name %>" autocomplete="off">
 		</label>
 
 		<label class="form-group d-block">
 			<div>Nova descrição</div>
 			<textarea class="form-control" name="description"
-				placeholder="<%= product.description %>"><%= description || product.description %></textarea>
+				placeholder="<%= product.description %>" autocomplete="off"><%= description || product.description %></textarea>
 		</label>
 
 		<label class="form-group d-block">
@@ -36,20 +36,20 @@ if (data.length) {
 					<div class="input-group-text">R$</div>
 				</div>
 				<input type="number" step=".01" class="form-control" name="price" placeholder="<%= product.price %>"
-					value="<%= price || product.price %>">
+					value="<%= price || product.price %>" autocomplete="off">
 			</div>
 		</label>
 
 		<label class="form-group d-block">
 			<div>Nova imagem</div>
 			<input type="url" class="form-control" name="image" placeholder="<%= product.image %>"
-				value="<%= image || product.image %>">
+				value="<%= image || product.image %>" autocomplete="off">
 		</label>
 
 		<label class="form-group d-block">
 			<div>Em estoque</div>
 			<input type="number" class="form-control" name="stock" placeholder="<%= product.stock %>"
-				value="<%= stock || product.stock %>">
+				value="<%= stock || product.stock %>" autocomplete="off">
 		</label>
 
 		<button class="btn btn-success" type="submit">Editar produto</button>

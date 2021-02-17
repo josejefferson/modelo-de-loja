@@ -14,12 +14,12 @@ if (data.length) {
 	<form action="/admin/signup" method="POST">
 		<label class="form-group d-block">
 			<div>Nome <span class="text-danger">*</span></div>
-			<input type="text" class="form-control" name="name" value="<%= name %>" required>
+			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
 			<div>E-mail <span class="text-danger">*</span></div>
-			<input type="email" class="form-control" name="email" value="<%= email %>" required>
+			<input type="email" class="form-control" name="email" value="<%= email %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
