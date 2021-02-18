@@ -45,7 +45,7 @@ routes.get('/update/:id', [
 	})
 
 	if (user) {
-		res.render('pages/admin/update', {
+		res.render('pages/admin/signup', {
 			_page: 'update',
 			_title: `Atualizar ${user.name}`,
 			user

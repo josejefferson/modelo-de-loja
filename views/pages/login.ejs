@@ -12,14 +12,18 @@ if (data.length) {
 	<form action="/login" method="POST">
 		<label class="form-group d-block">
 			<div>E-mail <span class="text-danger">*</span></div>
-			<input type="email" class="form-control" name="email" value="<%= email %>" required>
+			<input type="email" class="form-control" name="email" value="<%= email %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
-			<div>Senha <span class="text-danger">*</span></div>
-			<input type="password" class="form-control" name="password" required>
+			<div class="mt-2">Senha <span class="text-danger">*</span></div>
+			<input type="password" class="form-control" name="password" autocomplete="off" required>
 		</label>
 
-		<button class="btn btn-success" type="submit">Entrar</button>
+		<div class="text-center mt-3">
+			<button class="btn btn-lg btn-success mx-auto" type="submit">
+				<i class="fas fa-sign-in-alt"></i> Entrar
+			</button>
+		</div>
 	</form>
 </div>

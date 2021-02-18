@@ -34,10 +34,10 @@ routes.get('/edit/:id', [
 	})
 
 	if (product) {
-		res.render('pages/admin/product-edit', {
+		res.render('pages/admin/product-new', {
 			_page: 'product-edit',
 			_title: `Atualizar ${product.name}`,
-			product
+			data: [product]
 		})
 	} else {
 		req.flash('error_msg', 'O produto não foi encontrado')

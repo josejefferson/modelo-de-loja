@@ -1,65 +1,36 @@
-<div class="container my-5">
+<div class="container my-4">
 	<h1><i class="fas fa-shopping-bag"></i> Produtos</h1>
-	<a href="/admin/products/new" class="btn btn-primary">Novo produto</a>
+
 	<div class="row">
 		<% products.forEach(product => { %>
-		<div class="col col-12 col-md-4 col-lg-3 mt-3">
-			<div class="card">
-				<% if (product.image) { %>
-				<a href="<%= `/admin/products/edit/${product.id}` %>">
-					<img src="<%= product.image %>" class="card-img-top">
-				</a>
-				<% } %>
-				<div class="card-body">
-					<h5 class="card-title"><%= product.name %></h5>
-					<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
-					<a href="<%= `/admin/products/edit/${product.id}` %>" class="btn btn-warning">Editar</a>
-					<button class="btn btn-danger mt-1" data-toggle="modal" data-target="#deleteModal" data-productid="<%= product.id %>"
-						data-productname="<%= product.name %>">Excluir</button>
-				</div>
-				<div class="card-footer text-muted">
-					<% if (product.stock) { %>
-					<div>R$<%= String(product.price).replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em estoque)<% } %></div>
-					<% } else { %>
-					R$<%= String(product.price).replace('.',',') %> (Esgotado)
-					<% } %>
-				</div>
-			</div>
-		</div>
+			<%- include('../../partials/_product.ejs', {product,env:'edit'}) %>
 		<% }) %>
-	</div>
-</div>
 
-<div class="modal fade" id="deleteModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Confirmar exclusão</h5>
-				<button type="button" class="close" data-dismiss="modal">
-					<span>&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<p>Tem certeza que deseja excluir o produto <i class="productname"></i>? Todos os pedidos referentes a este produto serão excluídos</p>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-				<form action="/admin/products/remove" method="POST" class="d-inline-block">
-					<input type="hidden" name="id" id="productid">
-					<button type="submit" class="btn btn-danger">Excluir</button>
-				</form>
+		<div class="col-12 col-md-4 col-lg-3 mt-5">
+			<div class="card shadow-sm h-100 bg-light">
+				<a href="/admin/products/new" class="btn card-body d-flex flex-column align-items-center justify-content-center">
+					<i class="fas fa-plus fa-5x"></i>
+					<b class="mt-3 fs-5">Adicionar produto</b>
+				</a>
 			</div>
 		</div>
 	</div>
 </div>
 
 <script>
-	$('#deleteModal').on('show.bs.modal', function (e) {
-		const button = $(e.relatedTarget);
-		const productid = button.data('productid');
-		const productname = button.data('productname');
-		const modal = $(this);
-		modal.find('.productname').text(productname);
-		modal.find('#productid').val(productid);
-	});
+	$('.remove').click(function () {
+		Swal.fire({
+			title: 'Excluir produto',
+			text: 'Tem certeza que deseja excluir este produto?',
+			showDenyButton: true,
+			showCancelButton: false,
+			confirmButtonText: 'Sim',
+			denyButtonText: 'Não'
+		}).then(r => {
+			if (!r.isConfirmed) return
+			$this = $(this)
+			productId = $this.data('productId')
+			location.href = '/admin/products/remove/' + productId
+		})
+	})
 </script>

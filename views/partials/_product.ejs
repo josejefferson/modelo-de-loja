@@ -1,10 +1,12 @@
 <%
+if ('env' in this) { env = env || 'show' } else { env = 'show' }
 product.priceStr = product.price.toFixed(2).toString().replace('.', ',')
 product.description = product.description.replace(/\n/g, '<br>')
+if (product.description.length > 50) product.description = product.description.substr(0, 50) + '…'
 %>
 
-<div class="col col-12 col-md-4 col-lg-3 mt-3">
-	<div class="card">
+<div class="col col-12 col-md-4 col-lg-3 mt-5">
+	<div class="card shadow h-100">
 		<% if (product.image) { %>
 			<a href="<%= '/product/' + product.id %>">
 				<img src="<%= product.image %>" class="card-img-top">
@@ -13,34 +15,45 @@ product.description = product.description.replace(/\n/g, '<br>')
 
 		<div class="card-body">
 			<h5 class="card-title"><%= product.name %></h5>
-			<p class="card-text"><%- product.description %></p>
+			<div class="card-text">
+				<%- product.description %>
+				<div class="mt-2">
+					<b class="fs-5">R$<%= product.priceStr %></b>
+					<% if (product.stock) { %>
+						<%= (product.stock >= 0) ? `(${product.stock} disp.)` : '(disponível)' %>
+					<% } else { %>
+						<span class="text-danger">(esgotado)</span>
+					<% } %>
+				</div>
+			</div>
 		</div>
 
-		<ul class="list-group list-group-flush">
-			<a href="<%= `/product/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-success">
-				<i class="fas fa-info-circle"></i> Ver detalhes
-			</a>
-
-			<% if (product.stock) { %>
-				<a href="/buy/<%= product.id %>" class="list-group-item list-group-item-action list-group-item-warning">
+		<% if (env === 'show') { %>
+			<ul class="list-group list-group-flush">
+				<a href="<%= `/product/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-success">
+					<i class="fas fa-info-circle"></i> Ver detalhes
+				</a>
+				<a href="/buy/<%= product.id %>" class="list-group-item list-group-item-action list-group-item-warning <%=!product.stock?'disabled':''%>">
 					<b><i class="fas fa-dollar-sign"></i> Comprar</b>
 				</a>
-				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-primary addToCart <%= cart.includes(product.id) ? 'hidden' : '' %>">
+				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-primary addToCart <%=!product.stock?'disabled':''%> <%= cart.includes(product.id) ? 'hidden' : '' %>">
 					<i class="fas fa-cart-plus"></i> Carrinho
 				</button>
-				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-danger removeFromCart <%= !cart.includes(product.id) ? 'hidden' : '' %>">
+				<button data-product="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-danger removeFromCart <%=!product.stock?'disabled':''%> <%= !cart.includes(product.id) ? 'hidden' : '' %>">
 					<i class="fas fa-cart-arrow-down"></i> Carrinho
 				</button>
-			<% } %>
-		</ul>
-
-		<div class="card-footer text-muted">
-			<b class="fs-5">R$<%= product.priceStr %></b>
-			<% if (product.stock) { %>
-				<%= (product.stock >= 0) ? `(${product.stock} em estoque)` : '(disponível)' %>
-			<% } else { %>
-				<span class="text-danger">(esgotado)</span>
-			<% } %>
-		</div>
+			</ul>
+		<% } else if (env === 'buy') { %>
+				
+		<% } else if (env === 'edit') { %>
+			<ul class="list-group list-group-flush">
+				<a href="<%= `/admin/products/edit/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-warning">
+					<i class="fas fa-pencil-alt"></i> Editar
+				</a>
+				<button data-product-id="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-danger remove">
+					<i class="fas fa-times"></i> Excluir
+				</button>
+			</ul>
+		<% } %>
 	</div>
 </div>

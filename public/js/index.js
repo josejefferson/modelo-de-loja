@@ -13,7 +13,7 @@ function cart(opts = {}) {
 	return cart
 }
 
-function toast(msg, type = 'success') {
+function toast(msg, type = 'success', icon) {
 	return Swal.fire({
 		toast: true,
 		position: 'top-end',
@@ -21,6 +21,7 @@ function toast(msg, type = 'success') {
 		timer: 3000,
 		icon: type,
 		title: msg,
-		showCloseButton: true
+		showCloseButton: true,
+		...(icon && { iconHtml: `<i class="fas fa-${icon} fa-xs"></i>` })
 	})
 }

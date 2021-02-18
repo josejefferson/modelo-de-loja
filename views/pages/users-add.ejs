@@ -1,42 +1,40 @@
-<%
-
-let name, address, phone, email
-if (selectedUser) {
-	name = selectedUser.name
-	address = selectedUser.address
-	phone = selectedUser.phone
-	email = selectedUser.email
-}
-
-%>
+<% const {name, address, phone, email} = selectedUser || {} %>
 
 <div class="container my-4">
-	<h1 class="mb-4">Adicionar usuário</h1>
+	<% if (!selectedUser) { %>
+		<h1 class="mb-4"><i class="fas fa-plus"></i> Adicionar usuário</h1>
+	<% } else { %>
+		<h1 class="mb-4"><i class="fas fa-pencil-alt"></i> Editar usuário</h1>
+	<% } %>
 
-	<form action="/users/add" method="POST">
-		<input type="hidden" name="oldId" value="<%= oldId %>">
+	<form action="/users/add" method="POST"> <!--todo: atualizar link-->
+		<input type="hidden" name="oldId" value="<%= oldId %>"> <!--todo: verificar isso-->
 
 		<label class="form-group d-block">
-			<div>Nome</div>
-			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" required>
+			<div>Nome completo <span class="text-danger">*</span></div>
+			<input type="text" class="form-control form-control-lg" name="name" value="<%= name %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
-			<div>Endereço</div>
+			<div class="mt-2">Endereço <span class="text-danger">*</span></div>
 			<input type="text" class="form-control" name="address" value="<%= address %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
-			<div>Telefone</div>
+			<div class="mt-2">Telefone</div>
 			<input type="tel" class="form-control" name="phone" value="<%= phone %>" autocomplete="off">
 		</label>
 
 		<label class="form-group d-block">
-			<div>E-mail</div>
+			<div class="mt-2">E-mail <span class="text-danger">*</span></div>
 			<input type="email" class="form-control" name="email" value="<%= email %>" autocomplete="off" required>
 		</label>
 
-		<button class="btn btn-success" type="submit">Salvar usuário</button>
+		<div class="text-center mt-3">
+			<button class="btn btn-lg btn-success" type="submit">
+				<i class="fas fa-save"></i> Salvar usuário
+			</button>
+		</div>
 	</form>
 
 </div>
