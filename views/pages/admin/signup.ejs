@@ -1,25 +1,26 @@
 <%
-
+if (!'admin' in this) var admin = {}
+const {name, email} = admin || {}
 %>
 
 <div class="container my-4">
-	<% if (!'user' in this) { %>
+	<% if (!'admin' in this) { %> <!--todo-->
 		<h1 class="mb-4"><i class="fas fa-plus"></i> Adicionar administrador</h1>
 	<% } else { user = {} %>
 		<h1 class="mb-4"><i class="fas fa-pencil-alt"></i> Editar administrador</h1>
 	<% } %>
 
-	<form action="/admin/signup" method="POST">
+	<form action="/admins/add" method="POST">
 		<input type="hidden" name="id" value="<%= user.id %>">
 
 		<label class="form-group d-block">
 			<div>Nome <span class="text-danger">*</span></div>
-			<input type="text" class="form-control" name="name" value="<%= user.name %>" autocomplete="off" required>
+			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">
 			<div class="mt-2">E-mail <span class="text-danger">*</span></div>
-			<input type="email" class="form-control form-control-lg" name="email" value="<%= user.email %>" autocomplete="off" required>
+			<input type="email" class="form-control form-control-lg" name="email" value="<%= email %>" autocomplete="off" required>
 		</label>
 
 		<label class="form-group d-block">

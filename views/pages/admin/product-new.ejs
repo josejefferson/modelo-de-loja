@@ -1,4 +1,7 @@
-<% const {id, name, description, price, image, stock} = data[0] || {} %>
+<%
+if (!'product' in this) var product = {}
+const {id, name, description, price, image, stock} = product || {}
+%>
 
 <div class="container my-4">
 	<% if (!data[0]) { %>

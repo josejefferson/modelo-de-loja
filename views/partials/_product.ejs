@@ -47,7 +47,7 @@ if (product.description.length > 50) product.description = product.description.s
 				
 		<% } else if (env === 'edit') { %>
 			<ul class="list-group list-group-flush">
-				<a href="<%= `/admin/products/edit/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-warning">
+				<a href="<%= `/products/edit/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-warning">
 					<i class="fas fa-pencil-alt"></i> Editar
 				</a>
 				<button data-product-id="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-danger remove">

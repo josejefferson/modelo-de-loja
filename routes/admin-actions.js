@@ -4,7 +4,7 @@ const User = require('../models/User')
 const { body } = require('express-validator')
 const validators = require('../helpers/validators')
 const bcrypt = require('bcryptjs')
-const check = require('../helpers/checks')
+const check = require('../helpers/middlewares')
 const validate = check.validate
 
 routes.post('/signup', [

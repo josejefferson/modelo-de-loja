@@ -2,7 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const User = require('../models/User')
 const { param } = require('express-validator')
-const check = require('../helpers/checks')
+const check = require('../helpers/middlewares')
 const validate = check.validate
 
 const products = require('./admin-products')

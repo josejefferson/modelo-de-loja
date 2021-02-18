@@ -3,21 +3,21 @@ const Client = require('../models/Client')
 
 module.exports = {
 	// Somente pessoas logadas
-	loggedIn: function (req, res, next) {
+	auth: (req, res, next) => {
 		if (req.isAuthenticated()) return next()
 		req.flash('error_msg', 'Você não está logado')
 		res.redirect('/login')
 	},
 
 	// Somente pessoas não logadas
-	notLoggedIn: function (req, res, next) {
+	notAuth: (req, res, next) => {
 		if (!req.isAuthenticated()) return next()
 		req.flash('error_msg', 'Você já está logado')
 		res.redirect('/')
 	},
 
 	// Somente admins
-	admin: function (req, res, next) {
+	admin: (req, res, next) => {
 		if (req.isAuthenticated() && req.user.admin === true) return next()
 		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
 		res.redirect('/')
@@ -25,23 +25,23 @@ module.exports = {
 	},
 
 	// Somente não admins
-	notAdmin: function (req, res, next) {
+	notAdmin: (req, res, next) => {
 		if (req.isAuthenticated() && req.user.admin === false) return next()
 		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
 		res.redirect('/')
 	},
 
-	// Somente pessoas não logadas ou admins
-	notLoggedInORNotAdmin: function (req, res, next) {
+	// Somente pessoas não logadas ou admins ???
+	notAuthORAdmin: (req, res, next) => {
 		if (!req.isAuthenticated() || req.user.admin === true) return next()
 		req.flash('error_msg', 'Você precisa deslogar para entrar aqui')
 		res.redirect('/')
 	},
 
-	userIdValid: async function (req, res, next) {
-		const userIds = req.cookies.userIds
-		if (userIds) {
-			const userIdsArr = userIds.split(',')
+	// Cliente cadastrado
+	userIdValid: async (req, res, next) => {
+		if (req.cookies.userIds) {
+			const userIdsArr = req.cookies.userIds.split(',')
 			const clients = await Client.find({ clientId: userIdsArr })
 			if (clients.length) return next()
 		}
@@ -49,8 +49,9 @@ module.exports = {
 		res.redirect('/users/add')
 	},
 
-	validate: function (redir) {
-		return function (req, res, next) {
+	// Validar dados de formulário com redirecionamento
+	validate: (redir) => {
+		return (req, res, next) => {
 			const errors = validationResult(req)
 			if (!errors.isEmpty()) {
 				errors.errors.forEach(err => {
@@ -63,6 +64,7 @@ module.exports = {
 		}
 	},
 
+	// Validar dados de formulário
 	isValid: function (req, res) {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {

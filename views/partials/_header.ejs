@@ -27,19 +27,19 @@
 				<% if (user) { %>
 					<% if (user.admin) { %>
 						<li class="nav-item">
-							<a class="nav-link <%-(_page==='products')&&'active'%>" href="/admin/products">
+							<a class="nav-link <%-(_page==='products')&&'active'%>" href="/products">
 								<i class="fas fa-shopping-bag"></i> Produtos
 							</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link <%-(_page==='requests')&&'active'%>" href="/admin/requests">
+							<a class="nav-link <%-(_page==='requests')&&'active'%>" href="/requests">
 								<i class="fas fa-bullhorn"></i> Pedidos
 							</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link <%-(_page==='admins')&&'active'%>" href="/admin/users">
+							<a class="nav-link <%-(_page==='admins')&&'active'%>" href="/admins">
 								<i class="fas fa-user-shield"></i> Administradores
 							</a>
 						</li>

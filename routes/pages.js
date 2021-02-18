@@ -1,9 +1,9 @@
 const express = require('express')
 const routes = express.Router()
-const check = require('../helpers/checks')
+const check = require('../helpers/middlewares')
 const Product = require('../models/Product')
 const Client = require('../models/Client')
-const functions = require('../helpers/functions')
+const functions = require('../helpers/helpers')
 
 routes.get('/', async (req, res) => {
 	const cart = (req.cookies.cart && req.cookies.cart.split(',')) || []
@@ -60,7 +60,7 @@ routes.get('/users/add', async (req, res) => {
 	if (req.query.edit) var selectedUser = await Client.findOne({ clientId: req.query.edit })
 	res.render('pages/users-add', {
 		_page: 'add_user',
-		_title: `Adicionar usuário`,
+		_title: 'Adicionar usuário',
 		oldId: req.query.edit,
 		selectedUser
 	})
@@ -85,14 +85,14 @@ routes.get('/cart', check.userIdValid, async (req, res) => {
 	})
 })
 
-routes.get('/login', check.notLoggedIn, (req, res) => {
+routes.get('/login', check.notAuth, (req, res) => {
 	res.render('pages/login', {
 		_page: 'login',
 		_title: 'Login'
 	})
 })
 
-routes.all('/logout', check.loggedIn, (req, res) => {
+routes.all('/logout', check.auth, (req, res) => {
 	req.logout()
 	req.flash('success_msg', 'Deslogado com sucesso')
 	res.redirect('/login')

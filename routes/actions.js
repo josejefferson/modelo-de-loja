@@ -1,15 +1,15 @@
 const express = require('express')
 const routes = express.Router()
 const passport = require('passport')
-const check = require('../helpers/checks')
+const check = require('../helpers/middlewares')
 const validate = check.validate
 const { body } = require('express-validator')
 const Request = require('../models/Request')
 const Client = require('../models/Client')
-const functions = require('../helpers/functions')
+const functions = require('../helpers/helpers')
 
 routes.post('/buy', check.userIdValid, [
-	// >> fazer auth
+	// >> fazer validation
 ], validate(), async (req, res) => {
 
 	const client = await Client.findOne({ clientId: req.body.clientId })
@@ -70,7 +70,7 @@ routes.post('/users/add', [/* >> verificar se o id já existe */], async (req, r
 	res.redirect('/users')
 })
 
-routes.post('/login', check.notLoggedIn, [
+routes.post('/login', check.notAuth, [
 	body('email').notEmpty().withMessage('Digite seu e-mail').bail().isEmail().withMessage('E-mail inválido'),
 	body('password').notEmpty().withMessage('Digite sua senha')
 ], validate(), (req, res, next) => {
