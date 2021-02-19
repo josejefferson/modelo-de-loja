@@ -90,7 +90,7 @@ requests = requests.reduce(function (a, b) {
 
 		$.ajax({
 			method: 'POST',
-			url: '/admin/requests/confirm',
+			url: '/requests/confirm/' + id,
 			data: { id, confirm },
 			beforeSend: () => $this.parent().find('.act').prop('disabled', true),
 			success: res => {

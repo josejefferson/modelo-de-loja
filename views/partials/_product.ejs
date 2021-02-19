@@ -50,9 +50,9 @@ if (product.description.length > 50) product.description = product.description.s
 			<div class="card-footer">
 				Quantidade:
 				<div class="d-flex align-items-baseline">
-					<button type="button" class="btn btn-sm" ng-click="inc('p<%= product.id %>')"><i class="fas fa-plus"></i></button>
-					<input type="number" name="quantity" class="form-control form-control-sm mx-1" ng-model="products.p<%= product.id %>" ng-init="products.p<%= product.id %>=1" min="1" value="1">
 					<button type="button" class="btn btn-sm" ng-click="dec('p<%= product.id %>')"><i class="fas fa-minus"></i></button>
+					<input type="number" name="quantity" class="form-control form-control-sm mx-1" ng-model="products.p<%= product.id %>" ng-init="products.p<%= product.id %>=1" min="1" value="1">
+					<button type="button" class="btn btn-sm" ng-click="inc('p<%= product.id %>')"><i class="fas fa-plus"></i></button>
 				</div>
 
 				<b class="mt-2 fs-5 d-block text-center">R${{(products.p<%= product.id %>*<%= product.price %>).toFixed(2).toString().replace('.', ',')}}</b>

@@ -4,7 +4,7 @@ if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 
 <% if (env === 'buy') { %>
 <label class="col-12 col-md-6 mt-4 user">
-	<input type="radio" class="hidden userSelect" name="user" value="<%= user.id %>" <%=i===0?'checked':''%>>
+	<input type="radio" class="hidden userSelect" name="user" value="<%= user.clientId %>" <%=i===0?'checked':''%>>
 <% } else { %>
 <div class="col-12 col-md-6 mt-4 user">
 <% } %>

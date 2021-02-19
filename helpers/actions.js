@@ -10,10 +10,12 @@ module.exports = {
 	buy: async (req, res, next) => {
 		const client = await Client.findOne({ clientId: req.body.user })
 		if (!client) {
+			console.log(req.body.user, client)
+			Client.find().then(console.log)
 			// TODO:
 		}
 		await Request.create({
-			clientId: client.id,
+			clientId: client._id,
 			productId: req.params.id,
 			quantity: req.body.quantity,
 			other: req.body.other
