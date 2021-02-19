@@ -1,21 +1,17 @@
-<%
-if (!'admin' in this) var admin = {}
-const {name, email} = admin || {}
-%>
+<% const action = locals.admin ? `/admins/edit/${admin.id}` : '/admins/add'
+const { name, email } = locals.admin || locals.userData?.[0] || {} %>
 
 <div class="container my-4">
-	<% if (!'admin' in this) { %> <!--todo-->
+	<% if (!locals.admin) { %>
 		<h1 class="mb-4"><i class="fas fa-plus"></i> Adicionar administrador</h1>
 	<% } else { user = {} %>
 		<h1 class="mb-4"><i class="fas fa-pencil-alt"></i> Editar administrador</h1>
 	<% } %>
 
-	<form action="/admins/add" method="POST">
-		<input type="hidden" name="id" value="<%= user.id %>">
-
+	<form action="<%= action %>" method="POST">
 		<label class="form-group d-block">
 			<div>Nome <span class="text-danger">*</span></div>
-			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" required>
+			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" autofocus required>
 		</label>
 
 		<label class="form-group d-block">

@@ -1,21 +1,17 @@
-<%
-if (!'user' in this) var user = {}
-const {name, address, phone, email} = user || {}
-%>
+<% const action = locals.user ? `/users/edit/${user.clientId}` : '/users/add'
+const { name, address, phone, email } = locals.user || locals.userData?.[0] || {} %>
 
 <div class="container my-4">
-	<% if (!user) { %>
+	<% if (!locals.user) { %>
 		<h1 class="mb-4"><i class="fas fa-plus"></i> Adicionar usuário</h1>
 	<% } else { %>
 		<h1 class="mb-4"><i class="fas fa-pencil-alt"></i> Editar usuário</h1>
 	<% } %>
 
-	<form action="/users/add" method="POST"> <!--todo: atualizar link-->
-		<input type="hidden" name="oldId" value="<%#= oldId %>"> <!--todo: verificar isso-->
-
+	<form action="<%= action %>" method="POST">
 		<label class="form-group d-block">
 			<div>Nome completo <span class="text-danger">*</span></div>
-			<input type="text" class="form-control form-control-lg" name="name" value="<%= name %>" autocomplete="off" required>
+			<input type="text" class="form-control form-control-lg" name="name" value="<%= name %>" autocomplete="off" autofocus required>
 		</label>
 
 		<label class="form-group d-block">
@@ -39,5 +35,4 @@ const {name, address, phone, email} = user || {}
 			</button>
 		</div>
 	</form>
-
 </div>

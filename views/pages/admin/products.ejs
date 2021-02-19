@@ -14,6 +14,11 @@
 				</a>
 			</div>
 		</div>
+
+		<a href="/products/add" class="btn btn-primary btn-lg btn-floating px-2 px-md-3 shadow">
+			<i class="fas fa-plus me-md-2"></i>
+			<div class="d-none d-md-block">Adicionar</div>
+		</a>
 	</div>
 </div>
 
@@ -30,7 +35,7 @@
 			if (!r.isConfirmed) return
 			$this = $(this)
 			productId = $this.data('productId')
-			location.href = '/admin/products/remove/' + productId
+			location.href = '/products/remove/' + productId
 		})
 	})
 </script>

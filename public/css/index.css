@@ -1,3 +1,24 @@
+.navbar-collapse,
+.navbar-nav,
+.nav-item,
+.nav-link {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.btn-floating {
+	bottom: 20px;
+	right: 20px;
+	position: fixed;
+	width: auto;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 1000px !important;
+}
+
 .fas, .far, .fab {
 	width: 1.5em;
 	text-align: center;

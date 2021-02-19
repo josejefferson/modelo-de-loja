@@ -1,5 +1,5 @@
 <%
-if ('env' in this) { env = env || 'show' } else { env = 'show' }
+if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 product.priceStr = product.price.toFixed(2).toString().replace('.', ',')
 product.description = product.description.replace(/\n/g, '<br>')
 if (product.description.length > 50) product.description = product.description.substr(0, 50) + '…'

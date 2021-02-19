@@ -1,30 +1,51 @@
-const User = require('../models/User')
-const Product = require('../models/Product')
+const { body } = require('express-validator')
+const {
+	findUser,
+	findEmail,
+	comparePasswords,
+	findProduct,
+	validate } = require('./customValidators')
 
-async function findUser(_id) {
-	const user = await User.findOne({ _id }).catch(err => {
-		throw 'Ocorreu um erro interno'
-	})
-	if (!user) return Promise.reject('Este usuário não existe')
+module.exports = {
+	buy: [],
+	cart: [],
+	usersAdd: [],
+	usersEdit: [],
+	login: [
+		body('email').notEmpty().bail().isEmail(),
+		body('password').notEmpty(),
+		validate() // repetir
+	],
+	adminsAdd: [
+		body('name').notEmpty().trim(),
+		body('email').notEmpty().trim().bail().isEmail().bail().custom(findEmail),
+		body('password').notEmpty().bail().custom(comparePasswords)
+	],
+	adminsEdit: [
+		body('id').notEmpty().bail().custom(findUser),
+		body('email').optional({ checkFalsy: true }).isEmail().bail().custom(findEmail),
+		body('password').optional({ checkFalsy: true }).custom(comparePasswords)
+	],
+	adminsRemove: [
+		body('id').notEmpty().bail().custom(findUser)
+	],
+	productsAdd: [
+		body('name').notEmpty().trim(),
+		body('description').optional({ checkFalsy: true }).trim(),
+		body('price').notEmpty().bail().isDecimal(),
+		body('image').optional({ checkFalsy: true }).isURL(),
+		body('stock').notEmpty().bail().isInt(),
+	],
+	productsEdit: [
+		body('id').bail().custom(findProduct),
+		body('name').optional({ checkFalsy: true }),
+		body('description').optional().if(body('description').notEmpty()),
+		body('price').optional({ checkFalsy: true }).isDecimal(),
+		body('image').optional().if(body('image').notEmpty()).isURL(),
+		body('stock').optional({ checkFalsy: true }).isInt(),
+	],
+	productsRemove: [
+		body('id').notEmpty().bail().custom(findProduct)
+	],
+	requestsConfirm: []
 }
-
-async function findEmail(email) {
-	const user = await User.findOne({ email }).catch(err => {
-		throw 'Ocorreu um erro interno'
-	})
-	if (user) return Promise.reject('O e-mail já está cadastrado no sistema')
-}
-
-function comparePasswords(value, { req }) {
-	if (value !== req.body.confirmpassword) throw new Error('As senhas não se correspondem')
-	return true
-}
-
-async function findProduct(_id) {
-	const product = await Product.findOne({ _id }).catch(err => {
-		throw 'Ocorreu um erro interno'
-	})
-	if (!product) return Promise.reject('Este produto não existe')
-}
-
-module.exports = { findUser, findEmail, comparePasswords, findProduct }

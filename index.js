@@ -24,8 +24,8 @@
 		res.locals.success_msg = req.flash('success_msg')
 		res.locals.warning_msg = req.flash('warning_msg')
 		res.locals.error_msg = req.flash('error_msg')
-		res.locals.data = req.flash('data')
-		res.locals.user = req.user || null
+		res.locals.userData = req.flash('userData')
+		res.locals.authUser = req.user || null
 		next()
 	})
 
@@ -37,7 +37,7 @@
 	app.use(cookieParser())
 	app.use(express.static('public'))
 
-	app.use('/', require('./routes/ROUTES'))
+	app.use('/', require('./helpers/routes'))
 	// app.use('/', require('./routes/pages'))
 	// app.use('/', require('./routes/actions'))
 	// app.use('/admin', /*check.admin,*/ require('./routes/admin-pages'))

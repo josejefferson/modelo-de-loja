@@ -18,7 +18,7 @@ module.exports = {
 
 	// Somente admins
 	admin: (req, res, next) => {
-		if (req.isAuthenticated() && req.user.admin === true) return next()
+		if (req.isAuthenticated() && req.authUser.admin === true) return next()
 		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
 		res.redirect('/')
 		// return next()
@@ -26,14 +26,14 @@ module.exports = {
 
 	// Somente não admins
 	notAdmin: (req, res, next) => {
-		if (req.isAuthenticated() && req.user.admin === false) return next()
+		if (req.isAuthenticated() && req.authUser.admin === false) return next()
 		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
 		res.redirect('/')
 	},
 
 	// Somente pessoas não logadas ou admins ???
 	notAuthORAdmin: (req, res, next) => {
-		if (!req.isAuthenticated() || req.user.admin === true) return next()
+		if (!req.isAuthenticated() || req.authUser.admin === true) return next()
 		req.flash('error_msg', 'Você precisa deslogar para entrar aqui')
 		res.redirect('/')
 	},
