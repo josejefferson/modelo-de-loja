@@ -29,6 +29,7 @@ if (product.description.length > 50) product.description = product.description.s
 		</div>
 
 		<% if (env === 'show') { %>
+
 			<ul class="list-group list-group-flush">
 				<a href="<%= `/product/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-success">
 					<i class="fas fa-info-circle"></i> Ver detalhes
@@ -43,9 +44,22 @@ if (product.description.length > 50) product.description = product.description.s
 					<i class="fas fa-cart-arrow-down"></i> Carrinho
 				</button>
 			</ul>
+
 		<% } else if (env === 'buy') { %>
-				
+
+			<div class="card-footer">
+				Quantidade:
+				<div class="d-flex align-items-baseline">
+					<button type="button" class="btn btn-sm" ng-click="inc('p<%= product.id %>')"><i class="fas fa-plus"></i></button>
+					<input type="number" name="quantity" class="form-control form-control-sm mx-1" ng-model="products.p<%= product.id %>" ng-init="products.p<%= product.id %>=1" min="1" value="1">
+					<button type="button" class="btn btn-sm" ng-click="dec('p<%= product.id %>')"><i class="fas fa-minus"></i></button>
+				</div>
+
+				<b class="mt-2 fs-5 d-block text-center">R${{(products.p<%= product.id %>*<%= product.price %>).toFixed(2).toString().replace('.', ',')}}</b>
+			</div>
+
 		<% } else if (env === 'edit') { %>
+
 			<ul class="list-group list-group-flush">
 				<a href="<%= `/products/edit/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-warning">
 					<i class="fas fa-pencil-alt"></i> Editar
@@ -54,6 +68,7 @@ if (product.description.length > 50) product.description = product.description.s
 					<i class="fas fa-times"></i> Excluir
 				</button>
 			</ul>
+
 		<% } %>
 	</div>
 </div>

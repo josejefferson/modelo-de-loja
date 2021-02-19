@@ -8,13 +8,13 @@ const bcrypt = require('bcryptjs')
 
 module.exports = {
 	buy: async (req, res, next) => {
-		const client = await Client.findOne({ clientId: req.body.clientId })
+		const client = await Client.findOne({ clientId: req.body.user })
 		if (!client) {
 			// TODO:
 		}
 		await Request.create({
 			clientId: client.id,
-			productId: req.body.product,
+			productId: req.params.id,
 			quantity: req.body.quantity,
 			other: req.body.other
 		})

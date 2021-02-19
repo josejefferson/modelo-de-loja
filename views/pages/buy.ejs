@@ -1,80 +1,29 @@
-<% 
-
-let name, address, phone, email, other
-if (data.length) {
-	name = data[0].name
-	address = data[0].address
-	phone = data[0].phone
-	email = data[0].email
-	other = data[0].other
-}
-
-%>
-
 <div class="container my-4">
-	<h1>Comprar</h1>
+	<h1><i class="fas fa-dollar-sign"></i> Comprar</h1>
 
-	<form action="/buy" method="POST">
+	<form action="/buy/<%= product.id %>" method="POST" name="buy">
 		<div class="row">
-			<div class="col col-12 col-md-4 col-lg-3">
-				<div class="card product" data-price="<%= product.price %>">
-					<% if (product.image) { %>
-					<img src="<%= product.image %>" class="card-img-top">
-					<% } %>
-					<div class="card-body">
-						<h5 class="card-title"><%= product.name %></h5>
-						<p class="card-text"><%- product.description.replace(/\n/g, '<br>') %></p>
-						<label>
-							<div><b>Quantidade:</b></div>
-							<input type="number" class="form-control quantity" name="quantity" value="1" min="1"
-								<% if (product.stock > 0) { %>max="<%= product.stock %>" <% } %> required>
-						</label>
-					</div>
-					<div class="card-footer text-muted">
-						<% if (product.stock) { %>
-						<div>R$<%= String(product.price).replace('.',',') %><% if (product.stock >= 0) { %> (<%= product.stock %> em
-							estoque)<% } %></div>
-						<% } else { %>
-						R$<%= String(product.price).replace('.',',') %> (Esgotado)
-						<% } %>
-						Total: <b>R$ <span class="total"><%= String(product.price).replace('.', ',') %></span></b>
-					</div>
-				</div>
-			</div>
+			<%- include('../partials/_product.ejs', {product, env: 'buy'}) %>
 
-			<div class="col col-12 col-md-8 col-lg-9">
-
-
-				<input type="hidden" name="product" value="<%= product.id %>">
-
+			<div class="row col col-12 col-md-8 col-lg-9 mt-5">
 				<h3>Comprar como:</h3>
 				<% users.forEach((user, i) => { %>
-				<label class="card user">
-					<div class="card-body">
-						<div class="row">
-							<div class="col col-1 d-flex align-items-center text-center">
-								<input type="radio" name="clientId" value="<%= user.clientId %>" <%= i == 0 ? ' checked' : '' %>>
-							</div>
-							<div class="col col-10 col-sm-11">
-								<h4><%= user.name %></h4>
-								<div><b>Endereço:</b> <%= user.address %></div>
-								<div><b>Telefone:</b> <%= user.phone %></div>
-								<div><b>E-mail:</b> <%= user.email %></div>
-							</div>
-						</div>
-					</div>
-				</label>
+					<%- include('../partials/_user.ejs', {user, i, env: 'buy'}) %>
 				<% }) %>
 
-				<label class="form-group d-block">
-					<div>Observações</div>
-					<textarea class="form-control" name="other" placeholder="Mais alguma informação?"><%= other %></textarea>
+				<label class="form-group d-block mt-3">
+					<div>Observações:</div>
+					<textarea class="form-control" name="other" placeholder="Mais alguma informação?"><%= locals.other %></textarea>
 				</label>
 
-				<button class="btn btn-success" type="submit">Comprar</button>
+				<div class="text-center mt-3">
+					<button class="btn btn-lg btn-success mx-auto" type="submit">
+						<i class="fas fa-dollar-sign"></i> Finalizar compra
+					</button>
+				</div>
+			</div>
+		</div>
 	</form>
-</div>
-</div>
 </div>
 
 <script>
@@ -85,7 +34,26 @@ if (data.length) {
 		$(this).closest('.product').find('.total').text(total.toLocaleString(undefined, { minimumFractionDigits: 2 }))
 	})
 
-	$('form').on('submit', function (e) {
-		if (!confirm('Tem certeza que deseja realizar esta compra?')) e.preventDefault()
-	})
+	document.buy.onsubmit = function (e) {
+		e.preventDefault()
+		Swal.fire({
+			title: 'Finalizar compra',
+			text: 'Tem certeza que deseja finalizar esta compra?', //todo: mostrar resumo
+			showDenyButton: true,
+			showCancelButton: false,
+			confirmButtonText: 'Sim',
+			denyButtonText: 'Não'
+		}).then(r => {
+			if (!r.isConfirmed) return
+			this.submit()
+		})
+	}
+</script>
+<script src="/js/angular.min.js"></script>
+<script>
+	angular.module('store', []).controller('storeCtrl', ['$scope', ($scope) => {
+		$scope.products = {}
+		$scope.inc = e => $scope.products[e] = ++$scope.products[e] || 1
+		$scope.dec = e => $scope.products[e] = --$scope.products[e] || 1
+	}])
 </script>

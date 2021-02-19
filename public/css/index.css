@@ -19,6 +19,11 @@
 	border-radius: 1000px !important;
 }
 
+.userSelect:checked + .card {
+	background-color: #e9ecef;
+	border-color: #0d6efd;
+}
+
 .fas, .far, .fab {
 	width: 1.5em;
 	text-align: center;
