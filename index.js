@@ -43,6 +43,7 @@
 	// app.use('/admin', /*check.admin,*/ require('./routes/admin-pages'))
 	// app.use('/admin', /*check.admin,*/ require('./routes/admin-actions'))
 
-	app.listen(process.env.PORT || 3000, () =>
-		console.log('>> [Server] Aberto na porta 3000'))
+	const PORT = process.env.PORT || 3000
+	app.listen(PORT, () =>
+		console.log('>> [Servidor] Aberto na porta ' + PORT))
 })()
