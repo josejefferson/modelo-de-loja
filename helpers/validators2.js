@@ -14,7 +14,7 @@ module.exports = {
 	login: [
 		body('email').notEmpty().bail().isEmail(),
 		body('password').notEmpty(),
-		validate()
+		validate() // repetir
 	],
 	adminsAdd: [
 		body('name').notEmpty().trim(),

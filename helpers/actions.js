@@ -3,8 +3,8 @@ const Client = require('../models/Client')
 const User = require('../models/User')
 const Request = require('../models/Request')
 const helpers = require('../helpers/helpers')
-const passport = require('passport')
 const functions = require('../helpers/helpers')
+const passport = require('passport')
 const bcrypt = require('bcryptjs')
 
 module.exports = {
@@ -113,7 +113,7 @@ module.exports = {
 		})
 
 		req.flash('success_msg', `Usuário ${req.body.name} criado com sucesso`)
-		if (req.user && req.user.admin) return res.redirect('users')
+		if (req.user && req.user.admin) return res.redirect('/admins')
 		return res.redirect('/')
 	},
 	editAdmin: async (req, res, next) => { 
@@ -147,7 +147,7 @@ module.exports = {
 		}
 
 		req.flash('success_msg', 'Editado com sucesso')
-		res.redirect('users')
+		res.redirect('/admins')
 	},
 	removeAdmin: async (req, res, next) => { 
 		// Remove usuários
@@ -158,7 +158,7 @@ module.exports = {
 		})
 
 		req.flash('success_msg', 'Usuário excluído com sucesso')
-		res.redirect('users')
+		res.redirect('/admins')
 	},
 	addProduct: async (req, res, next) => { 
 		await Product.create({
@@ -175,7 +175,7 @@ module.exports = {
 		})
 
 		req.flash('success_msg', `Produto "${req.body.name}" adicionado com sucesso`)
-		return res.redirect('/admin/products')
+		return res.redirect('/products')
 	},
 	editProduct: async (req, res, next) => { 
 		const product = await Product.findOne({ _id: req.body.id }).catch(err => {
@@ -200,23 +200,23 @@ module.exports = {
 			})
 		} else {
 			req.flash('error_msg', 'O produto não foi encontrado')
-			res.redirect('/admin/products')
+			res.redirect('/products')
 			throw 'Product não encontrado'
 		}
 
 		req.flash('success_msg', 'Editado com sucesso')
-		res.redirect('/admin/products')
+		res.redirect('/products')
 	},
 	removeProduct: async (req, res, next) => { 
 		await Request.deleteMany({ productId: req.body.id })
 		await Product.deleteMany({ _id: req.body.id }).catch(err => {
 			req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')
-			res.redirect('/admin/products')
+			res.redirect('/products')
 			throw err
 		})
 
 		req.flash('success_msg', 'Product excluído com sucesso')
-		res.redirect('/admin/products')
+		res.redirect('/products')
 	},
 	confirmRequest: async (req, res, next) => { 
 		// >> ao confirmar, diminuir do estoque
