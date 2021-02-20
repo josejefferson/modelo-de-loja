@@ -1,43 +1,59 @@
 <%
-product.priceStr = product.price.toFixed(2).toString().replace('.', ',')
-product.description = product.description.replace(/\n/g, '<br>')
+product.priceStr = product.price?.toFixed(2).toString().replace('.', ',')
+product.oldPriceStr = product.oldPrice?.toFixed(2).toString().replace('.', ',')
+product.description = product.description?.replace(/\n/g, '<br>')
+const _disStk = !product.stock ? 'disabled' : ''
+const _cartHid = cart.includes(product.id) ? 'hidden' : ''
+const _$cartHid = !cart.includes(product.id) ? 'hidden' : ''
+const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 %>
 
 <div class="container my-4">
-	<h1 class="display-2"><%= product.name %></h1>
-	<p><%- product.description %></p>
+	<% if (product.image) { %>
+		<img src="<%= product.image %>" class="mt-3 w-100">
+	<% } %>
+
+	<h1 class="my-2"><%= product.name %></h1>
+	<p>
+		<i class="fas fa-xs fa-star w-auto text-warning"></i>
+		<i class="fas fa-xs fa-star w-auto text-warning"></i>
+		<i class="fas fa-xs fa-star w-auto text-warning"></i>
+		<i class="fas fa-xs fa-star w-auto text-warning"></i>
+		<i class="far fa-xs fa-star w-auto text-warning"></i>
+		<small><small class="fs-8">4.0 (8)</small></small>
+	</p>
+
 	<p class="fs-4">
-		R$<%= product.priceStr %>
+		<% if (product.oldPriceStr) { %>
+			<s class="d-block fs-6 text-secondary">
+				<small>R$ <%= product.oldPriceStr %></small>
+			</s>
+		<% } %>
+		<b>R$ <%= product.priceStr %></b>
 		<% if (!product.stock) { %>
 			<span class="text-danger fs-4">(esgotado)</span>
 		<% } %>
 	</p>
 
-	<% if (product.stock) { %>
-		<div class="row">
-			<div class="col-12 col-md-6">
-				<a href="/buy/<%= product.id %>" class="btn btn-lg btn-warning w-100">
-					<i class="fas fa-dollar-sign"></i> Comprar
-					<%= (product.stock>= 0) ? `(${product.stock} em estoque)` : '' %>
-				</a>
-			</div>
-			<div class="col-12 col-md-6">
-				<button data-product="<%= product.id %>"
-					class="btn btn-lg btn-primary w-100 mt-1 mt-md-0 addToCart <%= cart.includes(product.id) ? 'hidden' : '' %>">
-					<i class="fas fa-cart-plus"></i> Carrinho
-				</button>
-				<button data-product="<%= product.id %>"
-					class="btn btn-lg btn-danger w-100 mt-1 mt-md-0 removeFromCart <%= !cart.includes(product.id) ? 'hidden' : '' %>">
-					<i class="fas fa-cart-arrow-down"></i> Carrinho
-				</button>
-			</div>
+	<div class="row mb-3">
+		<div class="col-12 col-md-6">
+			<a href="/buy/<%= product.id %>" class="btn btn-lg btn-warning w-100 <%=_disStk%>">
+				<i class="fas fa-dollar-sign"></i> Comprar <%=_stkQtd%>
+			</a>
 		</div>
-	<% } %>
+		<div class="col-12 col-md-6">
+			<button data-product="<%= product.id %>"
+				class="btn btn-lg btn-primary w-100 mt-1 mt-md-0 addToCart <%=_cartHid%> <%=_disStk%>">
+				<i class="fas fa-cart-plus"></i> Carrinho
+			</button>
+			<button data-product="<%= product.id %>"
+				class="btn btn-lg btn-danger w-100 mt-1 mt-md-0 removeFromCart <%=_$cartHid%>">
+				<i class="fas fa-cart-arrow-down"></i> Carrinho
+			</button>
+		</div>
+	</div>
 
-	<% if (product.image) { %>
-		<h3 class="mt-5"><i class="fas fa-image"></i> Imagens</h3>
-		<img src="<%= product.image %>" class="mt-3 w-100">
-	<% } %>
+	<p><%- product.description %></p>
 </div>
 
 <script>

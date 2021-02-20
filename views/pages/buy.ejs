@@ -1,15 +1,35 @@
+<%
+const _disStk = !product.stock ? 'disabled' : ''
+const _usRow = users.length !== 0 ? 'row' : ''
+%>
+
 <div class="container my-4">
-	<h1><i class="fas fa-dollar-sign"></i> Comprar</h1>
+	<h1 class="mb-4"><i class="fas fa-dollar-sign"></i> Comprar</h1>
 
 	<form action="/buy/<%= product.id %>" method="POST" name="buy">
 		<div class="row">
 			<%- include('../partials/_product.ejs', {product, env: 'buy'}) %>
 
-			<div class="row col col-12 col-md-8 col-lg-9 mt-5">
-				<h3>Comprar como:</h3> <!--todo: gerenciar usuários botão-->
+			<div class="<%=_usRow%> col col-12 col-md-8 col-lg-9">
+				<h3>Comprar como:
+					<a href="/users" class="btn btn-light btn-sm">
+						<i class="fas fa-users"></i> Gerenciar usuários
+					</a>
+				</h3>
+
 				<% users.forEach((user, i) => { %>
 					<%- include('../partials/_user.ejs', {user, i, env: 'buy'}) %>
 				<% }) %>
+				<% if (users.length === 0) { %>
+					<div class="col-12 col-md-6 mt-4">
+						<div class="card shadow-sm h-100 bg-light">
+							<a href="/users/add" class="btn card-body d-flex flex-column align-items-center justify-content-center">
+								<i class="fas fa-plus fa-5x"></i>
+								<b class="mt-3 fs-5">Adicionar usuário</b>
+							</a>
+						</div>
+					</div>
+				<% } %>
 
 				<label class="form-group d-block mt-3">
 					<div>Observações:</div>
@@ -17,7 +37,7 @@
 				</label>
 
 				<div class="text-center mt-3">
-					<button class="btn btn-lg btn-success mx-auto" type="submit">
+					<button class="btn btn-lg btn-success mx-auto" type="submit" <%=_disStk%>>
 						<i class="fas fa-dollar-sign"></i> Finalizar compra
 					</button>
 				</div>
@@ -26,14 +46,8 @@
 	</form>
 </div>
 
+<script src="/js/angular.min.js"></script>
 <script>
-	$('.quantity').on('keyup change', function () {
-		const price = parseFloat($(this).closest('.product').data('price'))
-		const quantity = $(this).val()
-		const total = quantity * price
-		$(this).closest('.product').find('.total').text(total.toLocaleString(undefined, { minimumFractionDigits: 2 }))
-	})
-
 	document.buy.onsubmit = function (e) {
 		e.preventDefault()
 		Swal.fire({
@@ -48,9 +62,7 @@
 			this.submit()
 		})
 	}
-</script>
-<script src="/js/angular.min.js"></script>
-<script>
+
 	angular.module('store', []).controller('storeCtrl', ['$scope', ($scope) => {
 		$scope.products = {}
 		$scope.inc = (e, max) => $scope.products[e] = (++$scope.products[e] > max) ? max : $scope.products[e]

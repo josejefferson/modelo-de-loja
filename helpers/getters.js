@@ -37,6 +37,7 @@ module.exports = {
 		req.data = req.data || {}
 		const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
 		req.data.users = await Client.find({ clientId: userIds })
+		//todo: redirecionar caso não haja usuários na hora de comprar
 		return next()
 	},
 	user: async (req, res, next) => {
