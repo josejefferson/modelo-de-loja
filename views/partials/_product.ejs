@@ -5,7 +5,7 @@ product.description = product.description.replace(/\n/g, '<br>')
 if (product.description.length > 50) product.description = product.description.substr(0, 50) + '…'
 %>
 
-<div class="col col-12 col-md-4 col-lg-3 mt-5">
+<div class="col col-6 col-md-4 col-lg-3 px-1 py-1">
 	<div class="card shadow h-100">
 		<% if (product.image) { %>
 			<a href="<%= '/product/' + product.id %>">
@@ -28,7 +28,7 @@ if (product.description.length > 50) product.description = product.description.s
 			</div>
 		</div>
 
-		<% if (env === 'show') { %>
+		<% if (env === 'showe') { %>
 
 			<ul class="list-group list-group-flush">
 				<a href="<%= `/product/${product.id}` %>" class="list-group-item list-group-item-action list-group-item-success">
@@ -51,11 +51,11 @@ if (product.description.length > 50) product.description = product.description.s
 				Quantidade:
 				<div class="d-flex align-items-baseline">
 					<button type="button" class="btn btn-sm" ng-click="dec('p<%= product.id %>')"><i class="fas fa-minus"></i></button>
-					<input type="number" name="quantity" class="form-control form-control-sm mx-1" ng-model="products.p<%= product.id %>" ng-init="products.p<%= product.id %>=1" min="1" value="1">
-					<button type="button" class="btn btn-sm" ng-click="inc('p<%= product.id %>')"><i class="fas fa-plus"></i></button>
+					<input type="number" name="quantity" class="form-control form-control-sm text-center mx-1" ng-model="products.p<%= product.id %>" ng-init="products.p<%= product.id %>=1" min="1" max="<%= product.stock %>" value="1" required>
+					<button type="button" class="btn btn-sm" ng-click="inc('p<%= product.id %>', <%= product.stock %>)"><i class="fas fa-plus"></i></button>
 				</div>
 
-				<b class="mt-2 fs-5 d-block text-center">R${{(products.p<%= product.id %>*<%= product.price %>).toFixed(2).toString().replace('.', ',')}}</b>
+				<b class="mt-2 fs-5 d-block text-center">R${{(products.p<%= product.id %>*<%= product.price %> || false).toFixed(2).toString().replace('.', ',') || '- (qtd. inválida)'}}</b>
 			</div>
 
 		<% } else if (env === 'edit') { %>

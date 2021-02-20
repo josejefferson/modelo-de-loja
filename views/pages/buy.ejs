@@ -53,7 +53,7 @@
 <script>
 	angular.module('store', []).controller('storeCtrl', ['$scope', ($scope) => {
 		$scope.products = {}
-		$scope.inc = e => $scope.products[e] = ++$scope.products[e] || 1
+		$scope.inc = (e, max) => $scope.products[e] = (++$scope.products[e] > max) ? max : $scope.products[e]
 		$scope.dec = e => $scope.products[e] = --$scope.products[e] || 1
 	}])
 </script>
