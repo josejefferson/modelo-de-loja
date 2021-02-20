@@ -1,113 +1,57 @@
 <%
 
-requests = requests.reduce(function (a, b) {
+requests = requests.reverse().reduce(function (a, b) {
 	a[b.clientId.clientId] = a[b.clientId.clientId] || []
 	a[b.clientId.clientId].push(b)
 	return a
-}, Object.create(null))
+}, {})
 
 %>
 
 <div class="container my-4">
 	<h1><i class="fas fa-bullhorn"></i> Pedidos</h1>
 
-	<% 
-	for (request in requests) { 
-		const client = requests[request][0].clientId
-	%>
-	
-	<div class="card mt-4 client">
-		<div class="card-body">
-			<h4><%= client.name %></h4>
-			<div><b>Endereço:</b> <%= client.address %></div>
-			<div><b>Telefone:</b> <a href><%= client.phone %></a></div>
-			<!-- >> verificar se foi inserido um telefone -->
-			<div><b>E-mail:</b> <a href="mailto:<%= client.email %>"><%= client.email %></a></div>
+	<div class="row">
+		<div class="col col-12 col-md-6 col-lg-3 mt-5" ng-repeat="(clientId, reqs) in requests">
+			<h4><i class="fas fa-user"></i> {{reqs[0].clientId.name}}</h4>
+			<hr>
+			<div><i class="fas fa-map-marker-alt"></i> <b>Endereço:</b> {{reqs[0].clientId.address}}</div>
+			<div><i class="fas fa-phone-alt"></i> <b>Telefone:</b> <a href="tel:{{reqs[0].clientId.phone}}"> {{reqs[0].clientId.phone}}</a></div>
+			<div><i class="fas fa-at"></i> <b>E-mail:</b> <a href="mailto:{{reqs[0].clientId.email}}"> {{reqs[0].clientId.email}}</a></div>
+			<div><i class="fas fa-bullhorn"></i> <b>Qtd. de pedidos:</b> {{reqs.length}}</div>
+			<div class="fs-5"><i class="fas fa-dollar-sign"></i> <b>Total:</b> {{sum(reqs)}}</div>
 
-			<%
-			let sum = 0
-			requests[request].reverse().forEach(r => sum += parseFloat(r.productId.price) * r.quantity)
-			sum = sum.toLocaleString(undefined , {
-				minimumFractionDigits: 2
-			})
-			%>
-
-			<div><b>Total:</b> R$ <%= sum %></div>
-
-			<div class="requests">
-
-				<% requests[request].reverse().forEach(request => { %>
-
-				<div class="card mt-3 request">
-					<div class="row m-0">
-						<div class="col col-12 col-md-2 p-2 rounded">
-							<img src="<%= request.productId.image %>" class="rounded w-100">
-						</div>
-						<div class="col col-12 col-md-7 col-lg-8 py-3">
-							<h5><%= request.quantity %> × <%= request.productId.name %></h5>
-
-							<h6 class="text-muted"><%= request.quantity %> × R$ <%= String(request.productId.price).replace('.', ',') %> = <b>R$
-									<%= (request.quantity * request.productId.price).toLocaleString(undefined, {minimumFractionDigits: 2}) %></b></h6>
-
-							<% if (request.other) { %><div><b>Mais informações:</b>
-								<div><%- request.other.replace(/\n/g, '<br>') %></div>
-							</div><% } %>
-
-							<div><b>Data/hora:</b> <%= moment(request.createdAt).format('DD/MM/YYYY - LT') %></div>
-						</div>
-						<div class="col col-12 col-md-3 col-lg-2 p-3">
-							<% if (!request.confirmed) { %>
-							<div class="confirmation-buttons">
-								<button class="btn btn-sm btn-success act w-100" data-action="confirm"
-									data-request-id="<%= request.id %>">Confirmar</button>
-								<button class="btn btn-sm btn-danger act w-100" data-action="reject"
-									data-request-id="<%= request.id %>">Rejeitar</button>
+			<div class="row mt-3">
+				<div class="col col-12 px-1 py-1" ng-repeat="req in reqs">
+					<div class="card text-white bg-dark overflow-hidden">
+						<img src="{{req.productId.image}}" class="card-img position-absolute" style="filter:brightness(40%);-webkit-mask-image:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,0)));">
+						<div class="card-body" style="z-index:1">
+							<h4 class="card-title">{{req.quantity}} &times; {{req.productId.name}}</h4>
+							<div><b><i class="fas fa-dollar-sign"></i> Preço:</b> {{req.quantity}} &times; R$ {{req.productId.price.toFixed(2).toString().replace('.',',')}} = <b class="fs-5">R$ {{(req.quantity * req.productId.price).toFixed(2).toString().replace('.',',')}}</b></div>
+							<div><b><i class="fas fa-info-circle"></i> Mais informações:</b> {{req.other || '-----'}}</div>
+							<div class="mt-2">
+								<button class="btn border border-success" title="Confirmar"><i class="fas fa-check text-white"></i></button>
+								<button class="btn border border-danger" title="Rejeitar"><i class="fas fa-times text-white"></i></button>
+								<button class="btn border border-warning" title="Pronto"><i class="fas fa-check-double text-white"></i></button>
+								<button class="btn border border-primary" title="Enviar comentário"><i class="fas fa-comment-alt text-white"></i></button>
 							</div>
-							<% } %>
-
-							<button class="btn btn-sm btn-warning act w-100" data-action="done"
-								data-request-id="<%= request.id %>">Pronto</button>
 						</div>
 					</div>
 				</div>
-				<% }) %>
 			</div>
 		</div>
 	</div>
-	<% } %>
-
 </div>
 
-<!--<pre>
-	<%= JSON.stringify(requests, null, '\t') %>
-</pre>-->
-
+<script src="/js/angular.min.js"></script>
 <script>
-	$('.act').click(function () {
-		const $this = $(this)
-		const id = $this.data('request-id')
-		const confirm = $this.data('action')
-
-		$.ajax({
-			method: 'POST',
-			url: '/requests/confirm/' + id,
-			data: { id, confirm },
-			beforeSend: () => $this.parent().find('.act').prop('disabled', true),
-			success: res => {
-				if (res.success) {
-					if (confirm == 'reject' || confirm == 'done') {
-						$this.closest('.request').removeClass('request').slideUp('fast', function () { $(this).remove() })
-					} else if (confirm == 'confirm') {
-						$this.closest('.confirmation-buttons').slideUp('fast', function () { $(this).remove() })
-					}
-
-					if (!$this.closest('.requests').find('.request').length) {
-						$this.closest('.client').slideUp('fast', function () { $(this).remove() })
-					}
-				}
-				$this.parent().find('.act').prop('disabled', false)
-			},
-			err: () => {/* >> */ }
-		})
-	})
+	angular.module('store', []).controller('storeCtrl', ['$scope', ($scope) => {
+		$scope.requests = <%- JSON.stringify(requests) %>
+		$scope.sum = (reqs) => {
+			return 'R$ ' + reqs.reduce((total, req) => {
+				return total += req.quantity * req.productId.price
+			}, 0).toFixed(2).toString().replace('.', ',')
+		}
+	}])
 </script>
+<!-- TODO: funções dos botões -->
