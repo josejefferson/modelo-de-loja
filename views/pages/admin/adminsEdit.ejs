@@ -8,7 +8,7 @@ const { name, email } = locals.admin || locals.userData?.[0] || {} %>
 		<h1 class="mb-4"><i class="fas fa-pencil-alt"></i> Editar administrador</h1>
 	<% } %>
 
-	<form action="<%= action %>" method="POST">
+	<form action="<%= action %>" method="POST" name="adminsEdit">
 		<label class="form-group d-block">
 			<div>Nome <span class="text-danger">*</span></div>
 			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" autofocus required>
@@ -36,3 +36,22 @@ const { name, email } = locals.admin || locals.userData?.[0] || {} %>
 		</div>
 	</form>
 </div>
+
+<script>
+	const pwd = document.adminsEdit.password
+	const confPwd = document.adminsEdit.confirmpassword
+	function validate() {
+		if (pwd.value !== confPwd.value) {
+			confPwd.setCustomValidity('As senhas não se correspondem')
+		} else {
+			confPwd.setCustomValidity('')
+		}
+	}
+
+	pwd.onchange = validate
+	confPwd.onchange = validate
+	pwd.onkeydown = validate
+	confPwd.onkeydown = validate
+	pwd.onpaste = validate
+	confPwd.onpaste = validate
+</script>

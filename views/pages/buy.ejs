@@ -1,5 +1,5 @@
 <%
-const _disStk = !product.stock ? 'disabled' : ''
+const _disStk = !product.stock || users.length === 0 ? 'disabled' : ''
 const _usRow = users.length !== 0 ? 'row' : ''
 %>
 
@@ -31,17 +31,17 @@ const _usRow = users.length !== 0 ? 'row' : ''
 					</div>
 				<% } %>
 
-				<label class="form-group d-block mt-3">
+				<label class="form-group d-block mt-3 mb-5">
 					<div>Observações:</div>
 					<textarea class="form-control" name="other" placeholder="Mais alguma informação?"><%= locals.other %></textarea>
 				</label>
-
-				<div class="text-center mt-3">
-					<button class="btn btn-lg btn-success mx-auto" type="submit" <%=_disStk%>>
-						<i class="fas fa-dollar-sign"></i> Finalizar compra
-					</button>
-				</div>
 			</div>
+		</div>
+
+		<div class="text-center mt-3 fixed-bottom checkOut">
+			<button class="btn btn-lg btn-success shadow w-100 rounded-0" type="submit" <%=_disStk%>>
+				<i class="fas fa-dollar-sign"></i> Finalizar compra <b ng-bind="sum()"></b>
+			</button>
 		</div>
 	</form>
 </div>
@@ -65,7 +65,16 @@ const _usRow = users.length !== 0 ? 'row' : ''
 
 	angular.module('store', []).controller('storeCtrl', ['$scope', ($scope) => {
 		$scope.products = {}
-		$scope.inc = (e, max) => $scope.products[e] = (++$scope.products[e] > max) ? max : $scope.products[e]
-		$scope.dec = e => $scope.products[e] = --$scope.products[e] || 1
+		$scope.inc = (e, max) => $scope.products[e].qtd =
+			(++$scope.products[e].qtd > (max !== -1 ? max : Infinity)) ?
+			max : $scope.products[e].qtd
+		$scope.dec = e => $scope.products[e].qtd = --$scope.products[e].qtd || 1
+		$scope.sum = () => {
+			let sum = 0
+			for (const i in $scope.products) {
+				sum += $scope.products[i].qtd * $scope.products[i].price
+			}
+			return '(R$ ' + sum.toFixed(2).toString().replace('.', ',') + ')'
+		}
 	}])
 </script>

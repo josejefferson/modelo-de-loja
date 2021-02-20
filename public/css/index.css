@@ -38,3 +38,15 @@ input::-webkit-inner-spin-button {
 .hidden {
 	display: none !important;
 }
+
+@media (min-width: 768px) {
+	.checkOut {
+		width: auto;
+		left: auto;
+		right: 20px;
+		bottom: 20px;
+	}
+	.checkOut button {
+		border-radius: 1000px !important;
+	}
+}
