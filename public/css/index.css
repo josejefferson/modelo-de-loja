@@ -55,7 +55,7 @@ input::-webkit-inner-spin-button {
 .dropArea {
 	width: 100%;
 	height: 100%;
-	border: gray 5px dashed;
+	border: gray 3px dashed;
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -63,6 +63,7 @@ input::-webkit-inner-spin-button {
 	flex-direction: column;
 	border-radius: 40px;
 	background-color: #f3f3f3;
+	padding: 30px 30px;
 }
 
 .dropArea.success {

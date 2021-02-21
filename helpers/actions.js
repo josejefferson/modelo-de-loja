@@ -2,6 +2,7 @@ const Product = require('../models/Product')
 const Client = require('../models/Client')
 const User = require('../models/User')
 const Request = require('../models/Request')
+const Image = require('../models/Image')
 const helpers = require('../helpers/helpers')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
@@ -17,7 +18,32 @@ module.exports = {
 		})
 	}),
 	uploadImg: async (req, res, next) => {
-		res.json({success: true})
+		const ids = []
+		req.files.forEach(async file => {
+			const img = await Image.create({
+				data: fs.readFileSync(path.join(__dirname + '/../uploads/' + file.filename)),
+				contentType: file.mimetype
+			})
+			ids.push(img)
+			fs.unlink(__dirname + '/uploads/' + file.filename, () => {})
+		})
+		res.json({ids})
+		
+	},
+	showImage: async (req, res, next) => {
+		const r = await Image.findById(req.params.id)
+		res.contentType(r.contentType)
+		res.send(r.data)
+	},
+	removeImage: async (req, res, next) => {
+		await Image.deleteMany({ _id: req.params.id }).catch(err => {
+			req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir imagem')
+			res.redirect(req.query.r || '/images')
+			throw err
+		})
+
+		req.flash('success_msg', 'Imagem excluído com sucesso')
+		res.redirect(req.query.r || '/images')
 	},
 	buy: async (req, res, next) => {
 		const client = await Client.findOne({ clientId: req.body.user })

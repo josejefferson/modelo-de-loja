@@ -2,6 +2,7 @@ const Product = require('../models/Product')
 const Client = require('../models/Client')
 const User = require('../models/User')
 const Request = require('../models/Request')
+const Image = require('../models/Image')
 const helpers = require('../helpers/helpers')
 const moment = require('moment')
 
@@ -58,11 +59,16 @@ module.exports = {
 	requests: async (req, res, next) => {
 		req.data = req.data || {}
 		req.data.requests = await Request.find({
-			$or: [
+			/*$or: [
 				{ pending: true },
 				{ $and: [{ pending: false }, { confirmed: true }, { done: false }] }
-			],
+			],*/
 		}).populate('productId').populate('clientId')
+		return next()
+	},
+	images: async (req, res, next) => {
+		req.data = req.data || {}
+		req.data.images = await Image.find()
 		return next()
 	},
 	moment: (req, res, next) => {
