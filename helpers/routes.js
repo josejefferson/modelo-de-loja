@@ -40,5 +40,6 @@ routes.post('/products/add', /*adm,*/ valid.productsAdd, acts.addProduct)
 routes.post('/products/edit/:id', /*adm,*/ valid.productsEdit, acts.editProduct)
 routes.get('/products/remove/:id', /*adm,*/ valid.productsRemove, acts.removeProduct)
 routes.post('/requests/confirm/:id', /*adm,*/ valid.requestsConfirm, acts.confirmRequest)
+routes.post('/images/upload', acts.uploadImg)
 
 module.exports = routes
