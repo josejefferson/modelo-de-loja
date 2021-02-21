@@ -1,0 +1,17 @@
+<label class="dropArea" ng-class="upload.state" ng-on-dragenter="upload.event($event).dragenter($event)"
+	ng-on-dragover="upload.event($event).dragover($event)" ng-on-dragleave="upload.event($event).dragleave($event)"
+	ng-on-drop="upload.event($event).drop($event)" ng-controller="fileUploadCtrl">
+	<input type="file" name="file" ng-on-change="upload.change($event)" class="hidden" multiple>
+	<h2 class="dropTitle" ng-switch on="upload.state">
+		<span ng-switch-default>Arraste os arquivos ou clique aqui</span>
+		<span ng-switch-when="highlight">Solte para enviar</span>
+		<span ng-switch-when="uploading">Enviando</span>
+	</h2>
+	<div class="dropText">Aceitamos os formatos JPG, PNG, WEBP, SVG</div>
+	<small class="uploadSuccess text-success">Arquivos enviados com sucesso</small>
+	<small class="uploadError text-danger">Ocorreu um erro ao enviar os arquivos</small>
+
+	<div class="progress w-50">
+		<div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary w-100"></div>
+	</div>
+</label>
