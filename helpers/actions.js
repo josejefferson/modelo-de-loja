@@ -25,7 +25,7 @@ module.exports = {
 				contentType: file.mimetype
 			})
 			ids.push(img)
-			fs.unlink(__dirname + '/uploads/' + file.filename, () => {})
+			fs.unlink(__dirname + '/../uploads/' + file.filename, () => {})
 		})
 		res.json({ids})
 		
