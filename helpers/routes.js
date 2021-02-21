@@ -16,6 +16,7 @@ routes.get('/users/add', render('usersEdit', 'Adicionar usuário'))
 routes.get('/users/edit/:id', get.user, render('usersEdit', 'Editar usuário'))
 routes.get('/history', /****/ render('history', 'Histórico de compras'))
 routes.get('/login', notAuth, render('login', 'Painel do administrador'))
+routes.get('/images/:id', acts.showImage)
 
 routes.post('/buy/:id', valid.buy, acts.buy)
 routes.post('/cart', valid.cart, acts.cart)
