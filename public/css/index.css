@@ -50,3 +50,70 @@ input::-webkit-inner-spin-button {
 		border-radius: 1000px !important;
 	}
 }
+
+/*============TEMP============*/
+.dropArea {
+	width: 100%;
+	height: 100%;
+	border: gray 5px dashed;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	border-radius: 40px;
+	background-color: #f3f3f3;
+}
+
+.dropArea.success {
+	background-color: #ccffd6;
+	border-color: #00cc53;
+}
+
+.dropArea.error {
+	background-color: #ffe5e5;
+	border-color: #ff6666;
+}
+
+.dropArea .uploadSuccess,
+.dropArea .uploadError {
+	display: none
+}
+
+.dropArea.success .uploadSuccess {
+	display: block
+}
+
+.dropArea.error .uploadError {
+	display: block
+}
+
+.dropArea .progress {
+	display: none
+}
+
+.dropArea.uploading .progress {
+	display: flex
+}
+
+.dropArea.uploading .dropText {
+	display: none;
+}
+
+.dropArea.highlight {
+	border-color: dodgerblue;
+	background-color: #d8ecf3;
+}
+
+.dropArea.highlight .dropText {
+	display: none;
+}
+
+.dropArea.highlight .dropTitle {
+	font-size: 50px;
+	color: #99b0c3;
+}
+
+.hidden {
+	display: none !important;
+}

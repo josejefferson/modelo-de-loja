@@ -13,6 +13,11 @@ const Product = mongoose.model('Products', {
 		_5: { type: Number, default: 0 }
 	},
 	image: String,
+	media: {
+		type: { type: String, enum: ['image', 'video'] },
+		id: String,
+		url: String
+	},
 	stock: { type: Number, required: true }
 })
 

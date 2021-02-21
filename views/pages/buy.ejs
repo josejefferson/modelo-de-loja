@@ -5,7 +5,7 @@ const _usRow = users.length !== 0 ? 'row' : ''
 const _usAddRedir = encodeURIComponent('/buy/' + product.id)
 %>
 
-<div class="container my-4">
+<div class="container my-4" ng-controller="buyCtrl">
 	<h1 class="mb-4"><i class="fas fa-dollar-sign"></i> Comprar</h1>
 
 	<form action="/buy/<%= product.id + _redir %>" method="POST" name="buy">
@@ -65,7 +65,7 @@ const _usAddRedir = encodeURIComponent('/buy/' + product.id)
 		})
 	}
 
-	angular.module('store', []).controller('storeCtrl', ['$scope', ($scope) => {
+	angular.module('store').controller('buyCtrl', ['$scope', ($scope) => {
 		$scope.products = {}
 		$scope.inc = (e, max) => $scope.products[e].qtd =
 			(++$scope.products[e].qtd > (max !== -1 ? max : Infinity)) ?
