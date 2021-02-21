@@ -5,8 +5,20 @@ const Request = require('../models/Request')
 const helpers = require('../helpers/helpers')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
+const multer = require('multer')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = {
+	upload: multer({
+		storage: multer.diskStorage({
+			destination: (req, file, cb) => { cb(null, 'uploads') },
+			filename: (req, file, cb) => { cb(null, 'file-' + Date.now()) }
+		})
+	}),
+	uploadImg: async (req, res, next) => {
+		res.json({success: true})
+	},
 	buy: async (req, res, next) => {
 		const client = await Client.findOne({ clientId: req.body.user })
 		if (!client) {

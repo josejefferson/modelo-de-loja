@@ -25,15 +25,23 @@
 			background-color: #f3f3f3;
 		}
 
+		.dropArea.success {
+			background-color: #ccffd6;
+			border-color: #00cc53;
+		}
 		.dropArea.error {
 			background-color: #ffe5e5;
 			border-color: #ff6666;
 		}
 
+		.dropArea .uploadSuccess,
 		.dropArea .uploadError {
 			display: none
 		}
 
+		.dropArea.success .uploadSuccess {
+			display: block
+		}
 		.dropArea.error .uploadError {
 			display: block
 		}
@@ -82,6 +90,7 @@
 			<span ng-switch-when="uploading">Enviando</span>
 		</h2>
 		<div class="dropText">Aceitamos os formatos .jpg, .png, .gif</div>
+		<small class="uploadSuccess text-success">Arquivos enviados com sucesso</small>
 		<small class="uploadError text-danger">Ocorreu um erro ao enviar os arquivos</small>
 
 		<div class="progress w-50">
@@ -97,6 +106,7 @@
 				error: null,
 				change: (e) => {
 					$scope.upload.upload([...e.target.files])
+					e.target.value = ''
 				},
 				event: (e) => {
 					e.preventDefault()
@@ -115,7 +125,7 @@
 					const form = new FormData()
 					files.forEach(file => form.append('files', file))
 					$scope.upload.state = 'uploading'
-					fetch('/dragdrop.html', {
+					fetch('/images/upload', {
 						method: 'POST',
 						body: form
 					}).then(r => { if (!r.ok) throw r; return r.json() })
