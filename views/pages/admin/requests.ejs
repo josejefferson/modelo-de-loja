@@ -28,6 +28,8 @@ requests = requests.reverse().reduce(function (a, b) {
 						<div class="card-body" style="z-index:1">
 							<h4 class="card-title">{{req.quantity}} &times; {{req.productId.name}}</h4>
 							<div><b><i class="fas fa-dollar-sign"></i> Preço:</b> {{req.quantity}} &times; R$ {{req.productId.price.toFixed(2).toString().replace('.',',')}} = <b class="fs-5">R$ {{(req.quantity * req.productId.price).toFixed(2).toString().replace('.',',')}}</b></div>
+							<div><b><i class="fas fa-clock"></i> Tempo:</b> {{moment(req.date).fromNow()}}</div>
+							<div><b><i class="fas fa-calendar"></i> Data/hora:</b> {{moment(req.date).format('hh:mma DD/MM/YYYY')}}</div>
 							<div><b><i class="fas fa-info-circle"></i> Mais informações:</b> {{req.other || '-----'}}</div>
 							<div class="mt-2">
 								<button class="btn border border-success" title="Confirmar"><i class="fas fa-check text-white"></i></button>
@@ -46,6 +48,7 @@ requests = requests.reverse().reduce(function (a, b) {
 <script src="/js/angular.min.js"></script>
 <script>
 	angular.module('store', []).controller('storeCtrl', ['$scope', ($scope) => {
+		$scope.moment = window.moment
 		$scope.requests = <%- JSON.stringify(requests) %>
 		$scope.sum = (reqs) => {
 			return 'R$ ' + reqs.reduce((total, req) => {

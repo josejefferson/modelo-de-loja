@@ -1,5 +1,8 @@
-<% const action = locals.user ? `/users/edit/${user.clientId}` : '/users/add'
-const { name, address, phone, email } = locals.user || locals.userData?.[0] || {} %>
+<%
+const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
+const action = (locals.user ? `/users/edit/${user.clientId}` : '/users/add') + _redir
+const { name, address, phone, email } = locals.user || locals.userData?.[0] || {}
+%>
 
 <div class="container my-4">
 	<% if (!locals.user) { %>

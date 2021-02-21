@@ -6,21 +6,21 @@ module.exports = {
 	auth: (req, res, next) => {
 		if (req.isAuthenticated()) return next()
 		req.flash('error_msg', 'Você não está logado')
-		res.redirect('/login')
+		res.redirect(req.query.r || '/login')
 	},
 
 	// Somente pessoas não logadas
 	notAuth: (req, res, next) => {
 		if (!req.isAuthenticated()) return next()
 		req.flash('error_msg', 'Você já está logado')
-		res.redirect('/')
+		res.redirect(req.query.r || '/')
 	},
 
 	// Somente admins
 	admin: (req, res, next) => {
 		if (req.isAuthenticated() && req.authUser.admin === true) return next()
 		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
-		res.redirect('/')
+		res.redirect(req.query.r || '/')
 		// return next()
 	},
 
@@ -28,14 +28,14 @@ module.exports = {
 	notAdmin: (req, res, next) => {
 		if (req.isAuthenticated() && req.authUser.admin === false) return next()
 		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
-		res.redirect('/')
+		res.redirect(req.query.r || '/')
 	},
 
 	// Somente pessoas não logadas ou admins ???
 	notAuthORAdmin: (req, res, next) => {
 		if (!req.isAuthenticated() || req.authUser.admin === true) return next()
 		req.flash('error_msg', 'Você precisa deslogar para entrar aqui')
-		res.redirect('/')
+		res.redirect(req.query.r || '/')
 	},
 
 	// Cliente cadastrado
@@ -46,7 +46,7 @@ module.exports = {
 			if (clients.length) return next()
 		}
 		req.flash('error_msg', 'Cadastre seus dados para comprar')
-		res.redirect('/users/add')
+		res.redirect(req.query.r || '/users/add')
 	},
 
 	// Validar dados de formulário com redirecionamento

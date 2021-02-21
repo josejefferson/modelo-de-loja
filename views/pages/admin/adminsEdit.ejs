@@ -1,5 +1,8 @@
-<% const action = locals.admin ? `/admins/edit/${admin.id}` : '/admins/add'
-const { name, email } = locals.admin || locals.userData?.[0] || {} %>
+<%
+const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
+const action = (locals.admin ? `/admins/edit/${admin.id}` : '/admins/add') + _redir
+const { name, email } = locals.admin || locals.userData?.[0] || {}
+%>
 
 <div class="container my-4">
 	<% if (!locals.admin) { %>

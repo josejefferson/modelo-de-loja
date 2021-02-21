@@ -1,12 +1,14 @@
 <%
+const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
 const _disStk = !product.stock || users.length === 0 ? 'disabled' : ''
 const _usRow = users.length !== 0 ? 'row' : ''
+const _usAddRedir = encodeURIComponent('/buy/' + product.id)
 %>
 
 <div class="container my-4">
 	<h1 class="mb-4"><i class="fas fa-dollar-sign"></i> Comprar</h1>
 
-	<form action="/buy/<%= product.id %>" method="POST" name="buy">
+	<form action="/buy/<%= product.id + _redir %>" method="POST" name="buy">
 		<div class="row">
 			<%- include('../partials/_product.ejs', {product, env: 'buy'}) %>
 
@@ -23,7 +25,7 @@ const _usRow = users.length !== 0 ? 'row' : ''
 				<% if (users.length === 0) { %>
 					<div class="col-12 col-md-6 mt-4">
 						<div class="card shadow-sm h-100 bg-light">
-							<a href="/users/add" class="btn card-body d-flex flex-column align-items-center justify-content-center">
+							<a href="/users/add?r=<%=_usAddRedir%>" class="btn card-body d-flex flex-column align-items-center justify-content-center">
 								<i class="fas fa-plus fa-5x"></i>
 								<b class="mt-3 fs-5">Adicionar usuário</b>
 							</a>

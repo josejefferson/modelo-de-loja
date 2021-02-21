@@ -1,3 +1,5 @@
+<% const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : '' %>
+
 <div class="container my-4">
 	<div class="row">
 		<% products.forEach(product => { %>
@@ -33,7 +35,7 @@
 		<% }) %>
 	</div>
 
-	<form action="/cart" method="POST">
+	<form action="/cart<%=_redir%>" method="POST">
 		<h4>Comprar como:</h4>
 		<% users.forEach((user, i) => { %>
 		<label class="card user">

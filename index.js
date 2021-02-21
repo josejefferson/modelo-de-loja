@@ -9,7 +9,7 @@
 	const session = require('express-session')
 	const passport = require('passport')
 	const cookieParser = require('cookie-parser')
-	// await require('./config/connect')
+	await require('./config/connect')
 	require('./config/auth')(passport)
 
 	app.use(session({

@@ -1,7 +1,10 @@
 <%
 product.priceStr = product.price?.toFixed(2).toString().replace('.', ',')
-product.oldPriceStr = product.oldPrice?.toFixed(2).toString().replace('.', ',')
+product.oldpriceStr = product.oldprice?.toFixed(2).toString().replace('.', ',')
 product.description = product.description?.replace(/\n/g, '<br>')
+const {_1, _2, _3, _4, _5} = product.rating
+product.ratingUsers = _1 + _2 + _3 + _4 + _5
+product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
 const _disStk = !product.stock ? 'disabled' : ''
 const _cartHid = cart.includes(product.id) ? 'hidden' : ''
 const _$cartHid = !cart.includes(product.id) ? 'hidden' : ''
@@ -15,18 +18,18 @@ const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 
 	<h1 class="my-2"><%= product.name %></h1>
 	<p>
-		<i class="fas fa-xs fa-star w-auto text-warning"></i>
-		<i class="fas fa-xs fa-star w-auto text-warning"></i>
-		<i class="fas fa-xs fa-star w-auto text-warning"></i>
-		<i class="fas fa-xs fa-star w-auto text-warning"></i>
-		<i class="far fa-xs fa-star w-auto text-warning"></i>
-		<small><small class="fs-8">4.0 (8)</small></small>
+		<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=3?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=4?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=5?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<small><small class="fs-8"><%= product.ratingNum %> (<%= product.ratingUsers %> avaliações)</small></small>
 	</p>
 
 	<p class="fs-4">
-		<% if (product.oldPriceStr) { %>
+		<% if (product.oldpriceStr) { %>
 			<s class="d-block fs-6 text-secondary">
-				<small>R$ <%= product.oldPriceStr %></small>
+				<small>R$ <%= product.oldpriceStr %></small>
 			</s>
 		<% } %>
 		<b>R$ <%= product.priceStr %></b>
