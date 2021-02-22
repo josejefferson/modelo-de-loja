@@ -70,6 +70,8 @@ const { id, name, description, price, oldprice, image, stock } = locals.product 
 			Swal.fire({
 				width: '100%',
 				padding: '20px 0',
+				showCloseButton: true,
+				showConfirmButton: false,
 				willOpen: popup => {
 					angular.element(popup.querySelector('.swal2-content')).append(html)
 				}

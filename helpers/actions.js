@@ -11,24 +11,25 @@ const fs = require('fs')
 const path = require('path')
 
 module.exports = {
-	upload: multer({
-		storage: multer.diskStorage({
-			destination: (req, file, cb) => { cb(null, 'uploads') },
-			filename: (req, file, cb) => { cb(null, 'file-' + Date.now()) }
-		})
-	}),
+	upload: multer({ dest: './' }).single('files'),
 	uploadImg: async (req, res, next) => {
-		const ids = []
-		req.files.forEach(async file => {
-			const img = await Image.create({
-				data: fs.readFileSync(path.join(__dirname + '/../uploads/' + file.filename)),
-				contentType: file.mimetype
-			})
-			ids.push(img)
-			fs.unlink(__dirname + '/../uploads/' + file.filename, () => {})
-		})
-		res.json({ids})
-		
+		let valid = true
+		if (!req.file) return res.json({ success: false, err: 'Nenhum arquivo enviado' })
+		const filePath = path.join(__dirname, '..', req.file.filename)
+
+		if (!['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']
+			.includes(req.file.mimetype) || req.file.size > 5242880) {
+			valid = false
+			res.json({ invalid: true })
+		}
+
+		if (valid) await Image.create({
+			data: fs.readFileSync(filePath),
+			contentType: req.file.mimetype
+		}).then(() => res.json({ success: true }))
+			.catch(() => res.json({ success: false }))
+
+		fs.unlink(filePath, () => { })
 	},
 	showImage: async (req, res, next) => {
 		const r = await Image.findById(req.params.id)
