@@ -27,15 +27,13 @@
 		<div>
 			<i class="fas fa-bullhorn"></i>
 			<b>Qtd. de pedidos:</b>
-			{{::(reqs | reqs:env).length}}
+			{{(reqs | reqs:env).length}}
 		</div>
-		<!--testar pra ver se atualiza-->
 		<div class="fs-5">
 			<i class="fas fa-dollar-sign"></i>
 			<b>Total:</b>
-			{{::sum(reqs | reqs:env)}}
+			{{sum(reqs | reqs:env)}}
 		</div>
-		<!--testar pra ver se atualiza-->
 
 		<div class="row mt-3">
 			<div class="col col-12 px-1 py-1" ng-repeat="req in reqs | reqs:env">
@@ -51,7 +49,7 @@
 						<div>
 							<b><i class="fas fa-clock"></i>
 								Tempo:</b>
-							<span data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</span>
+							<span class="momentUpdate" data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</span>
 						</div>
 						<div>
 							<b><i class="fas fa-calendar"></i>
@@ -66,14 +64,14 @@
 						<div class="mt-2">
 							<button class="btn border border-success text-white"
 								ng-class="{'bg-success': !req.pending && req.confirmed}" ng-click="confirm(req._id, 'confirm', req)"
-								title="Confirmar"><i class="fas fa-check"></i></button>
+								ng-disabled="::req.done" title="Confirmar"><i class="fas fa-check"></i></button>
 							<button class="btn border border-danger text-white"
 								ng-class="{'bg-danger': !req.pending && !req.confirmed}" ng-click="confirm(req._id, 'reject', req)"
-								title="Rejeitar"><i class="fas fa-times"></i></button>
+								ng-disabled="::req.done" title="Rejeitar"><i class="fas fa-times"></i></button>
 							<button class="btn border border-warning text-white" ng-class="{'bg-warning': req.done}"
-								ng-click="confirm(req._id, 'done', req)" title="Pronto"><i class="fas fa-check-double"></i></button>
+								ng-disabled="::req.done" ng-click="confirm(req._id, 'done', req)" title="Pronto"><i class="fas fa-check-double"></i></button>
 							<button class="btn border border-primary text-white" ng-click="confirm(req._id, '')"
-								title="Enviar comentário"><i class="fas fa-comment-alt"></i></button>
+								ng-disabled="::req.done" title="Enviar comentário"><i class="fas fa-comment-alt"></i></button>
 						</div>
 					</div>
 				</div>

@@ -23,28 +23,33 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 	return (input, env) => {
 		const output = {}
 		for (key in input)
-			if (input[key].some(r => {
-				switch (env) {
-					case 'pending': return !r.done
-					case 'rejected': return !r.pending && !r.confirmed
-					case 'closed': return r.done
-				}
-			}))
+			if (input[key].some(filter(env)))
 				output[key] = input[key]
 		return output
 	}
 }).filter('reqs', () => {
 	return (input, env) => {
-		return input.filter(r => {
-			switch (env) {
-				case 'pending': return !r.done
-				case 'rejected': return !r.pending && !r.confirmed
-				case 'closed': return r.done
-			}
-		})
+		return input.filter(filter(env))
 	}
 }).filter('money', () => {
 	return input => {
 		return input.toFixed(2).toString().replace('.', ',')
 	}
 })
+
+function filter(env) {
+	return r => {
+		switch (env) {
+			case 'pending': return !r.done
+			case 'rejected': return !r.pending && !r.confirmed
+			case 'closed': return r.done
+			case 'notRejected': return r.pending || r.confirmed
+		}
+	}
+}
+
+window.setInterval(() => {
+	document.querySelectorAll('.momentUpdate').forEach(e => {
+		e.innerText = moment(e.dataset.time).fromNow()
+	})
+}, 5000)
