@@ -9,51 +9,33 @@ requests = requests.reverse().reduce(function (a, b) {
 %>
 
 <div class="container my-4" ng-controller="requestsCtrl">
-	<h1><i class="fas fa-bullhorn"></i> Pedidos</h1>
+	<h1 class="mb-4"><i class="fas fa-bullhorn"></i> Pedidos</h1>
 
-	<div class="row">
-		<div class="col col-12 col-md-6 col-lg-3 mt-5" ng-repeat="(clientId, reqs) in requests">
-			<h4><i class="fas fa-user"></i> {{reqs[0].clientId.name}}</h4>
-			<hr>
-			<div><i class="fas fa-map-marker-alt"></i> <b>Endereço:</b> {{reqs[0].clientId.address}}</div>
-			<div><i class="fas fa-phone-alt"></i> <b>Telefone:</b> <a href="tel:{{reqs[0].clientId.phone}}"> {{reqs[0].clientId.phone}}</a></div>
-			<div><i class="fas fa-at"></i> <b>E-mail:</b> <a href="mailto:{{reqs[0].clientId.email}}"> {{reqs[0].clientId.email}}</a></div>
-			<div><i class="fas fa-bullhorn"></i> <b>Qtd. de pedidos:</b> {{reqs.length}}</div>
-			<div class="fs-5"><i class="fas fa-dollar-sign"></i> <b>Total:</b> {{sum(reqs)}}</div>
+	<ul class="nav nav-pills">
+		<li class="nav-item">
+			<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pending">Pendentes</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" data-bs-toggle="tab" data-bs-target="#rejected">Recusados</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" data-bs-toggle="tab" data-bs-target="#closed">Fechados</button>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane fade show active" id="pending">
+			<ng-include src="'/request.html'" ng-init="env='pending'" ng-if="true"></ng-include>
+		</div>
 
-			<div class="row mt-3">
-				<div class="col col-12 px-1 py-1" ng-repeat="req in reqs">
-					<div class="card text-white bg-dark overflow-hidden">
-						<img src="{{req.productId.image}}" class="card-img position-absolute" style="filter:brightness(40%);-webkit-mask-image:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,0)));">
-						<div class="card-body" style="z-index:1">
-							<h4 class="card-title">{{req.quantity}} &times; {{req.productId.name}}</h4>
-							<div><b><i class="fas fa-dollar-sign"></i> Preço:</b> {{req.quantity}} &times; R$ {{req.productId.price.toFixed(2).toString().replace('.',',')}} = <b class="fs-5">R$ {{(req.quantity * req.productId.price).toFixed(2).toString().replace('.',',')}}</b></div>
-							<div><b><i class="fas fa-clock"></i> Tempo:</b> {{moment(req.date).fromNow()}}</div>
-							<div><b><i class="fas fa-calendar"></i> Data/hora:</b> {{moment(req.date).format('hh:mma DD/MM/YYYY')}}</div>
-							<div><b><i class="fas fa-info-circle"></i> Mais informações:</b> {{req.other || '-----'}}</div>
-							<div class="mt-2">
-								<button class="btn border border-success" title="Confirmar"><i class="fas fa-check text-white"></i></button>
-								<button class="btn border border-danger" title="Rejeitar"><i class="fas fa-times text-white"></i></button>
-								<button class="btn border border-warning" title="Pronto"><i class="fas fa-check-double text-white"></i></button>
-								<button class="btn border border-primary" title="Enviar comentário"><i class="fas fa-comment-alt text-white"></i></button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="tab-pane fade" id="rejected">
+			<ng-include src="'/request.html'" ng-init="env='rejected'" ng-if="true"></ng-include>
+		</div>
+
+		<div class="tab-pane fade" id="closed">
+			<ng-include src="'/request.html'" ng-init="env='closed'" ng-if="true"></ng-include>
 		</div>
 	</div>
 </div>
 
-<script>
-	angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
-		$scope.moment = window.moment
-		$scope.requests = <%- JSON.stringify(requests) %>
-		$scope.sum = (reqs) => {
-			return 'R$ ' + reqs.reduce((total, req) => {
-				return total += req.quantity * req.productId.price
-			}, 0).toFixed(2).toString().replace('.', ',')
-		}
-	}])
-</script>
-<!-- TODO: funções dos botões -->
+<script>const serverData = <%- JSON.stringify(requests) %></script>
+<script src="/js/admin/requests.js"></script>

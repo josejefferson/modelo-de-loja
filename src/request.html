@@ -1,0 +1,83 @@
+<div class="row">
+	<div class="col col-12 col-md-6 col-lg-3 mt-5" ng-repeat="(clientId, reqs) in requests | users:env">
+		<h4>
+			<i class="fas fa-user"></i>
+			{{::reqs[0].clientId.name}}
+		</h4>
+		<hr>
+		<div>
+			<i class="fas fa-map-marker-alt"></i>
+			<b>Endereço:</b>
+			{{::reqs[0].clientId.address}}
+		</div>
+		<div>
+			<i class="fas fa-phone-alt"></i>
+			<b>Telefone:</b>
+			<a href="tel:{{::reqs[0].clientId.phone}}">
+				{{::reqs[0].clientId.phone}}
+			</a>
+		</div>
+		<div>
+			<i class="fas fa-at"></i>
+			<b>E-mail:</b>
+			<a href="mailto:{{::reqs[0].clientId.email}}">
+				{{::reqs[0].clientId.email}}
+			</a>
+		</div>
+		<div>
+			<i class="fas fa-bullhorn"></i>
+			<b>Qtd. de pedidos:</b>
+			{{::(reqs | reqs:env).length}}
+		</div>
+		<!--testar pra ver se atualiza-->
+		<div class="fs-5">
+			<i class="fas fa-dollar-sign"></i>
+			<b>Total:</b>
+			{{::sum(reqs | reqs:env)}}
+		</div>
+		<!--testar pra ver se atualiza-->
+
+		<div class="row mt-3">
+			<div class="col col-12 px-1 py-1" ng-repeat="req in reqs | reqs:env">
+				<div class="card text-white bg-dark overflow-hidden">
+					<img src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
+					<div class="card-body" style="z-index:1">
+						<h4 class="card-title">{{::req.quantity}} × {{::req.productId.name}}</h4>
+						<div>
+							<b><i class="fas fa-dollar-sign"></i> Preço:</b>
+							{{::req.quantity}} × R$ {{::req.productId.price | money}} =
+							<b class="fs-5">R$ {{::(req.quantity * req.productId.price) | money}}</b>
+						</div>
+						<div>
+							<b><i class="fas fa-clock"></i>
+								Tempo:</b>
+							<span data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</span>
+						</div>
+						<div>
+							<b><i class="fas fa-calendar"></i>
+								Data/hora:</b>
+							{{::moment(req.date).format('hh:mma DD/MM/YYYY')}}
+						</div>
+						<div>
+							<b><i class="fas fa-info-circle"></i>
+								Mais informações:</b>
+							{{::req.other || '-----'}}
+						</div>
+						<div class="mt-2">
+							<button class="btn border border-success text-white"
+								ng-class="{'bg-success': !req.pending && req.confirmed}" ng-click="confirm(req._id, 'confirm', req)"
+								title="Confirmar"><i class="fas fa-check"></i></button>
+							<button class="btn border border-danger text-white"
+								ng-class="{'bg-danger': !req.pending && !req.confirmed}" ng-click="confirm(req._id, 'reject', req)"
+								title="Rejeitar"><i class="fas fa-times"></i></button>
+							<button class="btn border border-warning text-white" ng-class="{'bg-warning': req.done}"
+								ng-click="confirm(req._id, 'done', req)" title="Pronto"><i class="fas fa-check-double"></i></button>
+							<button class="btn border border-primary text-white" ng-click="confirm(req._id, '')"
+								title="Enviar comentário"><i class="fas fa-comment-alt"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
