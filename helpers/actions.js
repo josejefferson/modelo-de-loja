@@ -42,7 +42,7 @@ module.exports = {
 			throw err
 		})
 
-		req.flash('success_msg', 'Imagem excluído com sucesso')
+		req.flash('success_msg', 'Imagem excluída com sucesso')
 		res.redirect(req.query.r || '/images')
 	},
 	buy: async (req, res, next) => {

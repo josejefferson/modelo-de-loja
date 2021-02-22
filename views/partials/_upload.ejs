@@ -1,7 +1,8 @@
 <label class="dropArea" ng-class="upload.state" ng-on-dragenter="upload.event($event).dragenter($event)"
 	ng-on-dragover="upload.event($event).dragover($event)" ng-on-dragleave="upload.event($event).dragleave($event)"
 	ng-on-drop="upload.event($event).drop($event)" ng-controller="fileUploadCtrl">
-	<input type="file" name="file" ng-on-change="upload.change($event)" class="hidden" multiple>
+	<input type="file" name="file" ng-on-change="upload.change($event)" class="hidden"
+		accept="image/jpg,image/jpeg,image/png,image/webp,image/svg+xml" multiple>
 	<h2 class="dropTitle" ng-switch on="upload.state">
 		<span ng-switch-default>Arraste os arquivos ou clique aqui</span>
 		<span ng-switch-when="highlight">Solte para enviar</span>
