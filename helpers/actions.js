@@ -199,6 +199,7 @@ module.exports = {
 			description: req.body.description,
 			price: req.body.price,
 			oldprice: req.body.oldprice,
+			badge: req.body.badge,
 			image: req.body.image,
 			stock: req.body.stock,
 		}).catch(err => {
@@ -228,6 +229,7 @@ module.exports = {
 		if (req.body.description) product.description = (req.body.description === '' ? '' : req.body.description)
 		if (req.body.price) product.price = req.body.price
 		if (req.body.oldprice) product.oldprice = (req.body.oldprice === '' ? '' : req.body.oldprice)
+		if (req.body.badge) product.badge = (req.body.badge === '' ? '' : req.body.badge)
 		if (req.body.image) product.image = (req.body.image == '' ? '' : req.body.image)
 		if (req.body.stock) product.stock = req.body.stock
 

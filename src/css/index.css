@@ -50,3 +50,8 @@ input::-webkit-inner-spin-button {
 		border-radius: 1000px !important;
 	}
 }
+
+.prodBadge {
+	border-radius: 0 3px 0 10px;
+	text-transform: uppercase;
+}

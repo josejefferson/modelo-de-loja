@@ -5,6 +5,7 @@ const Product = mongoose.model('Products', {
 	description: String,
 	price: { type: Number, required: true },
 	oldprice: { type: Number },
+	badge: { type: String },
 	rating: {
 		_1: { type: Number, default: 0 },
 		_2: { type: Number, default: 0 },

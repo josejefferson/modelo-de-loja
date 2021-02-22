@@ -5,6 +5,7 @@ product.description = product.description?.replace(/\n/g, '<br>')
 const {_1, _2, _3, _4, _5} = product.rating
 product.ratingUsers = _1 + _2 + _3 + _4 + _5
 product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
+const _badge = product.badge ? `(${product.badge})` : ''
 const _disStk = !product.stock ? 'disabled' : ''
 const _cartHid = cart.includes(product.id) ? 'hidden' : ''
 const _$cartHid = !cart.includes(product.id) ? 'hidden' : ''
@@ -16,7 +17,7 @@ const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 		<img src="<%= product.image %>" class="mt-3 w-100">
 	<% } %>
 
-	<h1 class="my-2"><%= product.name %></h1>
+	<h1 class="my-2"><%= product.name %> <span class="text-danger"><%=_badge%></span></h1>
 	<p>
 		<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
 		<i class="fa<%=product.ratingNum>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
