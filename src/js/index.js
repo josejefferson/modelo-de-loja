@@ -1,7 +1,7 @@
 function cart(opts = {}) {
 	let cart = Cookies.get('cart') ?
 		Cookies.get('cart').split(',') :
-		Cookies.set('cart', '', { expires: 30 }) && []
+		Cookies.set('cart', '', { expires: 3650 }) && []
 	if (opts.set) cart = opts.set
 	if (opts.add) cart.push(opts.add)
 	if (opts.remove) {
@@ -9,7 +9,7 @@ function cart(opts = {}) {
 		if (i > -1) cart.splice(i, 1)
 	}
 	cart = [...new Set(cart)]
-	Cookies.set('cart', cart.join(','))
+	Cookies.set('cart', cart.join(','), { expires: 3650 })
 	return cart
 }
 

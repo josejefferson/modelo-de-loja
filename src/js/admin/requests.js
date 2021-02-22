@@ -6,7 +6,7 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 			return total += req.quantity * req.productId.price
 		}, 0).toFixed(2).toString().replace('.', ',')
 	}
-	$scope.confirm = (id, act, req) => {
+	$scope.confirm = async (id, act, req) => {
 		fetch('/requests/confirm/' + id, {
 			method: 'POST',
 			body: JSON.stringify({ confirm: act }),
