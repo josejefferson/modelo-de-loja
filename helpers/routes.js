@@ -34,6 +34,7 @@ routes.get('/products/add', /*adm,*/ render('admin/productsEdit', 'Adicionar pro
 routes.get('/products/edit/:id', /*adm,*/ get.product, render('admin/productsEdit', 'Editar produto'))
 routes.get('/requests', /*adm,*/ get.requests, get.moment, render('admin/requests', 'Pedidos'))
 routes.get('/images', /*adm,*/ get.images, render('admin/images', 'Imagens'))
+routes.get('/json/images', /*adm, */ get.images, acts.json)
 
 routes.post('/admins/add', /*adm,*/ valid.adminsAdd, acts.addAdmin)
 routes.post('/admins/edit/:id', /*adm,*/ valid.adminsEdit, acts.editAdmin)

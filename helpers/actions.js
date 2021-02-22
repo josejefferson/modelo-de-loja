@@ -11,6 +11,9 @@ const fs = require('fs')
 const path = require('path')
 
 module.exports = {
+	json: (req, res, next) => {
+		res.json(req.data)
+	},
 	upload: multer({ dest: './' }).single('files'),
 	uploadImg: async (req, res, next) => {
 		let valid = true
@@ -32,7 +35,10 @@ module.exports = {
 		fs.unlink(filePath, () => { })
 	},
 	showImage: async (req, res, next) => {
-		const r = await Image.findById(req.params.id)
+		const r = await Image.findById(req.params.id).catch(err => {
+			return false
+		})
+		if (!r) return res.sendStatus(404)
 		res.contentType(r.contentType)
 		res.send(r.data)
 	},

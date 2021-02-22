@@ -68,7 +68,7 @@ module.exports = {
 	},
 	images: async (req, res, next) => {
 		req.data = req.data || {}
-		req.data.images = await Image.find()
+		req.data.images = await Image.find().select('-data')
 		return next()
 	},
 	moment: (req, res, next) => {
