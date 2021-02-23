@@ -37,13 +37,13 @@
 				{{sum(reqs | reqs:env | reqs:'notRejected')}}
 			</div>
 			<div class="mt-2" ng-if="env !== 'history'">
-				<button class="btn border border-success text-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')"
+				<button class="btn btn-outline-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')"
 					title="Confirmar todos"><i class="fas fa-check"></i></button>
-				<button class="btn border border-danger text-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')"
+				<button class="btn btn-outline-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')"
 					title="Rejeitar todos"><i class="fas fa-times"></i></button>
-				<button class="btn border border-warning text-warning" ng-click="confirmAll(reqs | reqs:env, 'done')"
+				<button class="btn btn-outline-warning" ng-click="confirmAll(reqs | reqs:env, 'done')"
 					title="Fechar todos"><i class="fas fa-check-double"></i></button>
-				<button class="btn border border-primary text-primary" ng-click="confirmAll(reqs | reqs:env, 'feedback')"
+				<button class="btn btn-outline-primary" ng-click="confirmAll(reqs | reqs:env, 'feedback')"
 					title="Enviar comentário para todos"><i class="fas fa-comment-alt"></i></button>
 			</div>
 		</div>
