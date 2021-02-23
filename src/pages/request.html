@@ -1,4 +1,5 @@
 <div class="row">
+	<h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
 	<div class="col col-12 col-md-6 col-lg-3 mt-5" ng-repeat="(clientId, reqs) in requests | users:env">
 		<h4>
 			<i class="fas fa-user"></i>
@@ -37,7 +38,8 @@
 
 		<div class="row mt-3">
 			<div class="col col-12 px-1 py-1" ng-repeat="req in reqs | reqs:env">
-				<div class="card text-white bg-dark overflow-hidden">
+				<div class="card text-white bg-dark overflow-hidden" ng-class="{'border-danger border-5': !req.pending && !req.confirmed,
+					'border-success border-5': !req.pending && req.confirmed}">
 					<img src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
 					<div class="card-body" style="z-index:1">
 						<h4 class="card-title">{{::req.quantity}} × {{::req.productId.name}}</h4>
@@ -63,13 +65,14 @@
 						</div>
 						<div class="mt-2">
 							<button class="btn border border-success text-white"
-								ng-class="{'bg-success': !req.pending && req.confirmed}" ng-click="confirm(req._id, 'confirm', req)"
+								ng-class="{'bg-success': !req.pending && req.confirmed}" ng-click="confirm(req, 'confirm')"
 								ng-disabled="::req.done" title="Confirmar"><i class="fas fa-check"></i></button>
 							<button class="btn border border-danger text-white"
-								ng-class="{'bg-danger': !req.pending && !req.confirmed}" ng-click="confirm(req._id, 'reject', req)"
+								ng-class="{'bg-danger': !req.pending && !req.confirmed}" ng-click="confirm(req, 'reject')"
 								ng-disabled="::req.done" title="Rejeitar"><i class="fas fa-times"></i></button>
 							<button class="btn border border-warning text-white" ng-class="{'bg-warning': req.done}"
-								ng-disabled="::req.done" ng-click="confirm(req._id, 'done', req)" title="Pronto"><i class="fas fa-check-double"></i></button>
+								ng-disabled="::req.done" ng-click="confirm(req, 'done')" title="Pronto"><i
+									class="fas fa-check-double"></i></button>
 							<button class="btn border border-primary text-white" ng-click="confirm(req._id, '')"
 								ng-disabled="::req.done" title="Enviar comentário"><i class="fas fa-comment-alt"></i></button>
 						</div>

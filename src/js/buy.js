@@ -1,16 +1,7 @@
-document.buy.onsubmit = function (e) {
+document.buy.onsubmit = async function (e) {
 	e.preventDefault()
-	Swal.fire({
-		title: 'Finalizar compra',
-		text: 'Tem certeza que deseja finalizar esta compra?', //todo: mostrar resumo
-		showDenyButton: true,
-		showCancelButton: false,
-		confirmButtonText: 'Sim',
-		denyButtonText: 'Não'
-	}).then(r => {
-		if (!r.isConfirmed) return
-		this.submit()
-	})
+	if (!await ask('Finalizar compra', 'Tem certeza que deseja finalizar esta compra?')) return
+	this.submit()
 }
 
 angular.module('store').controller('buyCtrl', ['$scope', ($scope) => {

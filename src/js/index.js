@@ -13,7 +13,7 @@ function cart(opts = {}) {
 	return cart
 }
 
-function toast(msg, type = 'success', icon) {
+function toast(msg = '', type = 'success', icon) {
 	return Swal.fire({
 		toast: true,
 		position: 'top-end',
@@ -24,4 +24,15 @@ function toast(msg, type = 'success', icon) {
 		showCloseButton: true,
 		...(icon && { iconHtml: `<i class="fas fa-${icon} fa-xs"></i>` })
 	})
+}
+
+async function ask(title = '', text = '') {
+	return (await Swal.fire({
+		title,
+		text,
+		showDenyButton: true,
+		showCancelButton: false,
+		confirmButtonText: 'Sim',
+		denyButtonText: 'Não'
+	})).isConfirmed
 }

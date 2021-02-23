@@ -1,4 +1,5 @@
 angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
+	$scope.keys = Object.keys
 	$scope.moment = window.moment
 	$scope.requests = serverData
 	$scope.sum = (reqs) => {
@@ -6,8 +7,11 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 			return total += req.quantity * req.productId.price
 		}, 0).toFixed(2).toString().replace('.', ',')
 	}
-	$scope.confirm = async (id, act, req) => {
-		fetch('/requests/confirm/' + id, {
+	$scope.confirm = async (req, act) => {
+		if (act === 'done' && !await ask('Fechar pedido',
+			'Tem certeza que deseja fechar este pedido? Não será possível modificá-lo depois!')) return
+
+		fetch('/requests/confirm/' + req._id, {
 			method: 'POST',
 			body: JSON.stringify({ confirm: act }),
 			headers: { 'Content-Type': 'application/json' }
