@@ -11,9 +11,7 @@ const fs = require('fs')
 const path = require('path')
 
 module.exports = {
-	json: (req, res, next) => {
-		res.json(req.data)
-	},
+	json: (req, res, next) => { res.json(req.data) },
 	upload: multer({ dest: './' }).single('files'),
 	uploadImg: async (req, res, next) => {
 		let valid = true
@@ -261,25 +259,32 @@ module.exports = {
 
 		switch (req.body.confirm) {
 			case 'confirm':
-				request.pending = false
-				request.confirmed = true
+				request.status = 'confirmed'
 				product.stock = product.stock > 0 ? product.stock - request.quantity : product.stock < 0 ? -1 : 0
-				await request.save()
 				await product.save()
 				break
 
 			case 'reject':
-				request.pending = false
-				request.confirmed = false
-				await request.save()
+				request.status = 'rejected'
 				break
 
 			case 'done':
-				request.pending = false
-				request.confirmed = true
-				request.done = true
-				await request.save()
+				if (request.status === 'pending')
+					request.status = 'confirmed'
+				request.open = false
+				break
+			
+			case 'feedback':
+				request.feedback = req.body.feedback
+				break
+			
+			case 'reset': // TODO: REMOVER NO FUTURO
+				request.status = 'pending'
+				request.open = true
+				request.feedback = undefined
+				break
 		}
+		await request.save()
 
 		res.json({ success: true })
 	},

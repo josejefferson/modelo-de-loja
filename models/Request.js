@@ -14,9 +14,9 @@ const Request = mongoose.model('Requests', {
 	quantity: { type: Number, default: 1 },
 	other: String,
 	date: { type: Date, default: Date.now },
-	pending: { type: Boolean, default: true },
-	confirmed: { type: Boolean, default: false },
-	done: { type: Boolean, default: false }
+	status: { type: String, enum: ['pending', 'confirmed', 'rejected'], default: 'pending' },
+	open: { type: Boolean, default: true },
+	feedback: String
 })
 
 module.exports = Request

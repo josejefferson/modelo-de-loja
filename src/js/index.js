@@ -1,3 +1,6 @@
+if (!navigator.cookieEnabled)
+	document.querySelector('.cookiesBlocked').classList.remove('hidden')
+
 function cart(opts = {}) {
 	let cart = Cookies.get('cart') ?
 		Cookies.get('cart').split(',') :
@@ -26,13 +29,17 @@ function toast(msg = '', type = 'success', icon) {
 	})
 }
 
-async function ask(title = '', text = '') {
+async function ask(title = '', text = '', input, value = '') {
 	return (await Swal.fire({
 		title,
 		text,
 		showDenyButton: true,
 		showCancelButton: false,
-		confirmButtonText: 'Sim',
-		denyButtonText: 'Não'
-	})).isConfirmed
+		confirmButtonText: !input ? 'Sim' : 'Enviar',
+		denyButtonText: !input ? 'Não' : 'Cancelar',
+		...(input && {
+			input: 'text',
+			inputValue: value
+		})
+	}))[!input ? 'isConfirmed' : 'value']
 }

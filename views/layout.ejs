@@ -14,6 +14,19 @@
 
 <body>
 	<%- include('partials/_header.ejs') %>
+	<noscript>
+		<div class="container alert alert-danger mt-3">
+			<i class="fab fa-js-square"></i>
+			Parece que o Javascript do seu navegador está desativado!
+			Por favor, ative-o para que você possa continuar a usar o nosso site!
+		</div>
+	</noscript>
+
+	<div class="container alert alert-danger mt-3 cookiesBlocked hidden">
+		<i class="fas fa-cookie-bite"></i>
+		Parece que os cookies do seu navegador estão bloqueados!
+		Por favor, desbloqueie-os para que você possa continuar a usar o nosso site!
+	</div>
 	<%- defineContent('body') %>
 	<%- include('partials/_footer.ejs') %>
 	

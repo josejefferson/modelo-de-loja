@@ -58,12 +58,8 @@ module.exports = {
 	},
 	requests: async (req, res, next) => {
 		req.data = req.data || {}
-		req.data.requests = await Request.find({
-			// $or: [
-			// 	{ pending: true },
-			// 	{ $and: [{ pending: false }, { confirmed: true }, { done: false }] }
-			// ],
-		}).populate('productId', 'name price image').populate('clientId')
+		req.data.requests = await Request.find()
+			.populate('productId', 'name price image').populate('clientId')
 		return next()
 	},
 	images: async (req, res, next) => {
