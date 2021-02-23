@@ -30,37 +30,6 @@
 	</div>
 </div>
 
-<script>
-	$('.remove').click(function () {
-		Swal.fire({
-			title: 'Remover imagem',
-			text: 'Tem certeza que deseja remover esta imagem?',
-			showDenyButton: true,
-			showCancelButton: false,
-			confirmButtonText: 'Sim',
-			denyButtonText: 'Não'
-		}).then(r => {
-			if (!r.isConfirmed) return
-			$this = $(this)
-			imageId = $this.data('imageId')
-			location.href = '/images/remove/' + imageId
-		})
-	})
-
-	angular.module('store', []).controller('imagesCtrl', ['$scope', '$compile', ($scope, $compile)=>{
-		$scope.test = 'Hello World'
-		$scope.loadController = () => {
-			html = $compile(`<%- include('../../partials/_upload.ejs').replace(/`/g, '\\`') %>`)($scope),
-			Swal.fire({
-				width: '100%',
-				padding: '20px 0',
-				showCloseButton: true,
-				showConfirmButton: false,
-				willOpen: popup => {
-					angular.element(popup.querySelector('.swal2-content')).append(html)
-				}
-			})
-		}
-	}])
-</script>
-<script src="/js/upload.js"></script>
+<script>const uploadModal = `<%- include('../../partials/_upload.ejs').replace(/`/g, '\\`') %>`</script>
+<script src="/js/admin/images.js"></script>
+<script src="/js/admin/upload.js"></script>

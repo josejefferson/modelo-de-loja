@@ -66,22 +66,6 @@ const { id, name, description, price, oldprice, badge, image, stock } = locals.p
 	</form>
 </div>
 
-<script>
-	///////////////////// TEST /////////////////////
-	angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile', ($scope, $compile)=>{
-		$scope.test = 'Hello World'
-		$scope.loadController = () => {
-			html = $compile(`<%- include('../../partials/_upload.ejs').replace(/`/g, '\\`') %>`)($scope),
-			Swal.fire({
-				width: '100%',
-				padding: '20px 0',
-				showCloseButton: true,
-				showConfirmButton: false,
-				willOpen: popup => {
-					angular.element(popup.querySelector('.swal2-content')).append(html)
-				}
-			})
-		}
-	}])
-</script>
-<script src="/js/upload.js"></script>
+<script>const uploadModal = `<%- include('../../partials/_upload.ejs').replace(/`/g, '\\`') %>`</script>
+<script src="/js/admin/productsEdit.js"></script>
+<script src="/js/admin/upload.js"></script>
