@@ -7,12 +7,12 @@ const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
 	<h1 class="mb-4"><i class="fas fa-sign-in-alt"></i> Login</h1>
 	<form action="/login<%=_redir%>" method="POST">
 		<label class="form-group d-block">
-			<div>E-mail <span class="text-danger">*</span></div>
+			<div><i class="fas fa-at"></i> E-mail <span class="text-danger">*</span></div>
 			<input type="email" class="form-control" name="email" value="<%= email %>" autocomplete="off" autofocus required>
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2">Senha <span class="text-danger">*</span></div>
+			<div class="mt-2"><i class="fas fa-key"></i> Senha <span class="text-danger">*</span></div>
 			<input type="password" class="form-control" name="password" autocomplete="off" required>
 		</label>
 

@@ -13,17 +13,17 @@ const { id, name, description, price, oldprice, badge, image, stock } = locals.p
 
 	<form action="<%= action %>" method="POST">
 		<label class="form-group d-block">
-			<div>Nome <span class="text-danger">*</span></div>
+			<div><i class="fas fa-file-signature"></i> Nome <span class="text-danger">*</span></div>
 			<input type="text" class="form-control form-control-lg" name="name" value="<%= name %>" autocomplete="off" autofocus required>
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2">Descrição</div>
+			<div class="mt-2"><i class="fas fa-align-left"></i> Descrição</div>
 			<textarea class="form-control" rows="4" name="description" autocomplete="off"><%= description %></textarea>
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2">Preço <span class="text-danger">*</span></div>
+			<div class="mt-2"><i class="fas fa-dollar-sign"></i> Preço <span class="text-danger">*</span></div>
 			<div class="input-group">
 				<div class="input-group-text">R$</div>
 				<input type="number" step=".01" class="form-control form-control-lg" name="price" value="<%= price %>" autocomplete="off" required>
@@ -31,7 +31,7 @@ const { id, name, description, price, oldprice, badge, image, stock } = locals.p
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2">Preço antigo</div>
+			<div class="mt-2"><i class="fas fa-dollar-sign"></i> Preço antigo</div>
 			<div class="input-group">
 				<div class="input-group-text">R$</div>
 				<input type="number" step=".01" class="form-control form-control-lg" name="oldprice" value="<%= oldprice %>" autocomplete="off">
@@ -39,22 +39,22 @@ const { id, name, description, price, oldprice, badge, image, stock } = locals.p
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2">Selo</div> <!--colocar ícones nos labels e talvez aumentar-->
+			<div class="mt-2"><i class="fas fa-tag"></i> Selo</div> <!--colocar ícones nos labels e talvez aumentar-->
 			<input type="text" class="form-control" name="badge" value="<%= badge %>" autocomplete="off">
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2">URL da imagem</div> <!--colocar ícones nos labels e talvez aumentar-->
+			<div class="mt-2"><i class="fas fa-image"></i> URL da imagem</div> <!--colocar ícones nos labels e talvez aumentar-->
 			<input type="url" class="form-control" name="image" value="<%= image %>" autocomplete="off">
 		</label>
 
 		<div>
-			<div class="mt-2">Imagens/vídeos</div>
+			<div class="mt-2"><i class="fas fa-photo-video"></i> Imagens/vídeos</div>
 			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="loadController()"><i class="fas fa-plus"></i> Adicionar</button>
 		</div>
 
 		<label class="form-group d-block">
-			<div class="mt-2">Estoque <span class="text-danger">*</span></div>
+			<div class="mt-2"><i class="fas fa-archive"></i> Estoque <span class="text-danger">*</span></div>
 			<input type="number" class="form-control" name="stock" value="<%= stock %>" autocomplete="off" required>
 		</label>
 
