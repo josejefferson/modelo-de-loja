@@ -63,3 +63,8 @@ input::-webkit-inner-spin-button {
 	mask-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,0)));
 	-webkit-mask-image: gradient(linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,0)));
 }
+
+.navbar-collapse.show {
+	overflow: auto;
+	max-height: calc(100vh - 56px);
+}

@@ -37,13 +37,13 @@ module.exports = {
 	users: async (req, res, next) => {
 		req.data = req.data || {}
 		const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
-		req.data.users = await Client.find({ clientId: userIds })
+		req.data.users = await Client.find({ _id: userIds })
 		//todo: redirecionar caso não haja usuários na hora de comprar
 		return next()
 	},
 	user: async (req, res, next) => {
 		req.data = req.data || {}
-		req.data.user = await Client.findOne({ clientId: req.params.id })
+		req.data.user = await Client.findOne({ _id: req.params.id })
 		return next()
 	},
 	admins: async (req, res, next) => {
@@ -70,6 +70,15 @@ module.exports = {
 	moment: (req, res, next) => {
 		req.data = req.data || {}
 		req.data.moment = moment
+		return next()
+	},
+	myRequests: async (req, res, next) => {
+		req.data = req.data || {}
+		req.data.myRequests = {}
+		const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
+		for (id of userIds)
+			req.data.myRequests[id] = await Request.find({ clientId: id })
+				.populate('productId', 'name price image').populate('clientId')
 		return next()
 	}
 }

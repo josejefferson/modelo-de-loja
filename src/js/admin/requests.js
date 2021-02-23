@@ -33,7 +33,7 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 		if (act === 'feedback' && (feedback = await ask('Enviar feedback',
 			'Digite uma mensagem para enviar ao cliente', true)) === false) return
 
-		reqs.forEach(req => confirm($scope, req, act, feedback))
+		reqs.filter(r => r.open).forEach(req => confirm($scope, req, act, feedback))
 	}
 }]).filter('users', () => {
 	return (input, env) => {
@@ -61,7 +61,8 @@ async function confirm($scope, req, act, feedback) {
 			...(feedback && { feedback })
 		}),
 		headers: { 'Content-Type': 'application/json' }
-	}).then(() => {
+	}).then(r => { if (!r.ok) throw r; return r.json() })
+		.then(() => {
 		if (act === 'confirm') req.status = 'confirmed'
 		if (act === 'reject') req.status = 'rejected'
 		if (act === 'feedback') req.feedback = feedback

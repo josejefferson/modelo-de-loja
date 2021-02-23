@@ -1,13 +1,10 @@
 <%
-
 requests = requests.reverse().reduce((a, b) => {
-	a[b.clientId.clientId] = a[b.clientId.clientId] || []
-	a[b.clientId.clientId].push(b)
+	a[b.clientId._id] = a[b.clientId._id] || []
+	a[b.clientId._id].push(b)
 	return a
 }, {})
-
 %>
-
 <div class="container my-4" ng-controller="requestsCtrl">
 	<h1 class="mb-4"><i class="fas fa-bullhorn"></i> Pedidos</h1>
 

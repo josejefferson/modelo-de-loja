@@ -11,6 +11,12 @@ const fs = require('fs')
 const path = require('path')
 
 module.exports = {
+	cancelReq: async (req, res, next) => {
+		const request = await Request.findOne({ _id: req.params.id })
+		if (req.body.clientId != request.clientId || request.status !== 'pending') return res.sendStatus(400)
+		await Request.deleteMany({ _id: req.params.id })
+		res.json({ success: true })
+	},
 	json: (req, res, next) => { res.json(req.data) },
 	upload: multer({ dest: './' }).single('files'),
 	uploadImg: async (req, res, next) => {
@@ -51,7 +57,7 @@ module.exports = {
 		res.redirect(req.query.r || '/images')
 	},
 	buy: async (req, res, next) => {
-		const client = await Client.findOne({ clientId: req.body.user })
+		const client = await Client.findOne({ _id: req.body.user })
 		if (!client) {
 			console.log(req.body.user, client)
 			Client.find().then(console.log)
@@ -72,7 +78,7 @@ module.exports = {
 		const { cart } = await helpers.getCartItems(products, true)
 
 		for (item of cart) {
-			const client = await Client.findOne({ clientId: req.body.clientId })
+			const client = await Client.findOne({ _id: req.body.clientId })
 			await Request.create({
 				clientId: client.id,
 				productId: item,
@@ -85,9 +91,7 @@ module.exports = {
 		// >> limpar carrinho
 	},
 	addUser: async (req, res, next) => {
-		const clientId = helpers.rndString()
-		await Client.create({
-			clientId,
+		const { _id: clientId } = await Client.create({
 			name: req.body.name,
 			address: req.body.address,
 			phone: req.body.phone,
@@ -103,7 +107,7 @@ module.exports = {
 	},
 	editUser: async (req, res, next) => {
 		// TODO: usuario não existe
-		const client = await Client.findOne({ clientId: req.params.id })
+		const client = await Client.findOne({ _id: req.params.id })
 		if (req.body.name) client.name = req.body.name
 		if (req.body.address) client.address = req.body.address
 		if (req.body.phone) client.phone = req.body.phone
@@ -128,7 +132,7 @@ module.exports = {
 				}
 
 				req.flash('success_msg', 'Logado com sucesso!')
-				return res.redirect(req.query.r || '/')
+				return res.redirect(req.query.r || '/requests')
 			})
 		})(req, res, next)
 	},
@@ -273,11 +277,11 @@ module.exports = {
 					request.status = 'confirmed'
 				request.open = false
 				break
-			
+
 			case 'feedback':
 				request.feedback = req.body.feedback
 				break
-			
+
 			case 'reset': // TODO: REMOVER NO FUTURO
 				request.status = 'pending'
 				request.open = true

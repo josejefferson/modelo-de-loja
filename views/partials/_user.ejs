@@ -4,7 +4,7 @@ if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 
 <% if (env === 'buy') { %>
 <label class="col-12 col-md-6 mt-4 user">
-	<input type="radio" class="hidden userSelect" name="user" value="<%= user.clientId %>" <%=i===0?'checked':''%>>
+	<input type="radio" class="hidden userSelect" name="user" value="<%= user._id %>" <%=i===0?'checked':''%>>
 <% } else { %>
 <div class="col-12 col-md-6 mt-4 user">
 <% } %>
@@ -27,11 +27,11 @@ if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 
 		<% if (env === 'edit') { %>
 			<ul class="list-group list-group-flush">
-				<a href="/users/edit/<%= user.clientId %>" class="list-group-item list-group-item-action list-group-item-warning">
+				<a href="/users/edit/<%= user._id %>" class="list-group-item list-group-item-action list-group-item-warning">
 					<i class="fas fa-pencil-alt"></i> Editar
 				</a>
 				<button class="list-group-item list-group-item-action list-group-item-danger remove"
-					data-client-id="<%= user.clientId %>">
+					data-client-id="<%= user._id %>">
 					<i class="fas fa-times"></i> Remover
 				</button>
 			</ul>

@@ -14,11 +14,12 @@ routes.get('/cart', get.cart, get.cartProds, get.users, render('cart', 'Carrinho
 routes.get('/users', get.users, render('users', 'Usuários'))
 routes.get('/users/add', render('usersEdit', 'Adicionar usuário'))
 routes.get('/users/edit/:id', get.user, render('usersEdit', 'Editar usuário'))
-routes.get('/history', /****/ render('history', 'Histórico de compras'))
+routes.get('/history', get.myRequests, render('history', 'Histórico de compras'))
 routes.get('/login', notAuth, render('login', 'Painel do administrador'))
 routes.get('/images/:id', acts.showImage)
 
 routes.post('/buy/:id', valid.buy, acts.buy)
+routes.post('/requests/cancel/:id', acts.cancelReq) // todo: validations
 routes.post('/cart', valid.cart, acts.cart)
 routes.post('/users/add', valid.usersAdd, acts.addUser)
 routes.post('/users/edit/:id', valid.usersEdit, acts.editUser)
@@ -26,13 +27,15 @@ routes.post('/login', valid.login, acts.login)
 routes.all('/logout', auth, acts.logout)
 
 // Rotas do administrador
-routes.get('/admins', /*adm,*/get.admins, render('admin/admins', 'Administradores'))
-routes.get('/admins/add', /*adm,*/ render('admin/adminsEdit', 'Adicionar administrador'))
-routes.get('/admins/edit/:id', /*adm,*/get.admin, render('admin/adminsEdit', 'Editar administrador'))
 routes.get('/products', /*adm,*/ get.cart, get.products, render('admin/products', 'Produtos'))
 routes.get('/products/add', /*adm,*/ render('admin/productsEdit', 'Adicionar produto'))
 routes.get('/products/edit/:id', /*adm,*/ get.product, render('admin/productsEdit', 'Editar produto'))
 routes.get('/requests', /*adm,*/ get.requests, get.moment, render('admin/requests', 'Pedidos'))
+routes.get('/highlights', /*adm, */ render('admin/highlights', 'Destaques'))
+routes.get('/ads', /*adm, */ render('admin/ads', 'Anúncios'))
+routes.get('/admins', /*adm,*/get.admins, render('admin/admins', 'Administradores'))
+routes.get('/admins/add', /*adm,*/ render('admin/adminsEdit', 'Adicionar administrador'))
+routes.get('/admins/edit/:id', /*adm,*/get.admin, render('admin/adminsEdit', 'Editar administrador'))
 routes.get('/images', /*adm,*/ get.images, render('admin/images', 'Imagens'))
 routes.get('/json/images', /*adm, */ get.images, acts.json)
 

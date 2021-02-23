@@ -42,7 +42,7 @@ module.exports = {
 	userIdValid: async (req, res, next) => {
 		if (req.cookies.userIds) {
 			const userIdsArr = req.cookies.userIds.split(',')
-			const clients = await Client.find({ clientId: userIdsArr })
+			const clients = await Client.find({ _id: userIdsArr })
 			if (clients.length) return next()
 		}
 		req.flash('error_msg', 'Cadastre seus dados para comprar')

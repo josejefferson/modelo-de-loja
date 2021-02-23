@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const Client = mongoose.model('Clients', {
-	clientId: { type: String, required: true },
+	// clientId: { type: String, required: true },
 	name: { type: String, required: true },
 	address: { type: String, required: true },
 	phone: String,

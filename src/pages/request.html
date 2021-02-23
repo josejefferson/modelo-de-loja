@@ -36,11 +36,15 @@
 				<b>Total:</b>
 				{{sum(reqs | reqs:env | reqs:'notRejected')}}
 			</div>
-			<div class="mt-2">
-				<button class="btn border border-success text-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')" title="Confirmar todos"><i class="fas fa-check"></i></button>
-				<button class="btn border border-danger text-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')" title="Rejeitar todos"><i class="fas fa-times"></i></button>
-				<button class="btn border border-warning text-warning" ng-click="confirmAll(reqs | reqs:env, 'done')" title="Fechar todos"><i class="fas fa-check-double"></i></button>
-				<button class="btn border border-primary text-primary" ng-click="confirmAll(reqs | reqs:env, 'feedback')" title="Enviar comentário para todos"><i class="fas fa-comment"></i></button>
+			<div class="mt-2" ng-if="env !== 'history'">
+				<button class="btn border border-success text-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')"
+					title="Confirmar todos"><i class="fas fa-check"></i></button>
+				<button class="btn border border-danger text-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')"
+					title="Rejeitar todos"><i class="fas fa-times"></i></button>
+				<button class="btn border border-warning text-warning" ng-click="confirmAll(reqs | reqs:env, 'done')"
+					title="Fechar todos"><i class="fas fa-check-double"></i></button>
+				<button class="btn border border-primary text-primary" ng-click="confirmAll(reqs | reqs:env, 'feedback')"
+					title="Enviar comentário para todos"><i class="fas fa-comment-alt"></i></button>
 			</div>
 		</div>
 	</div>
@@ -64,7 +68,19 @@
 					<b class="d-block"><i class="fas fa-info-circle"></i> Mais informações:</b>
 					{{::req.other || '-----'}}
 				</div>
-				<div class="mt-2">
+				<div ng-if="env === 'history'" ng-switch="req.status">
+					<b><i class="fas fa-info-circle"></i> Status:</b>
+					<span ng-switch-when="pending">Pendente</span>
+					<span ng-switch-when="confirmed">Confirmado</span>
+					<span ng-switch-when="rejected">Rejeitado</span>
+					<span ng-if="!req.open">(fechado)</span>
+				</div>
+				<div ng-if="env === 'history' && req.feedback">
+					<b class="d-block"><i class="fas fa-comment-alt"></i> Feedback:</b>
+					<i>{{req.feedback}}</i>
+				</div>
+
+				<div class="mt-2" ng-if="env !== 'history'">
 					<button class="btn border border-success text-white" ng-class="{'bg-success': req.status === 'confirmed'}"
 						ng-click="confirm(req, 'confirm')" ng-disabled="!req.open" title="Confirmar">
 						<i class="fas fa-check"></i></button>
@@ -77,11 +93,16 @@
 					<button class="btn border border-primary text-white" ng-class="{'bg-primary': req.feedback}"
 						ng-click="confirm(req, 'feedback')" ng-disabled="!req.open" title="Enviar comentário">
 						<i class="fas fa-comment-alt"></i></button>
-					<button ng-click="confirm(req, 'reset')">R</button> <!--TODO: remover no futuro-->
+					<button ng-click="confirm(req, 'reset')">R</button>
+					<!--TODO: remover no futuro-->
+				</div>
+
+				<div class="mt-2" ng-if="env === 'history'">
+					<button class="btn border border-danger text-white" ng-click="cancel(req, clientId)"
+						ng-if="req.status === 'pending'" title="Cancelar pedido">
+						<i class="fas fa-times"></i> Cancelar pedido</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-</div>
 </div>

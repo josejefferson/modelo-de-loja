@@ -6,65 +6,79 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
-				<li class="nav-item">
+				<li class="nav-item" title="Início">
 					<a class="nav-link <%-(_page==='home')&&'active'%>" href="/">
 						<i class="fas fa-home"></i> Início
 					</a>
 				</li>
 
-				<li class="nav-item">
+				<li class="nav-item" title="Usuários">
 					<a class="nav-link <%-(_page==='users')&&'active'%>" href="/users">
 						<i class="fas fa-users"></i> Usuários
 					</a>
 				</li>
 
-				<li class="nav-item">
+				<li class="nav-item" title="Carrinho">
 					<a class="nav-link <%-(_page==='cart')&&'active'%>" href="/cart">
 						<i class="fas fa-shopping-cart"></i> Carrinho
 					</a>
 				</li>
 
-				<li class="nav-item">
+				<li class="nav-item" title="Compras">
 					<a class="nav-link <%-(_page==='history')&&'active'%>" href="/history">
-						<i class="fas fa-history"></i> Histórico de compras
+						<i class="fas fa-history"></i> Compras
 					</a>
 				</li>
 
 				<% if (authUser) { %>
 					<% if (authUser.admin) { %>
-						<li class="nav-item">
+						<hr class="bg-light my-1">
+
+						<li class="nav-item" title="Produtos">
 							<a class="nav-link <%-(_page==='admin/products')&&'active'%>" href="/products">
 								<i class="fas fa-shopping-bag"></i> Produtos
 							</a>
 						</li>
 
-						<li class="nav-item">
+						<li class="nav-item" title="Pedidos">
 							<a class="nav-link <%-(_page==='admin/requests')&&'active'%>" href="/requests">
 								<i class="fas fa-bullhorn"></i> Pedidos
 							</a>
 						</li>
 
-						<li class="nav-item">
+						<li class="nav-item" title="Destaques">
+							<a class="nav-link <%-(_page==='admin/highlights')&&'active'%>" href="/highlights">
+								<i class="fas fa-certificate"></i> Destaques
+							</a>
+						</li>
+
+						<li class="nav-item" title="Anúncios">
+							<a class="nav-link <%-(_page==='admin/ads')&&'active'%>" href="/ads">
+								<i class="fas fa-ad"></i> Anúncios
+							</a>
+						</li>
+
+						<li class="nav-item" title="Administradores">
 							<a class="nav-link <%-(_page==='admin/admins')&&'active'%>" href="/admins">
-								<i class="fas fa-user-shield"></i> Administradores
+								<i class="fas fa-user-shield"></i> Admins
 							</a>
 						</li>
 						
-						<li class="nav-item">
+						<li class="nav-item" title="Imagens">
 							<a class="nav-link <%-(_page==='admin/images')&&'active'%>" href="/images">
 								<i class="fas fa-image"></i> Imagens
 							</a>
 						</li>
 					<% } %>
 
-				<li class="nav-item">
+				<li class="nav-item" title="Sair">
 					<a class="nav-link" href="/logout">
 						<i class="fas fa-sign-out-alt"></i> Sair
 					</a>
 				</li>
 
 				<% } else { %>
-					<li class="nav-item">
+					<li class="nav-item" title="Painel do administrador">
 						<a class="nav-link <%-(_page==='login')&&'active'%>" href="/login">
 							<i class="fas fa-user-shield"></i> Painel do administrador
 						</a>
