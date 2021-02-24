@@ -204,6 +204,7 @@ module.exports = {
 			badge: req.body.badge,
 			image: req.body.image,
 			stock: req.body.stock,
+			hidden: req.body.hidden ? true : false
 		}).catch(err => {
 			req.flash('error_msg', 'Ocorreu um erro desconhecido ao criar produto')
 			req.flash('userData', req.body)
@@ -234,6 +235,7 @@ module.exports = {
 		if (req.body.badge) product.badge = (req.body.badge === '' ? '' : req.body.badge)
 		if (req.body.image) product.image = (req.body.image == '' ? '' : req.body.image)
 		if (req.body.stock) product.stock = req.body.stock
+		product.hidden = req.body.hidden ? true : false
 
 		await product.save().catch(err => {
 			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar produto')

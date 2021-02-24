@@ -54,6 +54,7 @@ input::-webkit-inner-spin-button {
 .prodBadge {
 	border-radius: 0 3px 0 10px;
 	text-transform: uppercase;
+	z-index: 1;
 }
 
 .requestImg {

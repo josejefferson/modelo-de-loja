@@ -32,7 +32,10 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 			<% } %>
 					
 			<div class="card-body">
-				<h5 class="card-title"><%= product.name %></h5>
+				<h5 class="card-title">
+					<% if (product.hidden) { %><i class="fas fa-eye-slash"></i><% } %>
+					<%= product.name %>
+				</h5>
 				<div class="card-text">
 					<div>
 						<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>

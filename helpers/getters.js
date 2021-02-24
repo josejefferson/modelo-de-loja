@@ -20,9 +20,18 @@ module.exports = {
 		req.data.products = products
 		return next()
 	},
-	products: async (req, res, next) => {
+	allProducts: async (req, res, next) => {
 		req.data = req.data || {}
 		req.data.products = await Product.find()
+		req.data.products.reverse().sort((a, b) => {
+			if (b.stock === 0) return -1
+			return 0
+		})
+		return next()
+	},
+	products: async (req, res, next) => {
+		req.data = req.data || {}
+		req.data.products = await Product.find({ hidden: { $ne: true } })
 		req.data.products.reverse().sort((a, b) => {
 			if (b.stock === 0) return -1
 			return 0

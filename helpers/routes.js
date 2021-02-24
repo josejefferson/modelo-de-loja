@@ -27,7 +27,7 @@ routes.post('/login', valid.login, acts.login)
 routes.all('/logout', auth, acts.logout)
 
 // Rotas do administrador
-routes.get('/products', /*adm,*/ get.cart, get.products, render('admin/products', 'Produtos'))
+routes.get('/products', /*adm,*/ get.cart, get.allProducts, render('admin/products', 'Produtos'))
 routes.get('/products/add', /*adm,*/ render('admin/productsEdit', 'Adicionar produto'))
 routes.get('/products/edit/:id', /*adm,*/ get.product, render('admin/productsEdit', 'Editar produto'))
 routes.get('/requests', /*adm,*/ get.requests, get.moment, render('admin/requests', 'Pedidos'))

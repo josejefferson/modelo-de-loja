@@ -1,7 +1,7 @@
 <%
 const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
 const action = (locals.product ? `/products/edit/${product.id}` : '/products/add') + _redir
-const { id, name, description, price, oldprice, badge, image, stock } = locals.product || locals.userData?.[0] || {}
+const { id, name, description, price, oldprice, badge, image, stock, hidden } = locals.product || locals.userData?.[0] || {}
 %>
 
 <div class="container my-4" ng-controller="productsEditCtrl">
@@ -56,6 +56,11 @@ const { id, name, description, price, oldprice, badge, image, stock } = locals.p
 		<label class="form-group d-block">
 			<div class="mt-2"><i class="fas fa-archive"></i> Estoque <span class="text-danger">*</span></div>
 			<input type="number" class="form-control" name="stock" value="<%= stock %>" autocomplete="off" required>
+		</label>
+		
+		<label class="d-block mt-2">
+			<i class="fas fa-eye-slash"></i> Oculto
+			<input type="checkbox" class="form-check-input" name="hidden" <%=hidden?'checked':''%>>
 		</label>
 
 		<div class="text-center mt-3">
