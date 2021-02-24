@@ -1,4 +1,14 @@
 angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
+	const socket = io(location.origin + '/requests')
+	socket.on('connect', () => {
+		console.log('[SOCKET] Conectado')
+	})
+	socket.on('newRequest', data => {
+		$scope.requests[data.clientId].unshift(data.request)
+		$scope.$apply()
+		toast(`Novo pedido do usuário "${data.request.clientId.name}"`, 'info')
+	})
+
 	$scope.keys = Object.keys
 	$scope.moment = window.moment
 	$scope.requests = serverData

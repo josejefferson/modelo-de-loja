@@ -31,7 +31,6 @@
 		res.locals.authUser = req.user || null
 		next()
 	})
-
 	app.set('view engine', 'ejs')
 	app.use(expressLayouts)
 	app.set('layout extractScripts', true)
@@ -39,12 +38,7 @@
 	app.use(bodyParser.urlencoded({ extended: true }))
 	app.use(cookieParser())
 	app.use(express.static('src'))
-
 	app.use('/', require('./helpers/routes')(io))
-	// app.use('/', require('./routes/pages'))
-	// app.use('/', require('./routes/actions'))
-	// app.use('/admin', /*check.admin,*/ require('./routes/admin-pages'))
-	// app.use('/admin', /*check.admin,*/ require('./routes/admin-actions'))
 
 	const PORT = process.env.PORT || 3000
 	http.listen(PORT, () =>

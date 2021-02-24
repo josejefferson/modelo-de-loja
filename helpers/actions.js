@@ -63,13 +63,16 @@ module.exports = io => ({
 			Client.find().then(console.log)
 			// TODO:
 		}
-		await Request.create({
+		let request = await Request.create({
 			clientId: client._id,
 			productId: req.params.id,
 			quantity: req.body.quantity,
 			other: req.body.other
 		})
+		
+		request = await request.populate('productId', 'name price image').populate('clientId').execPopulate()
 
+		io.of('/requests').emit('newRequest', { clientId: client._id, request }) //popular
 		req.flash('success_msg', 'Compra efetuada com sucesso!')
 		res.redirect(req.query.r || '/history')
 	},
