@@ -10,7 +10,7 @@ const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
 
-module.exports = {
+module.exports = io => ({
 	cancelReq: async (req, res, next) => {
 		const request = await Request.findOne({ _id: req.params.id })
 		if (req.body.clientId != request.clientId || request.status !== 'pending') return res.sendStatus(400)
@@ -71,7 +71,7 @@ module.exports = {
 		})
 
 		req.flash('success_msg', 'Compra efetuada com sucesso!')
-		res.redirect(req.query.r || '/')
+		res.redirect(req.query.r || '/history')
 	},
 	cart: async (req, res, next) => {
 		const products = req.body.products.split(',')
@@ -293,7 +293,13 @@ module.exports = {
 				break
 		}
 		await request.save()
+		io.of('/history').to(request.clientId.toString()).emit('confirm', {
+			clientId: request.clientId,
+			requestId: request._id,
+			action: req.body.confirm,
+			...(req.body.feedback && { feedback: req.body.feedback })
+		})
 
 		res.json({ success: true })
 	},
-}
+})

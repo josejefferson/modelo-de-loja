@@ -3,5 +3,6 @@
 	<ng-include src="'/pages/request.html'" ng-init="env='history'" ng-if="true"></ng-include>
 </div>
 
+<script src="/socket.io/socket.io.min.js"></script>
 <script>const serverData = <%- JSON.stringify(myRequests) %></script>
 <script src="/js/history.js"></script>

@@ -3,6 +3,8 @@
 
 	const express = require('express')
 	const app = express()
+	const http = require('http').Server(app)
+	const io = require('socket.io')(http)
 	const bodyParser = require('body-parser')
 	const expressLayouts = require('express-ejs-layouts')
 	const flash = require('connect-flash')
@@ -11,6 +13,7 @@
 	const cookieParser = require('cookie-parser')
 	await require('./config/connect')
 	require('./config/auth')(passport)
+	require('./helpers/sockets')(io)
 
 	app.use(session({
 		secret: 'aVOkg6yTfi',
@@ -37,13 +40,13 @@
 	app.use(cookieParser())
 	app.use(express.static('src'))
 
-	app.use('/', require('./helpers/routes'))
+	app.use('/', require('./helpers/routes')(io))
 	// app.use('/', require('./routes/pages'))
 	// app.use('/', require('./routes/actions'))
 	// app.use('/admin', /*check.admin,*/ require('./routes/admin-pages'))
 	// app.use('/admin', /*check.admin,*/ require('./routes/admin-actions'))
 
 	const PORT = process.env.PORT || 3000
-	app.listen(PORT, () =>
+	http.listen(PORT, () =>
 		console.log('>> [Servidor] Aberto na porta ' + PORT))
 })()

@@ -1,4 +1,34 @@
 angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
+	const socket = io(location.origin + '/history')
+	socket.on('connect', () => {
+		console.log('[SOCKET] Conectado')
+		for (id in serverData) socket.emit('id', id)
+	})
+	socket.on('confirm', data => {
+		const request = $scope.requests[data.clientId].find(i => i._id === data.requestId)
+		if (!request) return
+		switch (data.action) {
+			case 'confirm':
+				request.status = 'confirmed'
+				toast(`O pedido de "${request.clientId.name}" do produto "${request.productId.name}" foi confirmado`)
+				break
+			case 'reject':
+				request.status = 'rejected'
+				toast(`O pedido de "${request.clientId.name}" do produto "${request.productId.name}" foi rejeitado`, 'error')
+				break
+			case 'done':
+				request.open = false
+				toast(`O pedido de "${request.clientId.name}" do produto "${request.productId.name}" foi fechado`, 'warning')
+				break
+			case 'feedback':
+				request.feedback = data.feedback
+				if (data.feedback) toast(`Foi adicionado um comentário ao pedido de "${request.clientId.name}" do produto ` +
+					`"${request.productId.name}"`, 'info', 'comment-alt')
+				break
+		}
+		$scope.$apply()
+	})
+
 	$scope.keys = Object.keys
 	$scope.moment = window.moment
 	$scope.requests = serverData
@@ -17,11 +47,11 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 			headers: { 'Content-Type': 'application/json' }
 		}).then(r => { if (!r.ok) throw r; return r.json() })
 			.then(() => {
-			const i = $scope.requests[clientId].indexOf(req)
-			if (i > -1) $scope.requests[clientId].splice(i, 1)
-			toast('Pedido cancelado')
-			$scope.$apply()
-		})
+				const i = $scope.requests[clientId].indexOf(req)
+				if (i > -1) $scope.requests[clientId].splice(i, 1)
+				toast('Pedido cancelado')
+				$scope.$apply()
+			})
 	}
 }]).filter('users', () => {
 	return (input, env) => {
