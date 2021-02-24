@@ -86,8 +86,8 @@ module.exports = {
 		req.data.myRequests = {}
 		const userIds = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
 		for (id of userIds)
-			req.data.myRequests[id] = await Request.find({ clientId: id })
-				.populate('productId', 'name price image').populate('clientId')
+			req.data.myRequests[id] = (await Request.find({ clientId: id })
+				.populate('productId', 'name price image').populate('clientId')).reverse()
 		return next()
 	}
 }

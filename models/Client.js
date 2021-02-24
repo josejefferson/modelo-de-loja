@@ -5,9 +5,9 @@ const Client = mongoose.model('Clients', {
 	name: { type: String, required: true },
 	address: { type: String, required: true },
 	phone: String,
+	whatsapp: String,
 	email: {
 		type: String,
-		required: true,
 		/*validate: {
 			validator: () => Promise.resolve(false), //
 			message: 'E-mail inválido'

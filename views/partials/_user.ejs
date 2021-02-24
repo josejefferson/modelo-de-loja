@@ -18,10 +18,13 @@ if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 				<%= user.address %>
 			</div>
 			<div><i class="fas fa-phone-alt"></i> <b>Telefone:</b> <a href="tel:<%= user.phone %>">
-					<%= user.phone %>
+					<%= user.phone || '-----' %>
+				</a></div>
+			<div><i class="fab fa-whatsapp"></i> <b>WhatsApp:</b> <a href="https://api.whatsapp.com/send?phone=<%= user.whatsapp %>">
+					<%= user.whatsapp || '-----' %>
 				</a></div>
 			<div><i class="fas fa-at"></i> <b>E-mail:</b> <a href="mailto:<%= user.email %>">
-					<%= user.email %>
+					<%= user.email || '-----' %>
 				</a></div>
 		</div>
 

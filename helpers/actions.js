@@ -95,6 +95,7 @@ module.exports = {
 			name: req.body.name,
 			address: req.body.address,
 			phone: req.body.phone,
+			whatsapp: req.body.whatsapp,
 			email: req.body.email
 		})
 
@@ -111,6 +112,7 @@ module.exports = {
 		if (req.body.name) client.name = req.body.name
 		if (req.body.address) client.address = req.body.address
 		if (req.body.phone) client.phone = req.body.phone
+		if (req.body.whatsapp) client.whatsapp = req.body.whatsapp
 		if (req.body.email) client.email = req.body.email
 		await client.save()
 
