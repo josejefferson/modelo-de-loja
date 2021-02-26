@@ -53,6 +53,9 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 				$scope.$apply()
 			})
 	}
+	$scope.rt = (req, rating) => {
+		req.rating = rating
+	}
 }]).filter('users', () => {
 	return (input, env) => {
 		const output = {}
