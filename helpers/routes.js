@@ -11,8 +11,8 @@ module.exports = io => {
 	// Rotas públicas
 	routes.get('/', get.cart, get.products, render('home', 'Início'))
 	routes.get('/product/:id', get.cart, get.product, render('product', 'Produto'))
+	routes.get('/buy/cart', get.cart, get.cartProds, get.users, render('buy', 'Carrinho'))
 	routes.get('/buy/:id', get.product, get.users, render('buy', 'Comprar'))
-	routes.get('/cart', get.cart, get.cartProds, get.users, render('cart', 'Carrinho'))
 	routes.get('/users', get.users, render('users', 'Usuários'))
 	routes.get('/users/add', render('usersEdit', 'Adicionar usuário'))
 	routes.get('/users/edit/:id', get.user, render('usersEdit', 'Editar usuário'))

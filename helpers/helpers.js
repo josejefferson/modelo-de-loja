@@ -27,6 +27,7 @@ function render(page, title) {
 	return (req, res, next) => {
 		req.data = req.data || {}
 		res.render('pages/' + page, {
+			url: req.url,
 			_page: page,
 			_title: title,
 			query: req.query,
