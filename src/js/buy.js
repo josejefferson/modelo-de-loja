@@ -1,6 +1,7 @@
 document.buy.onsubmit = async function (e) {
 	e.preventDefault()
 	if (!await ask('Finalizar compra', 'Tem certeza que deseja finalizar esta compra?')) return
+	Cookies.set('cart', '', { expires: 3650 })
 	this.submit()
 }
 

@@ -1,6 +1,7 @@
 <%
+if (locals.product) products = [product]
 const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
-const _disStk = users.length === 0 ? 'disabled' : ''
+const _disBuy = users.length === 0 ? 'disabled' : ''
 const _usRow = users.length !== 0 ? 'row' : ''
 const _usAddRedir = encodeURIComponent(url)
 %>
@@ -8,13 +9,13 @@ const _usAddRedir = encodeURIComponent(url)
 <div class="container my-4" ng-controller="buyCtrl">
 	<h1 class="mb-4"><i class="fas fa-dollar-sign"></i> Comprar</h1>
 
-	<form action="<%= _usAddRedir %><%= _redir %>" method="POST" name="buy">
+	<form action="/buy<%= _redir %>" method="POST" name="buy">
 		<div class="row">
-			<% products.forEach(product => { %>
-				<%- include('../partials/_product.ejs', {product, env: 'buy'}) %>
+			<% products.forEach((product, i) => { %>
+				<%- include('../partials/_product.ejs', {product, i, env: 'buy'}) %>
 			<% }) %>
 
-			<div class="<%=_usRow%> col col-12 col-md-8 col-lg-9">
+			<div class="<%=_usRow%> col-12">
 				<h3>Comprar como:
 					<a href="/users" class="btn btn-light btn-sm">
 						<i class="fas fa-users"></i> Gerenciar usuários
@@ -43,7 +44,7 @@ const _usAddRedir = encodeURIComponent(url)
 		</div>
 
 		<div class="text-center mt-3 fixed-bottom checkOut">
-			<button class="btn btn-lg btn-success shadow w-100 rounded-0" type="submit" <%=_disStk%>>
+			<button class="btn btn-lg btn-success shadow w-100 rounded-0" type="submit" <%=_disBuy%>>
 				<i class="fas fa-dollar-sign"></i> Finalizar compra <b ng-bind="sum()"></b>
 			</button>
 		</div>

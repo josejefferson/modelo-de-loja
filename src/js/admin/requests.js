@@ -3,10 +3,12 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 	socket.on('connect', () => {
 		console.log('[SOCKET] Conectado')
 	})
-	socket.on('newRequest', data => {
-		$scope.requests[data.clientId].unshift(data.request)
-		$scope.$apply()
-		toast(`Novo pedido do usuário "${data.request.clientId.name}"`, 'info')
+	socket.on('newRequests', requests => {
+		data.forEach(request => {
+			$scope.requests[request.clientId].unshift(request.request)
+			$scope.$apply()
+			toast(`Novo pedido do usuário "${request.request.clientId.name}"`, 'info')
+		})
 	})
 
 	$scope.keys = Object.keys

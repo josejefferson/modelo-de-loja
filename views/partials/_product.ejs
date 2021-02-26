@@ -5,7 +5,6 @@ product.oldpriceStr = product.oldprice?.toFixed(2).toString().replace('.', ',')
 const {_1, _2, _3, _4, _5} = product.rating
 product.ratingUsers = _1 + _2 + _3 + _4 + _5
 product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
-const _buyH = env !== 'buy' ? 'h-100' : ''
 const _buyCol = env !== 'buy' ? 'col-6' : 'col-12 mb-3'
 const _stkQtd = (product.stock >= 0) ? `(${product.stock} unid. dispon.)` : '(disponível)'
 const _stkMin = product.stock === 0 ? 0 : 1
@@ -16,11 +15,11 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 %>
 
 <div class="col <%=_buyCol%> col-md-4 col-lg-3 px-1 py-1">
-	<div class="card shadow <%=_buyH%>">
+	<div class="card shadow h-100">
 		<% if (product.badge) { %>
 			<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge"><%= product.badge %></div>
 		<% } %>
-		<a href="<%= '/product/' + product.id %>" class="text-dark text-decoration-none <%=_buyH%>">
+		<a href="<%= '/product/' + product.id %>" class="text-dark text-decoration-none h-100">
 			<% if (product.image) { %>
 				<img src="<%= product.image %>" class="card-img-top">
 			<% } else { %>
@@ -71,7 +70,8 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 					<button type="button" class="btn btn-sm <%=_unDis%>" ng-click="dec('p<%= product.id %>')">
 						<i class="fas fa-minus"></i>
 					</button>
-					<input type="number" name="quantity" <%=_unDis%> class="form-control form-control-sm text-center mx-1"
+					<input type="hidden" name="products[<%=i%>][id]" value="<%= product.id %>">
+					<input type="number" name="products[<%=i%>][quantity]" <%=_unDis%> class="form-control form-control-sm text-center mx-1"
 						ng-model="products.p<%= product.id %>.qtd" ng-init="<%=_pInit%>" min="<%=_stkMin%>"
 						<%-_stkMax%> value="<%=_stkMin%>" step="1" required>
 					<button type="button" class="btn btn-sm <%=_unDis%>" ng-click="inc('p<%= product.id %>', <%= product.stock %>)">

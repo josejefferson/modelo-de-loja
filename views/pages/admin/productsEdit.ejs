@@ -39,18 +39,42 @@ const { id, name, description, price, oldprice, badge, image, stock, hidden } = 
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2"><i class="fas fa-tag"></i> Selo</div> <!--colocar ícones nos labels e talvez aumentar-->
+			<div class="mt-2"><i class="fas fa-tag"></i> Selo</div>
 			<input type="text" class="form-control" name="badge" value="<%= badge %>" autocomplete="off">
 		</label>
 
 		<label class="form-group d-block">
-			<div class="mt-2"><i class="fas fa-image"></i> URL da imagem</div> <!--colocar ícones nos labels e talvez aumentar-->
+			<div class="mt-2"><i class="fas fa-image"></i> URL da imagem</div>
 			<input type="url" class="form-control" name="image" value="<%= image %>" autocomplete="off">
 		</label>
 
 		<div>
 			<div class="mt-2"><i class="fas fa-photo-video"></i> Imagens/vídeos</div>
-			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="loadController()"><i class="fas fa-plus"></i> Adicionar</button>
+			<div class="row">
+				<div class="col-4 col-md-2 col-lg-1" ng-repeat="m in media">
+					<div ng-switch="m.type">
+						<div ng-switch-when="image">
+							<div class="card">
+								<img src="{{m.url}}" class="card-img-top">
+								<div class="card-footer">
+									<ul class="list-group list-group-flush">
+										<button type="button" class="list-group-item list-group-item-action list-group-item-danger" ng-click="remove(m, media)">
+											<i class="fas fa-times"></i> Remover
+										</button>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div ng-switch-when="yt-video">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="selectImageModal()"><i class="fas fa-image"></i> Adicionar imagem</button>
+			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="uploadModal()"><i class="fas fa-upload"></i> Enviar imagem</button>
+			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="selectYouTubeModal()"><i class="fab fa-youtube"></i> Adicionar vídeo do YouTube</button>
 		</div>
 
 		<label class="form-group d-block">
@@ -71,6 +95,12 @@ const { id, name, description, price, oldprice, badge, image, stock, hidden } = 
 	</form>
 </div>
 
-<script>const uploadModal = `<%- include('../../partials/_upload.ejs').replace(/`/g, '\\`') %>`</script>
+<script>
+	const selectImageModal = `<%- include('../../partials/_selectImage.ejs').replace(/`/g, '\\`') %>`
+	const uploadImageModal = `<%- include('../../partials/_upload.ejs').replace(/`/g, '\\`') %>`
+	const selectYouTubeModal = `<%- include('../../partials/_selectYouTube.ejs').replace(/`/g, '\\`') %>`
+</script>
 <script src="/js/admin/productsEdit.js"></script>
+<script src="/js/admin/selectImage.js"></script>
 <script src="/js/admin/upload.js"></script>
+<script src="/js/admin/selectYouTube.js"></script>

@@ -57,22 +57,28 @@ module.exports = io => ({
 		res.redirect(req.query.r || '/images')
 	},
 	buy: async (req, res, next) => {
+		console.log(req.body)
 		const client = await Client.findOne({ _id: req.body.user })
 		if (!client) {
 			console.log(req.body.user, client)
 			Client.find().then(console.log)
 			// TODO:
 		}
-		let request = await Request.create({
-			clientId: client._id,
-			productId: req.params.id,
-			quantity: req.body.quantity,
-			other: req.body.other
-		})
-		
-		request = await request.populate('productId', 'name price image').populate('clientId').execPopulate()
 
-		io.of('/requests').emit('newRequest', { clientId: client._id, request }) //popular
+		const requests = []
+		for (const product of req.body.products) {
+			const request = await Request.create({
+				clientId: client._id,
+				productId: product.id,
+				quantity: product.quantity,
+				other: req.body.other
+			})
+
+			requests.push(await request.populate('productId', 'name price image')
+				.populate('clientId').execPopulate())
+		}
+
+		io.of('/requests').emit('newRequests', { clientId: client._id, requests })
 		req.flash('success_msg', 'Compra efetuada com sucesso!')
 		res.redirect(req.query.r || '/history')
 	},

@@ -11,8 +11,8 @@ module.exports = io => {
 	// Rotas públicas
 	routes.get('/', get.cart, get.products, render('home', 'Início'))
 	routes.get('/product/:id', get.cart, get.product, render('product', 'Produto'))
-	routes.get('/buy/cart', get.cart, get.cartProds, get.users, render('buy', 'Carrinho'))
 	routes.get('/buy/:id', get.product, get.users, render('buy', 'Comprar'))
+	routes.get('/cart', get.cart, get.cartProds, get.users, render('buy', 'Carrinho'))
 	routes.get('/users', get.users, render('users', 'Usuários'))
 	routes.get('/users/add', render('usersEdit', 'Adicionar usuário'))
 	routes.get('/users/edit/:id', get.user, render('usersEdit', 'Editar usuário'))
@@ -20,8 +20,8 @@ module.exports = io => {
 	routes.get('/login', notAuth, render('login', 'Painel do administrador'))
 	routes.get('/images/:id', acts.showImage)
 	
-	routes.post('/buy/:id', valid.buy, acts.buy)
-	routes.post('/requests/cancel/:id', acts.cancelReq) // todo: validations
+	routes.post('/buy', valid.buy, acts.buy)
+	routes.post('/requests/cancel/:id', acts.cancelReq)
 	routes.post('/cart', valid.cart, acts.cart)
 	routes.post('/users/add', valid.usersAdd, acts.addUser)
 	routes.post('/users/edit/:id', valid.usersEdit, acts.editUser)
