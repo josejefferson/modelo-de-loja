@@ -53,16 +53,16 @@ const { id, name, description, price, oldprice, badge, image, stock, hidden } = 
 			<div class="row">
 				<div class="col-4 col-md-2 col-lg-1" ng-repeat="m in media">
 					<div ng-switch="m.type">
-						<div ng-switch-when="image">
-							<div class="card">
-								<img src="{{m.url}}" class="card-img-top">
-								<div class="card-footer">
-									<ul class="list-group list-group-flush">
-										<button type="button" class="list-group-item list-group-item-action list-group-item-danger" ng-click="remove(m, media)">
-											<i class="fas fa-times"></i> Remover
-										</button>
-									</ul>
-								</div>
+						<div class="card" ng-switch-when="image">
+							<input type="hidden" name="media[{{::$index}}][type]" value="image">
+							<input type="hidden" name="media[{{::$index}}][url]" value="{{::m.url}}">
+							<img src="{{::m.url}}" class="card-img-top">
+							<div class="card-footer">
+								<ul class="list-group list-group-flush">
+									<button type="button" class="list-group-item list-group-item-action list-group-item-danger" ng-click="::remove(m, media)">
+										<i class="fas fa-times"></i> Remover
+									</button>
+								</ul>
 							</div>
 						</div>
 
@@ -73,6 +73,7 @@ const { id, name, description, price, oldprice, badge, image, stock, hidden } = 
 				</div>
 			</div>
 			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="selectImageModal()"><i class="fas fa-image"></i> Adicionar imagem</button>
+			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="selectImageURLModal()"><i class="fas fa-image"></i> Adicionar imagem (URL)</button>
 			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="uploadModal()"><i class="fas fa-upload"></i> Enviar imagem</button>
 			<button type="button" class="btn btn-light shadow-sm border h-100" ng-click="selectYouTubeModal()"><i class="fab fa-youtube"></i> Adicionar vídeo do YouTube</button>
 		</div>

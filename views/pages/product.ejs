@@ -11,7 +11,7 @@ const _cartHid = cart.includes(product.id) ? 'hidden' : ''
 const _$cartHid = !cart.includes(product.id) ? 'hidden' : ''
 const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 %>
-
+<%= JSON.stringify(product.media) %>
 <div class="container my-4">
 	<% if (product.image) { %>
 		<img src="<%= product.image %>" class="mt-3 w-100">

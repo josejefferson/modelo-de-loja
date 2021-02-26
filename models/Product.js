@@ -14,10 +14,10 @@ const Product = mongoose.model('Products', {
 		_5: { type: Number, default: 0 }
 	},
 	image: String,
-	media: {
+	media: [{
 		type: { type: String, enum: ['image', 'yt-video'] },
 		url: String
-	},
+	}],
 	stock: { type: Number, required: true },
 	hidden: { type: Boolean, default: false }
 })
