@@ -102,3 +102,15 @@ window.setInterval(() => {
 		e.innerText = moment(e.dataset.time).fromNow()
 	})
 }, 5000)
+
+angular.module('store').animation('.request', () => ({ enter: anim.open, leave: anim.close }))
+const anim = {
+	open: (el, done) => {
+		el.stop(true, false).css({ display: 'none' }).slideDown(100).fadeTo(300, 1, done)
+		return done
+	},
+	close: (el, done) => {
+		el.stop(true, false).fadeTo(500, 0).slideUp(100, done)
+		return done
+	}
+}
