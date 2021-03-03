@@ -9,7 +9,7 @@ if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 <div class="col-12 col-md-6 mt-4 user">
 <% } %>
 	<div class="card shadow-sm h-100">
-		<div class="card-body">
+		<div class="card-body d-flex flex-column">
 			<h4><i class="fas fa-user"></i>
 				<%= user.name %>
 			</h4>
@@ -26,18 +26,19 @@ if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 			<div><i class="fas fa-at"></i> <b>E-mail:</b> <a href="mailto:<%= user.email %>">
 					<%= user.email || '-----' %>
 				</a></div>
-		</div>
 
-		<% if (env === 'edit') { %>
-			<ul class="list-group list-group-flush">
-				<a href="/users/edit/<%= user._id %>" class="list-group-item list-group-item-action list-group-item-warning">
-					<i class="fas fa-pencil-alt"></i> Editar
-				</a>
-				<button class="list-group-item list-group-item-action list-group-item-danger remove"
-					data-client-id="<%= user._id %>">
-					<i class="fas fa-times"></i> Remover
-				</button>
-			</ul>
-		<% } %>
+			<% if (env === 'edit') { %>
+				<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
+					<div class="btn-group">
+						<a href="/users/edit/<%= user._id %>" class="btn btn-sm btn-outline-secondary">
+							<i class="fas fa-pencil-alt"></i> Editar
+						</a>
+						<button class="btn btn-sm btn-outline-secondary remove" data-client-id="<%= user._id %>">
+							<i class="fas fa-trash-alt"></i> Remover
+						</button>
+					</div>
+				</div>
+			<% } %>
+		</div>
 	</div>
 <%- env === 'buy' ? '</label>' : '</div>' %>

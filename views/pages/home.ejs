@@ -9,7 +9,7 @@
 <div class="container my-5">
 	<div class="row">
 		<% products.forEach(product => { %>
-			<%- include('../partials/_product.ejs', {product}) %>
+			<%- include('../partials/_product.ejs', {product, env: 'view'}) %>
 		<% }) %>
 	</div>
 </div>

@@ -19,7 +19,7 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 		<% if (product.badge) { %>
 			<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge"><%= product.badge %></div>
 		<% } %>
-		<a href="<%= '/product/' + product.id %>" class="text-dark text-decoration-none h-100">
+		<a href="/product/<%= product.id %>" class="text-dark text-decoration-none">
 			<% if (product.image) { %>
 				<img src="<%= product.image %>" class="card-img-top">
 			<% } else { %>
@@ -29,8 +29,9 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 					</div>
 				</div>
 			<% } %>
+		<%- env !== 'view' ? '</a>' : '' %>
 					
-			<div class="card-body">
+			<div class="card-body d-flex flex-column">
 				<h5 class="card-title">
 					<% if (product.hidden) { %><i class="fas fa-eye-slash"></i><% } %>
 					<%= product.name %>
@@ -59,11 +60,25 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 						</small>
 					</div>
 				</div>
+
+				<% if (env === 'edit') { %>
+					<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
+						<div class="btn-group">
+							<a href="/products/edit/<%= product.id %>" class="btn btn-sm btn-outline-secondary">
+								<i class="fas fa-pencil-alt"></i>
+								<span class="d-none d-sm-inline-block">Editar</span>
+							</a>
+							<button class="btn btn-sm btn-outline-secondary remove" data-product-id="<%= product.id %>">
+								<i class="fas fa-trash-alt"></i>
+								<span class="d-none d-sm-inline-block">Remover</span>
+							</button>
+						</div>
+					</div>
+				<% } %>
 			</div>
-		</a>
+		<%- env === 'view' ? '</a>' : '' %>
 
 		<% if (env === 'buy') { %>
-
 			<div class="card-footer">
 				Quantidade:
 				<div class="d-flex align-items-baseline">
@@ -81,18 +96,6 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 				
 				<b class="mt-2 fs-5 d-block text-center" ng-bind="<%=_calcPrc%>"></b>
 			</div>
-			
-		<% } else if (env === 'edit') { %>
-
-			<ul class="list-group list-group-flush">
-				<a href="/products/edit/<%= product.id %>" class="list-group-item list-group-item-action list-group-item-warning">
-					<i class="fas fa-pencil-alt"></i> Editar
-				</a>
-				<button data-product-id="<%= product.id %>" class="list-group-item list-group-item-action list-group-item-danger remove">
-					<i class="fas fa-times"></i> Excluir
-				</button>
-			</ul>
-
 		<% } %>
 	</div>
 </div>
