@@ -214,6 +214,7 @@ module.exports = io => ({
 			oldprice: req.body.oldprice,
 			badge: req.body.badge,
 			image: req.body.image,
+			media: req.body.media || [],
 			stock: req.body.stock,
 			hidden: req.body.hidden ? true : false
 		}).catch(err => {
@@ -245,6 +246,7 @@ module.exports = io => ({
 		if (req.body.oldprice) product.oldprice = (req.body.oldprice === '' ? '' : req.body.oldprice)
 		if (req.body.badge) product.badge = (req.body.badge === '' ? '' : req.body.badge)
 		if (req.body.image) product.image = (req.body.image == '' ? '' : req.body.image)
+		if (req.body.media) product.media = req.body.media
 		if (req.body.stock) product.stock = req.body.stock
 		product.hidden = req.body.hidden ? true : false
 

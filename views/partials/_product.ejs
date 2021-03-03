@@ -21,7 +21,9 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 		<% } %>
 		<a href="/product/<%= product.id %>" class="text-dark text-decoration-none">
 			<% if (product.image) { %>
-				<img src="<%= product.image %>" class="card-img-top">
+				<div class="ratio ratio-16x9">
+					<img src="<%= product.image %>" class="card-img-top"> <!--Todo: cover-->
+				</div>
 			<% } else { %>
 				<div class="ratio ratio-16x9 bg-light">
 					<div class="d-flex align-items-center justify-content-center text-secondary">

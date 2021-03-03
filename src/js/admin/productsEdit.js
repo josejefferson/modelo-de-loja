@@ -25,6 +25,19 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			}
 		})
 	}
+	$scope.selectImageURLModal = async () => {
+		const { value } = await Swal.fire({
+			title: 'Inserir URL de imagem',
+			text: 'Digite ou cole o link da imagem',
+			input: 'text',
+			showCancelButton: true,
+			confirmButtonText: 'Inserir',
+			cancelButtonText: 'Cancelar'
+		})
+		if (!value) return
+		$scope.media.push({ type: 'image', url: value })
+		$scope.$apply()
+	}
 	$scope.uploadModal = () => {
 		const html = $compile(uploadImageModal)($scope)
 		Swal.fire({

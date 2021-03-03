@@ -48,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col col-12 col-md-6 col-lg-3 p-1" ng-repeat="req in reqs | reqs:env">
+	<div class="col col-12 col-md-6 col-lg-3 p-1 request" ng-repeat="req in reqs | reqs:env">
 		<div class="card text-white bg-dark overflow-hidden" ng-class="{'border-danger border-5': req.status === 'rejected',
 					'border-success border-5': req.status === 'confirmed'}">
 			<img src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
