@@ -1,46 +1,52 @@
 <h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
-<div class="row mt-5" ng-repeat="(clientId, reqs) in requests | users:env">
-	<h4 class="col-8 col-md-10">
+<div class="row mt-4" ng-repeat="(clientId, reqs) in requests | users:env">
+	<h4 class="col mb-2 text-truncate">
 		<i class="fas fa-user"></i> {{::reqs[0].clientId.name}}
 	</h4>
-	<div class="col-4 col-md-2 fs-5 text-end">
+
+	<div class="col-auto fs-5 text-end">
 		{{sum(reqs | reqs:env | reqs:'notRejected')}}
+		({{(reqs | reqs:env).length}})
 	</div>
-	<hr>
-	<div>
-		<i class="fas fa-map-marker-alt"></i>
-		<b>Endereço:</b> {{::reqs[0].clientId.address}}
+
+	<div class="w-100"></div>
+
+	<div class="col-12 col-md mt-2" ng-if="::reqs[0].clientId.address">
+		<div class="card">
+			<div class="card-header"><i class="fas fa-map-marker-alt"></i> <b>Endereço</b></div>
+			<a class="card-body p-2" href="https://www.google.com.br/maps/search/{{::reqs[0].clientId.address | url}}"
+				target="_blank">{{::reqs[0].clientId.address}}</a>
+		</div>
 	</div>
-	<div class="col-12 col-md-4">
-		<i class="fas fa-phone-alt"></i> <b>Telefone:</b>
-		<a href="tel:{{::reqs[0].clientId.phone}}">
-			{{::reqs[0].clientId.phone}}
-		</a>
+
+	<div class="col-12 col-md mt-2" ng-if="::reqs[0].clientId.phone">
+		<div class="card">
+			<div class="card-header"><i class="fas fa-phone-alt"></i> <b>Telefone</b></div>
+			<a class="card-body p-2" href="tel:{{::reqs[0].clientId.phone}}" target="_blank">{{::reqs[0].clientId.phone}}</a>
+		</div>
 	</div>
-	<div class="col-12 col-md-4">
-		<i class="fas fa-at"></i> <b>E-mail:</b>
-		<a href="mailto:{{::reqs[0].clientId.email}}">
-			{{::reqs[0].clientId.email}}
-		</a>
+
+	<div class="col-12 col-md mt-2" ng-if="::reqs[0].clientId.email">
+		<div class="card">
+			<div class="card-header"><i class="fas fa-at"></i> <b>E-mail</b></div>
+			<a class="card-body p-2" href="mailto:{{::reqs[0].clientId.email}}" target="_blank">{{::reqs[0].clientId.email}}</a>
+		</div>
 	</div>
-	<div class="col-12 col-md-4">
-		<i class="fas fa-bullhorn"></i>
-		<b>Qtd. de pedidos:</b> {{(reqs | reqs:env).length}}
-	</div>
-	<div class="mt-2" ng-if="env !== 'history'">
-		<button class="btn btn-outline-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')"
-			title="Confirmar todos"><i class="fas fa-check"></i></button>
-		<button class="btn btn-outline-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')"
-			title="Rejeitar todos"><i class="fas fa-times"></i></button>
-		<button class="btn btn-outline-warning" ng-click="confirmAll(reqs | reqs:env, 'done')"
-			title="Fechar todos"><i class="fas fa-check-double"></i></button>
+
+	<div class="mt-2 text-center" ng-if="env !== 'history'">
+		<button class="btn btn-outline-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')" title="Confirmar todos">
+			<i class="fas fa-check"></i></button>
+		<button class="btn btn-outline-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')" title="Rejeitar todos">
+			<i class="fas fa-times"></i></button>
+		<button class="btn btn-outline-warning" ng-click="confirmAll(reqs | reqs:env, 'done')" title="Fechar todos">
+			<i class="fas fa-check-double"></i></button>
 		<button class="btn btn-outline-primary" ng-click="confirmAll(reqs | reqs:env, 'feedback')"
 			title="Enviar comentário para todos"><i class="fas fa-comment-alt"></i></button>
 	</div>
 
-	<div class="col col-12 col-md-6 col-lg-3 p-1 request" ng-repeat="req in reqs | reqs:env">
+	<div class="col col-12 col-md-6 col-lg-3 mt-4 request" ng-repeat="req in reqs | reqs:env">
 		<div class="card text-white bg-dark overflow-hidden" ng-class="{'border-danger border-5': req.status === 'rejected',
-					'border-success border-5': req.status === 'confirmed'}">
+						'border-success border-5': req.status === 'confirmed'}">
 			<img src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
 			<div class="card-body pt-2" style="z-index:1">
 				<small class="momentUpdate d-block text-end" data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</small>
@@ -91,7 +97,7 @@
 					<button class="btn border border-danger text-white" ng-click="cancel(req, clientId)"
 						title="Cancelar pedido"><i class="fas fa-times"></i> Cancelar pedido</button>
 				</div>
-				
+
 				<div class="mt-3" ng-if="env === 'history' && req.status === 'confirmed' && !req.open">
 					<i class="d-block mb-2 text-white">Avalie este produto:</i>
 					<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=1}" ng-click="rt(req, 1)"></i>

@@ -72,7 +72,7 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 	return input => {
 		return input.toFixed(2).toString().replace('.', ',')
 	}
-})
+}).filter('url', () => encodeURIComponent)
 
 function filter(env) {
 	return r => {

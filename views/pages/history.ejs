@@ -1,6 +1,10 @@
 <div class="container my-4" ng-controller="historyCtrl">
 	<h1 class="mb-4"><i class="fas fa-history"></i> Histórico de compras</h1>
-	<ng-include src="'/pages/request.html'" ng-init="env='history'" ng-if="true"></ng-include>
+	<ng-include src="'/pages/request.html'" ng-init="env='history'" ng-if="true">
+		<div class="text-center mt-4">
+			<div class="spinner-border me-3"></div><span class="fs-3">Carregando...</span>
+		</div>
+	</ng-include>
 </div>
 
 <script src="/socket.io/socket.io.min.js"></script>

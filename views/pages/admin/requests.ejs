@@ -27,15 +27,27 @@ requests = requests.reverse().reduce((a, b) => {
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane fade show active" id="pending">
-			<ng-include src="'/pages/request.html'" ng-init="env='pending'" ng-if="true"></ng-include>
+			<ng-include src="'/pages/request.html'" ng-init="env='pending'" ng-if="true">
+				<div class="text-center mt-4">
+					<div class="spinner-border me-3"></div><span class="fs-3">Carregando...</span>
+				</div>
+			</ng-include>
 		</div>
 
 		<div class="tab-pane fade" id="rejected">
-			<ng-include src="'/pages/request.html'" ng-init="env='rejected'" ng-if="true"></ng-include>
+			<ng-include src="'/pages/request.html'" ng-init="env='rejected'" ng-if="true">
+				<div class="text-center mt-4">
+					<div class="spinner-border me-3"></div><span class="fs-3">Carregando...</span>
+				</div>
+			</ng-include>
 		</div>
 
 		<div class="tab-pane fade" id="closed">
-			<ng-include src="'/pages/request.html'" ng-init="env='closed'" ng-if="true"></ng-include>
+			<ng-include src="'/pages/request.html'" ng-init="env='closed'" ng-if="true">
+				<div class="text-center mt-4">
+					<div class="spinner-border me-3"></div><span class="fs-3">Carregando...</span>
+				</div>
+			</ng-include>
 		</div>
 	</div>
 </div>

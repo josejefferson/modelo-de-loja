@@ -63,7 +63,7 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 	return input => {
 		return input.toFixed(2).toString().replace('.', ',')
 	}
-})
+}).filter('url', () => encodeURIComponent)
 
 async function confirm($scope, req, act, feedback) {
 	fetch('/requests/confirm/' + req._id, {
