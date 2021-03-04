@@ -5,6 +5,7 @@ product.oldpriceStr = product.oldprice?.toFixed(2).toString().replace('.', ',')
 const {_1, _2, _3, _4, _5} = product.rating
 product.ratingUsers = _1 + _2 + _3 + _4 + _5
 product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
+const _link = env === 'view' ? 'a' : 'div'
 const _buyCol = env !== 'buy' ? 'col-6' : 'col-12 mb-3'
 const _stkQtd = (product.stock >= 0) ? `(${product.stock} unid. dispon.)` : '(disponível)'
 const _stkMin = product.stock === 0 ? 0 : 1
@@ -15,70 +16,68 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 %>
 
 <div class="col <%=_buyCol%> col-md-4 col-lg-3 px-1 py-1">
-	<div class="card shadow h-100">
+	<<%=_link%> href="/product/<%= product.id %>" class="card shadow text-decoration-none text-dark h-100">
 		<% if (product.badge) { %>
 			<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge"><%= product.badge %></div>
 		<% } %>
-		<a href="/product/<%= product.id %>" class="text-dark text-decoration-none">
-			<% if (product.image) { %>
-				<div class="ratio ratio-16x9">
-					<img src="<%= product.image %>" class="card-img-top"> <!--Todo: cover-->
+
+		<% if (product.image) { %>
+			<div class="ratio ratio-16x9">
+				<img src="<%= product.image %>" class="card-img-top"> <!--Todo: cover-->
+			</div>
+		<% } else { %>
+			<div class="ratio ratio-16x9 bg-light">
+				<div class="d-flex align-items-center justify-content-center text-secondary">
+					<i class="fas fa-5x fa-image"></i>
 				</div>
-			<% } else { %>
-				<div class="ratio ratio-16x9 bg-light">
-					<div class="d-flex align-items-center justify-content-center text-secondary">
-						<i class="fas fa-5x fa-image"></i>
+			</div>
+		<% } %>
+
+		<div class="card-body d-flex flex-column">
+			<h5 class="card-title">
+				<% if (product.hidden) { %><i class="fas fa-eye-slash"></i><% } %>
+				<%= product.name %>
+			</h5>
+			<div class="card-text">
+				<div>
+					<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.ratingNum>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.ratingNum>=3?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.ratingNum>=4?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.ratingNum>=5?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<small><small class="fs-8"><%= product.ratingNum %> (<%= product.ratingUsers %>)</small></small>
+				</div>
+				<div class="mt-2">
+					<% if (product.oldpriceStr) { %>
+						<s class="d-block fs-6 text-secondary">
+							<small>R$ <%= product.oldpriceStr %></small>
+						</s>
+					<% } %>
+					<div><b class="fs-5">R$ <%= product.priceStr %></b></div>
+					<small>
+						<% if (product.stock) { %><%=_stkQtd%>
+						<% } else { %>
+							<span class="text-danger">(esgotado)</span>
+						<% } %>
+					</small>
+				</div>
+			</div>
+
+			<% if (env === 'edit') { %>
+				<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
+					<div class="btn-group">
+						<a href="/products/edit/<%= product.id %>" class="btn btn-sm btn-outline-secondary">
+							<i class="fas fa-pencil-alt"></i>
+							<span class="d-none d-sm-inline-block">Editar</span>
+						</a>
+						<button class="btn btn-sm btn-outline-secondary remove" data-product-id="<%= product.id %>">
+							<i class="fas fa-trash-alt"></i>
+							<span class="d-none d-sm-inline-block">Remover</span>
+						</button>
 					</div>
 				</div>
 			<% } %>
-		<%- env !== 'view' ? '</a>' : '' %>
-					
-			<div class="card-body d-flex flex-column">
-				<h5 class="card-title">
-					<% if (product.hidden) { %><i class="fas fa-eye-slash"></i><% } %>
-					<%= product.name %>
-				</h5>
-				<div class="card-text">
-					<div>
-						<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-						<i class="fa<%=product.ratingNum>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-						<i class="fa<%=product.ratingNum>=3?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-						<i class="fa<%=product.ratingNum>=4?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-						<i class="fa<%=product.ratingNum>=5?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-						<small><small class="fs-8"><%= product.ratingNum %> (<%= product.ratingUsers %>)</small></small>
-					</div>
-					<div class="mt-2">
-						<% if (product.oldpriceStr) { %>
-							<s class="d-block fs-6 text-secondary">
-								<small>R$ <%= product.oldpriceStr %></small>
-							</s>
-						<% } %>
-						<div><b class="fs-5">R$ <%= product.priceStr %></b></div>
-						<small>
-							<% if (product.stock) { %><%=_stkQtd%>
-							<% } else { %>
-								<span class="text-danger">(esgotado)</span>
-							<% } %>
-						</small>
-					</div>
-				</div>
-
-				<% if (env === 'edit') { %>
-					<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
-						<div class="btn-group">
-							<a href="/products/edit/<%= product.id %>" class="btn btn-sm btn-outline-secondary">
-								<i class="fas fa-pencil-alt"></i>
-								<span class="d-none d-sm-inline-block">Editar</span>
-							</a>
-							<button class="btn btn-sm btn-outline-secondary remove" data-product-id="<%= product.id %>">
-								<i class="fas fa-trash-alt"></i>
-								<span class="d-none d-sm-inline-block">Remover</span>
-							</button>
-						</div>
-					</div>
-				<% } %>
-			</div>
-		<%- env === 'view' ? '</a>' : '' %>
+		</div>
 
 		<% if (env === 'buy') { %>
 			<div class="card-footer">
@@ -99,5 +98,5 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 				<b class="mt-2 fs-5 d-block text-center" ng-bind="<%=_calcPrc%>"></b>
 			</div>
 		<% } %>
-	</div>
+	</<%=_link%>>
 </div>
