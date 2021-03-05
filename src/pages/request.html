@@ -1,5 +1,5 @@
 <h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
-<div class="row mt-4" ng-repeat="(clientId, reqs) in requests | users:env">
+<div class="row mt-4 user" ng-repeat="(clientId, reqs) in requests | users:env">
 	<h4 class="col mb-2 text-truncate">
 		<i class="fas fa-user"></i> {{::reqs[0].clientId.name}}
 	</h4>
@@ -12,7 +12,7 @@
 	<div class="w-100"></div>
 
 	<div class="col-12 col-md mt-2" ng-if="::reqs[0].clientId.address">
-		<div class="card">
+		<div class="card h-100">
 			<div class="card-header"><i class="fas fa-map-marker-alt"></i> <b>Endereço</b></div>
 			<a class="card-body p-2" href="https://www.google.com.br/maps/search/{{::reqs[0].clientId.address | url}}"
 				target="_blank">{{::reqs[0].clientId.address}}</a>
@@ -20,20 +20,20 @@
 	</div>
 
 	<div class="col-12 col-md mt-2" ng-if="::reqs[0].clientId.phone">
-		<div class="card">
+		<div class="card h-100">
 			<div class="card-header"><i class="fas fa-phone-alt"></i> <b>Telefone</b></div>
 			<a class="card-body p-2" href="tel:{{::reqs[0].clientId.phone}}" target="_blank">{{::reqs[0].clientId.phone}}</a>
 		</div>
 	</div>
 
 	<div class="col-12 col-md mt-2" ng-if="::reqs[0].clientId.email">
-		<div class="card">
+		<div class="card h-100">
 			<div class="card-header"><i class="fas fa-at"></i> <b>E-mail</b></div>
 			<a class="card-body p-2" href="mailto:{{::reqs[0].clientId.email}}" target="_blank">{{::reqs[0].clientId.email}}</a>
 		</div>
 	</div>
 
-	<div class="mt-2 text-center" ng-if="env !== 'history'">
+	<div class="mt-2 text-center" ng-if="env === 'pending'">
 		<button class="btn btn-outline-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')" title="Confirmar todos">
 			<i class="fas fa-check"></i></button>
 		<button class="btn btn-outline-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')" title="Rejeitar todos">
@@ -44,68 +44,70 @@
 			title="Enviar comentário para todos"><i class="fas fa-comment-alt"></i></button>
 	</div>
 
-	<div class="col col-12 col-md-6 col-lg-3 mt-4 request" ng-repeat="req in reqs | reqs:env">
-		<div class="card text-white bg-dark overflow-hidden" ng-class="{'border-danger border-5': req.status === 'rejected',
-						'border-success border-5': req.status === 'confirmed'}">
-			<img src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
-			<div class="card-body pt-2" style="z-index:1">
-				<small class="momentUpdate d-block text-end" data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</small>
-				<h4 class="card-title">{{::req.quantity}} × {{::req.productId.name}}</h4>
-				<div>
-					<b><i class="fas fa-dollar-sign"></i></b>
-					{{::req.quantity}} × R$ {{::req.productId.price | money}} =
-					<b class="fs-5">R$ {{::(req.quantity * req.productId.price) | money}}</b>
-				</div>
-				<div>
-					<b><i class="fas fa-calendar"></i></b>
-					{{::moment(req.date).format('hh:mma DD/MM/YYYY')}}
-				</div>
-				<div>
-					<b class="d-block"><i class="fas fa-info-circle"></i> Mais informações:</b>
-					{{::req.other || '-----'}}
-				</div>
-				<div ng-if="env === 'history'" ng-switch="req.status">
-					<b><i class="fas fa-info-circle"></i> Status:</b>
-					<span ng-switch-when="pending">Pendente</span>
-					<span ng-switch-when="confirmed">Confirmado</span>
-					<span ng-switch-when="rejected">Rejeitado</span>
-					<span ng-if="!req.open">(fechado)</span>
-				</div>
-				<div ng-if="env === 'history' && req.feedback">
-					<b class="d-block"><i class="fas fa-comment-alt"></i> Comentário:</b>
-					<i>{{req.feedback}}</i>
-				</div>
-
-				<div class="mt-2" ng-if="env !== 'history'">
-					<button class="btn border border-success text-white" ng-class="{'bg-success': req.status === 'confirmed'}"
-						ng-click="confirm(req, 'confirm')" ng-disabled="!req.open" title="Confirmar">
-						<i class="fas fa-check"></i></button>
-					<button class="btn border border-danger text-white" ng-class="{'bg-danger': req.status === 'rejected'}"
-						ng-click="confirm(req, 'reject')" ng-disabled="!req.open" title="Rejeitar">
-						<i class="fas fa-times"></i></button>
-					<button class="btn border border-warning text-white" ng-class="{'bg-warning': !req.open}"
-						ng-click="confirm(req, 'done')" ng-disabled="!req.open" title="Fechar pedido">
-						<i class="fas fa-check-double"></i></button>
-					<button class="btn border border-primary text-white" ng-class="{'bg-primary': req.feedback}"
-						ng-click="confirm(req, 'feedback')" ng-disabled="!req.open" title="Enviar comentário">
-						<i class="fas fa-comment-alt"></i></button>
-					<button ng-click="confirm(req, 'reset')">R</button>
-					<!--TODO: remover no futuro-->
-				</div>
-
-				<div class="mt-2" ng-if="env === 'history' && req.status === 'pending'">
-					<button class="btn border border-danger text-white" ng-click="cancel(req, clientId)"
-						title="Cancelar pedido"><i class="fas fa-times"></i> Cancelar pedido</button>
-				</div>
-
-				<div class="mt-3" ng-if="env === 'history' && req.status === 'confirmed' && !req.open">
-					<i class="d-block mb-2 text-white">Avalie este produto:</i>
-					<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=1}" ng-click="rt(req, 1)"></i>
-					<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=2}" ng-click="rt(req, 2)"></i>
-					<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=3}" ng-click="rt(req, 3)"></i>
-					<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=4}" ng-click="rt(req, 4)"></i>
-					<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=5}" ng-click="rt(req, 5)"></i>
-					<i class="fas fa-lg fa-times text-white ms-3" ng-if="req.rating > 0" ng-click="rt(req, 0)"></i>
+	<div class="row">
+		<div class="col col-12 col-md-6 col-lg-3 mt-4 request" ng-repeat="req in reqs | reqs:env">
+			<div class="card text-white bg-dark overflow-hidden" ng-class="{'border-danger border-5': req.status === 'rejected',
+							'border-success border-5': req.status === 'confirmed'}">
+				<img src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
+				<div class="card-body pt-2" style="z-index:1">
+					<small class="momentUpdate d-block text-end" data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</small>
+					<h4 class="card-title">{{::req.quantity}} × {{::req.productId.name}}</h4>
+					<div>
+						<b><i class="fas fa-dollar-sign"></i></b>
+						{{::req.quantity}} × R$ {{::req.productId.price | money}} =
+						<b class="fs-5">R$ {{::(req.quantity * req.productId.price) | money}}</b>
+					</div>
+					<div>
+						<b><i class="fas fa-calendar"></i></b>
+						{{::moment(req.date).format('hh:mma DD/MM/YYYY')}}
+					</div>
+					<div>
+						<b class="d-block"><i class="fas fa-info-circle"></i> Mais informações:</b>
+						{{::req.other || '-----'}}
+					</div>
+					<div ng-if="env === 'history'" ng-switch="req.status">
+						<b><i class="fas fa-info-circle"></i> Status:</b>
+						<span ng-switch-when="pending">Pendente</span>
+						<span ng-switch-when="confirmed">Confirmado</span>
+						<span ng-switch-when="rejected">Rejeitado</span>
+						<span ng-if="!req.open">(fechado)</span>
+					</div>
+					<div ng-if="env === 'history' && req.feedback">
+						<b class="d-block"><i class="fas fa-comment-alt"></i> Comentário:</b>
+						<i>{{req.feedback}}</i>
+					</div>
+	
+					<div class="mt-2" ng-if="env !== 'history'">
+						<button class="btn border border-success text-white" ng-class="{'bg-success': req.status === 'confirmed'}"
+							ng-click="confirm(req, 'confirm')" ng-disabled="!req.open" title="Confirmar">
+							<i class="fas fa-check"></i></button>
+						<button class="btn border border-danger text-white" ng-class="{'bg-danger': req.status === 'rejected'}"
+							ng-click="confirm(req, 'reject')" ng-disabled="!req.open" title="Rejeitar">
+							<i class="fas fa-times"></i></button>
+						<button class="btn border border-warning text-white" ng-class="{'bg-warning': !req.open}"
+							ng-click="confirm(req, 'done')" ng-disabled="!req.open" title="Fechar pedido">
+							<i class="fas fa-check-double"></i></button>
+						<button class="btn border border-primary text-white" ng-class="{'bg-primary': req.feedback}"
+							ng-click="confirm(req, 'feedback')" ng-disabled="!req.open" title="Enviar comentário">
+							<i class="fas fa-comment-alt"></i></button>
+						<button ng-click="confirm(req, 'reset')">R</button>
+						<!--TODO: remover no futuro-->
+					</div>
+	
+					<div class="mt-2" ng-if="env === 'history' && req.status === 'pending'">
+						<button class="btn border border-danger text-white" ng-click="cancel(req, clientId)"
+							title="Cancelar pedido"><i class="fas fa-times"></i> Cancelar pedido</button>
+					</div>
+	
+					<div class="mt-3" ng-if="env === 'history' && req.status === 'confirmed' && !req.open">
+						<i class="d-block mb-2 text-white">Avalie este produto:</i>
+						<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=1}" ng-click="rt(req, 1)"></i>
+						<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=2}" ng-click="rt(req, 2)"></i>
+						<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=3}" ng-click="rt(req, 3)"></i>
+						<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=4}" ng-click="rt(req, 4)"></i>
+						<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=5}" ng-click="rt(req, 5)"></i>
+						<i class="fas fa-lg fa-times text-white ms-3" ng-if="req.rating > 0" ng-click="rt(req, 0)"></i>
+					</div>
 				</div>
 			</div>
 		</div>

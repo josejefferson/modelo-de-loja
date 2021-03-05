@@ -142,14 +142,12 @@ module.exports = io => ({
 					return res.redirect(req.query.r || '/login')
 				}
 
-				req.flash('success_msg', 'Logado com sucesso!')
 				return res.redirect(req.query.r || '/requests')
 			})
 		})(req, res, next)
 	},
 	logout: async (req, res, next) => {
 		req.logout()
-		req.flash('success_msg', 'Deslogado com sucesso')
 		res.redirect(req.query.r || '/login')
 	},
 	addAdmin: async (req, res, next) => {

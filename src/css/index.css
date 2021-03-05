@@ -39,15 +39,18 @@ input::-webkit-inner-spin-button {
 	display: none !important;
 }
 
+.checkOut {
+	bottom: 5px;
+	left: 10px;
+	right: 10px;
+}
+
 @media (min-width: 768px) {
 	.checkOut {
 		width: auto;
 		left: auto;
 		right: 20px;
 		bottom: 20px;
-	}
-	.checkOut button {
-		border-radius: 1000px !important;
 	}
 }
 
@@ -68,4 +71,9 @@ input::-webkit-inner-spin-button {
 .navbar-collapse.show {
 	overflow: auto;
 	max-height: calc(100vh - 56px);
+}
+
+.user:not(:first-child) {
+	border-top: 1px solid #dee2e6;
+	padding-top: 20px;
 }

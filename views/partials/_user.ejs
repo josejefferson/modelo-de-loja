@@ -1,12 +1,13 @@
 <%
 if ('env' in locals) { env = env || 'show' } else { env = 'show' }
+const _redir = locals.redir ? '?r=' + redir : ''
 %>
 
 <% if (env === 'buy') { %>
-<label class="col-12 col-md-6 mt-4 user">
+<label class="col-12 col-md-6 g-4 user">
 	<input type="radio" class="hidden userSelect" name="user" value="<%= user._id %>" <%=i===0?'checked':''%>>
 <% } else { %>
-<div class="col-12 col-md-6 mt-4 user">
+<div class="col-12 col-md-6 g-4 user">
 <% } %>
 	<div class="card shadow-sm h-100">
 		<div class="card-body d-flex flex-column">
@@ -27,15 +28,17 @@ if ('env' in locals) { env = env || 'show' } else { env = 'show' }
 					<%= user.email || '-----' %>
 				</a></div>
 
-			<% if (env === 'edit') { %>
+			<% if (env === 'edit' || env === 'buy') { %>
 				<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
 					<div class="btn-group">
-						<a href="/users/edit/<%= user._id %>" class="btn btn-sm btn-outline-secondary">
+						<a href="/users/edit/<%= user._id %><%=_redir%>" class="btn btn-sm btn-outline-secondary">
 							<i class="fas fa-pencil-alt"></i> Editar
 						</a>
-						<button class="btn btn-sm btn-outline-secondary remove" data-client-id="<%= user._id %>">
-							<i class="fas fa-trash-alt"></i> Remover
-						</button>
+						<% if (env !== 'buy') { %>
+							<button class="btn btn-sm btn-outline-secondary remove" data-client-id="<%= user._id %>">
+								<i class="fas fa-trash-alt"></i> Remover
+							</button>
+						<% } %>
 					</div>
 				</div>
 			<% } %>
