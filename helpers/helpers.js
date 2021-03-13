@@ -1,5 +1,10 @@
 const Product = require('../models/Product')
 
+function g(req, res, next) {
+	req.data = req.data || {}
+	return next()
+}
+
 async function getCart(cart, rmSoldOut = false) {
 	cart = [...new Set(cart)]
 	const products = []
@@ -37,4 +42,4 @@ function render(page, title) {
 	}
 }
 
-module.exports = { getCart, rndString, render }
+module.exports = { g, getCart, rndString, render }

@@ -39,6 +39,11 @@
 	app.use(cookieParser())
 	app.use(express.static('src'))
 	app.use('/', require('./helpers/routes')(io))
+	app.use((err, req, res, next) => {
+		console.log(err)
+		req.flash('error_msg', 'Ocorreu um erro interno do servidor')
+		res.redirect('/')
+	})
 
 	const PORT = process.env.PORT || 3000
 	http.listen(PORT, () =>

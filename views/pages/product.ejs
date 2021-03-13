@@ -19,7 +19,7 @@ const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 			<button <%-i===0?'class="active"':''%> data-bs-target="#media" data-bs-slide-to="<%=i%>"></button>
 		<% }) %>
 	</div>
-	<div class="carousel-inner">
+	<div class="carousel-inner" style="max-height:300px">
 		<% product.media.forEach((m, i) => { %>
 			<div class="carousel-item  ratio ratio-16x9 <%=i===0?'active':''%>">
 				<img src="<%= m.url %>" class="d-block w-100" style="object-fit:contain;max-height:300px">

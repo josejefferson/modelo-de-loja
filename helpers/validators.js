@@ -9,6 +9,7 @@ const {
 module.exports = {
 	buy: [],
 	cart: [],
+	cancelReq: [],
 	usersAdd: [],
 	usersEdit: [],
 	login: [

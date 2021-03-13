@@ -4,10 +4,11 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 		console.log('[SOCKET] Conectado')
 	})
 	socket.on('newRequests', requests => {
-		data.forEach(request => {
-			$scope.requests[request.clientId].unshift(request.request)
+		requests.requests.forEach(request => {
+			$scope.requests[requests.clientId] = $scope.requests[requests.clientId] || []
+			$scope.requests[requests.clientId].unshift(request)
 			$scope.$apply()
-			toast(`Novo pedido do usuário "${request.request.clientId.name}"`, 'info')
+			toast(`Novo pedido do usuário "${request.clientId.name}"`, 'info')
 		})
 	})
 
@@ -102,15 +103,3 @@ window.setInterval(() => {
 		e.innerText = moment(e.dataset.time).fromNow()
 	})
 }, 5000)
-
-angular.module('store').animation('.request', () => ({ enter: anim.open, leave: anim.close }))
-const anim = {
-	open: (el, done) => {
-		el.stop(true, false).css({ display: 'none' }).slideDown(100).fadeTo(300, 1, done)
-		return done
-	},
-	close: (el, done) => {
-		el.stop(true, false).fadeTo(500, 0).slideUp(100, done)
-		return done
-	}
-}
