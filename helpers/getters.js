@@ -57,8 +57,8 @@ module.exports = {
 		return next()
 	},
 	requests: async (req, res, next) => {
-		req.data.requests = await Request.find().catch(error(req, res))
-			.populate('productId', 'name price image').populate('clientId')
+		req.data.requests = await Request.find()
+			.populate('productId', 'name price image').populate('clientId') //catch
 		return next()
 	},
 	image: async (req, res, next) => {
