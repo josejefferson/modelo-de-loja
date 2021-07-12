@@ -4,31 +4,31 @@
 	@extend .g-4;
 }
 
-.user .card {
+.user>.card {
 	@extend .card;
 	@extend .shadow-sm;
 	@extend .h-100;
 }
 
-.user .card .body {
+.user>.card>.body {
 	@extend .card-body;
 	@extend .d-flex;
 	@extend .flex-column;
 
 	// Edit controls
-	.edit {
+	&>.edit {
 		@extend .d-inline-flex;
 		@extend .flex-grow-1;
 		@extend .align-items-end;
 		@extend .mt-3;
 	}
 
-	.edit div {
+	&>.edit>div {
 		@extend .btn-group;
 	}
 
-	.edit div a,
-	.edit div button {
+	&>.edit>div>a,
+	&>.edit>div>button {
 		@extend .btn;
 		@extend .btn-sm;
 		@extend .btn-outline-secondary;

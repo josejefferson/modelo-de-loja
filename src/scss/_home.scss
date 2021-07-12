@@ -6,7 +6,7 @@
 		@extend .container;
 	}
 
-	h1 {
+	&>div>h1 {
 		@extend .display-4;
 	}
 }

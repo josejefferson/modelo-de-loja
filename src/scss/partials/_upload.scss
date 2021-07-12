@@ -22,14 +22,14 @@
 	}
 
 	// File list
-	.files {
+	&>.files {
 		@extend .list-group;
 		@extend .list-group-flush;
 		@extend .mt-3;
 		@extend .w-100;
 	}
 
-	.files .file {
+	&>.files>.file {
 		@extend .row;
 		@extend .list-group-item;
 		@extend .d-flex;
@@ -38,31 +38,31 @@
 		background: none;
 	}
 
-	.files .file .name {
+	&>.files>.file>.name {
 		@extend .col-12;
 		@extend .col-md-6;
 		@extend .text-truncate;
 	}
-	
-	.files .file .type {
+
+	&>.files>.file>.type {
 		@extend .col-12;
 		@extend .col-md-3;
 		@extend .text-truncate;
 	}
-	
-	.files .file .size {
+
+	&>.files>.file>.size {
 		@extend .col-12;
 		@extend .col-md-2;
 		@extend .text-truncate;
 	}
 
-	.files .file .status {
+	&>.files>.file>.status {
 		@extend .col-12;
 		@extend .col-md-1;
 		@extend .text-end;
 	}
 
-	.files .file .error {
+	&>.files>.file>.error {
 		@extend .col-12;
 		@extend .text-danger;
 		@extend .mt-1;

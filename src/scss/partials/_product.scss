@@ -6,7 +6,7 @@
 	@extend .py-1;
 }
 
-.product .card {
+.product>.card {
 	@extend .card;
 	@extend .shadow;
 	@extend .text-decoration-none;
@@ -14,7 +14,7 @@
 	@extend .h-100;
 }
 
-.product .card .badge {
+.product>.card>.badge {
 	@extend .position-absolute;
 	@extend .top-0;
 	@extend .end-0;
@@ -23,11 +23,11 @@
 	@extend .p-1;
 }
 
-.product .card .image {
+.product>.card>.image {
 	@extend .ratio;
 	@extend .ratio-16x9;
 
-	.image img {
+	&>img {
 		@extend .card-img-top;
 		object-fit: cover;
 	}
@@ -36,7 +36,7 @@
 		@extend .bg-light;
 	}
 
-	&.dummy div {
+	&.dummy>div {
 		@extend .d-flex;
 		@extend .align-items-center;
 		@extend .justify-content-center;
@@ -44,87 +44,87 @@
 	}
 }
 
-.product .card .body {
+.product>.card>.body {
 	@extend .card-body;
 	@extend .d-flex;
 	@extend .flex-column;
 
 	// Title
-	h5 {
+	&>h5 {
 		@extend .card-title;
 	}
 
 	// Info
-	.text {
+	&>.text {
 		@extend .card-text;
 	}
 
-	.text .price {
+	&>.text>.price {
 		@extend .mt-2;
 	}
 
-	.text .price .old-price {
+	&>.text>.price>.old-price {
 		@extend .d-block;
 		@extend .fs-6;
 		@extend .text-secondary;
 	}
 
-	.text .price .current-price {
+	&>.text>.price>.current-price {
 		@extend .fs-5;
 		font-weight: bold;
 	}
 
-	.text .price .stock .sold-out {
+	&>.text>.price>.stock>.sold-out {
 		@extend .text-danger;
 	}
 
 	// Edit controls
-	.edit {
+	&>.edit {
 		@extend .d-inline-flex;
 		@extend .flex-grow-1;
 		@extend .align-items-end;
 		@extend .mt-3;
 	}
 
-	.edit div {
+	&>.edit>div {
 		@extend .btn-group;
 	}
 
-	.edit div a,
-	.edit div button {
+	&>.edit>div>a,
+	&>.edit>div>button {
 		@extend .btn;
 		@extend .btn-sm;
 		@extend .btn-outline-secondary;
 
-		span {
+		&>span {
 			@extend .d-none;
 			@extend .d-sm-inline-block;
 		}
 	}
 
 	// Buy footer
-	.quantity {
+	&>.quantity {
 		@extend .card-footer;
 	}
 
-	.quantity .controls {
+	&>.quantity>.controls {
 		@extend .d-flex;
 		@extend .align-items-baseline;
 	}
 
-	.quantity .controls button {
+	&>.quantity>.controls>button {
 		@extend .btn;
 		@extend .btn-sm;
 	}
 
-	.quantity .controls input.number {
+	&>.quantity>.controls>input.number {
 		@extend .form-control;
 		@extend .form-control-sm;
 		@extend .text-center;
 		@extend .mx-1;
 	}
 
-	.quantity .total-price {
+	&>.quantity>.total-price {
 		@extend .mt-2;
 		@extend .fs-5;
 		@extend .d-block;

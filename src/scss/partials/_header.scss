@@ -4,36 +4,38 @@ nav.main-header {
 	@extend .navbar-dark;
 	@extend .bg-dark;
 	@extend .sticky-top;
+}
 
-	.brand {
+nav.main-header>.container {
+	&>.brand {
 		@extend .navbar-brand;
 	}
 
-	.toggler {
+	&>.toggler {
 		@extend .navbar-toggler;
 	}
 
-	.toggler span {
+	&>.toggler>span {
 		@extend .navbar-toggler-icon;
 	}
 
 	///
 
-	.nav {
+	&>.nav {
 		@extend .collapse;
 		@extend .navbar-collapse;
 	}
 
-	.nav ul {
+	&>.nav>ul {
 		@extend .navbar-nav;
 		@extend .ms-auto;
 	}
 
-	.nav ul li {
+	&.nav>ul>li {
 		@extend .nav-item;
 	}
 
-	.nav ul li a {
+	&>.nav>ul>li>a {
 		@extend .nav-link;
 	}
 }

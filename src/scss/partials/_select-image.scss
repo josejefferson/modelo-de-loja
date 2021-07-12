@@ -1,7 +1,7 @@
 .select-image {
 	@extend .row;
 
-	label {
+	&>label {
 		@extend .col-12;
 		@extend .col-md-3;
 		@extend .col-lg-2;
@@ -9,15 +9,15 @@
 		cursor: pointer;
 	}
 
-	label .preview {
+	&>label>.preview {
 		@extend .card;
 
-		img {
+		&>img {
 			@extend .card-img-top;
 		}
 	}
 
-	label input:checked+.preview {
+	&>label>input:checked+.preview {
 		border: #0d6efd 5px solid;
 	}
 }
