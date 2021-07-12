@@ -1,0 +1,21 @@
+.welcome {
+	@extend .bg-light;
+	@extend .py-5;
+
+	&>div {
+		@extend .container;
+	}
+
+	h1 {
+		@extend .display-4;
+	}
+}
+
+.products {
+	@extend .container;
+	@extend .my-5;
+
+	&>div {
+		@extend .row;
+	}
+}

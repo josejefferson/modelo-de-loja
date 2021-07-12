@@ -1,0 +1,70 @@
+.upload {
+	width: 100%;
+	height: 100%;
+	border: gray 3px dashed;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	border-radius: 40px;
+	background-color: #f3f3f3;
+	padding: 30px 30px;
+	cursor: pointer;
+
+	&:active {
+		background-color: #e9e9e9;
+	}
+
+	&.highlight {
+		border-color: dodgerblue;
+		background-color: #d8ecf3;
+	}
+
+	// File list
+	.files {
+		@extend .list-group;
+		@extend .list-group-flush;
+		@extend .mt-3;
+		@extend .w-100;
+	}
+
+	.files .file {
+		@extend .row;
+		@extend .list-group-item;
+		@extend .d-flex;
+		@extend .align-items-center;
+		@extend .text-start;
+		background: none;
+	}
+
+	.files .file .name {
+		@extend .col-12;
+		@extend .col-md-6;
+		@extend .text-truncate;
+	}
+	
+	.files .file .type {
+		@extend .col-12;
+		@extend .col-md-3;
+		@extend .text-truncate;
+	}
+	
+	.files .file .size {
+		@extend .col-12;
+		@extend .col-md-2;
+		@extend .text-truncate;
+	}
+
+	.files .file .status {
+		@extend .col-12;
+		@extend .col-md-1;
+		@extend .text-end;
+	}
+
+	.files .file .error {
+		@extend .col-12;
+		@extend .text-danger;
+		@extend .mt-1;
+	}
+}

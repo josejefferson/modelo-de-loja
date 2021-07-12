@@ -1,0 +1,23 @@
+.select-image {
+	@extend .row;
+
+	label {
+		@extend .col-12;
+		@extend .col-md-3;
+		@extend .col-lg-2;
+		@extend .mt-4;
+		cursor: pointer;
+	}
+
+	label .preview {
+		@extend .card;
+
+		img {
+			@extend .card-img-top;
+		}
+	}
+
+	label input:checked+.preview {
+		border: #0d6efd 5px solid;
+	}
+}

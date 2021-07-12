@@ -3,14 +3,14 @@ const email = locals.userData?.[0]?.email
 const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
 %>
 
-<div class="container my-4">
-	<h1 class="mb-4"><i class="fas fa-sign-in-alt"></i> Login</h1>
+<div class="login">
+	<h1><i class="fas fa-sign-in-alt"></i> Login</h1>
 	<form action="/login<%=_redir%>" method="POST">
-		<input type="email" class="form-control rounded-0 rounded-top p-2" name="email" placeholder="E-mail" value="<%= email %>" autocomplete="off" autofocus required style="margin-bottom:-1px;position:relative">
-		<input type="password" class="form-control rounded-0 rounded-bottom p-2" name="password" placeholder="Senha" autocomplete="off" required>
+		<input type="email" name="email" placeholder="E-mail" value="<%= email %>" autocomplete="off" autofocus required style="margin-bottom:-1px;position:relative">
+		<input type="password" name="password" placeholder="Senha" autocomplete="off" required>
 
-		<div class="text-center mt-3">
-			<button class="btn btn-lg btn-success mx-auto" type="submit">
+		<div class="send">
+			<button type="submit">
 				<i class="fas fa-sign-in-alt"></i> Entrar
 			</button>
 		</div>

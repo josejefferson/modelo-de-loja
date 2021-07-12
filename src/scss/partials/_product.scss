@@ -1,0 +1,133 @@
+.product {
+	@extend .col;
+	@extend .col-md-4;
+	@extend .col-lg-3;
+	@extend .px-1;
+	@extend .py-1;
+}
+
+.product .card {
+	@extend .card;
+	@extend .shadow;
+	@extend .text-decoration-none;
+	@extend .text-dark;
+	@extend .h-100;
+}
+
+.product .card .badge {
+	@extend .position-absolute;
+	@extend .top-0;
+	@extend .end-0;
+	@extend .bg-danger;
+	@extend .text-white;
+	@extend .p-1;
+}
+
+.product .card .image {
+	@extend .ratio;
+	@extend .ratio-16x9;
+
+	.image img {
+		@extend .card-img-top;
+		object-fit: cover;
+	}
+
+	&.dummy {
+		@extend .bg-light;
+	}
+
+	&.dummy div {
+		@extend .d-flex;
+		@extend .align-items-center;
+		@extend .justify-content-center;
+		@extend .text-secondary;
+	}
+}
+
+.product .card .body {
+	@extend .card-body;
+	@extend .d-flex;
+	@extend .flex-column;
+
+	// Title
+	h5 {
+		@extend .card-title;
+	}
+
+	// Info
+	.text {
+		@extend .card-text;
+	}
+
+	.text .price {
+		@extend .mt-2;
+	}
+
+	.text .price .old-price {
+		@extend .d-block;
+		@extend .fs-6;
+		@extend .text-secondary;
+	}
+
+	.text .price .current-price {
+		@extend .fs-5;
+		font-weight: bold;
+	}
+
+	.text .price .stock .sold-out {
+		@extend .text-danger;
+	}
+
+	// Edit controls
+	.edit {
+		@extend .d-inline-flex;
+		@extend .flex-grow-1;
+		@extend .align-items-end;
+		@extend .mt-3;
+	}
+
+	.edit div {
+		@extend .btn-group;
+	}
+
+	.edit div a,
+	.edit div button {
+		@extend .btn;
+		@extend .btn-sm;
+		@extend .btn-outline-secondary;
+
+		span {
+			@extend .d-none;
+			@extend .d-sm-inline-block;
+		}
+	}
+
+	// Buy footer
+	.quantity {
+		@extend .card-footer;
+	}
+
+	.quantity .controls {
+		@extend .d-flex;
+		@extend .align-items-baseline;
+	}
+
+	.quantity .controls button {
+		@extend .btn;
+		@extend .btn-sm;
+	}
+
+	.quantity .controls input.number {
+		@extend .form-control;
+		@extend .form-control-sm;
+		@extend .text-center;
+		@extend .mx-1;
+	}
+
+	.quantity .total-price {
+		@extend .mt-2;
+		@extend .fs-5;
+		@extend .d-block;
+		@extend .text-center;
+	}
+}

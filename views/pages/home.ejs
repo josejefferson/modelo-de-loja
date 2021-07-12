@@ -1,11 +1,11 @@
-<div class="bg-light py-5">
-	<div class="container">
-		<h1 class="display-4">Bem-vindo(a)!</h1>
+<div class="welcome">
+	<div>
+		<h1>Bem-vindo(a)!</h1>
 	</div>
 </div>
 
-<div class="container my-5">
-	<div class="row">
+<div class="products">
+	<div>
 		<% products.forEach(product => { %>
 			<%- include('../partials/_product.ejs', {product, env: 'view'}) %>
 		<% }) %>

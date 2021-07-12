@@ -1,12 +1,11 @@
-<link rel="stylesheet" href="/css/selectImage.css">
 <div ng-controller="selectImageCtrl">
-	<div class="row">
+	<div class="select-image">
 		<div ng-if="!images.length && !loading">Nenhuma imagem</div>
 		<div ng-if="!images.length && loading">Carregando imagens...</div>
-		<label class="col-12 col-md-3 col-lg-2 mt-4 selImage" ng-repeat="image in images">
+		<label ng-repeat="image in images">
 			<input type="radio" class="selectedImage hidden" value="{{image._id}}">
-			<div class="card">
-				<img src="/images/{{image._id}}" class="card-img-top">
+			<div class="preview">
+				<img src="/images/{{image._id}}">
 			</div>
 		</label>
 	</div>

@@ -1,0 +1,39 @@
+nav.main-header {
+	@extend .navbar;
+	@extend .navbar-expand-lg;
+	@extend .navbar-dark;
+	@extend .bg-dark;
+	@extend .sticky-top;
+
+	.brand {
+		@extend .navbar-brand;
+	}
+
+	.toggler {
+		@extend .navbar-toggler;
+	}
+
+	.toggler span {
+		@extend .navbar-toggler-icon;
+	}
+
+	///
+
+	.nav {
+		@extend .collapse;
+		@extend .navbar-collapse;
+	}
+
+	.nav ul {
+		@extend .navbar-nav;
+		@extend .ms-auto;
+	}
+
+	.nav ul li {
+		@extend .nav-item;
+	}
+
+	.nav ul li a {
+		@extend .nav-link;
+	}
+}

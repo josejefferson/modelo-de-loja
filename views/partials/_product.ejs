@@ -15,30 +15,28 @@ const _calcPrc = `'R$ ' + ((products.p${product.id}.qtd*${product.price}||false)
 const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin};products.p${product.id}.price=${product.price}`
 %>
 
-<div class="col <%=_buyCol%> col-md-4 col-lg-3 px-1 py-1">
-	<<%=_link%> href="/product/<%= product.id %>" class="card shadow text-decoration-none text-dark h-100">
+<div class="product <%=_buyCol%>">
+	<<%=_link%> href="/product/<%= product.id %>" class="card">
 		<% if (product.badge) { %>
-			<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge"><%= product.badge %></div>
+			<div class="badge prodBadge"><%= product.badge %></div>
 		<% } %>
 
 		<% if (product.image) { %>
-			<div class="ratio ratio-16x9">
-				<img src="<%= product.image %>" class="card-img-top" style="object-fit:cover">
+			<div class="image">
+				<img src="<%= product.image %>">
 			</div>
 		<% } else { %>
-			<div class="ratio ratio-16x9 bg-light">
-				<div class="d-flex align-items-center justify-content-center text-secondary">
-					<i class="fas fa-5x fa-image"></i>
-				</div>
+			<div class="image dummy">
+				<div><i class="fas fa-5x fa-image"></i></div>
 			</div>
 		<% } %>
 
-		<div class="card-body d-flex flex-column">
-			<h5 class="card-title">
+		<div class="body">
+			<h5>
 				<% if (product.hidden) { %><i class="fas fa-eye-slash"></i><% } %>
 				<%= product.name %>
 			</h5>
-			<div class="card-text">
+			<div class="text">
 				<div>
 					<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
 					<i class="fa<%=product.ratingNum>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
@@ -47,32 +45,32 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 					<i class="fa<%=product.ratingNum>=5?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
 					<small><small class="fs-8"><%= product.ratingNum %> (<%= product.ratingUsers %>)</small></small>
 				</div>
-				<div class="mt-2">
+				<div class="price">
 					<% if (product.oldpriceStr) { %>
-						<s class="d-block fs-6 text-secondary">
+						<s class="old-price">
 							<small>R$ <%= product.oldpriceStr %></small>
 						</s>
 					<% } %>
-					<div><b class="fs-5">R$ <%= product.priceStr %></b></div>
-					<small>
+					<div class="current-price">R$ <%= product.priceStr %></div>
+					<small class="stock">
 						<% if (product.stock) { %><%=_stkQtd%>
 						<% } else { %>
-							<span class="text-danger">(esgotado)</span>
+							<span class="sold-out">(esgotado)</span>
 						<% } %>
 					</small>
 				</div>
 			</div>
 
 			<% if (env === 'edit') { %>
-				<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
-					<div class="btn-group">
-						<a href="/products/edit/<%= product.id %>" class="btn btn-sm btn-outline-secondary">
+				<div class="edit">
+					<div>
+						<a href="/products/edit/<%= product.id %>">
 							<i class="fas fa-pencil-alt"></i>
 							<span class="d-none d-sm-inline-block">Editar</span>
 						</a>
-						<button class="btn btn-sm btn-outline-secondary remove" data-product-id="<%= product.id %>">
+						<button class="remove" data-product-id="<%= product.id %>">
 							<i class="fas fa-trash-alt"></i>
-							<span class="d-none d-sm-inline-block">Remover</span>
+							<span>Remover</span>
 						</button>
 					</div>
 				</div>
@@ -80,22 +78,22 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 		</div>
 
 		<% if (env === 'buy') { %>
-			<div class="card-footer">
+			<div class="quantity">
 				Quantidade:
-				<div class="d-flex align-items-baseline">
-					<button type="button" class="btn btn-sm <%=_unDis%>" ng-click="dec('p<%= product.id %>')">
+				<div class="controls">
+					<button type="button" class="<%=_unDis%>" ng-click="dec('p<%= product.id %>')">
 						<i class="fas fa-minus"></i>
 					</button>
 					<input type="hidden" name="products[<%=i%>][id]" value="<%= product.id %>">
-					<input type="number" name="products[<%=i%>][quantity]" <%=_unDis%> class="form-control form-control-sm text-center mx-1"
+					<input type="number" name="products[<%=i%>][quantity]" <%=_unDis%> class="number"
 						ng-model="products.p<%= product.id %>.qtd" ng-init="<%=_pInit%>" min="<%=_stkMin%>"
 						<%-_stkMax%> value="<%=_stkMin%>" step="1" required>
-					<button type="button" class="btn btn-sm <%=_unDis%>" ng-click="inc('p<%= product.id %>', <%= product.stock %>)">
+					<button type="button" class="<%=_unDis%>" ng-click="inc('p<%= product.id %>', <%= product.stock %>)">
 						<i class="fas fa-plus"></i>
 					</button>
 				</div>
 				
-				<b class="mt-2 fs-5 d-block text-center" ng-bind="<%=_calcPrc%>"></b>
+				<b class="total-price" ng-bind="<%=_calcPrc%>"></b>
 			</div>
 		<% } %>
 	</<%=_link%>>

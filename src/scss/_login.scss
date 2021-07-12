@@ -1,0 +1,32 @@
+.login {
+	@extend .container;
+	@extend .my-4;
+}
+
+.login h1 {
+	@extend .mb-4;
+}
+
+.login form input {
+	@extend .form-control;
+	@extend .rounded-0;
+	@extend .p-2;
+}
+.login form input:first-child {
+	@extend .rounded-top;
+}
+.login form input:last-child {
+	@extend .rounded-bottom;
+}
+
+.login form .send {
+	@extend .text-center;
+	@extend .mt-3;
+
+	button {
+		@extend .btn;
+		@extend .btn-lg;
+		@extend .btn-success;
+		@extend .mx-auto;
+	}
+}

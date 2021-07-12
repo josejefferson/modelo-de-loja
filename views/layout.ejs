@@ -6,23 +6,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><%- _title %> - Modelo de loja</title>
 	<link rel="stylesheet" href="/lib/css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="/lib/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="/lib/css/bootstrap.min.css"> -->
 	<link rel="stylesheet" href="/lib/css/bootstrap-colors.css">
 	<link rel="stylesheet" href="/lib/css/sweetalert2.min.css">
+	<link rel="stylesheet" href="/css/_index.css">
 	<link rel="stylesheet" href="/css/index.css">
 </head>
 
 <body>
 	<%- include('partials/_header.ejs') %>
 	<noscript>
-		<div class="container alert alert-danger mt-3">
+		<div class="javascriptBlocked">
 			<i class="fab fa-js-square"></i>
 			Parece que o Javascript do seu navegador está desativado!
 			Por favor, ative-o para que você possa continuar a usar o nosso site!
 		</div>
 	</noscript>
 
-	<div class="container alert alert-danger mt-3 cookiesBlocked hidden">
+	<div class="cookiesBlocked hidden">
 		<i class="fas fa-cookie-bite"></i>
 		Parece que os cookies do seu navegador estão bloqueados!
 		Por favor, desbloqueie-os para que você possa continuar a usar o nosso site!

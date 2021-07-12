@@ -1,0 +1,13 @@
+.javascriptBlocked {
+	@extend .container;
+	@extend .alert;
+	@extend .alert-danger;
+	@extend .mt-3;
+}
+
+.cookiesBlocked {
+	@extend .container;
+	@extend .alert;
+	@extend .alert-danger;
+	@extend .mt-3;
+}
