@@ -1,0 +1,40 @@
+<div class="container my-4">
+	<h1 class="mb-2"><i class="fas fa-user-shield"></i> Administradores</h1>
+	<div class="users row">
+		<% admins.forEach(user => { %>
+			<div class="col-12 col-md-6 mt-4 user">
+				<div class="card shadow-sm h-100">
+					<div class="card-body">
+						<h4><i class="fas fa-user"></i> <%= user.name %></h4><hr>
+						<div><i class="fas fa-at"></i> <b>E-mail:</b> <a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+						<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
+							<div class="btn-group">
+								<a href="/products/edit/<%= user.id %>" class="btn btn-sm btn-outline-secondary">
+									<i class="fas fa-pencil-alt"></i> Editar
+								</a>
+								<button class="btn btn-sm btn-outline-secondary remove" data-admin-id="<%= user.id %>">
+									<i class="fas fa-trash-alt"></i> Remover
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+		<div class="col-12 col-md-6 mt-4">
+			<div class="card shadow-sm h-100 bg-light">
+				<a href="/admins/add" class="btn card-body d-flex flex-column align-items-center justify-content-center">
+					<i class="fas fa-plus fa-5x"></i>
+					<b class="mt-3 fs-5">Adicionar administrador</b>
+				</a>
+			</div>
+		</div>
+
+		<a href="/admins/add" class="btn btn-primary btn-lg btn-floating px-2 px-md-3 shadow">
+			<i class="fas fa-plus me-md-2"></i>
+			<div class="d-none d-md-block">Adicionar</div>
+		</a>
+	</div>
+</div>
+
+<script src="/js/admin/admins.js"></script>
