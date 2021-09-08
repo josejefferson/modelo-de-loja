@@ -1,14 +1,16 @@
-// Busca um administrador
-function get() {
-	return User.find().select('-password')
-}
+const User = require('./model')
 
-// Busca todos os administradores
-function getAll({id} = {}) {
+// Busca um administrador
+function get({ id } = {}) {
 	return User.findById(id)
 }
 
-// Adiciona um novo administrador
+// Busca todos os administradores
+function getAll() {
+	return User.find().select('-password')
+}
+
+// Adiciona um administrador
 function add({ name, email, password } = {}) {
 	// TODO: Verificar se já não existe um admin com o mesmo email
 	return User.create({
@@ -20,22 +22,17 @@ function add({ name, email, password } = {}) {
 }
 
 // Edita um administrador
-function edit({ id, newName, newEmail, newPassword } = {}) {
+function edit({ id, name, email, password } = {}) {
 	return User.findById(id).then(user => {
-		if (!user) throw {
-			message: 'O administrador não foi encontrado',
-			redirect: '/admins'
-		}
-
-		if (newName) user.name = newName
-		if (newEmail) user.email = newEmail
-		if (newPassword) user.password = bcrypt.hashSync(newPassword, 10)
+		if (name) user.name = name
+		if (email) user.email = email
+		if (password) user.password = bcrypt.hashSync(password, 10)
 
 		return user.save()
 	})
 }
 
-// Exclui um administrador
+// Remove um administrador
 function remove({ id } = {}) {
 	return User.deleteMany({ _id: id })
 }
