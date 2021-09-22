@@ -1,4 +1,24 @@
-const Request = require('./model')
+const mongoose = require('mongoose')
+
+const Request = mongoose.model('Requests', {
+	clientId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Clients',
+		required: true
+	},
+	productId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Products',
+		required: true
+	},
+	quantity: { type: Number, default: 1 },
+	other: String,
+	date: { type: Date, default: Date.now },
+	status: { type: String, enum: ['pending', 'confirmed', 'rejected'], default: 'pending' },
+	open: { type: Boolean, default: true },
+	feedback: String
+})
+
 
 function get({ id } = {}) {
 	return Request.findById(id).populate('productId', 'name price image').populate('clientId')
@@ -28,8 +48,11 @@ function remove({ id } = {}) {
 }
 
 module.exports = {
-	get,
-	getAll,
-	getAllFromClient,
-	add
+	Request,
+	actions: {
+		get,
+		getAll,
+		getAllFromClient,
+		add
+	}
 }

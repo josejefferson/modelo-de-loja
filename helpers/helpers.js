@@ -1,4 +1,4 @@
-const Product = require('../models/Product')
+const Product = require('mongoose').model('Products')
 
 function g(req, res, next) {
 	req.data = req.data || {}
@@ -31,7 +31,7 @@ function rndString() {
 function render(page, title) {
 	return (req, res, next) => {
 		req.data = req.data || {}
-		res.render('pages/' + page, {
+		res.render(page, {
 			url: req.url,
 			_page: page,
 			_title: title,

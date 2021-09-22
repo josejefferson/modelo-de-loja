@@ -1,4 +1,4 @@
-const Product = require('../products/model')
+const Product = require('mongoose').model('Products')
 
 function get(productIDs, onlyWithStock = false) {
 	const products = productIDs.map((id) => {

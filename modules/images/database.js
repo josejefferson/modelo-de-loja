@@ -1,4 +1,10 @@
-const Image = require('./model')
+const mongoose = require('mongoose')
+
+const Image = mongoose.model('Images', {
+	data: Buffer,
+	contentType: String
+})
+
 
 function get({ id } = {}) {
 	return Image.findOne({ _id: id })
@@ -20,8 +26,11 @@ function remove({ id } = {}) {
 }
 
 module.exports = {
-	get,
-	getAll,
-	add,
-	remove
+	Image,
+	actions: {
+		get,
+		getAll,
+		add,
+		remove
+	}
 }

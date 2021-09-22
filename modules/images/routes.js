@@ -1,9 +1,25 @@
 const express = require('express')
 const routes = express.Router()
+const { render, g } = require('../../helpers/helpers')
 const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
-const actions = require('./db-actions')
+const {actions} = require('./database')
+
+routes.get('/:id', g,
+	async (req, res, next) => {
+		actions.get({ id: req.params.id }).then((image) => {
+			req.data.image = image
+			next()
+		})
+	},
+	async (req, res) => {
+		res.contentType(req.data.image)
+		res.send(req.data.image)
+	}
+)
+
+
 
 routes.post('/upload',
 	multer({ dest: './' }).single('files'),

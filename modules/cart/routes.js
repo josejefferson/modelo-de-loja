@@ -1,8 +1,8 @@
 const express = require('express')
 const routes = express.Router()
 const { render, g } = require('../../helpers/helpers')
-const actions = require('./db-actions')
-const Client = require('../clients/model')
+const {actions} = require('./database')
+const {Client} = require('../clients/database')
 
 // Organiza os itens do carrinho
 routes.use((req, res, next) => {
