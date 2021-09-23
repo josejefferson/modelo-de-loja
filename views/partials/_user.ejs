@@ -31,7 +31,7 @@ const _redir = locals.redir ? '?r=' + redir : ''
 			<% if (env === 'edit' || env === 'buy') { %>
 				<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
 					<div class="btn-group">
-						<a href="/users/edit/<%= user._id %><%=_redir%>" class="btn btn-sm btn-outline-secondary">
+						<a href="/clients/edit/<%= user._id %><%=_redir%>" class="btn btn-sm btn-outline-secondary">
 							<i class="fas fa-pencil-alt"></i> Editar
 						</a>
 						<% if (env !== 'buy') { %>

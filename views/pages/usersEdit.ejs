@@ -1,6 +1,6 @@
 <%
 const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
-const action = (locals.user ? `/users/edit/${user._id}` : '/users/add') + _redir
+const action = (locals.user ? `/clients/edit/${user._id}` : '/clients/add') + _redir
 const { name, address, phone, whatsapp, email } = locals.user || locals.userData?.[0] || {}
 %>
 

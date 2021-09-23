@@ -5,7 +5,8 @@ const expressLayouts = require('express-ejs-layouts')
 const app = express()
 const flash = require('connect-flash')
 const session = require('express-session')
-const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
+//const morgan = require('morgan')
 
 const LOCAL_DB = 'mongodb://localhost'
 
@@ -29,6 +30,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(expressLayouts)
 app.use(flash())
+app.use(cookieParser())
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg')
 	res.locals.warning_msg = req.flash('warning_msg')

@@ -4,7 +4,7 @@ const { render, g } = require('../../helpers/helpers')
 const {actions} = require('./database')
 
 // GET
-routes.use((req, res, next) => {
+routes.use(g, (req, res, next) => {
 	const userIDs = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
 	req.data.userIds = userIDs
 	next()
@@ -12,16 +12,16 @@ routes.use((req, res, next) => {
 
 routes.get('/', g,
 	(req, res, next) => {
-		actions.getMultiple({ ids: req.data.userIDs }).then((users) => {
+		actions.getMultiple({ ids: req.data.userIds }).then((users) => {
 			req.data.users = users
 			next()
 		})
 	},
-	render('users', 'Usuários')
+	render('pages/users', 'Usuários')
 )
 
 routes.get('/add',
-	render('usersEdit', 'Adicionar usuário')
+	render('pages/usersEdit', 'Adicionar usuário')
 )
 
 routes.get('/edit/:id', g,
@@ -31,7 +31,7 @@ routes.get('/edit/:id', g,
 			next()
 		})
 	},
-	render('usersEdit', 'Editar usuário')
+	render('pages/usersEdit', 'Editar usuário')
 )
 
 
@@ -50,15 +50,16 @@ routes.post('/add', (req, res, next) => {
 		whatsapp: req.body.whatsapp,
 		email: req.body.email
 	}).then((client) => {
-		req.data.userIDs.push(client._id)
-		res.cookie('userIds', req.data.userIDs.join(','), { maxAge: 315360000000 })
+		req.data.userIds.push(client._id)
+		res.cookie('userIds', req.data.userIds.join(','), { maxAge: 315360000000 })
 		req.flash('success_msg', `Usuário "${req.body.name}" criado`)
-		res.redirect(req.query.r || '/users')
+		res.redirect(req.query.r || '/clients')
 	}).catch(next)
 })
 
 routes.post('/edit/:id', (req, res, next) => {
 	actions.edit({
+		id: req.params.id,
 		name: req.body.name,
 		address: req.body.address,
 		phone: req.body.phone,
@@ -66,7 +67,7 @@ routes.post('/edit/:id', (req, res, next) => {
 		email: req.body.email
 	}).then((client) => {
 		req.flash('success_msg', `Usuário "${client.name}" editado com sucesso`)
-		res.redirect(req.query.r || '/users')
+		res.redirect(req.query.r || '/clients')
 	}).catch(next)
 })
 
