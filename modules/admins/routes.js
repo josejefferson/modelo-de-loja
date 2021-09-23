@@ -13,7 +13,7 @@ routes.get('/', g,
 		actions.getAll().then((user) => {
 			req.data.admins = user
 			next()
-		})
+		}).catch(next)
 	},
 	render(__dirname + '/admins', 'Administradores')
 )
@@ -27,7 +27,7 @@ routes.get('/edit/:id', g,
 		actions.get({ id: req.params.id }).then((user) => {
 			req.data.admin = user
 			next()
-		})
+		}).catch(next)
 	},
 	render(__dirname + '/admins-edit', 'Editar administrador')
 )

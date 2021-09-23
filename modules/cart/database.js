@@ -11,5 +11,7 @@ function get(productIDs, onlyWithStock = false) {
 }
 
 module.exports = {
-	get
+	actions: {
+		get
+	}
 }

@@ -1,0 +1,16 @@
+<div class="bg-light py-5">
+	<div class="container">
+		<h1 class="display-4">Bem-vindo(a)!</h1>
+	</div>
+</div>
+
+<div class="container my-5">
+	<div class="row">
+		<% products.forEach(product => { %>
+		<%- include('../../views/partials/_product.ejs', {product, env: 'view'}) %>
+		<% }) %>
+	</div>
+</div>
+
+<script src="/socket.io/socket.io.min.js"></script>
+<script src="/js/home.js"></script>

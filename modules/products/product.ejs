@@ -1,0 +1,81 @@
+<%
+product.priceStr = product.price?.toFixed(2).toString().replace('.', ',')
+product.oldpriceStr = product.oldprice?.toFixed(2).toString().replace('.', ',')
+product.description = product.description?.replace(/\n/g, '<br>')
+const {_1, _2, _3, _4, _5} = product.rating
+product.ratingUsers = _1 + _2 + _3 + _4 + _5
+product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
+if (product.image) product.media.push({ type: 'image', url: product.image })
+const _badge = product.badge ? `(${product.badge})` : ''
+const _disStk = !product.stock ? 'disabled' : ''
+const _cartHid = cart.includes(product.id) ? 'hidden' : ''
+const _$cartHid = !cart.includes(product.id) ? 'hidden' : ''
+const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
+%>
+
+<div class="carousel slide bg-black" id="media" data-bs-ride="carousel" style="max-height:300px">
+	<div class="carousel-indicators">
+		<% product.media.forEach((m, i) => { %>
+		<button <%-i===0?'class="active"':''%> data-bs-target="#media" data-bs-slide-to="<%=i%>"></button>
+		<% }) %>
+	</div>
+	<div class="carousel-inner" style="max-height:300px">
+		<% product.media.forEach((m, i) => { %>
+		<div class="carousel-item  ratio ratio-16x9 <%=i===0?'active':''%>">
+			<img src="<%= m.url %>" class="d-block w-100" style="object-fit:contain;max-height:300px">
+		</div>
+		<% }) %>
+	</div>
+	<button class="carousel-control-prev" data-bs-target="#media" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon"></span>
+	</button>
+	<button class="carousel-control-next" data-bs-target="#media" data-bs-slide="next">
+		<span class="carousel-control-next-icon"></span>
+	</button>
+</div>
+
+<div class="container my-4">
+	<h1 class="my-2"><%= product.name %> <span class="text-danger"><%=_badge%></span></h1>
+	<p>
+		<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=3?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=4?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<i class="fa<%=product.ratingNum>=5?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+		<small><small class="fs-8"><%= product.ratingNum %> (<%= product.ratingUsers %> avaliações)</small></small>
+	</p>
+
+	<p class="fs-4">
+		<% if (product.oldpriceStr) { %>
+		<s class="d-block fs-6 text-secondary">
+			<small>R$ <%= product.oldpriceStr %></small>
+		</s>
+		<% } %>
+		<b>R$ <%= product.priceStr %></b>
+		<% if (!product.stock) { %>
+		<span class="text-danger fs-4">(esgotado)</span>
+		<% } %>
+	</p>
+
+	<div class="row mb-3">
+		<div class="col-12 col-md-6">
+			<a href="/buy/<%= product.id %>" class="btn btn-lg btn-warning w-100 <%=_disStk%>">
+				<i class="fas fa-dollar-sign"></i> Comprar <%=_stkQtd%>
+			</a>
+		</div>
+		<div class="col-12 col-md-6">
+			<button data-product="<%= product.id %>"
+				class="btn btn-lg btn-primary w-100 mt-1 mt-md-0 addToCart <%=_cartHid%> <%=_disStk%>">
+				<i class="fas fa-cart-plus"></i> Carrinho
+			</button>
+			<button data-product="<%= product.id %>"
+				class="btn btn-lg btn-danger w-100 mt-1 mt-md-0 removeFromCart <%=_$cartHid%>">
+				<i class="fas fa-cart-arrow-down"></i> Carrinho
+			</button>
+		</div>
+	</div>
+
+	<p><%- product.description %></p>
+</div>
+
+<script src="/js/product.js"></script>

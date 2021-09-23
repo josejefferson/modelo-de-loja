@@ -26,7 +26,6 @@ function validate(schema) {
 		const result = schema.validate(req.body, { messages, stripUnknown: true })
 		const { value, error } = result
 		req.body = value
-		console.log(value)
 		next(error)
 	}
 }

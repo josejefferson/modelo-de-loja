@@ -1,5 +1,6 @@
 const express = require('express')
 const routes = express.Router()
+const mongoose = require('mongoose')
 
 require('./admins/database')
 require('./clients/database')
@@ -7,29 +8,49 @@ require('./images/database')
 require('./products/database')
 require('./requests/database')
 
-routes.use('/admins', require('./admins/routes'))
-routes.use('/cart', require('./cart/routes'))
-routes.use('/clients', require('./clients/routes'))
-routes.use('/images', require('./images/routes'))
-routes.use('/products', require('./products/routes'))
-routes.use('/requests', require('./requests/routes'))
+const { g } = require('../helpers/helpers')
+routes.use(g, (req, res, next) => {
+	req.data.cart = []//temp
+	const cart = (req.cookies.cart && req.cookies.cart.split(',') || []) || []
+	const userIDs = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
+	req.data.cartIDs = cart
+	req.data.userIDs = userIDs
+	next()
+})
+
+routes.use('/', checkDB, require('./home/routes'))
+routes.use('/admins', checkDB, require('./admins/routes'))
+routes.use('/cart', checkDB, require('./cart/routes'))
+routes.use('/clients', checkDB, require('./clients/routes'))
+routes.use('/images', checkDB, require('./images/routes'))
+routes.use('/products', checkDB, require('./products/routes'))
+routes.use('/requests', checkDB, require('./requests/routes'))
+
+function checkDB(req, res, next) {
+	if (mongoose.connection.readyState != 1) {
+		res.send('Conectando o banco de dados... Aguarde!<script>setTimeout(()=>location.reload(),5000)</script>')
+	}
+	else next()
+}
 
 routes.use((err, req, res, next) => {
-	console.log(err)
+	if (req.body) req.flash('userData', req.body)
 	if (err.isJoi) {
 		req.flash('error_msg', 'Dados inválidos:\n' + err.message)
-		res.redirect(req.headers.referer ||req.originalUrl || '.')
+		res.redirect(req.headers.referer || req.originalUrl || '.')
 	}
 	else if (err.code == 11000) {
 		req.flash('error_msg', 'Já existe uma entrada cadastrada no banco de dados')
-		res.redirect(req.headers.referer ||req.originalUrl || '.')
+		res.redirect(req.headers.referer || req.originalUrl || '.')
+	}
+	else if (err instanceof mongoose.Error.CastError) {
+		res.status(500).send('ID inválido')
 	}
 	else {
+		console.error(err)
 		req.flash('error_msg', 'Ocorreu um erro desconhecido ao realizar esta ação')
+		res.sendStatus(500)
 	}
-	if (req.body) req.flash('userData', req.body)
-	//res.redirect(req.headers.referer ||req.originalUrl || '.')
-	res.sendStatus(500)
 })
 
 module.exports = routes

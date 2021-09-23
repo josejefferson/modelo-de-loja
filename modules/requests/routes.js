@@ -31,7 +31,7 @@ routes.post('/requests/cancel/:id', g,
 		actions.get({ id: req.params.id }).then((request) => {
 			//validate
 			actions.remove({ id: req.params.id }).then(next)
-		})
+		}).catch(next)
 	},
 	(req, res, next) => {
 		res.json({ success: true })

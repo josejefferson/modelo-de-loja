@@ -20,7 +20,7 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			preConfirm: () => {
 				const imageId = document.querySelector('.selectedImage:checked').value
 				if (!imageId) return
-				$scope.media.push({ type: 'image', url: '/images/' + imageId })
+				$scope.media.push({ type: 'image', url: '/images/view/' + imageId })
 				$scope.$apply()
 			}
 		})

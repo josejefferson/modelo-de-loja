@@ -4,18 +4,38 @@ const { render, g } = require('../../helpers/helpers')
 const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
-const {actions} = require('./database')
+const { actions } = require('./database')
 
-routes.get('/:id', g,
+
+routes.get('/', g,
+	(req, res, next) => {
+		actions.getAll().then((images) => {
+			req.data.images = images
+			next()
+		}).catch(next)
+	},
+	render(__dirname + '/main', 'Imagens')
+)
+
+routes.get('/api', g,
+	(req, res, next) => {
+		actions.getAll().then((images) => {
+			res.json(images)
+			next()
+		}).catch(next)
+	}
+)
+
+routes.get('/view/:id', g,
 	async (req, res, next) => {
 		actions.get({ id: req.params.id }).then((image) => {
 			req.data.image = image
 			next()
-		})
+		}).catch(next)
 	},
 	async (req, res) => {
-		res.contentType(req.data.image)
-		res.send(req.data.image)
+		res.contentType(req.data.image.contentType)
+		res.send(req.data.image.data)
 	}
 )
 
@@ -24,7 +44,7 @@ routes.get('/:id', g,
 routes.post('/upload',
 	multer({ dest: './' }).single('files'),
 	(req, res, next) => {
-		const filePath = path.join(__dirname, '..', req.file.filename)
+		const filePath = path.join(__dirname, '../..', req.file.filename)
 		actions.add({
 			file: fs.readFileSync(filePath),
 			contentType: req.file.mimetype

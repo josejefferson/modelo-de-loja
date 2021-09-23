@@ -23,7 +23,7 @@ const Product = mongoose.model('Products', {
 })
 
 
-const Request = require('../requests/database')
+const { Request } = require('../requests/database')
 
 // Busca um produto
 function get({ id } = {}) {
@@ -51,17 +51,17 @@ function add({ name, description, price, oldprice, badge, image, media, stock, h
 }
 
 // Edita um produto
-function edit({ id, newName, newDescription, newPrice, newOldPrice, newBadge, newImage, newMedia, newStock, newHidden } = {}) {
-	return Product.findOne({ _id: id }).then(product => {
-		if (newName) product.name = newName
-		if (newDescription) product.description = (newDescription === '' ? '' : newDescription)
-		if (newPrice) product.price = newPrice
-		if (newOldPrice) product.oldprice = (newOldPrice === '' ? '' : newOldPrice)
-		if (newBadge) product.badge = (newBadge === '' ? '' : newBadge)
-		if (newImage) product.image = (newImage == '' ? '' : newImage)
-		if (newMedia) product.media = newMedia
-		if (newStock) product.stock = newStock
-		product.hidden = newHidden ? true : false
+function edit({ id, name, description, price, oldprice, badge, image, media, stock, hidden } = {}) {
+	return Product.findOne({ _id: id }).then((product) => {
+		if (name) product.name = name
+		if (description) product.description = (description === '' ? '' : description)
+		if (price) product.price = price
+		if (oldprice) product.oldprice = (oldprice === '' ? '' : oldprice)
+		if (badge) product.badge = (badge === '' ? '' : badge)
+		if (image) product.image = (image == '' ? '' : image)
+		if (media) product.media = media
+		if (stock) product.stock = stock
+		product.hidden = hidden ? true : false
 
 		return product.save()
 	})

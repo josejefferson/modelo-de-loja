@@ -14,10 +14,10 @@ function getAll() {
 	return Image.find().select('-data')
 }
 
-function add({file, mimetype}) {
+function add({ file, contentType } = {}) {
 	return Image.create({
 		data: file,
-		mimetype: mimetype
+		contentType: contentType
 	})
 }
 

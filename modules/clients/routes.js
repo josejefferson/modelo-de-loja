@@ -15,7 +15,7 @@ routes.get('/', g,
 		actions.getMultiple({ ids: req.data.userIds }).then((users) => {
 			req.data.users = users
 			next()
-		})
+		}).catch(next)
 	},
 	render('pages/users', 'Usuários')
 )
@@ -29,7 +29,7 @@ routes.get('/edit/:id', g,
 		actions.get({ id: req.params.id }).then((user) => {
 			req.data.user = user
 			next()
-		})
+		}).catch(next)
 	},
 	render('pages/usersEdit', 'Editar usuário')
 )

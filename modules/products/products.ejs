@@ -1,0 +1,25 @@
+<div class="container my-4">
+	<h1 class="mb-5"><i class="fas fa-shopping-bag"></i> Produtos</h1>
+
+	<div class="row">
+		<% products.forEach(product => { %>
+		<%- include('../../views/partials/_product.ejs', { product, env: 'edit' }) %>
+		<% }) %>
+
+		<div class="col-6 col-md-4 col-lg-3 px-1 py-1">
+			<div class="card shadow-sm h-100 bg-light">
+				<a href="/products/add" class="btn card-body d-flex flex-column align-items-center justify-content-center">
+					<i class="fas fa-plus fa-5x"></i>
+					<b class="mt-3 fs-5">Adicionar produto</b>
+				</a>
+			</div>
+		</div>
+
+		<a href="/products/add" class="btn btn-primary btn-lg btn-floating px-2 px-md-3 shadow" style="z-index:1">
+			<i class="fas fa-plus me-md-2"></i>
+			<div class="d-none d-md-block">Adicionar</div>
+		</a>
+	</div>
+</div>
+
+<script src="/js/admin/products.js"></script>
