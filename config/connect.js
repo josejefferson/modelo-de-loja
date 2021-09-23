@@ -6,6 +6,6 @@ const REMOTE_DB = ''
 module.exports = mongoose.connect(LOCAL_DB, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
-	useCreateIndex: true
+	// useCreateIndex: true
 }).then(() => console.log('>> [MongoDB] Conectado'))
 	.catch(console.error)
