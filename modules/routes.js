@@ -10,7 +10,7 @@ require('./requests/database')
 
 const { g } = require('../helpers/helpers')
 routes.use(g, (req, res, next) => {
-	req.data.cart = []//temp
+	req.data.cart = []
 	const cart = (req.cookies.cart && req.cookies.cart.split(',') || []) || []
 	const userIDs = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
 	req.data.cartIDs = cart
@@ -25,6 +25,8 @@ routes.use('/clients', checkDB, require('./clients/routes'))
 routes.use('/images', checkDB, require('./images/routes'))
 routes.use('/products', checkDB, require('./products/routes'))
 routes.use('/requests', checkDB, require('./requests/routes'))
+routes.use('/buy', checkDB, require('./buy'))
+
 
 function checkDB(req, res, next) {
 	if (mongoose.connection.readyState != 1) {

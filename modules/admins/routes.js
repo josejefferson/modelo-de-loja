@@ -1,6 +1,6 @@
 const express = require('express')
 const routes = express.Router()
-const { render, g } = require('../../helpers/helpers')
+const { render } = require('../../helpers/helpers')
 const { actions } = require('./database')
 const { validate, schema } = require('./validators')
 const { admin } = require('../restrictions')
@@ -8,7 +8,7 @@ const { admin } = require('../restrictions')
 // routes.use(admin)
 
 // GET
-routes.get('/', g,
+routes.get('/',
 	async (req, res, next) => {
 		actions.getAll().then((user) => {
 			req.data.admins = user
@@ -22,7 +22,7 @@ routes.get('/add',
 	render(__dirname + '/admins-edit', 'Adicionar administrador')
 )
 
-routes.get('/edit/:id', g,
+routes.get('/edit/:id',
 	async (req, res, next) => {
 		actions.get({ id: req.params.id }).then((user) => {
 			req.data.admin = user

@@ -38,8 +38,11 @@ function add({ clientID, productID, quantity, other } = {}) {
 		productId: productID,
 		quantity: quantity,
 		other: other
-	}).populate('productId', 'name price image')
-		.populate('clientId')
+	}).then((request) => {
+		return request
+			.populate('productId', 'name price image')
+			//.populate('clientId')
+	})
 	// verificar se o populate funciona assim
 }
 

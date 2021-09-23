@@ -1,15 +1,16 @@
 const express = require('express')
 const routes = express.Router()
-const { render, g } = require('../../helpers/helpers')
-const {actions} = require('./database')
+const { render } = require('../../helpers/helpers')
+const { actions } = require('./database')
 
-routes.use((req, res, next) => {
-	const userIDs = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
-	req.data.userIDs = userIDs
-	next()
-})
+routes.get('/', (req, res, next) => {
+	actions.getAll().then((requests) => {
+		req.data.requests = requests
+		next()
+	})
+}, render(__dirname + '/main', 'Pedidos'))
 
-routes.get('/history', g,
+routes.get('/my',
 	(req, res, next) => {
 		req.data.myRequests = {}
 		const promises = req.data.userIDs.map((userID) => {
@@ -26,7 +27,7 @@ routes.get('/history', g,
 )
 
 
-routes.post('/requests/cancel/:id', g,
+routes.post('/cancel/:id',
 	(req, res, next) => {
 		actions.get({ id: req.params.id }).then((request) => {
 			//validate

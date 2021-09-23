@@ -1,9 +1,9 @@
 const express = require('express')
 const routes = express.Router()
-const { render, g } = require('../../helpers/helpers')
+const { render } = require('../../helpers/helpers')
 const { actions } = require('./database')
 
-routes.get('/view/:id', g,
+routes.get('/view/:id',
 	(req, res, next) => {
 		actions.get({ id: req.params.id }).then((product) => {
 			req.data.product = product
@@ -14,7 +14,7 @@ routes.get('/view/:id', g,
 )
 
 // routes.use(adm)
-routes.get('/', g, //get.cart, // get cart
+routes.get('/',
 	(req, res, next) => {
 		actions.getAll().then((products) => {
 			req.data.products = products
@@ -31,7 +31,7 @@ routes.get('/add',
 	render(__dirname + '/productEdit', 'Adicionar produto')
 )
 
-routes.get('/edit/:id', g,
+routes.get('/edit/:id',
 	(req, res, next) => {
 		actions.get({ id: req.params.id }).then((product) => {
 			req.data.product = product

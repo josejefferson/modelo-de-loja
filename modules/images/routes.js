@@ -1,13 +1,13 @@
 const express = require('express')
 const routes = express.Router()
-const { render, g } = require('../../helpers/helpers')
+const { render } = require('../../helpers/helpers')
 const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
 const { actions } = require('./database')
 
 
-routes.get('/', g,
+routes.get('/',
 	(req, res, next) => {
 		actions.getAll().then((images) => {
 			req.data.images = images
@@ -17,7 +17,7 @@ routes.get('/', g,
 	render(__dirname + '/main', 'Imagens')
 )
 
-routes.get('/api', g,
+routes.get('/api',
 	(req, res, next) => {
 		actions.getAll().then((images) => {
 			res.json(images)
@@ -26,7 +26,7 @@ routes.get('/api', g,
 	}
 )
 
-routes.get('/view/:id', g,
+routes.get('/view/:id',
 	async (req, res, next) => {
 		actions.get({ id: req.params.id }).then((image) => {
 			req.data.image = image
