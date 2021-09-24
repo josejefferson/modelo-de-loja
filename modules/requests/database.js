@@ -56,6 +56,7 @@ module.exports = {
 		get,
 		getAll,
 		getAllFromClient,
-		add
+		add,
+		remove
 	}
 }

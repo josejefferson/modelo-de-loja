@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-	<div class="container">
+	<div class="container-fluid">
 		<a class="navbar-brand" href="/"><i class="fas fa-shopping-basket"></i> Modelo de loja</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 			<span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
 				</li>
 
 				<li class="nav-item" title="Compras">
-					<a class="nav-link <%-(_page==='history')&&'active'%>" href="/history">
+					<a class="nav-link <%-(_page==='history')&&'active'%>" href="/requests/my">
 						<i class="fas fa-history"></i> Compras
 					</a>
 				</li>
@@ -46,29 +46,38 @@
 							</a>
 						</li>
 
-						<li class="nav-item" title="Destaques">
-							<a class="nav-link <%-(_page==='admin/highlights')&&'active'%>" href="/highlights">
-								<i class="fas fa-certificate"></i> Destaques
+						<li class="nav-item dropdown dropdown-dark">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								<i class="fas fa-plus"></i> Mais
 							</a>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+								<li title="Destaques">
+									<a class="dropdown-item <%-(_page==='admin/highlights')&&'active'%>" href="/highlights">
+										<i class="fas fa-certificate"></i> Destaques
+									</a>
+								</li>
+		
+								<li title="Anúncios">
+									<a class="dropdown-item <%-(_page==='admin/ads')&&'active'%>" href="/ads">
+										<i class="fas fa-bullhorn"></i> Anúncios
+									</a>
+								</li>
+		
+								<li title="Administradores">
+									<a class="dropdown-item <%-(_page==='admin/admins')&&'active'%>" href="/admins">
+										<i class="fas fa-user-shield"></i> Admins
+									</a>
+								</li>
+								
+								<li title="Imagens">
+									<a class="dropdown-item <%-(_page==='admin/images')&&'active'%>" href="/images">
+										<i class="fas fa-image"></i> Imagens
+									</a>
+								</li>
+							</ul>
 						</li>
 
-						<li class="nav-item" title="Anúncios">
-							<a class="nav-link <%-(_page==='admin/ads')&&'active'%>" href="/ads">
-								<i class="fas fa-ad"></i> Anúncios
-							</a>
-						</li>
-
-						<li class="nav-item" title="Administradores">
-							<a class="nav-link <%-(_page==='admin/admins')&&'active'%>" href="/admins">
-								<i class="fas fa-user-shield"></i> Admins
-							</a>
-						</li>
-						
-						<li class="nav-item" title="Imagens">
-							<a class="nav-link <%-(_page==='admin/images')&&'active'%>" href="/images">
-								<i class="fas fa-image"></i> Imagens
-							</a>
-						</li>
 					<% } %>
 
 				<li class="nav-item" title="Sair">

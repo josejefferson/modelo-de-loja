@@ -5,6 +5,7 @@ const { actions } = require('./database')
 const { validate, schema } = require('./validators')
 const { admin } = require('../restrictions')
 
+require('./sockets')
 // routes.use(admin)
 
 // GET
@@ -42,7 +43,7 @@ routes.post('/add',
 			email: req.body.email,
 			password: req.body.password
 		}).then(() => {
-			req.flash('success_msg', `Administrador "${req.body.name}" criado com sucesso`)
+			req.flash('successMsg', `Administrador "${req.body.name}" criado com sucesso`)
 			res.redirect(req.query.r || '/admins')
 			next()
 		}).catch(next)
@@ -56,7 +57,7 @@ routes.post('/edit/:id', (req, res, next) => {
 		email: req.body.email,
 		password: req.body.password
 	}).then((user) => {
-		req.flash('success_msg', `Administrador "${user.name}" editado com sucesso`)
+		req.flash('successMsg', `Administrador "${user.name}" editado com sucesso`)
 		res.redirect(req.query.r || '/admins')
 		next()
 	}).catch(next)
@@ -66,7 +67,7 @@ routes.get('/remove/:id', (req, res, next) => {
 	actions.remove({
 		id: req.params.id
 	}).then(() => {
-		req.flash('success_msg', 'Administrador excluído com sucesso')
+		req.flash('successMsg', 'Administrador excluído com sucesso')
 		res.redirect(req.query.r || '/admins')
 		next()
 	}).catch(next)

@@ -28,7 +28,7 @@ routes.get('/edit/:id', [
 ], validate('/admin/products'), async (req, res) => {
 
 	const product = await Product.findOne({ _id: req.params.id }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro interno')
+		req.flash('errorMsg', 'Ocorreu um erro interno')
 		res.redirect('/admin/products')
 		throw err
 	})
@@ -40,7 +40,7 @@ routes.get('/edit/:id', [
 			data: [product]
 		})
 	} else {
-		req.flash('error_msg', 'O produto não foi encontrado')
+		req.flash('errorMsg', 'O produto não foi encontrado')
 		res.redirect('/admin/products')
 	}
 })
@@ -61,13 +61,13 @@ routes.post('/new', [
 		image: req.body.image,
 		stock: req.body.stock,
 	}).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao criar produto')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar produto')
 		req.flash('data', req.body)
 		res.redirect('/admin/products/new')
 		throw err
 	})
 
-	req.flash('success_msg', `Produto "${req.body.name}" adicionado com sucesso`)
+	req.flash('successMsg', `Produto "${req.body.name}" adicionado com sucesso`)
 	return res.redirect('/admin/products')
 })
 
@@ -84,7 +84,7 @@ routes.post('/edit', [
 	if (!check.isValid(req, res)) return res.redirect(`/admin/products/edit/${req.body.id || 0}`)
 
 	const product = await Product.findOne({ _id: req.body.id }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao procurar produto')
 		req.flash('data', req.body)
 		res.redirect(`/admin/products/edit/${req.body.id}`)
 		throw err
@@ -98,18 +98,18 @@ routes.post('/edit', [
 		if (req.body.stock) product.stock = req.body.stock
 
 		await product.save().catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar produto')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao editar produto')
 			req.flash('data', req.body)
 			res.redirect(`/admin/products/edit/${req.body.id}`)
 			throw err
 		})
 	} else {
-		req.flash('error_msg', 'O produto não foi encontrado')
+		req.flash('errorMsg', 'O produto não foi encontrado')
 		res.redirect('/admin/products')
 		throw 'Product não encontrado'
 	}
 
-	req.flash('success_msg', 'Editado com sucesso')
+	req.flash('successMsg', 'Editado com sucesso')
 	res.redirect('/admin/products')
 })
 
@@ -120,12 +120,12 @@ routes.post('/remove', [
 	// >> destrói todos os pedidos referentes ao produto (necessário)
 	await Request.deleteMany({ productId: req.body.id })
 	await Product.deleteMany({ _id: req.body.id }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir produto')
 		res.redirect('/admin/products')
 		throw err
 	})
 
-	req.flash('success_msg', 'Product excluído com sucesso')
+	req.flash('successMsg', 'Product excluído com sucesso')
 	res.redirect('/admin/products')
 })
 

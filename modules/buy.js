@@ -3,10 +3,23 @@ const routes = express.Router()
 const { render } = require('../helpers/helpers')
 const { actions: clientActions } = require('./clients/database')
 const { actions: requestActions } = require('./requests/database')
+const { actions: productActions } = require('./products/database')
 
-routes.get('/', (req, res, next) => {
-	
-})
+routes.get('/:id',
+	(req, res, next) => {
+		productActions.get({ id: req.params.id }).then((product) => {
+			req.data.product = product
+			next()
+		}).catch(next)
+	}, (req, res, next) => {
+		clientActions.getMultiple({ ids: req.data.userIDs }).then((users) => {
+			req.data.users = users
+			// redirecionar se não houver usuários
+			next()
+		}).catch(next)
+	}, render(__dirname + '/cart/main', 'Carrinho')
+)
+
 
 routes.post('/',
 	(req, res, next) => {
@@ -28,6 +41,7 @@ routes.post('/',
 			requests.push(request)
 		}
 		req.data.requests = requests
+		res.redirect('/requests/my')
 		next()
 	},
 	// Socket

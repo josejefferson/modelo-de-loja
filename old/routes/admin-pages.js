@@ -16,7 +16,7 @@ routes.get('/', (req, res) => {
 
 routes.get('/users', async (req, res) => {
 	const users = await User.find().select('-password').catch(err => {
-		req.flash('error_msg', 'Falha ao carregar lista de usuários')
+		req.flash('errorMsg', 'Falha ao carregar lista de usuários')
 		res.redirect('/')
 	})
 
@@ -39,7 +39,7 @@ routes.get('/update/:id', [
 ], validate('users'), async (req, res) => {
 
 	const user = await User.findOne({ _id: req.params.id }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro interno')
+		req.flash('errorMsg', 'Ocorreu um erro interno')
 		res.redirect('users')
 		throw err
 	})
@@ -51,7 +51,7 @@ routes.get('/update/:id', [
 			user
 		})
 	} else {
-		req.flash('error_msg', 'O usuário não foi encontrado')
+		req.flash('errorMsg', 'O usuário não foi encontrado')
 		res.redirect('users')
 	}
 })

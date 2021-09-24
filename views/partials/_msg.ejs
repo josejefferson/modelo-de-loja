@@ -1,10 +1,10 @@
 <script>
 	(async () => {
-		// <% success_msg.forEach(msg => { %>
+		// <% successMsg.forEach(msg => { %>
 		await toast(<%-JSON.stringify({ msg })%>.msg)
 		// <% }) %>
 
-		// <% error_msg.forEach(msg => { %>
+		// <% errorMsg.forEach(msg => { %>
 		await toast(<%-JSON.stringify({ msg })%>.msg, 'error')
 		// <% }) %>
 	})()

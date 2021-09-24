@@ -20,7 +20,7 @@ routes.post('/buy', check.userIdValid, [
 		other: req.body.other
 	})
 
-	req.flash('success_msg', 'Compra efetuada com sucesso!')
+	req.flash('successMsg', 'Compra efetuada com sucesso!')
 	res.redirect('/')
 })
 
@@ -37,7 +37,7 @@ routes.post('/cart', async (req, res) => {
 		})
 	}
 
-	req.flash('success_msg', 'Compras efetuadas com sucesso')
+	req.flash('successMsg', 'Compras efetuadas com sucesso')
 	res.redirect('/')
 	// >> limpar carrinho
 })
@@ -78,24 +78,24 @@ routes.post('/login', check.notAuth, [
 	passport.authenticate('local', function (err, user, info) {
 
 		if (err) {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido')
 			req.flash('data', req.body)
 			return res.redirect('/login')
 		}
 		if (!user) {
-			req.flash('error_msg', info.message)
+			req.flash('errorMsg', info.message)
 			req.flash('data', req.body)
 			return res.redirect('/login')
 		}
 		req.logIn(user, function (err) {
 			if (err) {
-				req.flash('error_msg', 'Ocorreu um erro desconhecido')
+				req.flash('errorMsg', 'Ocorreu um erro desconhecido')
 				req.flash('data', req.body)
 				return res.redirect('/login')
 			}
 
 			// Logado com sucesso
-			req.flash('success_msg', 'Logado com sucesso!')
+			req.flash('successMsg', 'Logado com sucesso!')
 			return res.redirect('/')
 		})
 	})(req, res, next)

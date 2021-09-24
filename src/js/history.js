@@ -1,5 +1,5 @@
 angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
-	const socket = io(location.origin + '/history')
+	const socket = io(location.origin + '/requests/my')
 	socket.on('connect', () => {
 		console.log('[SOCKET] Conectado')
 		for (id in serverData) socket.emit('id', id)

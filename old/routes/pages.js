@@ -31,7 +31,7 @@ routes.get('/buy/:id', check.userIdValid, async (req, res) => {
 	const product = await Product.findOne({ _id: req.params.id }) // *todo adicionar catch
 
 	if (!product.stock) {
-		req.flash('error_msg', 'Este produto está esgotado')
+		req.flash('errorMsg', 'Este produto está esgotado')
 		return res.redirect('/')
 	}
 
@@ -94,7 +94,7 @@ routes.get('/login', check.notAuth, (req, res) => {
 
 routes.all('/logout', check.auth, (req, res) => {
 	req.logout()
-	req.flash('success_msg', 'Deslogado com sucesso')
+	req.flash('successMsg', 'Deslogado com sucesso')
 	res.redirect('/login')
 })
 

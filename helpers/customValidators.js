@@ -31,7 +31,7 @@ function validate(red) {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
 			errors.errors.forEach(err => {
-				req.flash('error_msg', err.msg)
+				req.flash('errorMsg', err.msg)
 				req.flash('data', req.body)
 			})
 			return res.redirect(red || req.originalUrl)

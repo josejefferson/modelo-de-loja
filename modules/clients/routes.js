@@ -40,7 +40,7 @@ routes.post('/add', (req, res, next) => {
 	}).then((client) => {
 		req.data.userIDs.push(client._id)
 		res.cookie('userIds', req.data.userIDs.join(','), { maxAge: 315360000000 })
-		req.flash('success_msg', `Usuário "${req.body.name}" criado`)
+		req.flash('successMsg', `Usuário "${req.body.name}" criado`)
 		res.redirect(req.query.r || '/clients')
 	}).catch(next)
 })
@@ -54,7 +54,7 @@ routes.post('/edit/:id', (req, res, next) => {
 		whatsapp: req.body.whatsapp,
 		email: req.body.email
 	}).then((client) => {
-		req.flash('success_msg', `Usuário "${client.name}" editado com sucesso`)
+		req.flash('successMsg', `Usuário "${client.name}" editado com sucesso`)
 		res.redirect(req.query.r || '/clients')
 	}).catch(next)
 })

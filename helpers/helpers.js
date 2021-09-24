@@ -1,4 +1,4 @@
-const Product = require('mongoose').model('Products')
+// const Product = require('mongoose').model('Products')
 
 function g(req, res, next) {
 	req.data = req.data || {}

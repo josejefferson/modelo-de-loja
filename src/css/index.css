@@ -1,11 +1,11 @@
-.navbar-collapse,
+/* .navbar-collapse,
 .navbar-nav,
 .nav-item,
 .nav-link {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+} */
 
 .btn-floating {
 	bottom: 20px;

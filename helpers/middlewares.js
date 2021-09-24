@@ -5,21 +5,21 @@ module.exports = {
 	// Somente pessoas logadas
 	auth: (req, res, next) => {
 		if (req.isAuthenticated()) return next()
-		req.flash('error_msg', 'Você não está logado')
+		req.flash('errorMsg', 'Você não está logado')
 		res.redirect(req.query.r || '/login')
 	},
 
 	// Somente pessoas não logadas
 	notAuth: (req, res, next) => {
 		if (!req.isAuthenticated()) return next()
-		req.flash('error_msg', 'Você já está logado')
+		req.flash('errorMsg', 'Você já está logado')
 		res.redirect(req.query.r || '/')
 	},
 
 	// Somente admins
 	admin: (req, res, next) => {
 		if (req.isAuthenticated() && req.authUser.admin === true) return next()
-		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
+		req.flash('errorMsg', 'Você não tem permissão para entrar aqui')
 		res.redirect(req.query.r || '/')
 		// return next()
 	},
@@ -27,14 +27,14 @@ module.exports = {
 	// Somente não admins
 	notAdmin: (req, res, next) => {
 		if (req.isAuthenticated() && req.authUser.admin === false) return next()
-		req.flash('error_msg', 'Você não tem permissão para entrar aqui')
+		req.flash('errorMsg', 'Você não tem permissão para entrar aqui')
 		res.redirect(req.query.r || '/')
 	},
 
 	// Somente pessoas não logadas ou admins ???
 	notAuthORAdmin: (req, res, next) => {
 		if (!req.isAuthenticated() || req.authUser.admin === true) return next()
-		req.flash('error_msg', 'Você precisa deslogar para entrar aqui')
+		req.flash('errorMsg', 'Você precisa deslogar para entrar aqui')
 		res.redirect(req.query.r || '/')
 	},
 
@@ -45,7 +45,7 @@ module.exports = {
 			const clients = await Client.find({ _id: userIdsArr })
 			if (clients.length) return next()
 		}
-		req.flash('error_msg', 'Cadastre seus dados para comprar')
+		req.flash('errorMsg', 'Cadastre seus dados para comprar')
 		res.redirect(req.query.r || '/users/add')
 	},
 
@@ -55,7 +55,7 @@ module.exports = {
 			const errors = validationResult(req)
 			if (!errors.isEmpty()) {
 				errors.errors.forEach(err => {
-					req.flash('error_msg', err.msg)
+					req.flash('errorMsg', err.msg)
 					req.flash('data', req.body)
 				})
 				return res.redirect(redir || req.originalUrl)
@@ -69,7 +69,7 @@ module.exports = {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
 			errors.errors.forEach(err => {
-				req.flash('error_msg', err.msg)
+				req.flash('errorMsg', err.msg)
 				req.flash('data', req.body)
 			})
 			return false

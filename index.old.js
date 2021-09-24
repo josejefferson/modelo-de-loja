@@ -24,9 +24,9 @@
 	app.use(passport.session())
 	app.use(flash())
 	app.use((req, res, next) => {
-		res.locals.success_msg = req.flash('success_msg')
-		res.locals.warning_msg = req.flash('warning_msg')
-		res.locals.error_msg = req.flash('error_msg')
+		res.locals.successMsg = req.flash('successMsg')
+		res.locals.warningMsg = req.flash('warningMsg')
+		res.locals.errorMsg = req.flash('errorMsg')
 		res.locals.userData = req.flash('userData')
 		res.locals.authUser = req.user || null
 		next()
@@ -41,7 +41,7 @@
 	app.use('/', require('./helpers/routes')(io))
 	app.use((err, req, res, next) => {
 		console.log(err)
-		req.flash('error_msg', 'Ocorreu um erro interno do servidor')
+		req.flash('errorMsg', 'Ocorreu um erro interno do servidor')
 		res.redirect('/')
 	})
 

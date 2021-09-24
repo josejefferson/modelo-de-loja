@@ -48,12 +48,12 @@ module.exports = io => ({
 	},
 	removeImage: async (req, res, next) => {
 		await Image.deleteMany({ _id: req.params.id }).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir imagem')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir imagem')
 			res.redirect(req.query.r || '/images')
 			throw err
 		})
 
-		req.flash('success_msg', 'Imagem excluída com sucesso')
+		req.flash('successMsg', 'Imagem excluída com sucesso')
 		res.redirect(req.query.r || '/images')
 	},
 	buy: async (req, res, next) => {
@@ -79,7 +79,7 @@ module.exports = io => ({
 		}
 
 		io.of('/requests').emit('newRequests', { clientId: client._id, requests })
-		req.flash('success_msg', 'Compra efetuada com sucesso!')
+		req.flash('successMsg', 'Compra efetuada com sucesso!')
 		res.redirect(req.query.r || '/history')
 	},
 	cart: async (req, res, next) => {
@@ -95,7 +95,7 @@ module.exports = io => ({
 			})
 		}
 
-		req.flash('success_msg', 'Compras efetuadas com sucesso')
+		req.flash('successMsg', 'Compras efetuadas com sucesso')
 		res.redirect(req.query.r || '/')
 		// >> limpar carrinho
 	},
@@ -112,7 +112,7 @@ module.exports = io => ({
 		userIds.push(clientId)
 		res.cookie('userIds', userIds.join(','), { maxAge: 315360000000 })
 
-		req.flash('success_msg', `Usuário "${req.body.name}" criado`)
+		req.flash('successMsg', `Usuário "${req.body.name}" criado`)
 		res.redirect(req.query.r || '/users')
 	},
 	editUser: async (req, res, next) => {
@@ -125,19 +125,19 @@ module.exports = io => ({
 		if (req.body.email) client.email = req.body.email
 		await client.save()
 
-		req.flash('success_msg', `Usuário "${client.name}" editado com sucesso`)
+		req.flash('successMsg', `Usuário "${client.name}" editado com sucesso`)
 		res.redirect(req.query.r || '/users')
 	},
 	login: async (req, res, next) => {
 		passport.authenticate('local', function (err, user, info) {
 			if (err || !user) {
-				req.flash('error_msg', err ? 'Ocorreu um erro desconhecido' : info.message)
+				req.flash('errorMsg', err ? 'Ocorreu um erro desconhecido' : info.message)
 				req.flash('userData', req.body)
 				return res.redirect(req.query.r || '/login')
 			}
 			req.logIn(user, err => {
 				if (err) {
-					req.flash('error_msg', 'Ocorreu um erro desconhecido')
+					req.flash('errorMsg', 'Ocorreu um erro desconhecido')
 					req.flash('userData', req.body)
 					return res.redirect(req.query.r || '/login')
 				}
@@ -158,25 +158,25 @@ module.exports = io => ({
 			password: bcrypt.hashSync(req.body.password, 10),
 			admin: true
 		}).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao criar administrador')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar administrador')
 			req.flash('userData', req.body)
 			res.redirect(req.query.r || '/admins/add')
 			throw err
 		})
 
-		req.flash('success_msg', `Administrador "${req.body.name}" criado com sucesso`)
+		req.flash('successMsg', `Administrador "${req.body.name}" criado com sucesso`)
 		return res.redirect(req.query.r || '/admins')
 	},
 	editAdmin: async (req, res, next) => {
 		const user = await User.findOne({ _id: req.params.id }).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar o administrador')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao procurar o administrador')
 			req.flash('userData', req.body)
 			res.redirect(`/admins/edit/${req.params.id}`)
 			throw err
 		})
 
 		if (!user) {
-			req.flash('error_msg', 'O administrador não foi encontrado')
+			req.flash('errorMsg', 'O administrador não foi encontrado')
 			return res.redirect(req.query.r || '/admins')
 		}
 
@@ -185,23 +185,23 @@ module.exports = io => ({
 		if (req.body.password) user.password = bcrypt.hashSync(req.body.password, 10)
 
 		await user.save().catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar administrador')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao editar administrador')
 			req.flash('userData', req.body)
 			res.redirect(`/admins/edit/${req.params.id}`)
 			throw err
 		})
 
-		req.flash('success_msg', `Administrador "${user.name}" editado com sucesso`)
+		req.flash('successMsg', `Administrador "${user.name}" editado com sucesso`)
 		res.redirect(req.query.r || '/admins')
 	},
 	removeAdmin: async (req, res, next) => {
 		await User.deleteMany({ _id: req.params.id }).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir administrador')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir administrador')
 			res.redirect(req.query.r || '/admins')
 			throw err
 		})
 
-		req.flash('success_msg', 'Administrador excluído com sucesso')
+		req.flash('successMsg', 'Administrador excluído com sucesso')
 		res.redirect(req.query.r || '/admins')
 	},
 	addProduct: async (req, res, next) => {
@@ -216,25 +216,25 @@ module.exports = io => ({
 			stock: req.body.stock,
 			hidden: req.body.hidden ? true : false
 		}).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao criar produto')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar produto')
 			req.flash('userData', req.body)
 			res.redirect(req.query.r || '/products/add')
 			throw err
 		})
 
-		req.flash('success_msg', `Produto "${req.body.name}" adicionado com sucesso`)
+		req.flash('successMsg', `Produto "${req.body.name}" adicionado com sucesso`)
 		return res.redirect(req.query.r || '/products')
 	},
 	editProduct: async (req, res, next) => {
 		const product = await Product.findOne({ _id: req.params.id }).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar produto')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao procurar produto')
 			req.flash('userData', req.body)
 			res.redirect(`/products/edit/${req.params.id}`)
 			throw err
 		})
 
 		if (!product) {
-			req.flash('error_msg', 'O produto não foi encontrado')
+			req.flash('errorMsg', 'O produto não foi encontrado')
 			return res.redirect(req.query.r || '/products')
 		}
 
@@ -249,24 +249,24 @@ module.exports = io => ({
 		product.hidden = req.body.hidden ? true : false
 
 		await product.save().catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar produto')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao editar produto')
 			req.flash('userData', req.body)
 			res.redirect(`/products/edit/${req.params.id}`)
 			throw err
 		})
 
-		req.flash('success_msg', `Produto "${product.name}" editado com sucesso`)
+		req.flash('successMsg', `Produto "${product.name}" editado com sucesso`)
 		res.redirect(req.query.r || '/products')
 	},
 	removeProduct: async (req, res, next) => {
 		await Request.deleteMany({ productId: req.params.id })
 		await Product.deleteMany({ _id: req.params.id }).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir produto')
 			res.redirect(req.query.r || '/products')
 			throw err
 		})
 
-		req.flash('success_msg', 'Produto excluído com sucesso')
+		req.flash('successMsg', 'Produto excluído com sucesso')
 		res.redirect(req.query.r || '/products')
 	},
 	confirmRequest: async (req, res, next) => {

@@ -63,10 +63,10 @@ routes.get('/remove/:id',
 		actions.remove({
 			id: req.params.id
 		}).then(() => {
-			req.flash('success_msg', 'Imagem excluída com sucesso')
+			req.flash('successMsg', 'Imagem excluída com sucesso')
 			res.redirect(req.query.r || '/images')
 		}).catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir imagem')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir imagem')
 			res.redirect(req.query.r || '/images')
 		})
 	}

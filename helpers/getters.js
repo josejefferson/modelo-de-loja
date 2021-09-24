@@ -85,7 +85,7 @@ module.exports = {
 
 function error(req, res) {
 	return () => {
-		req.flash('error_msg', 'Ocorreu um erro')
+		req.flash('errorMsg', 'Ocorreu um erro')
 		res.redirect('.')
 	}
 }

@@ -21,13 +21,13 @@ routes.post('/signup', [
 		password: bcrypt.hashSync(req.body.password, 10),
 		admin: true
 	}).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao criar usuário')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar usuário')
 		req.flash('data', req.body)
 		res.redirect('signup')
 		throw err
 	})
 
-	req.flash('success_msg', `Usuário ${req.body.name} criado com sucesso`)
+	req.flash('successMsg', `Usuário ${req.body.name} criado com sucesso`)
 	if (req.authUser && req.authUser.admin) return res.redirect('users')
 	return res.redirect('/')
 })
@@ -42,7 +42,7 @@ routes.post('/update', [
 
 	// Procura o usuário
 	const user = await User.findOne({ _id: req.body.id }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao procurar usuário')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao procurar usuário')
 		req.flash('data', req.body)
 		res.redirect(`update/${req.body.id}`)
 		throw err
@@ -55,19 +55,19 @@ routes.post('/update', [
 		if (req.body.password) user.password = bcrypt.hashSync(req.body.password, 10)
 
 		await user.save().catch(err => {
-			req.flash('error_msg', 'Ocorreu um erro desconhecido ao editar usuário')
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao editar usuário')
 			req.flash('data', req.body)
 			res.redirect(`update/${req.body.id}`)
 			throw err
 		})
 	} else {
 		// Caso o usuário não exista
-		req.flash('error_msg', 'O usuário não foi encontrado')
+		req.flash('errorMsg', 'O usuário não foi encontrado')
 		res.redirect('users')
 		throw 'Usuário não encontrado'
 	}
 
-	req.flash('success_msg', 'Editado com sucesso')
+	req.flash('successMsg', 'Editado com sucesso')
 	res.redirect('users')
 })
 
@@ -77,12 +77,12 @@ routes.post('/remove', [
 
 	// Remove usuários
 	await User.deleteMany({ _id: req.body.id }).catch(err => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir usuário')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir usuário')
 		res.redirect('users')
 		throw err
 	})
 
-	req.flash('success_msg', 'Usuário excluído com sucesso')
+	req.flash('successMsg', 'Usuário excluído com sucesso')
 	res.redirect('users')
 })
 

@@ -54,10 +54,10 @@ routes.post('/add', (req, res) => {
 		stock: req.body.stock,
 		hidden: req.body.hidden
 	}).then(() => {
-		req.flash('success_msg', `Produto "${req.body.name}" adicionado com sucesso`)
+		req.flash('successMsg', `Produto "${req.body.name}" adicionado com sucesso`)
 		return res.redirect(req.query.r || '/products')
 	}).catch((err) => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao criar produto')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar produto')
 		req.flash('userData', req.body)
 		res.redirect(req.query.r || '/products/add')
 	})
@@ -76,10 +76,10 @@ routes.post('/edit/:id', (req, res) => {
 		stock: req.body.stock,
 		hidden: req.body.hidden
 	}).then(() => {
-		req.flash('success_msg', `Produto "${req.body.name}" editado com sucesso`)
+		req.flash('successMsg', `Produto "${req.body.name}" editado com sucesso`)
 		res.redirect(req.query.r || '/products')
 	}).catch((err) => {
-		req.flash('error_msg', err.message || 'Ocorreu um erro desconhecido ao procurar produto')
+		req.flash('errorMsg', err.message || 'Ocorreu um erro desconhecido ao procurar produto')
 		req.flash('userData', req.body)
 		res.redirect(err.redirect || `/products/edit/${req.params.id}`)
 	})
@@ -89,10 +89,10 @@ routes.get('/remove/:id', (req, res) => {
 	actions.remove({
 		id: req.params.id
 	}).then(() => {
-		req.flash('success_msg', 'Produto excluído com sucesso')
+		req.flash('successMsg', 'Produto excluído com sucesso')
 		res.redirect(req.query.r || '/products')
 	}).catch((err) => {
-		req.flash('error_msg', 'Ocorreu um erro desconhecido ao excluir produto')
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir produto')
 		res.redirect(req.query.r || '/products')
 	})
 })
