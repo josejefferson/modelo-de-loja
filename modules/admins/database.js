@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const log = require('../../Log')('MongoDB', 'cyan')
 
 // MODELO
 const User = mongoose.model('User', {
@@ -16,16 +17,16 @@ User.find().then(user => {
 })
 
 async function createDefaultAdmin() {
-	console.log('>> [MongoDB] Nenhum administrador encontrado! Criando um novo...')
+	log('Nenhum administrador encontrado! Criando um novo...')
 	await User.create({
 		name: 'Admin',
 		email: 'admin@admin.com',
 		password: '$2y$10$je/bgy85arfz2kLIFwEU.u55u08t.CO925vl9xSdwRI7iYFzybBQ6',
 		admin: true
 	})
-	console.log('>> [MongoDB] Administrador criado!')
-	console.log('>> [MongoDB] E-mail: admin@admin.com')
-	console.log('>> [MongoDB] Senha:  admin')
+	log('Administrador criado!', 'green')
+	log('E-mail: admin@admin.com', 'magenta')
+	log('Senha:  admin', 'magenta')
 }
 
 
