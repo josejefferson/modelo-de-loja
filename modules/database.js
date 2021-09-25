@@ -12,7 +12,7 @@ mongoose.connection.on('error', (err) => {
 	setTimeout(mongoConnect, 5000)
 })
 function mongoConnect() {
-	mongoose.connect(LOCAL_DB, {
+	mongoose.connect(ONLINE_DB, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	}).catch((err) => {
