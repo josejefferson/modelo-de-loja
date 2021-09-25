@@ -1,16 +1,16 @@
 angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
-	// const socket = io(location.origin + '/requests')
-	// socket.on('connect', () => {
-	// 	console.log('[SOCKET] Conectado')
-	// })
-	// socket.on('newRequests', requests => {
-	// 	requests.requests.forEach(request => {
-	// 		$scope.requests[requests.clientId] = $scope.requests[requests.clientId] || []
-	// 		$scope.requests[requests.clientId].unshift(request)
-	// 		$scope.$apply()
-	// 		toast(`Novo pedido do usuário "${request.clientId.name}"`, 'info')
-	// 	})
-	// })
+	const socket = io(location.origin + '/requests')
+	socket.on('connect', () => {
+		console.log('[SOCKET] Conectado')
+	})
+	socket.on('newRequests', requests => {
+		requests.requests.forEach(request => {
+			$scope.requests[requests.clientId] = $scope.requests[requests.clientId] || []
+			$scope.requests[requests.clientId].unshift(request)
+			$scope.$apply()
+			toast(`Novo pedido do usuário "${request.clientId.name}"`, 'info')
+		})
+	})
 
 	$scope.keys = Object.keys
 	$scope.moment = window.moment

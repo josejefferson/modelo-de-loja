@@ -4,6 +4,7 @@ const { render } = require('../helpers/helpers')
 const clientActions = require('./clients/database')
 const requestActions = require('./requests/database')
 const productActions = require('./products/database')
+const { requests: socket } = require('./requests/sockets')
 
 routes.get('/:id',
 	(req, res, next) => {
@@ -40,6 +41,7 @@ routes.post('/',
 
 			requests.push(request)
 		}
+		socket.emit('newRequests', { clientId: req.data.client._id, requests }) // enviar informações completas do cliente
 		req.data.requests = requests
 		res.redirect('/requests/my')
 		next()

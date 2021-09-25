@@ -3,6 +3,7 @@ const routes = express.Router()
 const { render } = require('../../helpers/helpers')
 const actions = require('./database')
 const productActions = require('../products/database')
+const { requests: socketRequest, history: socketHistory} = require('./sockets')
 
 routes.get('/', (req, res, next) => {
 	actions.getAll().then((requests) => {
@@ -87,17 +88,23 @@ routes.post('/confirm/:id',
 				break
 		}
 		request.save().then(() => next())
+
+		req.data.request = request
 	},
 	(req, res, next) => {
 		res.json({ success: true })
-		// io.of('/history').to(request.clientId.toString()).emit('confirm', {
-		// 	clientId: request.clientId,
-		// 	requestId: request._id,
-		// 	action: req.body.confirm,
-		// 	...(req.body.feedback && { feedback: req.body.feedback })
-		// })
+		const request = req.data.request
+		console.log('ClientID:', request.clientId._id.toString())
+		console.log('Confirm:', req.body.confirm)
+		console.log('Feedback:', req.body.feedback)
+		socketHistory.to(request.clientId._id.toString()).emit('confirm', {
+			clientId: request.clientId._id,
+			requestId: request._id,
+			action: req.body.confirm,
+			...(req.body.feedback && { feedback: req.body.feedback })
+		})
 		// next()
-	}
+	},
 )
 
 
