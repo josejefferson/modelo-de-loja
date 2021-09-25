@@ -5,13 +5,11 @@ function get(productIDs, onlyWithStock = false) {
 		return Product.findOne({
 			_id: id,
 			...(onlyWithStock && { stock: { $ne: 0 } })
-		}).catch(_ => {})
+		}).catch(_ => { })
 	})
 	return Promise.all(products)
 }
 
 module.exports = {
-	actions: {
-		get
-	}
+	get
 }

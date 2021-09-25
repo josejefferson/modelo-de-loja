@@ -3,7 +3,7 @@
 
 	<div class="row">
 		<% products.forEach(product => { %>
-		<%- include('../../views/partials/_product.ejs', { product, env: 'edit' }) %>
+			<%- include('../partials/_product.ejs', { product, env: 'edit' }) %>
 		<% }) %>
 
 		<div class="col-6 col-md-4 col-lg-3 px-1 py-1">

@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
-const { actions } = require('./database')
+const actions = require('./database')
 const { validate, schema } = require('./validators')
 const { admin } = require('../restrictions')
 
@@ -16,11 +16,11 @@ routes.get('/',
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/admins', 'Administradores')
+	render('admins', 'Administradores')
 )
 
 routes.get('/add',
-	render(__dirname + '/admins-edit', 'Adicionar administrador')
+	render('admins-edit', 'Adicionar administrador')
 )
 
 routes.get('/edit/:id',
@@ -30,7 +30,7 @@ routes.get('/edit/:id',
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/admins-edit', 'Editar administrador')
+	render('admins-edit', 'Editar administrador')
 )
 
 

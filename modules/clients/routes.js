@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
-const {actions} = require('./database')
+const actions = require('./database')
 
 // GET
 routes.get('/',
@@ -11,11 +11,11 @@ routes.get('/',
 			next()
 		}).catch(next)
 	},
-	render('pages/users', 'Usuários')
+	render('clients', 'Clientes')
 )
 
 routes.get('/add',
-	render('pages/usersEdit', 'Adicionar usuário')
+	render('client-edit', 'Adicionar cliente')
 )
 
 routes.get('/edit/:id',
@@ -25,7 +25,7 @@ routes.get('/edit/:id',
 			next()
 		}).catch(next)
 	},
-	render('pages/usersEdit', 'Editar usuário')
+	render('client-edit', 'Editar cliente')
 )
 
 

@@ -1,9 +1,9 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../helpers/helpers')
-const { actions: clientActions } = require('./clients/database')
-const { actions: requestActions } = require('./requests/database')
-const { actions: productActions } = require('./products/database')
+const clientActions = require('./clients/database')
+const requestActions = require('./requests/database')
+const productActions = require('./products/database')
 
 routes.get('/:id',
 	(req, res, next) => {
@@ -17,7 +17,7 @@ routes.get('/:id',
 			// redirecionar se não houver usuários
 			next()
 		}).catch(next)
-	}, render(__dirname + '/cart/main', 'Carrinho')
+	}, render('buy', 'Carrinho')
 )
 
 

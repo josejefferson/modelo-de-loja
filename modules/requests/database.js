@@ -1,24 +1,4 @@
-const mongoose = require('mongoose')
-
-const Request = mongoose.model('Requests', {
-	clientId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Clients',
-		required: true
-	},
-	productId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Products',
-		required: true
-	},
-	quantity: { type: Number, default: 1 },
-	other: String,
-	date: { type: Date, default: Date.now },
-	status: { type: String, enum: ['pending', 'confirmed', 'rejected'], default: 'pending' },
-	open: { type: Boolean, default: true },
-	feedback: String
-})
-
+const Request = require('mongoose').model('Requests')
 
 function get({ id } = {}) {
 	return Request.findById(id).populate('productId', 'name price image').populate('clientId')
@@ -41,7 +21,7 @@ function add({ clientID, productID, quantity, other } = {}) {
 	}).then((request) => {
 		return request
 			.populate('productId', 'name price image')
-			//.populate('clientId')
+		//.populate('clientId')
 	})
 	// verificar se o populate funciona assim
 }
@@ -51,12 +31,9 @@ function remove({ id } = {}) {
 }
 
 module.exports = {
-	Request,
-	actions: {
-		get,
-		getAll,
-		getAllFromClient,
-		add,
-		remove
-	}
+	get,
+	getAll,
+	getAllFromClient,
+	add,
+	remove
 }

@@ -1,15 +1,15 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
-const { actions } = require('./database')
-const { actions: productActions } = require('../products/database')
+const actions = require('./database')
+const productActions = require('../products/database')
 
 routes.get('/', (req, res, next) => {
 	actions.getAll().then((requests) => {
 		req.data.requests = requests
 		next()
 	})
-}, render(__dirname + '/main', 'Pedidos'))
+}, render('requests', 'Pedidos'))
 
 routes.get('/my',
 	(req, res, next) => {
@@ -23,11 +23,10 @@ routes.get('/my',
 			})
 		})
 		Promise.all(promises).then((requests) => {
-			console.log(requests)
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/my', 'Histórico de compras')
+	render('my-requests', 'Histórico de compras')
 )
 
 
@@ -39,7 +38,7 @@ routes.post('/cancel/:id',
 	},
 	(req, res, next) => {
 		res.json({ success: true })
-		next()
+		// next()
 	}
 )
 
@@ -64,7 +63,7 @@ routes.post('/confirm/:id',
 			case 'confirm':
 				request.status = 'confirmed'
 				product.stock = product.stock > 0 ? product.stock - request.quantity : product.stock < 0 ? -1 : 0
-				product.save().then(() => next())
+				product.save()
 				break
 
 			case 'reject':
@@ -97,7 +96,7 @@ routes.post('/confirm/:id',
 		// 	action: req.body.confirm,
 		// 	...(req.body.feedback && { feedback: req.body.feedback })
 		// })
-		next()
+		// next()
 	}
 )
 

@@ -73,7 +73,7 @@ input::-webkit-inner-spin-button {
 	max-height: calc(100vh - 56px);
 }
 
-.user:not(:first-child) {
+/* .user:not(:first-child) {
 	border-top: 1px solid #dee2e6;
 	padding-top: 20px;
-}
+} */

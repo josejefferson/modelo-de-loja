@@ -1,13 +1,13 @@
 const bcrypt = require('bcryptjs')
 const localStrategy = require('passport-local').Strategy
-const User = require('../models/User')
+const Admin = require('mongoose').model('Admins')
 
 module.exports = passport => {
 	passport.use(new localStrategy({
 		usernameField: 'email',
 		passwordField: 'password'
 	}, async (email, password, done) => {
-		const user = await User.findOne({ email }).catch(err => {
+		const user = await Admin.findOne({ email }).catch(err => {
 			done(err, false)
 			throw err
 		})
@@ -18,7 +18,7 @@ module.exports = passport => {
 
 	passport.serializeUser((user, done) => done(null, user._id))
 	passport.deserializeUser(async (_id, done) => {
-		const user = await User.findOne({ _id }).catch(err => {
+		const user = await Admin.findOne({ _id }).catch(err => {
 			done(err, false)
 			throw err
 		})

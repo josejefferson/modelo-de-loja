@@ -28,17 +28,17 @@ function rndString() {
 	return string
 }
 
-function render(page, title) {
+function render(page, title, _next = false) {
 	return (req, res, next) => {
 		req.data = req.data || {}
-		res.render(page, {
-			url: req.url,
+		res.render('pages/' + page, {
+			url: req.originalUrl,
 			_page: page,
 			_title: title,
 			query: req.query,
 			...req.data
 		})
-		return next()
+		if (_next) next()
 	}
 }
 

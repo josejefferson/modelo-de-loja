@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
-const { actions } = require('./database')
+const actions = require('./database')
 
 routes.get('/view/:id',
 	(req, res, next) => {
@@ -10,7 +10,7 @@ routes.get('/view/:id',
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/product', 'Produto')
+	render('product', 'Produto')
 )
 
 // routes.use(adm)
@@ -24,11 +24,11 @@ routes.get('/',
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/products', 'Produtos')
+	render('products', 'Produtos')
 )
 
 routes.get('/add',
-	render(__dirname + '/productEdit', 'Adicionar produto')
+	render('product-edit', 'Adicionar produto')
 )
 
 routes.get('/edit/:id',
@@ -38,7 +38,7 @@ routes.get('/edit/:id',
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/productEdit', 'Editar produto')
+	render('product-edit', 'Editar produto')
 )
 
 

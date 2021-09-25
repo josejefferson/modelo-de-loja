@@ -1,24 +1,15 @@
-const mongoose = require('mongoose')
+const Admin = require('mongoose').model('Admins')
 const bcrypt = require('bcryptjs')
-const log = require('../../Log')('MongoDB', 'cyan')
-
-// MODELO
-const User = mongoose.model('User', {
-	name: { type: String, required: true },
-	email: { type: String, required: true, unique: true }, // validate
-	password: { type: String, required: true },
-	admin: { type: Boolean, default: false },
-})
-
+const log = require('../log')('MongoDB', 'cyan')
 
 // CRIA UM ADMINISTRADOR CASO NÃO EXISTA NENHUM
-User.find().then(user => {
-	if (user.length === 0) createDefaultAdmin()
+Admin.find().then(admin => {
+	if (admin.length === 0) createDefaultAdmin()
 })
 
 async function createDefaultAdmin() {
 	log('Nenhum administrador encontrado! Criando um novo...')
-	await User.create({
+	await Admin.create({
 		name: 'Admin',
 		email: 'admin@admin.com',
 		password: '$2y$10$je/bgy85arfz2kLIFwEU.u55u08t.CO925vl9xSdwRI7iYFzybBQ6',
@@ -33,17 +24,17 @@ async function createDefaultAdmin() {
 // AÇÕES
 // Busca um administrador
 function get({ id } = {}) {
-	return User.findById(id)
+	return Admin.findById(id)
 }
 
 // Busca todos os administradores
 function getAll() {
-	return User.find().select('-password')
+	return Admin.find().select('-password')
 }
 
 // Adiciona um administrador
 function add({ name, email, password } = {}) {
-	return User.create({
+	return Admin.create({
 		name: name,
 		email: email,
 		password: bcrypt.hashSync(password, 10),
@@ -53,7 +44,7 @@ function add({ name, email, password } = {}) {
 
 // Edita um administrador
 function edit({ id, name, email, password } = {}) {
-	return User.findById(id).then(user => {
+	return Admin.findById(id).then(user => {
 		if (name) user.name = name
 		if (email) user.email = email
 		if (password) user.password = bcrypt.hashSync(password, 10)
@@ -64,16 +55,13 @@ function edit({ id, name, email, password } = {}) {
 
 // Remove um administrador
 function remove({ id } = {}) {
-	return User.deleteMany({ _id: id })
+	return Admin.deleteMany({ _id: id })
 }
 
 module.exports = {
-	User,
-	actions: {
-		get,
-		getAll,
-		add,
-		edit,
-		remove
-	}
+	get,
+	getAll,
+	add,
+	edit,
+	remove
 }

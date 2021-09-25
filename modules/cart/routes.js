@@ -1,8 +1,8 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
-const { actions } = require('./database')
-const { Client, actions: clientActions } = require('../clients/database')
+const actions = require('./database')
+const clientActions = require('../clients/database')
 
 routes.get('/',
 	(req, res, next) => {
@@ -16,7 +16,7 @@ routes.get('/',
 			// redirecionar se não houver usuários
 			next()
 		}).catch(next)
-	}, render(__dirname + '/main', 'Carrinho')
+	}, render('buy', 'Carrinho')
 )
 
 module.exports = routes

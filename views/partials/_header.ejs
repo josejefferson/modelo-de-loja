@@ -25,23 +25,23 @@
 				</li>
 
 				<li class="nav-item" title="Compras">
-					<a class="nav-link <%-(_page==='history')&&'active'%>" href="/requests/my">
+					<a class="nav-link <%-(_page==='my-requests')&&'active'%>" href="/requests/my">
 						<i class="fas fa-history"></i> Compras
 					</a>
 				</li>
 
-				<% if (true || global.authUser) { //temp %>
-					<% if (true || global.authUser.admin) { //temp %>
+				<% if (authUser) { %>
+					<% if (authUser.admin) { %>
 						<hr class="bg-light my-1">
 
 						<li class="nav-item" title="Produtos">
-							<a class="nav-link <%-(_page==='admin/products')&&'active'%>" href="/products">
+							<a class="nav-link <%-(_page==='products')&&'active'%>" href="/products">
 								<i class="fas fa-shopping-bag"></i> Produtos
 							</a>
 						</li>
 
 						<li class="nav-item" title="Pedidos">
-							<a class="nav-link <%-(_page==='admin/requests')&&'active'%>" href="/requests">
+							<a class="nav-link <%-(_page==='requests')&&'active'%>" href="/requests">
 								<i class="fas fa-bullhorn"></i> Pedidos
 							</a>
 						</li>
@@ -53,25 +53,25 @@
 							</a>
 							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
 								<li title="Destaques">
-									<a class="dropdown-item <%-(_page==='admin/highlights')&&'active'%>" href="/highlights">
+									<a class="dropdown-item <%-(_page==='highlights')&&'active'%>" href="/highlights">
 										<i class="fas fa-certificate"></i> Destaques
 									</a>
 								</li>
 		
 								<li title="Anúncios">
-									<a class="dropdown-item <%-(_page==='admin/ads')&&'active'%>" href="/ads">
+									<a class="dropdown-item <%-(_page==='ads')&&'active'%>" href="/ads">
 										<i class="fas fa-bullhorn"></i> Anúncios
 									</a>
 								</li>
 		
 								<li title="Administradores">
-									<a class="dropdown-item <%-(_page==='admin/admins')&&'active'%>" href="/admins">
+									<a class="dropdown-item <%-(_page==='admins')&&'active'%>" href="/admins">
 										<i class="fas fa-user-shield"></i> Admins
 									</a>
 								</li>
 								
 								<li title="Imagens">
-									<a class="dropdown-item <%-(_page==='admin/images')&&'active'%>" href="/images">
+									<a class="dropdown-item <%-(_page==='images')&&'active'%>" href="/images">
 										<i class="fas fa-image"></i> Imagens
 									</a>
 								</li>

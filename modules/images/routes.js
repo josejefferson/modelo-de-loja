@@ -4,7 +4,7 @@ const { render } = require('../../helpers/helpers')
 const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
-const { actions } = require('./database')
+const actions = require('./database')
 
 
 routes.get('/',
@@ -14,7 +14,7 @@ routes.get('/',
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/main', 'Imagens')
+	render('images', 'Imagens')
 )
 
 routes.get('/api',
@@ -30,10 +30,11 @@ routes.get('/view/:id',
 	async (req, res, next) => {
 		actions.get({ id: req.params.id }).then((image) => {
 			req.data.image = image
+			if (!req.data.image) return next(new Error('Imagem não existe'))
 			next()
 		}).catch(next)
 	},
-	async (req, res) => {
+	(req, res, next) => {
 		res.contentType(req.data.image.contentType)
 		res.send(req.data.image.data)
 	}

@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
-const { actions } = require('../products/database')
+const actions = require('../products/database')
 
 // GET
 routes.get('/',
@@ -11,7 +11,7 @@ routes.get('/',
 			next()
 		}).catch(next)
 	},
-	render(__dirname + '/main', 'Início')
+	render('home', 'Início')
 )
 
 module.exports = routes
