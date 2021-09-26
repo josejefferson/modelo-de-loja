@@ -7,8 +7,32 @@
 	<h1 class="mt-4">Conectando ao banco de dados, aguarde!</h1>
 	<div class="text-muted">Este processo pode levar até 1 minuto</div>
 	<small class="text-muted">Caso demore demais, entre em contato com o administrador</small>
+	<p class="try-seconds mt-3"></p>
 </div>
 
 <script>
-	setTimeout(() => location.reload(), 5000)
+	const urlParams = new URLSearchParams(location.search)
+	let tries = Number(urlParams.get('t'))
+	if (tries > 0) tries++
+	else tries = 1
+	urlParams.set('t', tries)
+
+	const $trySeconds = document.querySelector('.try-seconds')
+	if (tries <= 10) {
+		setTimeout(() => {
+			location.href = location.origin + location.pathname + '?' + urlParams.toString() + location.hash
+		}, 5000 * (tries - 1))
+
+		let time = 5 * (tries - 1)
+		setInterval(updateSeconds, 1000)
+		updateSeconds()
+
+		function updateSeconds() {
+			$trySeconds.innerText = time > 0 ? `Tentando novamente em ${time} segundos` : 'Tentando novamente'
+			time--
+		}
+	} else {
+		$trySeconds.innerText = 'Atualize para tentar novamente!'
+		$trySeconds.classList.add('text-danger')
+	}
 </script>

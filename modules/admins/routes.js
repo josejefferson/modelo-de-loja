@@ -5,7 +5,6 @@ const actions = require('./database')
 const { validate, schema } = require('./validators')
 const { admin } = require('../restrictions')
 
-require('./sockets')
 // routes.use(admin)
 
 // GET

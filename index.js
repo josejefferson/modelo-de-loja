@@ -23,8 +23,9 @@ app.set('layout extractScripts', true)
 app.use(session({
 	secret: 'aVOkg6yTfi',
 	resave: true,
-	saveUninitialized: true,
-	store: new FileStore
+	saveUninitialized: false,
+	// store: new FileStore,
+	cookie: { expires: 30 * 24 * 60 * 60 * 1000 },
 }))
 app.use(passport.initialize())
 app.use(passport.session())

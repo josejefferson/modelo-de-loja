@@ -3,8 +3,9 @@ const routes = express.Router()
 const mongoose = require('mongoose')
 const log = require('./log')('Error', 'red')
 
-const { g, render } = require('../helpers/helpers')
-routes.use(g, (req, res, next) => {
+const { render } = require('../helpers/helpers')
+routes.use((req, res, next) => {
+	req.data = req.data || {}
 	req.data.cart = []
 	const cart = (req.cookies.cart && req.cookies.cart.split(',') || []) || []
 	const userIDs = (req.cookies.userIds && (req.cookies.userIds.split(',') || [])) || []
