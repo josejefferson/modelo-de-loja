@@ -73,6 +73,60 @@ input::-webkit-inner-spin-button {
 	max-height: calc(100vh - 56px);
 }
 
+.store-requests-client {
+	border-top: var(--bs-primary) 5px solid;
+}
+
+@media (min-width:0) {
+	.store-requests-client:first-child {
+		margin-left: .75rem;
+	}
+	.store-requests-client:last-child {
+		margin-right: .75rem;
+	}
+}	
+@media (min-width:576px) {
+	.store-requests-client:first-child {
+		margin-left: calc(((100% - 540px) / 2) + .75rem);
+	}
+	.store-requests-client:last-child {
+		margin-right: calc(((100% - 540px) / 2) + .75rem);
+	}
+}	
+@media (min-width:768px) {
+	.store-requests-client:first-child {
+		margin-left: calc(((100% - 720px) / 2) + .75rem);
+	}
+	.store-requests-client:last-child {
+		margin-right: calc(((100% - 720px) / 2) + .75rem);
+	}
+}	
+@media (min-width:992px) {
+	.store-requests-client:first-child {
+		margin-left: calc(((100% - 960px) / 2) + .75rem);
+	}
+	.store-requests-client:last-child {
+		margin-right: calc(((100% - 960px) / 2) + .75rem);
+	}
+}	
+@media (min-width:1200px) {
+	.store-requests-client:first-child {
+		margin-left: calc(((100% - 1140px) / 2) + .75rem);
+	}
+	.store-requests-client:last-child {
+		margin-right: calc(((100% - 1140px) / 2) + .75rem);
+	}
+}	
+@media (min-width:1400px) {
+	.store-requests-client:first-child {
+		margin-left: calc(((100% - 1320px) / 2) + .75rem);
+	}
+	.store-requests-client:last-child {
+		margin-right: calc(((100% - 1320px) / 2) + .75rem);
+	}
+}
+
+
 /* .user:not(:first-child) {
 	border-top: 1px solid #dee2e6;
 	padding-top: 20px;

@@ -1,6 +1,11 @@
+<!-- Nenhum produto -->
 <h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
-<div class="row mx-0 px-5 gap-3 flex-nowrap overflow-auto">
-	<div class="p-0 col-12 col-md-5 col-lg-4 col-xl-3 mt-4 user rounded"
+
+<!-- Pedidos -->
+<div class="row mx-0 gap-2 flex-nowrap overflow-auto store-requests">
+
+	<!-- Pedido -->
+	<div class="p-0 col-11 col-md-5 col-lg-4 col-xl-3 mt-4 rounded store-requests-client"
 		ng-repeat="(clientId, reqs) in requests | users:env"
 		style="height: fit-content; background-color:var(--bs-gray-200) !important;">
 
@@ -8,7 +13,7 @@
 		<div class="px-3 pt-2 mt-2">
 			<!-- Preço total e quantidade de produtos -->
 			<div class="ms-auto text-end m-0 float-end ps-2">
-				<span class="badge bg-white rounded-pill">{{sum(reqs | reqs:env | reqs:'notRejected')}}</span>
+				<span class="badge bg-success rounded-pill">{{sum(reqs | reqs:env | reqs:'notRejected')}}</span>
 				<span class="badge bg-secondary rounded-pill">{{(reqs | reqs:env).length}}</span>
 			</div>
 			<!-- Nome do cliente -->
@@ -60,13 +65,17 @@
 				title="Enviar comentário para todos"><i class="fas fa-comment-alt"></i></button>
 		</div> -->
 
+		<!-- PRODUTO -->
 		<div class="row gx-1 p-2" ng-repeat="req in reqs | reqs:env">
 			<!-- Imagem -->
-			<div class="col-2">
+			<a href="/products/view/{{::req.productId._id}}" target="_blank" class="col-2">
 				<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-					<img src="{{::req.productId.image}}" style="object-fit: cover;">
+					<img src="{{::req.productId.image}}" ng-if="::req.productId.image" style="object-fit: cover;">
+					<div class="d-flex align-items-center justify-content-center text-secondary bg-light" ng-if="::!req.productId.image">
+						<i class="fas fa-2x fa-shopping-basket"></i>
+					</div>
 				</div>
-			</div>
+			</a>
 
 			<!-- Dados do produto -->
 			<div class="col ps-2">
@@ -74,7 +83,7 @@
 				<div>{{::req.other}}</div>
 
 				<!-- Botões de ação -->
-				<div class="mt-2" ng-if="env !== 'history'">
+				<div class="mt-1" ng-if="env !== 'history'">
 					<button class="btn p-0 border border-success text-success"
 						ng-class="{'bg-success text-white': req.status === 'confirmed'}" ng-click="confirm(req, 'confirm')"
 						ng-disabled="!req.open" title="Confirmar">
@@ -89,8 +98,10 @@
 					<button class="btn p-0 border border-primary text-primary" ng-class="{'bg-primary text-white': req.feedback}"
 						ng-click="confirm(req, 'feedback')" ng-disabled="!req.open" title="Enviar comentário">
 						<i class="fas fa-comment-alt"></i></button>
-					<button ng-click="confirm(req, 'reset')">R</button>
+					<button ng-click="confirm(req, 'reset')" style="border:0;background:purple;color:white">R</button>
 					<!--TODO: remover no futuro-->
+
+
 				</div>
 			</div>
 
@@ -100,7 +111,7 @@
 					{{::moment(req.date).fromNow()}}
 				</small>
 				<div>
-					<span class="badge bg-success rounded-pill">
+					<span class="badge bg-white rounded-pill">
 						R$ {{::req.quantity * req.productId.price | money}}
 					</span>
 				</div>
@@ -171,8 +182,5 @@
 						<i class="far fa-lg fa-star" ng-class="{fas:req.rating>=5}" ng-click="rt(req, 5)"></i>
 						<i class="fas fa-lg fa-times text-white ms-3" ng-if="req.rating > 0" ng-click="rt(req, 0)"></i>
 					</div> -->
-	</div>
-</div>
-</div>
-</div>
-</div>
+	</div><!-- Fim pedido -->
+</div><!-- Fim pedidos -->
