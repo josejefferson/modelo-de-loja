@@ -2,12 +2,12 @@
 <h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
 
 <!-- Pedidos -->
-<div class="row mx-0 gap-2 flex-nowrap overflow-auto store-requests">
+<div class="row mx-0 gap-2 flex-nowrap store-requests" style="overflow-x: auto;overflow-y:hidden">
 
 	<!-- Pedido -->
-	<div class="p-0 col-11 col-md-5 col-lg-4 col-xl-3 mt-4 rounded border-top border-5 border-primary store-requests-client"
+	<div class="p-0 col-11 col-md-5 col-lg-4 col-xl-3 my-4 rounded border-top border-5 border-primary store-requests-client overflow-auto"
 		ng-repeat="(clientId, reqs) in requests | users:env"
-		style="height: fit-content; background-color:var(--bs-gray-200) !important;">
+		style="background-color:var(--bs-gray-200) !important;">
 
 		<!-- CABEÇALHO DO CARD -->
 		<div class="px-3 pt-2 mt-2">
@@ -65,58 +65,60 @@
 				title="Enviar comentário para todos"><i class="fas fa-comment-alt"></i></button>
 		</div> -->
 
-		<!-- PRODUTO -->
-		<div class="row gx-1 p-2" ng-repeat="req in reqs | reqs:env">
-			<!-- Imagem -->
-			<a href="/products/view/{{::req.productId._id}}" target="_blank" class="col-2">
-				<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-					<img src="{{::req.productId.image}}" ng-if="::req.productId.image" style="object-fit: cover;">
-					<div class="d-flex align-items-center justify-content-center text-secondary bg-light" ng-if="::!req.productId.image">
-						<i class="fas fa-2x fa-shopping-basket"></i>
+		<div class="store-requests-client-products">
+			<!-- PRODUTO -->
+			<div class="store-requests-client-product row gx-1 p-2" ng-repeat="req in reqs | reqs:env">
+				<!-- Imagem -->
+				<a href="/products/view/{{::req.productId._id}}" target="_blank" class="col-2">
+					<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
+						<img src="{{::req.productId.image}}" ng-if="::req.productId.image" style="object-fit: cover;">
+						<div class="d-flex align-items-center justify-content-center text-secondary bg-light" ng-if="::!req.productId.image">
+							<i class="fas fa-2x fa-shopping-basket"></i>
+						</div>
+					</div>
+				</a>
+	
+				<!-- Dados do produto -->
+				<div class="col ps-2">
+					<h6 class="m-0">{{::req.quantity}} × {{::req.productId.name}}</h6>
+					<div>{{::req.other}}</div>
+	
+					<!-- Botões de ação -->
+					<div class="mt-1" ng-if="env !== 'history'">
+						<button class="btn p-0 border border-success text-success"
+							ng-class="{'bg-success text-white': req.status === 'confirmed'}" ng-click="confirm(req, 'confirm')"
+							ng-disabled="!req.open" title="Confirmar">
+							<i class="fas fa-check"></i></button>
+						<button class="btn p-0 border border-danger text-danger"
+							ng-class="{'bg-danger text-white': req.status === 'rejected'}" ng-click="confirm(req, 'reject')"
+							ng-disabled="!req.open" title="Rejeitar">
+							<i class="fas fa-times"></i></button>
+						<button class="btn p-0 border border-warning text-warning" ng-class="{'bg-warning text-white': !req.open}"
+							ng-click="confirm(req, 'done')" ng-disabled="!req.open" title="Fechar pedido">
+							<i class="fas fa-check-double"></i></button>
+						<button class="btn p-0 border border-primary text-primary" ng-class="{'bg-primary text-white': req.feedback}"
+							ng-click="confirm(req, 'feedback')" ng-disabled="!req.open" title="Enviar comentário">
+							<i class="fas fa-comment-alt"></i></button>
+						<button ng-click="confirm(req, 'reset')" style="border:0;background:purple;color:white">R</button>
+						<!--TODO: remover no futuro-->
+	
+	
+					</div>
+				</div><!-- Fim produto -->
+
+				<!-- Horário e preço total -->
+				<div class="col-auto text-end">
+					<small class="d-block" title="{{::moment(req.date).format('hh:mma DD/MM/YYYY')}}">
+						{{::moment(req.date).fromNow()}}
+					</small>
+					<div>
+						<span class="badge bg-white rounded-pill">
+							R$ {{::req.quantity * req.productId.price | money}}
+						</span>
 					</div>
 				</div>
-			</a>
-
-			<!-- Dados do produto -->
-			<div class="col ps-2">
-				<h6 class="m-0">{{::req.quantity}} × {{::req.productId.name}}</h6>
-				<div>{{::req.other}}</div>
-
-				<!-- Botões de ação -->
-				<div class="mt-1" ng-if="env !== 'history'">
-					<button class="btn p-0 border border-success text-success"
-						ng-class="{'bg-success text-white': req.status === 'confirmed'}" ng-click="confirm(req, 'confirm')"
-						ng-disabled="!req.open" title="Confirmar">
-						<i class="fas fa-check"></i></button>
-					<button class="btn p-0 border border-danger text-danger"
-						ng-class="{'bg-danger text-white': req.status === 'rejected'}" ng-click="confirm(req, 'reject')"
-						ng-disabled="!req.open" title="Rejeitar">
-						<i class="fas fa-times"></i></button>
-					<button class="btn p-0 border border-warning text-warning" ng-class="{'bg-warning text-white': !req.open}"
-						ng-click="confirm(req, 'done')" ng-disabled="!req.open" title="Fechar pedido">
-						<i class="fas fa-check-double"></i></button>
-					<button class="btn p-0 border border-primary text-primary" ng-class="{'bg-primary text-white': req.feedback}"
-						ng-click="confirm(req, 'feedback')" ng-disabled="!req.open" title="Enviar comentário">
-						<i class="fas fa-comment-alt"></i></button>
-					<button ng-click="confirm(req, 'reset')" style="border:0;background:purple;color:white">R</button>
-					<!--TODO: remover no futuro-->
-
-
-				</div>
-			</div>
-
-			<!-- Horário e preço total -->
-			<div class="col-auto text-end">
-				<small class="d-block" title="{{::moment(req.date).format('hh:mma DD/MM/YYYY')}}">
-					{{::moment(req.date).fromNow()}}
-				</small>
-				<div>
-					<span class="badge bg-white rounded-pill">
-						R$ {{::req.quantity * req.productId.price | money}}
-					</span>
-				</div>
-			</div>
-		</div>
+			</div><!-- Fim produto -->
+		</div><!-- Fim produtos -->
 
 		<!-- <div class="request" ng-repeat="req in reqs | reqs:env">
 			<div class="card text-white bg-dark overflow-hidden" ng-class="{'border-danger border-5': req.status === 'rejected',

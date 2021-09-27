@@ -75,18 +75,19 @@ input::-webkit-inner-spin-button {
 	max-height: calc(100vh - 56px);
 }
 
+.store-requests {
+	scroll-snap-type: x mandatory;
+	scroll-padding: .75rem;
+	box-sizing: border-box;
+}
 
 .store-requests-client {
 	border-top: var(--bs-primary) 5px solid;
+	height: calc(100vh - 86px);
 	scroll-snap-align: start;
 }
 
 @media (min-width:0) {
-	.store-requests {
-		scroll-snap-type: x mandatory;
-		scroll-padding: .75rem;
-	}
-
 	.store-requests-client:first-child {
 		margin-left: .75rem;
 	}
