@@ -1,4 +1,4 @@
-<!-- Nenhum produto -->
+<!-- Nenhum pedido -->
 <h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
 
 <!-- Pedidos -->
@@ -67,7 +67,7 @@
 
 		<div class="store-requests-client-products">
 			<!-- PRODUTO -->
-			<div class="store-requests-client-product w-100 row gx-1 p-2" ng-repeat="req in reqs | reqs:env">
+			<div class="store-requests-client-product w-100 row gx-1" ng-repeat="req in reqs | reqs:env">
 				<!-- Imagem -->
 				<a href="/products/view/{{::req.productId._id}}" target="_blank" class="col-2">
 					<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
@@ -99,10 +99,13 @@
 						<button class="btn p-0 border border-primary text-primary" ng-class="{'bg-primary text-white': req.feedback}"
 							ng-click="confirm(req, 'feedback')" ng-disabled="!req.open" title="Enviar comentário">
 							<i class="fas fa-comment-alt"></i></button>
-						<button ng-click="confirm(req, 'reset')" style="border:0;background:purple;color:white">R</button>
-						<!--TODO: remover no futuro-->
-	
-	
+						<button ng-click="confirm(req, 'reset')" style="border:0;background:purple;color:white">R</button><!--TODO: remover no futuro-->
+					</div>
+
+					<!-- Cancelar pedido -->
+					<div class="mt-2" ng-if="env === 'history' && req.status === 'pending'">
+						<button class="btn btn-outline-danger p-1" ng-click="cancel(req, clientId)"
+							title="Cancelar pedido"><i class="fas fa-times"></i> Cancelar pedido</button>
 					</div>
 				</div><!-- Fim produto -->
 
@@ -185,4 +188,4 @@
 						<i class="fas fa-lg fa-times text-white ms-3" ng-if="req.rating > 0" ng-click="rt(req, 0)"></i>
 					</div> -->
 	</div><!-- Fim pedido -->
-</div><!-- Fim pedidos -->
+</div><!-- Fim pedidos

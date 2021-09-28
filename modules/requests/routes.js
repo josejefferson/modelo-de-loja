@@ -94,9 +94,6 @@ routes.post('/confirm/:id',
 	(req, res, next) => {
 		res.json({ success: true })
 		const request = req.data.request
-		console.log('ClientID:', request.clientId._id.toString())
-		console.log('Confirm:', req.body.confirm)
-		console.log('Feedback:', req.body.feedback)
 		socketHistory.to(request.clientId._id.toString()).emit('confirm', {
 			clientId: request.clientId._id,
 			requestId: request._id,

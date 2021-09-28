@@ -91,6 +91,10 @@ input::-webkit-inner-spin-button {
 	margin-right: 10px;
 }
 
+.store-requests-client-product {
+	padding: .5rem;
+}
+
 @media (min-width:0) {
 	.store-requests-client:first-child {
 		margin-left: .75rem;

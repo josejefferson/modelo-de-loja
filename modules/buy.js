@@ -39,7 +39,7 @@ routes.post('/',
 				other: req.body.other
 			}).catch(next)
 
-			requests.push(request)
+			requests.push(await request.populate('clientId'))
 		}
 		socket.emit('newRequests', { clientId: req.data.client._id, requests }) // enviar informações completas do cliente
 		req.data.requests = requests
