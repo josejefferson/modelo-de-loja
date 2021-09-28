@@ -87,6 +87,10 @@ input::-webkit-inner-spin-button {
 	scroll-snap-align: start;
 }
 
+.store-requests-client:not(:last-child) {
+	margin-right: 10px;
+}
+
 @media (min-width:0) {
 	.store-requests-client:first-child {
 		margin-left: .75rem;

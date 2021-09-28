@@ -2,7 +2,7 @@
 <h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
 
 <!-- Pedidos -->
-<div class="row mx-0 gap-2 flex-nowrap store-requests" style="overflow-x: auto;overflow-y:hidden">
+<div class="row mx-0 flex-nowrap store-requests" style="overflow-x: auto;overflow-y:hidden">
 
 	<!-- Pedido -->
 	<div class="p-0 col-11 col-md-5 col-lg-4 col-xl-3 my-4 rounded border-top border-5 border-primary store-requests-client overflow-auto"
@@ -54,24 +54,24 @@
 		</div>
 
 		<!-- Ações globais -->
-		<!-- <div class="mt-2 text-center" ng-if="env === 'pending'">
-			<button class="btn btn-outline-success" ng-click="confirmAll(reqs | reqs:env, 'confirm')" title="Confirmar todos">
+		<div class="my-2 d-flex gap-2 px-3 text-center" ng-if="env === 'pending'">
+			<button class="btn btn-outline-success flex-grow-1" ng-click="confirmAll(reqs | reqs:env, 'confirm')" title="Confirmar todos">
 				<i class="fas fa-check"></i></button>
-			<button class="btn btn-outline-danger" ng-click="confirmAll(reqs | reqs:env, 'reject')" title="Rejeitar todos">
+			<button class="btn btn-outline-danger flex-grow-1" ng-click="confirmAll(reqs | reqs:env, 'reject')" title="Rejeitar todos">
 				<i class="fas fa-times"></i></button>
-			<button class="btn btn-outline-warning" ng-click="confirmAll(reqs | reqs:env, 'done')" title="Fechar todos">
+			<button class="btn btn-outline-warning flex-grow-1" ng-click="confirmAll(reqs | reqs:env, 'done')" title="Fechar todos">
 				<i class="fas fa-check-double"></i></button>
-			<button class="btn btn-outline-primary" ng-click="confirmAll(reqs | reqs:env, 'feedback')"
+			<button class="btn btn-outline-primary flex-grow-1" ng-click="confirmAll(reqs | reqs:env, 'feedback')"
 				title="Enviar comentário para todos"><i class="fas fa-comment-alt"></i></button>
-		</div> -->
+		</div>
 
 		<div class="store-requests-client-products">
 			<!-- PRODUTO -->
-			<div class="store-requests-client-product row gx-1 p-2" ng-repeat="req in reqs | reqs:env">
+			<div class="store-requests-client-product w-100 row gx-1 p-2" ng-repeat="req in reqs | reqs:env">
 				<!-- Imagem -->
 				<a href="/products/view/{{::req.productId._id}}" target="_blank" class="col-2">
 					<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-						<img src="{{::req.productId.image}}" ng-if="::req.productId.image" style="object-fit: cover;">
+						<img ng-src="{{::req.productId.image}}" ng-if="::req.productId.image" style="object-fit: cover;">
 						<div class="d-flex align-items-center justify-content-center text-secondary bg-light" ng-if="::!req.productId.image">
 							<i class="fas fa-2x fa-shopping-basket"></i>
 						</div>
@@ -123,7 +123,7 @@
 		<!-- <div class="request" ng-repeat="req in reqs | reqs:env">
 			<div class="card text-white bg-dark overflow-hidden" ng-class="{'border-danger border-5': req.status === 'rejected',
 								'border-success border-5': req.status === 'confirmed'}">
-				<img src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
+				<img ng-src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
 				<div class="card-body pt-2" style="z-index:1">
 					<small class="momentUpdate d-block text-end"
 						data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</small>
