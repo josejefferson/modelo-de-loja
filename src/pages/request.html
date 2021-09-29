@@ -2,10 +2,10 @@
 <h3 class="text-center text-secondary mt-5" ng-if="!keys(requests | users:env).length">Nenhum pedido</h3>
 
 <!-- Pedidos -->
-<div class="row mx-0 flex-nowrap store-requests" style="overflow-x: auto;overflow-y:hidden">
+<div class="store-requests row mx-0 flex-nowrap" style="overflow-x: auto;overflow-y:hidden">
 
 	<!-- Pedido -->
-	<div class="p-0 col-11 col-md-5 col-lg-4 col-xl-3 my-4 rounded border-top border-5 border-primary store-requests-client overflow-auto"
+	<div class="store-requests-client p-0 col-11 col-md-5 col-lg-4 col-xl-3 my-4 rounded border-top border-5 border-primary overflow-auto"
 		ng-repeat="(clientId, reqs) in requests | users:env"
 		style="background-color:var(--bs-gray-200) !important;">
 
@@ -25,32 +25,28 @@
 		<!-- DADOS DO CLIENTE -->
 		<div class="px-3 mb-2">
 			<!-- Endereço -->
-			<a href="https://www.google.com.br/maps/search/{{::reqs[0].clientId.address | url}}" target="_blank"
-				class="row text-decoration-none text-dark" ng-if="::reqs[0].clientId.address">
-				<div class="col-auto text-primary mdi mdi-map-marker"></div>
-				<div class="col ps-0 text-break">{{::reqs[0].clientId.address}}</div>
-			</a>
+			<div class="row text-decoration-none" ng-if="::reqs[0].clientId.address">
+				<a href="https://www.google.com.br/maps/search/{{::reqs[0].clientId.address | url}}" target="_blank" class="col-auto mdi mdi-map-marker"></a>
+				<span class="col ps-0 text-break">{{::reqs[0].clientId.address}}</span>
+			</div>
 
 			<!-- Telefone -->
-			<a href="tel:{{::reqs[0].clientId.phone}}" target="_blank" class="row text-decoration-none text-dark"
-				ng-if="::reqs[0].clientId.phone">
-				<div class="col-auto text-primary mdi mdi-phone"></div>
-				<div class="col ps-0 text-break">{{::reqs[0].clientId.phone}}</div>
-			</a>
+			<div class="row text-decoration-none" ng-if="::reqs[0].clientId.phone">
+				<a href="tel:{{::reqs[0].clientId.phone}}" target="_blank" class="col-auto mdi mdi-phone"></a>
+				<span class="col ps-0 text-break">{{::reqs[0].clientId.phone}}</span>
+			</div>
 
 			<!-- WhatsApp -->
-			<a href="https://api.whatsapp.com/send?phone={{::reqs[0].clientId.whatsapp}}" target="_blank"
-				class="row text-decoration-none text-dark" ng-if="::reqs[0].clientId.whatsapp">
-				<div class="col-auto text-primary mdi mdi-whatsapp"></div>
-				<div class="col ps-0 text-break">{{::reqs[0].clientId.whatsapp}}</div>
-			</a>
+			<div class="row text-decoration-none" ng-if="::reqs[0].clientId.whatsapp">
+				<a href="https://api.whatsapp.com/send?phone={{::reqs[0].clientId.whatsapp}}" target="_blank" class="col-auto mdi mdi-whatsapp"></a>
+				<span class="col ps-0 text-break">{{::reqs[0].clientId.whatsapp}}</span>
+			</div>
 
 			<!-- E-mail -->
-			<a href="mailto:{{::reqs[0].clientId.email}}" target="_blank" class="row text-decoration-none text-dark"
-				ng-if="::reqs[0].clientId.email">
-				<div class="col-auto text-primary mdi mdi-email"></div>
-				<div class="col ps-0 text-break">{{::reqs[0].clientId.email}}</div>
-			</a>
+			<div class="row text-decoration-none" ng-if="::reqs[0].clientId.email">
+				<a href="mailto:{{::reqs[0].clientId.email}}" target="_blank" class="col-auto mdi mdi-email"></a>
+				<span class="col ps-0 text-break">{{::reqs[0].clientId.email}}</span>
+			</div>
 		</div>
 
 		<!-- Ações globais -->

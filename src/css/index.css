@@ -75,6 +75,23 @@ input::-webkit-inner-spin-button {
 	max-height: calc(100vh - 56px);
 }
 
+.store-product {
+	transition: transform .2s ease;
+}
+
+.store-product-image {
+	transition: transform .2s ease;
+}
+
+.store-product:hover .store-product-image {
+	transform: scale(1.1);
+}
+
+.store-product:active {
+	transform: scale(0.9);
+}
+
+
 .store-requests {
 	scroll-snap-type: x mandatory;
 	scroll-padding: .75rem;

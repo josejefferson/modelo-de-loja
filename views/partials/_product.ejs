@@ -15,15 +15,15 @@ const _calcPrc = `'R$ ' + ((products.p${product.id}.qtd*${product.price}||false)
 const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin};products.p${product.id}.price=${product.price}`
 %>
 
-<div class="col <%=_buyCol%> col-md-4 col-lg-3 px-1 py-1">
+<div class="store-product col <%=_buyCol%> col-md-4 col-lg-3 px-1 py-1">
 	<<%=_link%> href="/products/view/<%= product.id %>" class="card shadow text-decoration-none text-dark h-100">
 		<% if (product.badge) { %>
 			<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge"><%= product.badge %></div>
 		<% } %>
 
 		<% if (product.image) { %>
-			<div class="ratio ratio-16x9">
-				<img src="<%= product.image %>" class="card-img-top" style="object-fit:cover">
+			<div class="ratio ratio-16x9 overflow-hidden">
+				<img src="<%= product.image %>" class="store-product-image card-img-top" style="object-fit:cover">
 			</div>
 		<% } else { %>
 			<div class="ratio ratio-16x9 bg-light">

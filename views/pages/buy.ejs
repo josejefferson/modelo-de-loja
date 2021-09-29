@@ -11,6 +11,7 @@ const _usAddRedir = encodeURIComponent(url)
 
 	<form action="/buy<%= _redir %>" method="POST" name="buy">
 		<div class="row g-4">
+			<!-- PRODUTOS -->
 			<div class="col-12 col-lg-4 order-lg-last">
 				<h4 class="text-muted mb-3 d-flex justify-content-between">
 					<span class="text-truncate">Produtos</span>
@@ -19,7 +20,7 @@ const _usAddRedir = encodeURIComponent(url)
 				<ul class="list-group">
 					<li class="list-group-item list-group-item-light px-2" ng-repeat="product in products">
 						<div class="row gx-1">
-							<img class="col-2 rounded" src="{{::product.image}}" style="object-fit:cover">
+							<img class="col-2 rounded" ng-src="{{::product.image}}" style="object-fit:cover">
 							<div class="col ps-2">
 								<h6>{{::product.name}}</h6>
 								<input type="hidden" name="products[{{::$index}}][id]" value="{{::product._id}}">
@@ -39,6 +40,7 @@ const _usAddRedir = encodeURIComponent(url)
 				</ul>
 			</div>
 
+			<!-- SEUS DADOS -->
 			<div class="col-12 col-lg-8">
 				<h4 class="text-muted d-flex justify-content-between mb-0">
 					<span>Seus dados</span>
@@ -46,14 +48,14 @@ const _usAddRedir = encodeURIComponent(url)
 						<i class="fas fa-users"></i> Gerenciar usuários
 					</a>
 				</h4>
-		
+
+				<!-- Usuários -->
 				<div class="row">
 					<% users.forEach((user, i) => { %>
 						<%- include('../partials/_user.ejs', {user, i, env: 'buy', redir: _usAddRedir}) %>
 					<% }) %>
-				</div>
-		
-				<% if (users.length === 0) { %>
+
+					<!-- Adicionar usuário -->
 					<div class="col-12 col-md-6 mt-4">
 						<div class="card shadow-sm h-100 bg-light">
 							<a href="/clients/add?r=<%=_usAddRedir%>" class="btn card-body d-flex flex-column align-items-center justify-content-center">
@@ -62,8 +64,9 @@ const _usAddRedir = encodeURIComponent(url)
 							</a>
 						</div>
 					</div>
-				<% } %>
-	
+				</div>
+		
+				<!-- OBSERVAÇÕES -->
 				<label class="form-group d-block mt-3 mb-5">
 					<h4 class="text-muted">Observações</h4>
 					<textarea class="form-control" name="other" placeholder="Mais alguma informação?"><%= locals.other %></textarea>

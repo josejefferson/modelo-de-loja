@@ -19,6 +19,7 @@ function render(page, title, _next = false) {
 		req.data = req.data || {}
 		res.render('pages/' + page, {
 			url: req.originalUrl,
+			fullURL: req.protocol + '://' + req.get('host') + req.originalUrl,
 			_page: page,
 			_title: title,
 			query: req.query,
