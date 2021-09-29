@@ -86,6 +86,10 @@ routes.post('/confirm/:id',
 				request.open = true
 				request.feedback = undefined
 				break
+
+			case 'delete':
+				request.remove()
+				break
 		}
 		request.save().then(() => next())
 
