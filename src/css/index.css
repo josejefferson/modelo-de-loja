@@ -95,6 +95,28 @@ input::-webkit-inner-spin-button {
 	padding: .5rem;
 }
 
+.store-requests-client-product.animation-pre-open {
+	height: 0;
+}
+
+.store-requests-client-product.animation-open {
+	height:100px;
+	transition: height 5000ms ease 5000ms;
+}
+
+.store-requests-client-product.animation-close {
+	opacity: 0 !important;
+	height: 0 !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	overflow: hidden !important;
+	transition:
+		opacity 150ms ease,
+		height 200ms ease 150ms,
+		padding-top 200ms ease 150ms,
+		padding-bottom 200ms ease 150ms;
+}
+
 @media (min-width:0) {
 	.store-requests-client:first-child {
 		margin-left: .75rem;
