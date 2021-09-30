@@ -96,6 +96,7 @@ const { id, name, description, price, oldprice, badge, image, stock, hidden } = 
 	</form>
 </div>
 
+<%- contentFor('script') %>
 <script>
 	const selectImageModal = `<%- include('../partials/_selectImage.ejs').replace(/`/g, '\\`') %>`
 	const uploadImageModal = `<%- include('../partials/_upload.ejs').replace(/`/g, '\\`') %>`

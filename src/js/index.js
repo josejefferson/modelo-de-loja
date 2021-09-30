@@ -43,3 +43,9 @@ async function ask(title = '', text = '', input, value = '') {
 		})
 	}))[!input ? 'isConfirmed' : 'value']
 }
+
+document.querySelector('.open-sidebar').addEventListener('click', toggleSidebar)
+document.querySelector('.sidebar-background').addEventListener('click', toggleSidebar)
+function toggleSidebar() {
+	document.body.classList.toggle('sidebar-open')
+}

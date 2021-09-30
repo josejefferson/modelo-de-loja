@@ -11,10 +11,12 @@
 	<link rel="stylesheet" href="/lib/css/bootstrap-colors.css">
 	<link rel="stylesheet" href="/lib/css/sweetalert2.min.css">
 	<link rel="stylesheet" href="/css/index.css">
+	<%- defineContent('heads') %>
 </head>
 
 <body>
 	<%- include('partials/_header.ejs') %>
+	<%- include('partials/_sidebar.ejs') %>
 	<noscript>
 		<div class="container alert alert-danger mt-3">
 			<i class="fab fa-js-square"></i>

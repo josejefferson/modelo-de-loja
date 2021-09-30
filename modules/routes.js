@@ -41,6 +41,12 @@ routes.use((err, req, res, next) => {
 		req.flash('errorMsg', 'Dados inválidos:\n' + err.message)
 		res.redirect(req.headers.referer || req.originalUrl || '.')
 	}
+	else if (err.ejs) {
+		log('EJS Error')
+		console.error(err)
+		req.flash('errorMsg', 'Ocorreu um erro ao acessar esta página')
+		res.redirect('/')
+	}
 	else if (err.code == 11000) {
 		log('Error 11000 from "Mongoose"')
 		req.flash('errorMsg', 'Já existe uma entrada cadastrada no banco de dados')

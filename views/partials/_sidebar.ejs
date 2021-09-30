@@ -1,0 +1,95 @@
+<div class="sidebar-background"></div>
+
+<div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-dark">
+	<a href="/" class="d-flex align-items-center mb-1 mb-md-0 me-md-auto link-light text-decoration-none">
+		<i class="fas fa-shopping-basket fa-2x me-2"></i>
+		<span class="fs-4">Modelo de loja</span>
+	</a>
+
+	<hr class="bg-light">
+
+	<ul class="nav nav-pills flex-column mb-auto">
+		<li class="nav-item" title="Início">
+			<a class="nav-link link-light <%-(_page==='home')&&'active'%>" href="/">
+				<i class="fas fa-home"></i> Início
+			</a>
+		</li>
+
+		<li class="nav-item" title="Usuários">
+			<a class="nav-link link-light <%-(_page==='clients')&&'active'%>" href="/clients">
+				<i class="fas fa-users"></i> Usuários
+			</a>
+		</li>
+
+		<li class="nav-item" title="Carrinho">
+			<a class="nav-link link-light <%-(_page==='buy')&&'active'%>" href="/cart">
+				<i class="fas fa-shopping-cart"></i> Carrinho
+			</a>
+		</li>
+
+		<li class="nav-item" title="Compras">
+			<a class="nav-link link-light <%-(_page==='my-requests')&&'active'%>" href="/requests/my">
+				<i class="fas fa-history"></i> Compras
+			</a>
+		</li>
+
+		<% if (authUser) { %>
+			<% if (authUser.admin) { %>
+				<hr class="bg-light">
+
+				<li class="nav-item" title="Produtos">
+					<a class="nav-link link-light <%-(_page==='products')&&'active'%>" href="/products">
+						<i class="fas fa-shopping-bag"></i> Produtos
+					</a>
+				</li>
+
+				<li class="nav-item" title="Pedidos">
+					<a class="nav-link link-light <%-(_page==='requests')&&'active'%>" href="/requests">
+						<i class="fas fa-bullhorn"></i> Pedidos
+					</a>
+				</li>
+
+				<li class="nav-item" title="Destaques">
+					<a class="nav-link link-light <%-(_page==='highlights')&&'active'%>" href="/highlights">
+						<i class="fas fa-certificate"></i> Destaques
+					</a>
+				</li>
+
+				<li class="nav-item" title="Anúncios">
+					<a class="nav-link link-light <%-(_page==='ads')&&'active'%>" href="/ads">
+						<i class="fas fa-bullhorn"></i> Anúncios
+					</a>
+				</li>
+
+				<li class="nav-item" title="Administradores">
+					<a class="nav-link link-light <%-(_page==='admins')&&'active'%>" href="/admins">
+						<i class="fas fa-user-shield"></i> Admins
+					</a>
+				</li>
+				
+				<li class="nav-item" title="Imagens">
+					<a class="nav-link link-light <%-(_page==='images')&&'active'%>" href="/images">
+						<i class="fas fa-image"></i> Imagens
+					</a>
+				</li>
+			<% } %>
+		<% } %>
+	</ul>
+
+	<hr class="bg-light">
+	<ul class="nav nav-pills flex-column">
+		<% if (authUser) { %>
+			<li class="nav-item" title="Sair">
+				<a class="nav-link link-light" href="/logout">
+					<i class="fas fa-sign-out-alt"></i> Sair
+				</a>
+			</li>
+		<% } else { %>
+			<li class="nav-item" title="Painel do administrador">
+				<a class="nav-link link-light <%-(_page==='login')&&'active'%>" href="/login">
+					<i class="fas fa-user-shield"></i> Painel do administrador
+				</a>
+			</li>
+		<% } %>
+	</ul>
+</div>

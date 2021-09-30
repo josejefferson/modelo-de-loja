@@ -24,8 +24,16 @@ function render(page, title, _next = false) {
 			_title: title,
 			query: req.query,
 			...req.data
+		}, (err, html) => {
+			if (err) {
+				err.ejs = true
+				next(err)
+			}
+			else {
+				res.send(html)
+				if (_next) next()
+			}
 		})
-		if (_next) next()
 	}
 }
 

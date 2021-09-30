@@ -10,6 +10,7 @@
 	<p class="try-seconds mt-3"></p>
 </div>
 
+<%- contentFor('script') %>
 <script>
 	const urlParams = new URLSearchParams(location.search)
 	let tries = Number(urlParams.get('t'))

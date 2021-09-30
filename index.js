@@ -7,7 +7,6 @@ const http = require('http')
 const server = http.createServer(app)
 const flash = require('connect-flash')
 const session = require('express-session')
-// const FileStore = require('session-file-store')(session)
 const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
@@ -19,12 +18,11 @@ require('./modules/login/passport')(passport)
 require('./modules/sockets').start(server)
 
 app.set('view engine', 'ejs')
-app.set('layout extractScripts', true)
+app.set('layout extractScripts', false)
 app.use(session({
 	secret: 'aVOkg6yTfi',
 	resave: true,
 	saveUninitialized: false,
-	// store: new FileStore,
 	cookie: { expires: 30 * 24 * 60 * 60 * 1000 },
 }))
 app.use(passport.initialize())

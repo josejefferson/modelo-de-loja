@@ -82,5 +82,6 @@ const _usAddRedir = encodeURIComponent(url)
 	</form>
 </div>
 
+<%- contentFor('script') %>
 <script>const serverData = <%- JSON.stringify(products) %></script>
 <script src="/js/buy.js"></script>
