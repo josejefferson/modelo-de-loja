@@ -77,13 +77,18 @@ const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 
 	<p><%- product.description %></p>
 
-	<h3>Compartilhe</h3>
+	<h3 class="mt-3">Compartilhe</h3>
 	<a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(fullURL) %>" target="_blank" class="btn btn-primary">
 		<i class="mdi mdi-facebook"></i> Facebook</a>
 	<a href="https://wa.me/?text=<%= encodeURIComponent(`${product.name}\n${fullURL}`) %>" target="_blank" class="btn btn-success">
 		<i class="mdi mdi-whatsapp"></i> WhatsApp</a>
 	<a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(product.name) %>&url=<%= encodeURIComponent(fullURL) %>" target="_blank" class="btn btn-info">
 		<i class="mdi mdi-twitter"></i> Twitter</a>
+	
+	<h3 class="mt-3">Comentários</h3>
+	<div id="fb-root">
+		<div class="fb-comments" data-href="<%= fullURL %>" data-width="" data-numposts="5"></div>
+	</div>
 </div>
-
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v12.0" nonce="QemaWNXd"></script>
 <script src="/js/product.js"></script>
