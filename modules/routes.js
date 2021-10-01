@@ -40,12 +40,17 @@ routes.use((err, req, res, next) => {
 	if (err.isJoi) {
 		log('Error from "Joi"')
 		req.flash('errorMsg', 'Dados inválidos:\n' + err.message)
+		// res.status(400).send('Dados inválidos')
 		res.redirect(req.headers.referer || req.originalUrl || '.')
 	}
 	else if (err.ejs) {
 		log('EJS Error')
 		console.error(err)
 		res.status(500).send('Ocorreu um erro ao mostrar esta página<br><a href="/">Voltar para a página inicial</a>')
+	}
+	else if (err.notFound) {
+		log('Object not found')
+		res.sendStatus(404)
 	}
 	else if (err.code == 11000) {
 		log('Error 11000 from "Mongoose"')
@@ -59,7 +64,6 @@ routes.use((err, req, res, next) => {
 	else {
 		log('Unknown Error')
 		console.error(err)
-		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao realizar esta ação')
 		res.sendStatus(500)
 	}
 })

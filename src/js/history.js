@@ -26,6 +26,7 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 					`"${request.productId.name}"`, 'info', 'comment-alt')
 				break
 		}
+		new Audio('/sounds/tone.wav').play()
 		$scope.$apply()
 	})
 

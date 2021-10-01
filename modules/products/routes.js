@@ -1,12 +1,15 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
+const { validate, validateParam, schema } = require('./validators')
 const actions = require('./database')
 
 routes.get('/view/:id',
+	validateParam(schema.get, 'id'),
 	(req, res, next) => {
 		actions.get({ id: req.params.id }).then((product) => {
 			req.data.product = product
+			if (!product) return next({notFound:true})
 			next()
 		}).catch(next)
 	},
@@ -32,6 +35,7 @@ routes.get('/add',
 )
 
 routes.get('/edit/:id',
+	validate(schema.get),
 	(req, res, next) => {
 		actions.get({ id: req.params.id }).then((product) => {
 			req.data.product = product
@@ -42,25 +46,28 @@ routes.get('/edit/:id',
 )
 
 
-routes.post('/add', (req, res) => {
-	actions.add({
-		name: req.body.name,
-		description: req.body.description,
-		price: req.body.price,
-		oldprice: req.body.oldprice,
-		badge: req.body.badge,
-		image: req.body.image,
-		media: req.body.media,
-		stock: req.body.stock,
-		hidden: req.body.hidden
-	}).then(() => {
-		req.flash('successMsg', `Produto "${req.body.name}" adicionado com sucesso`)
-		return res.redirect(req.query.r || '/products')
-	}).catch((err) => {
-		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar produto')
-		req.flash('userData', req.body)
-		res.redirect(req.query.r || '/products/add')
-	})
+routes.post('/add',
+	validate(schema.add),
+	(req, res) => {
+		actions.add({
+			name: req.body.name,
+			description: req.body.description,
+			price: req.body.price,
+			oldprice: req.body.oldprice,
+			badge: req.body.badge,
+			image: req.body.image,
+			media: req.body.media,
+			stock: req.body.stock,
+			hidden: req.body.hidden
+		}).then(() => {
+			req.flash('successMsg', `Produto "${req.body.name}" adicionado com sucesso`)
+			return res.redirect(req.query.r || '/products')
+		}).catch((err) => {
+			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar produto')
+			req.flash('userData', req.body)
+			res.redirect(req.query.r || '/products/add')
+		}
+	)
 })
 
 routes.post('/edit/:id', (req, res) => {

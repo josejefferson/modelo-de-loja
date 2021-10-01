@@ -6,7 +6,7 @@
 		<label class="col-12 col-md-3 col-lg-2 mt-4 selImage" ng-repeat="image in images">
 			<input type="radio" class="selectedImage hidden" value="{{image._id}}">
 			<div class="card">
-				<img src="/images/view/{{image._id}}" class="card-img-top">
+				<img ng-src="/images/view/{{image._id}}" class="card-img-top">
 			</div>
 		</label>
 	</div>

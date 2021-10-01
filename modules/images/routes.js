@@ -30,7 +30,7 @@ routes.get('/view/:id',
 	async (req, res, next) => {
 		actions.get({ id: req.params.id }).then((image) => {
 			req.data.image = image
-			if (!req.data.image) return next(new Error('Imagem não existe'))
+			if (!req.data.image) return next({ notFound: true })
 			next()
 		}).catch(next)
 	},
