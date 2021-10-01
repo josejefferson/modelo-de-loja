@@ -4,12 +4,21 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 		console.log('[SOCKET] Conectado')
 	})
 	socket.on('newRequests', requests => {
+		const existentClient = $scope.requests[requests.clientId] ? true : false
+
 		requests.requests.forEach(request => {
 			$scope.requests[requests.clientId] = $scope.requests[requests.clientId] || []
 			$scope.requests[requests.clientId].unshift(request)
 			$scope.$apply()
 			toast(`Novo pedido do usuário "${request.clientId.name}"`, 'info')
 		})
+
+		if (!existentClient) {
+			new Audio('/sounds/doorBell.wav').play()
+		}
+		else {
+			new Audio('/sounds/deskBell.wav').play()
+		}
 	})
 
 	$scope.keys = Object.keys

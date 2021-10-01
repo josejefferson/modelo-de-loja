@@ -12,19 +12,19 @@
 					</a>
 				</li>
 
-				<li class="nav-item" title="Usuários">
+				<li class="nav-item" title="[Usuários]&#13;Edite suas informações pessoais, como nome, endereço, telefone, etc.">
 					<a class="nav-link <%-(_page==='clients')&&'active'%>" href="/clients">
 						<i class="fas fa-users"></i> Usuários
 					</a>
 				</li>
 
-				<li class="nav-item" title="Carrinho">
+				<li class="nav-item" title="[Carrinho]&#13;Compre vários produtos de uma vez com o carrinho">
 					<a class="nav-link <%-(_page==='buy')&&'active'%>" href="/cart">
 						<i class="fas fa-shopping-cart"></i> Carrinho
 					</a>
 				</li>
 
-				<li class="nav-item" title="Compras">
+				<li class="nav-item" title="[Compras]&#13;Veja e cancele suas compras recentes">
 					<a class="nav-link <%-(_page==='my-requests')&&'active'%>" href="/requests/my">
 						<i class="fas fa-history"></i> Compras
 					</a>
@@ -32,15 +32,15 @@
 
 				<% if (authUser) { %>
 					<% if (authUser.admin) { %>
-						<hr class="bg-light my-1">
+						<div class="vr bg-light mx-2"></div>
 
-						<li class="nav-item" title="Produtos">
+						<li class="nav-item" title="[Produtos]&#13;Edite ou remova produtos">
 							<a class="nav-link <%-(_page==='products')&&'active'%>" href="/products">
 								<i class="fas fa-shopping-bag"></i> Produtos
 							</a>
 						</li>
 
-						<li class="nav-item" title="Pedidos">
+						<li class="nav-item" title="[Pedidos]&#13;Gerencie os pedidos dos usuários">
 							<a class="nav-link <%-(_page==='requests')&&'active'%>" href="/requests">
 								<i class="fas fa-bullhorn"></i> Pedidos
 							</a>
@@ -52,25 +52,25 @@
 								<i class="fas fa-plus"></i> Mais
 							</a>
 							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-								<li title="Destaques">
+								<li title="[Destaques]&#13;">
 									<a class="dropdown-item <%-(_page==='highlights')&&'active'%>" href="/highlights">
 										<i class="fas fa-certificate"></i> Destaques
 									</a>
 								</li>
 		
-								<li title="Anúncios">
+								<li title="[Anúncios]&#13;">
 									<a class="dropdown-item <%-(_page==='ads')&&'active'%>" href="/ads">
 										<i class="fas fa-bullhorn"></i> Anúncios
 									</a>
 								</li>
 		
-								<li title="Administradores">
+								<li title="[Administradores]&#13;Gerencie os administradores do sistema">
 									<a class="dropdown-item <%-(_page==='admins')&&'active'%>" href="/admins">
 										<i class="fas fa-user-shield"></i> Admins
 									</a>
 								</li>
 								
-								<li title="Imagens">
+								<li title="[Imagens]&#13;Gerencie as imagens enviadas para o banco de dados">
 									<a class="dropdown-item <%-(_page==='images')&&'active'%>" href="/images">
 										<i class="fas fa-image"></i> Imagens
 									</a>
@@ -79,14 +79,15 @@
 						</li>
 
 					<% } %>
-
-				<li class="nav-item" title="Sair">
-					<a class="nav-link" href="/logout">
-						<i class="fas fa-sign-out-alt"></i> Sair
-					</a>
-				</li>
+					<div class="vr bg-light mx-2"></div>
+					<li class="nav-item" title="Sair">
+						<a class="nav-link" href="/logout">
+							<i class="fas fa-sign-out-alt"></i> Sair
+						</a>
+					</li>
 
 				<% } else { %>
+					<div class="vr bg-light mx-2"></div>
 					<li class="nav-item" title="Painel do administrador">
 						<a class="nav-link <%-(_page==='login')&&'active'%>" href="/login">
 							<i class="fas fa-user-shield"></i> Painel do administrador

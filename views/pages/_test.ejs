@@ -1,0 +1,57 @@
+<% images = [
+	{
+		src: 'https://s2.glbimg.com/SFLCZ4fguYSvR28qYkwEkTUFJds=/0x0:1280x738/924x0/smart/filters:strip_icc()/s2.glbimg.com/mLCGyAR_NJ8Bbn26rdgZH9QLpZ0%3D/s.glbimg.com/et/gs/f/original/2017/07/07/pizza_da_ana.jpg',
+		title: 'Pizza',
+		description: 'De calabresa'
+	}, {
+		src: 'https://img.itdg.com.br/tdg/images/recipes/000/027/684/264552/264552_original.jpg?mode=crop&width=710&height=400',
+		title: 'Bolo',
+		description: 'De chocolate'
+	}, {
+		src: 'https://img.cybercook.com.br/receitas/6/pastel-na-airfryer-623x350.jpeg',
+		title: 'Pastel',
+		description: 'De frango'
+	}
+] %>
+
+
+<div id="highlights" class="carousel slide" data-bs-ride="carousel">
+	<div class="carousel-indicators">
+		<% for (const i in images) { %>
+			<button type="button" data-bs-target="#highlights" data-bs-slide-to="<%= i %>" class="<%= i == 0 ?'active':'' %>"></button>
+		<% } %>
+	</div>
+
+	<div class="carousel-inner">
+		<% for (const i in images) { %>
+			<a href="#" class="carousel-item <%= i == 0 ? 'active' : '' %>">
+				<img src="<%= images[i].src %>" class="d-block w-100">
+				<div class="carousel-caption">
+					<h3><%= images[i].title %></h3>
+					<p><%= images[i].description %></p>
+				</div>
+			</a>
+		<% } %>
+	</div>
+
+	<button class="carousel-control-prev" type="button" data-bs-target="#highlights" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Previous</span>
+	</button>
+
+	<button class="carousel-control-next" type="button" data-bs-target="#highlights" data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Next</span>
+	</button>
+</div>
+
+<style>
+	.carousel-item {
+		background-color: black;
+	}
+	img {
+		height: 400px;
+		object-fit: cover;
+		opacity: 0.7;
+	}
+</style>

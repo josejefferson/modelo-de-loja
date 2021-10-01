@@ -11,6 +11,12 @@ const _disStk = !product.stock ? 'disabled' : ''
 const _cartHid = cart.includes(product.id) ? 'hidden' : ''
 const _$cartHid = !cart.includes(product.id) ? 'hidden' : ''
 const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
+
+// Dados da página
+let pageDescription = `Confira "${product.name}" no Modelo de Loja por apenas R$ ${product.priceStr}.`
+if (product.description) pageDescription += ' DETALHES DO PRODUTO: ' + product.description
+if (pageDescription.length > 153) pageDescription = pageDescription.substr(0, 152) + '…'
+global.title = product.name
 %>
 
 <div class="carousel slide bg-black" id="media" data-bs-ride="carousel" style="max-height:300px">
@@ -82,18 +88,32 @@ const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 		<i class="mdi mdi-facebook"></i> Facebook</a>
 	<a href="https://wa.me/?text=<%= encodeURIComponent(`${product.name}\n${fullURL}`) %>" target="_blank" class="btn btn-success">
 		<i class="mdi mdi-whatsapp"></i> WhatsApp</a>
-	<a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(product.name) %>&url=<%= encodeURIComponent(fullURL) %>" target="_blank" class="btn btn-info">
+	<a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(fullURL) %>" target="_blank" class="btn btn-info">
 		<i class="mdi mdi-twitter"></i> Twitter</a>
 </div>
 
 <script src="/js/product.js"></script>
 
+<!-- Meta tags -->
 <%- contentFor('heads') %>
+
+<meta name="robots" content="index">
+<meta name="description" content="<%= pageDescription %>">
+<meta name="og:title" content="<%= product.name %> | Modelo de loja">
+<meta name="og:description" content="<%= pageDescription %>">
+<meta name="og:url" content="<%= fullURL %>">
+<meta name="og:image" content="<%= product.image %>">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="<%= product.name %> | Modelo de loja">
+<meta name="twitter:description" content="<%= pageDescription %>">
+<meta name="twitter:url" content="<%= fullURL %>">
+<meta name="twitter:image" content="<%= product.image %>">
+
 <script type="application/ld+json">
 <%- JSON.stringify({
 	"@context": "https://schema.org/",
 	"@id": product._id,
-	"@type": "Product", 
+	"@type": "Product",
 	name: product.name,
 	image: product.image,
 	description: product.description,

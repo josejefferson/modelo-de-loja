@@ -25,6 +25,7 @@ routes.use('/buy', checkDB, require('./buy'))
 routes.use('/', require('./login/routes'))
 routes.get('/ads', render('ads', 'Anúncios')) // temp
 routes.get('/highlights', render('highlights', 'Destaques')) // temp
+routes.get('/test', render('_test', 'Testes')) // temp
 
 
 function checkDB(req, res, next) {
@@ -44,8 +45,7 @@ routes.use((err, req, res, next) => {
 	else if (err.ejs) {
 		log('EJS Error')
 		console.error(err)
-		req.flash('errorMsg', 'Ocorreu um erro ao acessar esta página')
-		res.redirect('/')
+		res.status(500).send('Ocorreu um erro ao mostrar esta página<br><a href="/">Voltar para a página inicial</a>')
 	}
 	else if (err.code == 11000) {
 		log('Error 11000 from "Mongoose"')

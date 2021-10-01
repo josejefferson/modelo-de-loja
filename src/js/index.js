@@ -1,5 +1,5 @@
 if (!navigator.cookieEnabled)
-	document.querySelector('.cookiesBlocked').classList.remove('hidden')
+	document.querySelector('.store-cb').classList.remove('hidden')
 
 function cart(opts = {}) {
 	let cart = Cookies.get('cart') ?

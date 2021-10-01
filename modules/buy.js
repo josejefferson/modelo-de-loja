@@ -25,7 +25,7 @@ routes.get('/:id',
 routes.post('/',
 	(req, res, next) => {
 		clientActions.get({ id: req.body.user }).then((client) => { //mudar user > client
-			req.data.client = client
+			req.data.clientUser = client
 			next()
 		})
 	},
@@ -33,7 +33,7 @@ routes.post('/',
 		const requests = []
 		for (const product of req.body.products) {
 			const request = await requestActions.add({
-				clientID: req.data.client._id,
+				clientID: req.data.clientUser._id,
 				productID: product.id,
 				quantity: product.quantity,
 				other: req.body.other
@@ -41,10 +41,9 @@ routes.post('/',
 
 			requests.push(await request.populate('clientId'))
 		}
-		socket.emit('newRequests', { clientId: req.data.client._id, requests }) // enviar informações completas do cliente
+		socket.emit('newRequests', { clientId: req.data.clientUser._id, requests }) // enviar informações completas do cliente
 		req.data.requests = requests
 		res.redirect('/requests/my')
-		next()
 	},
 	// Socket
 )
