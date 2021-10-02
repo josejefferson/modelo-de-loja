@@ -104,4 +104,8 @@ routes.get('/remove/:id', (req, res) => {
 	})
 })
 
+routes.use((err, req, res, next) => {
+	// renderizar página de produto não encontrado aqui
+})
+
 module.exports = routes
