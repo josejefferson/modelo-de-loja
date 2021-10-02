@@ -3,7 +3,7 @@ const routes = express.Router()
 const mongoose = require('mongoose')
 const log = require('./log')('Error', 'red')
 
-const { render } = require('../helpers/helpers')
+const { render, renderMsg } = require('../helpers/helpers')
 routes.use((req, res, next) => {
 	req.data = req.data || {}
 	req.data.cart = []
@@ -30,7 +30,7 @@ routes.get('/test', render('_test', 'Testes')) // temp
 
 function checkDB(req, res, next) {
 	if (mongoose.connection.readyState != 1) {
-		render('db-connecting', 'Conectando ao banco de dados')(req, res, next)
+		render('db-connecting', 'Conectando ao banco de dados', false, 'others')(req, res, next)
 	}
 	else next()
 }
@@ -40,8 +40,12 @@ routes.use((err, req, res, next) => {
 	if (err.isJoi) {
 		log('Error from "Joi"')
 		req.flash('errorMsg', 'Dados inválidos:\n' + err.message)
-		// res.status(400).send('Dados inválidos')
-		res.redirect(req.headers.referer || req.originalUrl || '.')
+		if (err.redirect) res.redirect(req.headers.referer || req.originalUrl || '.')
+		else {
+			res.status(400)
+			if (err.pageMessage) renderMsg(err.pageMessage.title, err.pageMessage.message)(req, res, next)
+			else renderMsg('Dados inválidos', err.message)(req, res, next)
+		}
 	}
 	else if (err.ejs) {
 		log('EJS Error')
@@ -50,7 +54,8 @@ routes.use((err, req, res, next) => {
 	}
 	else if (err.notFound) {
 		log('Object not found')
-		res.sendStatus(404)
+		res.status(404)
+		renderMsg('Produto não encontrado', 'Talvez ele tenha sido excluído ou o link está incorreto')(req, res, next)
 	}
 	else if (err.code == 11000) {
 		log('Error 11000 from "Mongoose"')
@@ -66,6 +71,11 @@ routes.use((err, req, res, next) => {
 		console.error(err)
 		res.sendStatus(500)
 	}
+})
+
+routes.use((req, res, next) => {
+	if (res.writableEnded) return
+	res.status(404).render('others/404', {layout: false})
 })
 
 module.exports = routes

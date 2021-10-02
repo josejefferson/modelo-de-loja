@@ -14,10 +14,10 @@ async function getCart(cart, rmSoldOut = false) {
 	return { cart, products }
 }
 
-function render(page, title, _next = false) {
+function render(page, title, _next = false, folder = 'pages') {
 	return (req, res, next) => {
 		req.data = req.data || {}
-		res.render('pages/' + page, {
+		res.render(folder + '/' + page, {
 			url: req.originalUrl,
 			fullURL: req.protocol + '://' + req.get('host') + req.originalUrl,
 			_page: page,
@@ -37,4 +37,17 @@ function render(page, title, _next = false) {
 	}
 }
 
-module.exports = { getCart, render }
+function renderMsg(title, message) {
+	return (req, res, next) => {
+		res.render('others/objNotFound', {
+			url: req.originalUrl,
+			fullURL: req.protocol + '://' + req.get('host') + req.originalUrl,
+			_page: 'others/objNotFound',
+			_title: title,
+			title,
+			message
+		})
+	}
+}
+
+module.exports = { getCart, render, renderMsg }

@@ -19,7 +19,6 @@ require('./modules/login/passport')(passport)
 require('./modules/sockets').start(server)
 
 app.set('view engine', 'ejs')
-app.set('layout extractScripts', false)
 app.use(session({
 	secret: 'aVOkg6yTfi',
 	resave: true,
@@ -45,10 +44,6 @@ app.use(helmet({ contentSecurityPolicy: false }))
 app.use(express.static('src'))
 app.use(morgan('dev'))
 app.use('/', require('./modules/routes'))
-app.use((req, res, next) => {
-	res.status(404)
-	next()
-}, render('404', '404 Not Found'))
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {

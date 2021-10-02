@@ -36,20 +36,28 @@ schema.remove = Joi.object({
 	id: Joi.string().lowercase().hex().length(24).required().label('ID'),
 }).unknown()
 
-function validate(schema) {
+function validate(schema, redirect = true, message) {
 	return (req, res, next) => {
 		const result = schema.validate(req.body, { messages, stripUnknown: true })
 		const { value, error } = result
 		req.body = value
+		if (error) {
+			error.redirect = redirect
+			error.pageMessage = message
+		}
 		next(error)
 	}
 }
 
-function validateParam(schema, param) {
+function validateParam(schema, param, redirect = true, message) {
 	return (req, res, next) => {
 		const result = schema.validate(req.params[param], { messages, stripUnknown: true })
 		const { value, error } = result
 		req.body = value
+		if (error) {
+			error.redirect = redirect
+			error.pageMessage = message
+		}
 		next(error)
 	}
 }

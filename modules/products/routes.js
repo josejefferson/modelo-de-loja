@@ -5,7 +5,7 @@ const { validate, validateParam, schema } = require('./validators')
 const actions = require('./database')
 
 routes.get('/view/:id',
-	validateParam(schema.get, 'id'),
+	validateParam(schema.get, 'id', false, {title: 'Produto não encontrado', message: 'Talvez ele tenha sido excluído ou o link está incorreto'}),
 	(req, res, next) => {
 		actions.get({ id: req.params.id }).then((product) => {
 			req.data.product = product
