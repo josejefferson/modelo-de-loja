@@ -7,25 +7,25 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item" title="Início">
-					<a class="nav-link <%-(_page==='home')&&'active'%>" href="/">
+					<a class="nav-link <%-(locals._page==='home')&&'active'%>" href="/">
 						<i class="fas fa-home"></i> Início
 					</a>
 				</li>
 
 				<li class="nav-item" title="[Usuários]&#13;Edite suas informações pessoais, como nome, endereço, telefone, etc.">
-					<a class="nav-link <%-(_page==='clients')&&'active'%>" href="/clients">
+					<a class="nav-link <%-(locals._page==='clients')&&'active'%>" href="/clients">
 						<i class="fas fa-users"></i> Usuários
 					</a>
 				</li>
 
 				<li class="nav-item" title="[Carrinho]&#13;Compre vários produtos de uma vez com o carrinho">
-					<a class="nav-link <%-(_page==='buy')&&'active'%>" href="/cart">
+					<a class="nav-link <%-(locals._page==='buy')&&'active'%>" href="/cart">
 						<i class="fas fa-shopping-cart"></i> Carrinho
 					</a>
 				</li>
 
 				<li class="nav-item" title="[Compras]&#13;Veja e cancele suas compras recentes">
-					<a class="nav-link <%-(_page==='my-requests')&&'active'%>" href="/requests/my">
+					<a class="nav-link <%-(locals._page==='my-requests')&&'active'%>" href="/requests/my">
 						<i class="fas fa-history"></i> Compras
 					</a>
 				</li>
@@ -35,13 +35,13 @@
 						<div class="vr bg-light mx-2"></div>
 
 						<li class="nav-item" title="[Produtos]&#13;Edite ou remova produtos">
-							<a class="nav-link <%-(_page==='products')&&'active'%>" href="/products">
+							<a class="nav-link <%-(locals._page==='products')&&'active'%>" href="/products">
 								<i class="fas fa-shopping-bag"></i> Produtos
 							</a>
 						</li>
 
 						<li class="nav-item" title="[Pedidos]&#13;Gerencie os pedidos dos usuários">
-							<a class="nav-link <%-(_page==='requests')&&'active'%>" href="/requests">
+							<a class="nav-link <%-(locals._page==='requests')&&'active'%>" href="/requests">
 								<i class="fas fa-bullhorn"></i> Pedidos
 							</a>
 						</li>
@@ -53,25 +53,25 @@
 							</a>
 							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
 								<li title="[Destaques]&#13;">
-									<a class="dropdown-item <%-(_page==='highlights')&&'active'%>" href="/highlights">
+									<a class="dropdown-item <%-(locals._page==='highlights')&&'active'%>" href="/highlights">
 										<i class="fas fa-certificate"></i> Destaques
 									</a>
 								</li>
 		
 								<li title="[Anúncios]&#13;">
-									<a class="dropdown-item <%-(_page==='ads')&&'active'%>" href="/ads">
+									<a class="dropdown-item <%-(locals._page==='ads')&&'active'%>" href="/ads">
 										<i class="fas fa-bullhorn"></i> Anúncios
 									</a>
 								</li>
 		
 								<li title="[Administradores]&#13;Gerencie os administradores do sistema">
-									<a class="dropdown-item <%-(_page==='admins')&&'active'%>" href="/admins">
+									<a class="dropdown-item <%-(locals._page==='admins')&&'active'%>" href="/admins">
 										<i class="fas fa-user-shield"></i> Admins
 									</a>
 								</li>
 								
 								<li title="[Imagens]&#13;Gerencie as imagens enviadas para o banco de dados">
-									<a class="dropdown-item <%-(_page==='images')&&'active'%>" href="/images">
+									<a class="dropdown-item <%-(locals._page==='images')&&'active'%>" href="/images">
 										<i class="fas fa-image"></i> Imagens
 									</a>
 								</li>
@@ -89,7 +89,7 @@
 				<% } else { %>
 					<div class="vr bg-light mx-2"></div>
 					<li class="nav-item" title="Painel do administrador">
-						<a class="nav-link <%-(_page==='login')&&'active'%>" href="/login">
+						<a class="nav-link <%-(locals._page==='login')&&'active'%>" href="/login">
 							<i class="fas fa-user-shield"></i> Painel do administrador
 						</a>
 					</li>

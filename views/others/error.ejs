@@ -1,5 +1,5 @@
 <div class="container my-5 text-center">
-	<h1><%- title %></h1>
-	<p><%- message %></p>
+	<h1><%- locals.title || locals._title %></h1>
+	<p><%- locals.message %></p>
 	<a href="/" class="btn btn-outline-primary mt-4">Retornar à página inicial</a>
 </div>

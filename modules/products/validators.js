@@ -25,10 +25,20 @@ schema.add = Joi.object({
 
 // Edit
 schema.edit = Joi.object({
-	id: Joi.string().lowercase().hex().length(24).required().label('ID'),
-	name: Joi.string().min(5).max(50).label('Nome'),
-	email: Joi.string().email().label('E-mail'),
-	password: Joi.string().min(8).max(50).label('Senha')
+	name: Joi.string().required().label('Nome'),
+	description: Joi.string().allow('').label('Descrição'),
+	price: Joi.number().min(0).required().label('Preço'),
+	oldprice: Joi.number().empty('').min(0).default(null).label('Preço antigo'),
+	badge: Joi.string().allow('').label('Selo'),
+	image: Joi.string().allow('').label('Imagem'),
+	media: Joi.array().items(
+		Joi.object({
+			type: Joi.string().valid('image', 'yt-video').required(),
+			url: Joi.string().required()
+		})
+	).empty('').label('Mídia'),
+	stock: Joi.number().empty('').default(-1).label('Estoque'),
+	hidden: Joi.boolean().default(false).label('Oculto'),
 }).unknown()
 
 // Remove
@@ -36,34 +46,48 @@ schema.remove = Joi.object({
 	id: Joi.string().lowercase().hex().length(24).required().label('ID'),
 }).unknown()
 
-function validate(schema, redirect = true, message) {
-	return (req, res, next) => {
-		const result = schema.validate(req.body, { messages, stripUnknown: true })
-		const { value, error } = result
-		req.body = value
-		if (error) {
-			error.redirect = redirect
-			error.pageMessage = message
-		}
-		next(error)
-	}
+
+
+function validator(schema, data, options = {}) {
+	return schema.validate(data, { messages, stripUnknown: true, ...options })
 }
 
-function validateParam(schema, param, redirect = true, message) {
-	return (req, res, next) => {
-		const result = schema.validate(req.params[param], { messages, stripUnknown: true })
-		const { value, error } = result
-		req.body = value
-		if (error) {
-			error.redirect = redirect
-			error.pageMessage = message
-		}
-		next(error)
+const validate = {}
+validate.id = (req, res, next) => {
+	if (validator(schema.get, req.params.id).error) {
+		return res.status(400).render('others/error', {
+			_title: 'ID inválido',
+			message: 'Verifique se o link está correto'
+		})
 	}
+	next()
+}
+
+validate.add = (req, res, next) => {
+	const { error, value } = validator(schema.add, req.body)
+	if (error) {
+		req.flash('errorMsg', 'Dados inválidos\n' + error.message)
+		req.flash('userData', req.body)
+		res.redirect(req.query.r || '/products/add')
+		return
+	}
+	req.body = value
+	next()
+}
+
+validate.edit = (req, res, next) => {
+	const { error, value } = validator(schema.edit, req.body)
+	if (error) {
+		req.flash('errorMsg', 'Dados inválidos\n' + error.message)
+		req.flash('userData', req.body)
+		res.redirect(req.query.r || `/products/edit/${req.params.id}`)
+		return
+	}
+	req.body = value
+	next()
 }
 
 module.exports = {
 	validate,
-	validateParam,
 	schema
 }

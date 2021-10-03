@@ -16,7 +16,6 @@ const _stkQtd = product.stock > 0 ? `(${product.stock} em estoque)` : ''
 let pageDescription = `Confira "${product.name}" no Modelo de Loja por apenas R$ ${product.priceStr}.`
 if (product.description) pageDescription += ' DETALHES DO PRODUTO: ' + product.description
 if (pageDescription.length > 153) pageDescription = pageDescription.substr(0, 152) + '…'
-global.title = product.name
 %>
 
 <div class="carousel slide bg-black" id="media" data-bs-ride="carousel" style="max-height:300px">
