@@ -88,7 +88,7 @@ db.edit = (req, res, next) => {
 	}).then(() => {
 		req.flash('successMsg', `Produto "${req.body.name}" editado com sucesso`)
 		res.redirect(req.query.r || '/products')
-	}).catch(() => {
+	}).catch((err) => {
 		req.flash('errorMsg', err.message || 'Ocorreu um erro desconhecido ao procurar produto')
 		req.flash('userData', req.body)
 		res.redirect(err.redirect || `/products/edit/${req.params.id}`)

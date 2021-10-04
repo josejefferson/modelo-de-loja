@@ -1,6 +1,7 @@
 const Admin = require('mongoose').model('Admins')
 const bcrypt = require('bcryptjs')
 const log = require('../log')('MongoDB', 'cyan')
+module.exports = db = {}
 
 // CRIA UM ADMINISTRADOR CASO NÃO EXISTA NENHUM
 Admin.find().then(admin => {
@@ -21,47 +22,78 @@ async function createDefaultAdmin() {
 }
 
 
-// AÇÕES
 // Busca um administrador
-function get({ id } = {}) {
-	return Admin.findById(id)
+db.get = (req, res, next) => {
+	return Admin.findById(req.params.id).then((admin) => {
+		if (!admin) return res.status(400).render('others/error', {
+			_title: 'Este administrador não existe',
+			message: 'Talvez o link esteja incorreto ou o administrador foi excluído'
+		})
+		req.data.admin = admin
+		next()
+	}).catch((err) => {
+		res.status(500).render('others/error', {
+			_title: 'Ocorreu um erro ao carregar o administrador',
+			message: 'Tente novamente recarregando a página'
+		})
+	})
 }
 
 // Busca todos os administradores
-function getAll() {
-	return Admin.find().select('-password')
+db.getAll = (req, res, next) => {
+	return Admin.find().select('-password').then((admins) => {
+		req.data.admins = admins || []
+		next()
+	}).catch((err) => {
+		res.status(500).render('others/error', {
+			_title: 'Ocorreu um erro ao carregar administradores',
+			message: 'Tente novamente recarregando a página'
+		})
+	})
 }
 
 // Adiciona um administrador
-function add({ name, email, password } = {}) {
+db.add = (req, res, next) => {
 	return Admin.create({
-		name: name,
-		email: email,
-		password: bcrypt.hashSync(password, 10),
+		name: req.body.name,
+		email: req.body.email,
+		password: bcrypt.hashSync(req.body.password, 10),
 		admin: true
+	}).then(() => {
+		req.flash('successMsg', `Administrador "${req.body.name}" adicionado com sucesso`)
+		return res.redirect(req.query.r || '/admins')
+	}).catch((err) => {
+		// validar administrador já existente
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao criar administrador')
+		req.flash('userData', req.body)
+		res.redirect(req.query.r || '/admins/add')
 	})
 }
 
 // Edita um administrador
-function edit({ id, name, email, password } = {}) {
-	return Admin.findById(id).then(user => {
-		if (name) user.name = name
-		if (email) user.email = email
-		if (password) user.password = bcrypt.hashSync(password, 10)
-
+db.edit = (req, res, next) => {
+	return Admin.findById(req.params.id).then((user) => {
+		if (req.body.name) user.name = req.body.name
+		if (req.body.email) user.email = req.body.email
+		if (req.body.password) user.password = bcrypt.hashSync(req.body.password, 10)
 		return user.save()
+	}).then(() => {
+		req.flash('successMsg', `Administrador "${req.body.name}" editado com sucesso`)
+		res.redirect(req.query.r || '/admins')
+	}).catch((err) => {
+		req.flash('errorMsg', err.message || 'Ocorreu um erro desconhecido ao editar administrador') // não colocar esses err.message
+		req.flash('userData', req.body)
+		res.redirect(err.redirect || `/admins/edit/${req.params.id}`)
 	})
 }
 
 // Remove um administrador
-function remove({ id } = {}) {
-	return Admin.deleteMany({ _id: id })
-}
-
-module.exports = {
-	get,
-	getAll,
-	add,
-	edit,
-	remove
+db.remove = (req, res, next) => {
+	return Admin.deleteMany({ _id: req.params.id }).then(() => {
+		req.flash('successMsg', 'Administrador excluído com sucesso')
+		res.redirect(req.query.r || '/admins')
+	}).catch((err) => {
+		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir administrador')
+		res.redirect(req.query.r || '/admins')
+	})
 }

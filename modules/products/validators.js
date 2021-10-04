@@ -3,7 +3,7 @@ const { messages } = require('joi-translation-pt-br')
 const schema = {}
 
 // Get
-schema.get = Joi.string().lowercase().hex().length(24).required()
+schema.id = Joi.string().lowercase().hex().length(24).required()
 
 // Add
 schema.add = Joi.object({
@@ -54,7 +54,7 @@ function validator(schema, data, options = {}) {
 
 const validate = {}
 validate.id = (req, res, next) => {
-	if (validator(schema.get, req.params.id).error) {
+	if (validator(schema.id, req.params.id).error) {
 		return res.status(400).render('others/error', {
 			_title: 'ID inválido',
 			message: 'Verifique se o link está correto'
