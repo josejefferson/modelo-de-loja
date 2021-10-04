@@ -17,8 +17,8 @@ module.exports = passport => {
 	}))
 
 	passport.serializeUser((user, done) => done(null, user._id))
-	passport.deserializeUser(async (_id, done) => {
-		const user = await Admin.findOne({ _id }).catch(err => {
+	passport.deserializeUser(async (id, done) => {
+		const user = await Admin.findById(id).catch(err => {
 			done(err, false)
 			throw err
 		})

@@ -7,28 +7,13 @@ const productActions = require('./products/database')
 const { requests: socket } = require('./requests/sockets')
 
 routes.get('/:id',
-	(req, res, next) => {
-		productActions.get({ id: req.params.id }).then((product) => {
-			req.data.product = product
-			next()
-		}).catch(next)
-	}, (req, res, next) => {
-		clientActions.getMultiple({ ids: req.data.userIDs }).then((users) => {
-			req.data.users = users
-			// redirecionar se não houver usuários
-			next()
-		}).catch(next)
-	}, render('buy', 'Carrinho')
+	productActions.get,
+	clientActions.getMine,
+	render('buy', 'Comprar')
 )
 
-
 routes.post('/',
-	(req, res, next) => {
-		clientActions.get({ id: req.body.user }).then((client) => { //mudar user > client
-			req.data.clientUser = client
-			next()
-		})
-	},
+	clientActions.getBody,
 	async (req, res, next) => {
 		const requests = []
 		for (const product of req.body.products) {

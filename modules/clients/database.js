@@ -5,9 +5,25 @@ db.get = (req, res, next) => {
 	return Client.findById(req.params.id).then((client) => {
 		if (!client) return res.status(400).render('others/error', {
 			_title: 'Este cliente não existe',
-			message: 'Talvez o link esteja incorreto ou o administrador foi excluído'
+			message: 'Talvez o link esteja incorreto ou o cliente foi excluído'
 		})
 		req.data.user = client
+		next()
+	}).catch((err) => {
+		res.status(500).render('others/error', {
+			_title: 'Ocorreu um erro ao carregar o cliente',
+			message: 'Tente novamente recarregando a página'
+		})
+	})
+}
+
+db.getBody = (req, res, next) => {
+	return Client.findById(req.body.user).then((client) => {
+		if (!client) return res.status(400).render('others/error', {
+			_title: 'Este cliente não existe',
+			message: 'Talvez o link esteja incorreto ou o cliente foi excluído'
+		})
+		req.data.clientUser = client
 		next()
 	}).catch((err) => {
 		res.status(500).render('others/error', {

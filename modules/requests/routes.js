@@ -1,22 +1,17 @@
 const express = require('express')
 const routes = express.Router()
 const { render } = require('../../helpers/helpers')
-const actions = require('./database')
+const db = require('./database')
 const productActions = require('../products/database')
 const { requests: socketRequest, history: socketHistory} = require('./sockets')
 
-routes.get('/', (req, res, next) => {
-	actions.getAll().then((requests) => {
-		req.data.requests = requests
-		next()
-	})
-}, render('requests', 'Pedidos'))
+routes.get('/', db.getAll, render('requests', 'Pedidos'))
 
 routes.get('/my',
 	(req, res, next) => {
 		req.data.myRequests = {}
 		const promises = req.data.userIDs.map((userID) => {
-			return actions.getAllFromClient({ clientID: userID }).then((requests) => {
+			return db.getAllFromClient({ clientID: userID }).then((requests) => {
 				requests.reverse()
 				req.data.myRequests[userID] = requests
 			}).catch((err) => {
@@ -33,7 +28,7 @@ routes.get('/my',
 
 routes.post('/cancel/:id',
 	(req, res, next) => {
-		actions.remove({ id: req.params.id })
+		db.remove({ id: req.params.id })
 			.then(() => next())
 			.catch(next)
 	},
@@ -45,17 +40,12 @@ routes.post('/cancel/:id',
 
 routes.post('/confirm/:id',
 	(req, res, next) => {
-		actions.get({ id: req.params.id }).then((request) => {
+		db.get({ id: req.params.id }).then((request) => {
 			req.data.request = request
 			next()
 		})
 	},
-	(req, res, next) => {
-		productActions.get({ id: req.data.request.productId }).then((product) => {
-			req.data.product = product
-			next()
-		})
-	},
+	productActions.getBody,
 	(req, res, next) => {
 		const request = req.data.request
 		const product = req.data.product

@@ -10,7 +10,6 @@ $('.removeFromCart').click(function () {
 	const productId = $this.data('product')
 	let cart = Cookies.get('cart')
 	cart = cart.split(',')
-	console.log(cart.indexOf(productId.toString()))
 	cart.splice(cart.indexOf(productId.toString()), 1)
 	Cookies.set('cart', cart.join(','))
 	$('#products').val(cart.join(','))

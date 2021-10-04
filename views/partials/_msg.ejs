@@ -1,11 +1,15 @@
 <script>
 	(async () => {
-		// <% successMsg.forEach(msg => { %>
+		// <% locals.successMsg?.forEach(msg => { %>
 		await toast(<%-JSON.stringify({ msg })%>.msg)
 		// <% }) %>
 
-		// <% errorMsg.forEach(msg => { %>
+		// <% locals.errorMsg?.forEach(msg => { %>
 		await toast(<%-JSON.stringify({ msg })%>.msg, 'error')
+		// <% }) %>
+
+		// <% locals.warningMsg?.forEach(msg => { %>
+		await toast(<%-JSON.stringify({ msg })%>.msg, 'warning')
 		// <% }) %>
 	})()
 </script>

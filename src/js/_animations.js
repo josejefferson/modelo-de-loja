@@ -5,7 +5,6 @@ const anim = {
 	openSlide: (el, done) => {
 		const width = el[0].clientWidth
 		const height = el[0].clientHeight
-		console.log(width, height)
 		el[0].classList.add('animation-pre-open')
 		setTimeout(() => {
 			el[0].style.width = width + 'px'

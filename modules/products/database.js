@@ -4,7 +4,23 @@ module.exports = db = {}
 
 // Busca um produto
 db.get = (req, res, next) => {
-	return Product.findOne({ _id: req.params.id }).then((product) => {
+	return Product.findById(req.params.id).then((product) => {
+		if (!product) return res.status(400).render('others/error', {
+			_title: 'Este produto não existe',
+			message: 'Talvez o link esteja incorreto ou o produto foi excluído'
+		})
+		req.data.product = product
+		next()
+	}).catch((err) => {
+		res.status(500).render('others/error', {
+			_title: 'Ocorreu um erro ao carregar o produto',
+			message: 'Tente novamente recarregando a página'
+		})
+	})
+}
+
+db.getBody = (req, res, next) => {
+	return Product.findById(req.data.request.productId).then((product) => {
 		if (!product) return res.status(400).render('others/error', {
 			_title: 'Este produto não existe',
 			message: 'Talvez o link esteja incorreto ou o produto foi excluído'
@@ -74,7 +90,7 @@ db.add = (req, res, next) => {
 
 // Edita um produto
 db.edit = (req, res, next) => {
-	return Product.findOne({ _id: req.params.id }).then((product) => {
+	return Product.findById(req.params.id).then((product) => {
 		product.name = req.body.name
 		product.description = req.body.description
 		product.price = req.body.price

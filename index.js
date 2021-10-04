@@ -29,10 +29,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use((req, res, next) => {
-	res.locals.successMsg = req.flash('successMsg')
-	res.locals.warningMsg = req.flash('warningMsg')
-	res.locals.errorMsg = req.flash('errorMsg')
-	res.locals.userData = req.flash('userData')
 	res.locals.authUser = req.user || null
 	next()
 })
@@ -48,4 +44,8 @@ app.use('/', require('./modules/routes'))
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {
 	log('Aberto na porta ' + PORT)
+})
+
+process.on('uncaughtException', (err) => {
+	console.error(err)
 })

@@ -30,9 +30,13 @@ routes.get('/test', render('_test', 'Testes')) // temp
 
 function checkDB(req, res, next) {
 	if (mongoose.connection.readyState != 1) {
-		render('db-connecting', 'Conectando ao banco de dados', false, 'others')(req, res, next)
-	}
-	else next()
+		if (req.method == 'GET') {
+			res.status(202)
+			render('db-connecting', 'Conectando ao banco de dados', false, 'others')(req, res, next)
+		} else {
+			mongoose.connection.on('connected', () => next())
+		}
+	} else next()
 }
 
 routes.use((err, req, res, next) => {

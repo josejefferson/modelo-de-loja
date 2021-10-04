@@ -24,7 +24,7 @@ async function createDefaultAdmin() {
 
 // Busca um administrador
 db.get = (req, res, next) => {
-	return Admin.findById(req.params.id).then((admin) => {
+	Admin.findById(req.params.id).then((admin) => {
 		if (!admin) return res.status(400).render('others/error', {
 			_title: 'Este administrador não existe',
 			message: 'Talvez o link esteja incorreto ou o administrador foi excluído'
@@ -41,7 +41,7 @@ db.get = (req, res, next) => {
 
 // Busca todos os administradores
 db.getAll = (req, res, next) => {
-	return Admin.find().select('-password').then((admins) => {
+	Admin.find().select('-password').then((admins) => {
 		req.data.admins = admins || []
 		next()
 	}).catch((err) => {
@@ -54,7 +54,7 @@ db.getAll = (req, res, next) => {
 
 // Adiciona um administrador
 db.add = (req, res, next) => {
-	return Admin.create({
+	Admin.create({
 		name: req.body.name,
 		email: req.body.email,
 		password: bcrypt.hashSync(req.body.password, 10),
@@ -72,7 +72,7 @@ db.add = (req, res, next) => {
 
 // Edita um administrador
 db.edit = (req, res, next) => {
-	return Admin.findById(req.params.id).then((user) => {
+	Admin.findById(req.params.id).then((user) => {
 		if (req.body.name) user.name = req.body.name
 		if (req.body.email) user.email = req.body.email
 		if (req.body.password) user.password = bcrypt.hashSync(req.body.password, 10)
@@ -89,7 +89,7 @@ db.edit = (req, res, next) => {
 
 // Remove um administrador
 db.remove = (req, res, next) => {
-	return Admin.deleteMany({ _id: req.params.id }).then(() => {
+	Admin.deleteMany({ _id: req.params.id }).then(() => {
 		req.flash('successMsg', 'Administrador excluído com sucesso')
 		res.redirect(req.query.r || '/admins')
 	}).catch((err) => {

@@ -4,49 +4,29 @@ const { render } = require('../../helpers/helpers')
 const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
-const actions = require('./database')
+const db = require('./database')
+module.exports = routes
 
 
-routes.get('/',
-	(req, res, next) => {
-		actions.getAll().then((images) => {
-			req.data.images = images
-			next()
-		}).catch(next)
-	},
-	render('images', 'Imagens')
-)
+routes.get('/', db.getAll, render('images', 'Imagens'))
 
-routes.get('/api',
-	(req, res, next) => {
-		actions.getAll().then((images) => {
-			res.json(images)
-			next()
-		}).catch(next)
-	}
+routes.get('/api', db.getAll,
+	(req, res, next) => { res.json(req.data.images) }
 )
 
 routes.get('/view/:id',
-	async (req, res, next) => {
-		actions.get({ id: req.params.id }).then((image) => {
-			req.data.image = image
-			if (!req.data.image) return next({ notFound: true })
-			next()
-		}).catch(next)
-	},
+	db.get,
 	(req, res, next) => {
 		res.contentType(req.data.image.contentType)
 		res.send(req.data.image.data)
 	}
 )
 
-
-
 routes.post('/upload',
 	multer({ dest: './' }).single('files'),
 	(req, res, next) => {
 		const filePath = path.join(__dirname, '../..', req.file.filename)
-		actions.add({
+		db.add({
 			file: fs.readFileSync(filePath),
 			contentType: req.file.mimetype
 		}).then(() => {
@@ -59,18 +39,4 @@ routes.post('/upload',
 	}
 )
 
-routes.get('/remove/:id',
-	(req, res, next) => {
-		actions.remove({
-			id: req.params.id
-		}).then(() => {
-			req.flash('successMsg', 'Imagem excluída com sucesso')
-			res.redirect(req.query.r || '/images')
-		}).catch(err => {
-			req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir imagem')
-			res.redirect(req.query.r || '/images')
-		})
-	}
-)
-
-module.exports = routes
+routes.get('/remove/:id', db.remove)

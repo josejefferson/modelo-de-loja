@@ -5,18 +5,9 @@ const actions = require('./database')
 const clientActions = require('../clients/database')
 
 routes.get('/',
-	(req, res, next) => {
-		actions.get(req.data.cartIDs).then((products) => {
-			req.data.products = products
-			next()
-		}).catch(next)
-	}, (req, res, next) => {
-		clientActions.getMultiple({ ids: req.data.userIDs }).then((users) => {
-			req.data.users = users
-			// redirecionar se não houver usuários
-			next()
-		}).catch(next)
-	}, render('buy', 'Carrinho')
+	actions.get,
+	clientActions.getMine,
+	render('buy', 'Carrinho')
 )
 
 module.exports = routes
