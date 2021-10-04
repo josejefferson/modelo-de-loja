@@ -34,7 +34,11 @@ db.getBody = (req, res, next) => {
 }
 
 db.getMine = (req, res, next) => {
-	return Client.find({ _id: req.data.userIDs }).then((clients) => {
+	const clients = req.data.userIDs.map((id) => {
+		return Client.findById(id).catch(() => null)
+	})
+	return Promise.all(clients).then((clients) => {
+		clients = clients.filter(p => p != null)
 		req.data.users = clients || []
 		next()
 	}).catch((err) => {

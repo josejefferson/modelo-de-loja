@@ -79,7 +79,7 @@ routes.use((err, req, res, next) => {
 
 routes.use((req, res, next) => {
 	if (res.writableEnded) return
-	res.status(404).render('others/404', {layout: false})
+	res.status(404).render('others/404', {_title: '404 Not Found'})
 })
 
 module.exports = routes

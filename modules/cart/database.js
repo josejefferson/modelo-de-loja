@@ -16,7 +16,7 @@ db.get = (req, res, next) => {
 		}
 
 		products = products.filter(p => p != null && p.stock != 0)
-		req.data.products = products
+		req.data.products = products || []
 		next()
 	}).catch((err) => {
 		res.status(500).render('others/error', {

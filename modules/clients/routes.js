@@ -12,4 +12,5 @@ routes.get('/edit/:id', validate.id, db.get, render('client-edit', 'Editar clien
 routes.post('/add', /*validate.add,*/ db.add)
 routes.post('/edit/:id', validate.id, /*validate.edit,*/ db.edit)
 // routes.use(admin)
+routes.get('/all', db.getAll, render('clients-all', 'Todos os clientes'))
 // routes.get('/remove/:id', validate.id, db.remove)

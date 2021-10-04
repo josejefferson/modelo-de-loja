@@ -9,25 +9,25 @@
 	<hr class="bg-light">
 
 	<ul class="nav nav-pills flex-column mb-auto">
-		<li class="nav-item" title="Início">
+		<li class="nav-item">
 			<a class="nav-link link-light <%-(locals._page==='home')&&'active'%>" href="/">
 				<i class="fas fa-home"></i> Início
 			</a>
 		</li>
 
-		<li class="nav-item" title="Usuários">
+		<li class="nav-item">
 			<a class="nav-link link-light <%-(locals._page==='clients')&&'active'%>" href="/clients">
 				<i class="fas fa-users"></i> Usuários
 			</a>
 		</li>
 
-		<li class="nav-item" title="Carrinho">
+		<li class="nav-item">
 			<a class="nav-link link-light <%-(locals._page==='buy')&&'active'%>" href="/cart">
 				<i class="fas fa-shopping-cart"></i> Carrinho
 			</a>
 		</li>
 
-		<li class="nav-item" title="Compras">
+		<li class="nav-item">
 			<a class="nav-link link-light <%-(locals._page==='my-requests')&&'active'%>" href="/requests/my">
 				<i class="fas fa-history"></i> Compras
 			</a>
@@ -37,39 +37,45 @@
 			<% if (authUser.admin) { %>
 				<hr class="bg-light">
 
-				<li class="nav-item" title="Produtos">
+				<li class="nav-item">
 					<a class="nav-link link-light <%-(locals._page==='products')&&'active'%>" href="/products">
 						<i class="fas fa-shopping-bag"></i> Produtos
 					</a>
 				</li>
 
-				<li class="nav-item" title="Pedidos">
+				<li class="nav-item">
 					<a class="nav-link link-light <%-(locals._page==='requests')&&'active'%>" href="/requests">
 						<i class="fas fa-bullhorn"></i> Pedidos
 					</a>
 				</li>
 
-				<li class="nav-item" title="Destaques">
+				<li class="nav-item">
 					<a class="nav-link link-light <%-(locals._page==='highlights')&&'active'%>" href="/highlights">
 						<i class="fas fa-certificate"></i> Destaques
 					</a>
 				</li>
 
-				<li class="nav-item" title="Anúncios">
+				<li class="nav-item">
 					<a class="nav-link link-light <%-(locals._page==='ads')&&'active'%>" href="/ads">
 						<i class="fas fa-bullhorn"></i> Anúncios
 					</a>
 				</li>
 
-				<li class="nav-item" title="Administradores">
+				<li class="nav-item">
 					<a class="nav-link link-light <%-(locals._page==='admins')&&'active'%>" href="/admins">
 						<i class="fas fa-user-shield"></i> Admins
 					</a>
 				</li>
 				
-				<li class="nav-item" title="Imagens">
+				<li class="nav-item">
 					<a class="nav-link link-light <%-(locals._page==='images')&&'active'%>" href="/images">
 						<i class="fas fa-image"></i> Imagens
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link link-light <%-(locals._page==='clients-all')&&'active'%>" href="/clients/all">
+						<i class="fas fa-users"></i> Todos os clientes
 					</a>
 				</li>
 			<% } %>
@@ -79,13 +85,13 @@
 	<hr class="bg-light">
 	<ul class="nav nav-pills flex-column">
 		<% if (authUser) { %>
-			<li class="nav-item" title="Sair">
+			<li class="nav-item">
 				<a class="nav-link link-light" href="/logout">
 					<i class="fas fa-sign-out-alt"></i> Sair
 				</a>
 			</li>
 		<% } else { %>
-			<li class="nav-item" title="Painel do administrador">
+			<li class="nav-item">
 				<a class="nav-link link-light <%-(locals._page==='login')&&'active'%>" href="/login">
 					<i class="fas fa-user-shield"></i> Painel do administrador
 				</a>
