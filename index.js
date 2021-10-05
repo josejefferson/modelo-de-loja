@@ -1,5 +1,5 @@
 console.clear()
-require('./modules/pretty-error')
+// require('./modules/pretty-error')
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const app = express()
@@ -11,8 +11,7 @@ const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
 const helmet = require('helmet')
-const { render } = require('./helpers/helpers')
-const log = require('./modules/log')('Express')
+const logger = require('./modules/logger')
 
 require('./modules/database')
 require('./modules/login/passport')(passport)
@@ -23,7 +22,7 @@ app.use(session({
 	secret: 'aVOkg6yTfi',
 	resave: true,
 	saveUninitialized: false,
-	cookie: { expires: 30 * 24 * 60 * 60 * 1000 },
+	cookie: { expires: 30 * 24 * 60 * 60 * 1000 }
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -38,14 +37,20 @@ app.use(express.urlencoded({ extended: true }))
 app.use(expressLayouts)
 app.use(helmet({ contentSecurityPolicy: false }))
 app.use(express.static('src'))
-app.use(morgan('dev'))
+app.use(morgan('dev', { stream: { write: (str) => logger().http(str.trim()) } }))
 app.use('/', require('./modules/routes'))
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {
-	log('Aberto na porta ' + PORT)
+	logger('Express').info('Aberto na porta ' + PORT)
+}).on('error', (err) => {
+	logger('Express').error(err)
 })
 
 process.on('uncaughtException', (err) => {
-	console.error(err)
+	logger().crit(err)
+})
+
+process.on('beforeExit', (code) => {
+	logger().info('Encerrando processo com o código ' + code)
 })

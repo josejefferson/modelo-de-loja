@@ -1,6 +1,6 @@
 const Admin = require('mongoose').model('Admins')
 const bcrypt = require('bcryptjs')
-const log = require('../log')('MongoDB', 'cyan')
+const logger = require('../logger')('MongoDB')
 module.exports = db = {}
 
 // CRIA UM ADMINISTRADOR CASO NÃO EXISTA NENHUM
@@ -9,16 +9,16 @@ Admin.find().then(admin => {
 })
 
 async function createDefaultAdmin() {
-	log('Nenhum administrador encontrado! Criando um novo...')
+	logger.warn('Nenhum administrador encontrado! Criando um novo...')
 	await Admin.create({
 		name: 'Admin',
 		email: 'admin@admin.com',
 		password: '$2y$10$je/bgy85arfz2kLIFwEU.u55u08t.CO925vl9xSdwRI7iYFzybBQ6',
 		admin: true
 	})
-	log('Administrador criado!', 'green')
-	log('E-mail: admin@admin.com', 'magenta')
-	log('Senha:  admin', 'magenta')
+	logger.succ('Administrador criado!', 'green')
+	logger.info('E-mail: admin@admin.com', 'magenta')
+	logger.info('Senha:  admin', 'magenta')
 }
 
 

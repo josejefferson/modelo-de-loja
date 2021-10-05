@@ -56,7 +56,7 @@ const { id, name, description, price, oldprice, badge, image, stock, hidden } = 
 						<div class="card" ng-switch-when="image">
 							<input type="hidden" name="media[{{::$index}}][type]" value="image">
 							<input type="hidden" name="media[{{::$index}}][url]" value="{{::m.url}}">
-							<img src="{{::m.url}}" class="card-img-top">
+							<img ng-src="{{::m.url}}" class="card-img-top">
 							<div class="card-footer">
 								<ul class="list-group list-group-flush">
 									<button type="button" class="list-group-item list-group-item-action list-group-item-danger" ng-click="::remove(m, media)">

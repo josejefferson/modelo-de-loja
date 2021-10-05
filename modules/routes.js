@@ -1,7 +1,8 @@
 const express = require('express')
 const routes = express.Router()
 const mongoose = require('mongoose')
-const log = require('./log')('Error', 'red')
+const logger = require('./logger')
+const fs = require('fs')
 
 const { render, renderMsg } = require('../helpers/helpers')
 routes.use((req, res, next) => {
@@ -25,6 +26,11 @@ routes.use('/buy', checkDB, require('./buy'))
 routes.use('/', require('./login/routes'))
 routes.get('/ads', render('ads', 'Anúncios')) // temp
 routes.get('/highlights', render('highlights', 'Destaques')) // temp
+routes.get('/logs', (req, res, next) => {
+	const logs = fs.readFileSync('./logs.log', { encoding: 'utf-8' })
+	req.data.logs = logs.split('\n').map((log) => log ? JSON.parse(log) : undefined).filter((log) => log)
+	next()
+}, render('logs', 'Logs')) // temp
 routes.get('/test', render('_test', 'Testes')) // temp
 
 
@@ -34,15 +40,20 @@ function checkDB(req, res, next) {
 			res.status(202)
 			render('db-connecting', 'Conectando ao banco de dados', false, 'others')(req, res, next)
 		} else {
-			mongoose.connection.on('connected', () => next())
+			mongoose.connection.once('connected', () => next())
 		}
 	} else next()
 }
 
+routes.use((req, res, next) => {
+	if (res.writableEnded) return
+	res.status(404).render('others/404', { _title: '404 Not Found' })
+})
+
 routes.use((err, req, res, next) => {
 	if (req.body) req.flash('userData', req.body)
 	if (err.isJoi) {
-		log('Error from "Joi"')
+		logger('Joi').error(err)
 		req.flash('errorMsg', 'Dados inválidos:\n' + err.message)
 		if (err.redirect) res.redirect(req.headers.referer || req.originalUrl || '.')
 		else {
@@ -52,34 +63,33 @@ routes.use((err, req, res, next) => {
 		}
 	}
 	else if (err.ejs) {
-		log('EJS Error')
-		console.error(err)
+		logger('EJS').error(err)
 		res.status(500).send('Ocorreu um erro ao mostrar esta página<br><a href="/">Voltar para a página inicial</a>')
 	}
 	else if (err.notFound) {
-		log('Object not found')
+		logger('Mongoose').error('Object not found')
 		res.status(404)
 		renderMsg('Produto não encontrado', 'Talvez ele tenha sido excluído ou o link está incorreto')(req, res, next)
 	}
 	else if (err.code == 11000) {
-		log('Error 11000 from "Mongoose"')
+		logger('Mongoose').error('Error 11000 from "Mongoose"')
 		req.flash('errorMsg', 'Já existe uma entrada cadastrada no banco de dados')
 		res.redirect(req.headers.referer || req.originalUrl || '.')
 	}
 	else if (err instanceof mongoose.Error.CastError) {
-		log('Error CastError from "Mongoose"')
+		logger('Mongoose').error('CastError')
 		res.status(500).send('ID inválido')
 	}
 	else {
-		log('Unknown Error')
-		console.error(err)
+		logger().error(err)
 		res.sendStatus(500)
 	}
 })
 
-routes.use((req, res, next) => {
-	if (res.writableEnded) return
-	res.status(404).render('others/404', {_title: '404 Not Found'})
+routes.use((err, req, res, next) => {
+	logger('Algo deu errado').error(err)
+	res.sendFile('views/error.html', { root: '.' })
 })
+
 
 module.exports = routes
