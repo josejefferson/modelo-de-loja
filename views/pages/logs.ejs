@@ -24,7 +24,7 @@
 				<%= log.timestamp %>
 			</div>
 
-			<pre class="col mb-0 text-<%= LEVEL_COLORS[log.level] || 'dark' %>"><% if (log.mod) { %><b><%= log.mod %>:</b> <% } %><%= log.message %></pre>
+			<pre class="col mb-0 text-<%= LEVEL_COLORS[log.level] || 'dark' %>"><% if (log.mod) { %><b><%= log.mod %>:</b> <% } %><%= log.message.replace(/\u001b\[\d+m/g, '') %></pre>
 		</div>
 	<% } %>
 </div>
