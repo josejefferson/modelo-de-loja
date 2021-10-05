@@ -5,8 +5,10 @@ const clientActions = require('./clients/database')
 const requestActions = require('./requests/database')
 const productActions = require('./products/database')
 const { requests: socket } = require('./requests/sockets')
+const { validate } = require('./validators')
 
 routes.get('/:id',
+	validate.id,
 	productActions.get,
 	clientActions.getMine,
 	render('buy', 'Comprar')
