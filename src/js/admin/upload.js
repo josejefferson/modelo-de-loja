@@ -41,24 +41,29 @@ angular.module('store').controller('fileUploadCtrl', ['$scope', ($scope) => {
 					fileStatus.errors.push('O tamanho do arquivo excede 5 MB')
 				}
 				if (fileStatus.status === 'error') return
-				
+
 				const form = new FormData()
 				form.append('files', file)
 				fileStatus.status = 'uploading'
 
-				fetch('/images/upload', {
-					method: 'POST',
-					body: form
-				}).then(r => { if (!r.ok) throw r; return r.json() })
-					.then(r => {
-						if (!r.success || r.invalid) throw r.err || ''
-						fileStatus.status = 'success'
+				axios.post('/images/upload', form, {
+					onUploadProgress: (e) => {
+						const progress = Math.round((e.loaded * 100) / e.total)
+						fileStatus.progress = progress
 						$scope.$apply()
-					}).catch(err => {
-						fileStatus.status = 'error'
-						fileStatus.errors.push(err || 'Ocorreu um erro ao enviar o arquivo')
-						$scope.$apply()
-					})
+					}
+				}).then(r => {
+					if (!r.data.success || r.data.invalid) throw r.err || ''
+					fileStatus.status = 'success'
+					$scope.$apply()
+				}).catch(err => {
+					if (err.response.data && err.response.data.error) {
+						err.message = err.response.data.error.message
+					}
+					fileStatus.status = 'error'
+					fileStatus.errors.push(err.message || 'Ocorreu um erro ao enviar o arquivo')
+					$scope.$apply()
+				})
 			})
 		}
 	}

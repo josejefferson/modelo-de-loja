@@ -22,6 +22,22 @@
 	background-color: #d8ecf3;
 }
 
+.upload-file {
+	/*border-width: 0 !important;*/
+}
+
+.upload-progress {
+	background: rgba(0,0,0,0.1);
+	position: absolute;
+	left: 0;
+	top: 1px;
+	height: calc(100% - 2px);
+	z-index: 0;
+	border-radius: 1000px;
+	width: 0;
+	transition: width .3s ease;
+}
+
 .hidden {
 	display: none !important;
 }

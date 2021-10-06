@@ -7,7 +7,6 @@ const multer = require('multer')
 const db = require('./database')
 module.exports = routes
 
-
 routes.get('/', db.getAll, render('images', 'Imagens'))
 
 routes.get('/api', db.getAll,
@@ -23,18 +22,37 @@ routes.get('/view/:id',
 )
 
 routes.post('/upload',
-	multer({ dest: './' }).single('files'),
+	multer({
+		dest: './temp/', limits: { fileSize: 5242880 }, fileFilter: (req, file, cb) => {
+			const accept = ([
+				'image/jpg',
+				'image/jpeg',
+				'image/png',
+				'image/webp',
+				'image/svg+xml']).includes(file.mimetype)
+			cb(accept ? null : new Error('O tipo do arquivo é incompatível'), accept)
+		}
+	}).single('files'),
 	(req, res, next) => {
-		const filePath = path.join(__dirname, '../..', req.file.filename)
+		const filePath = path.join(__dirname, '../../temp/', req.file.filename)
 		db.add({
 			file: fs.readFileSync(filePath),
 			contentType: req.file.mimetype
 		}).then(() => {
 			res.json({ success: true })
-		}).catch(err => {
+		}).catch((err) => {
+			console.error(err)
 			res.json({ success: false })
 		}).finally(() => {
 			fs.unlink(filePath, () => { })
+		})
+	},
+	(err, req, res, next) => {
+		if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE')
+			err.message = 'O tamanho do arquivo excede 5 MB'
+		res.status(400).json({
+			success: false,
+			error: { message: err.message, code: err.code, ...err }
 		})
 	}
 )

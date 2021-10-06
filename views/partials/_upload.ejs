@@ -10,7 +10,8 @@
 		<small>Limite de 5 MB</small>
 	</div>
 	<div class="list-group list-group-flush mt-3 w-100" ng-hide="!upload.files.length">
-		<div class="row list-group-item d-flex align-items-center text-start" style="background:none" ng-repeat="file in upload.files">
+		<div class="upload-file row list-group-item d-flex align-items-center text-start" style="background:none" ng-repeat="file in upload.files">
+			<div class="upload-progress" ng-if="file.status == 'uploading'" ng-style="{ width: file.progress + '%' }"></div>
 			<small class="col-12 col-md-6 text-truncate">
 				<i class="fas fa-file"></i> {{::file.name}}
 			</small>
@@ -22,7 +23,8 @@
 			</small>
 			<small class="col-12 col-md-1 text-end" ng-switch="file.status">
 				<div class="fas fa-circle-notch fa-spin text-warning" ng-switch-default></div>
-				<div class="fas fa-spinner fa-spin" ng-switch-when="uploading"></div>
+				<div class="" ng-switch-when="uploading">{{file.progress}}%</div>
+				<!-- <div class="fas fa-spinner fa-spin" ng-switch-when="uploading"></div> -->
 				<div class="fas fa-check text-success" ng-switch-when="success"></div>
 				<div class="fas fa-times text-danger" ng-switch-when="error"></div>
 			</small>
