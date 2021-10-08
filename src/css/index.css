@@ -75,19 +75,19 @@ input::-webkit-inner-spin-button {
 	max-height: calc(100vh - 56px);
 }
 
-.store-product {
+.store-product.store-product-env-view {
 	transition: transform .2s ease;
 }
 
-.store-product-image {
+.store-product.store-product-env-view .store-product-image {
 	transition: transform .2s ease;
 }
 
-.store-product:hover .store-product-image {
+.store-product.store-product-env-view:hover .store-product-image {
 	transform: scale(1.1);
 }
 
-.store-product:active {
+.store-product.store-product-env-view:active {
 	transform: scale(0.9);
 }
 

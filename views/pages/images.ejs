@@ -30,6 +30,8 @@
 	</div>
 </div>
 
+<ng-include src="'/templates/upload.html'"></ng-include>
+
 <%- contentFor('script') %>
 <script>const uploadModal = `<%- include('../partials/_upload.ejs').replace(/`/g, '\\`') %>`</script>
 <script src="/js/admin/images.js"></script>

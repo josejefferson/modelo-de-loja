@@ -1,5 +1,5 @@
 angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile', ($scope, $compile) => {
-	$scope.media = []
+	$scope.product = serverData
 	$scope.remove = (item, parent) => {
 		const i = parent.indexOf(item)
 		if (i > -1) parent.splice(i, 1)
@@ -20,7 +20,6 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			preConfirm: () => {
 				const imageId = document.querySelector('.selectedImage:checked').value
 				if (!imageId) return
-				$scope.media.push({ type: 'image', url: '/images/view/' + imageId })
 				$scope.$apply()
 			}
 		})
@@ -35,7 +34,6 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			cancelButtonText: 'Cancelar'
 		})
 		if (!value) return
-		$scope.media.push({ type: 'image', url: value })
 		$scope.$apply()
 	}
 	$scope.uploadModal = () => {
