@@ -6,9 +6,8 @@ $('.remove').click(async function () {
 })
 
 angular.module('store', []).controller('imagesCtrl', ['$scope', '$compile', ($scope, $compile) => {
-	$scope.test = 'Hello World'
 	$scope.loadController = () => {
-		const html = $compile(uploadModal)($scope)
+		const html = $compile('<ng-include src="\'/templates/upload.html\'"></ng-include>')($scope)
 		Swal.fire({
 			width: '100%',
 			padding: '20px 0',

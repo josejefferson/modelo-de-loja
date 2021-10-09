@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="/css/selectImage.css">
+<div ng-controller="selectImageCtrl">
+	<div class="row">
+		<div ng-if="!images.length && !loading">Nenhuma imagem</div>
+		<div ng-if="!images.length && loading">Carregando imagens...</div>
+		<label class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 selImage" ng-repeat="image in images">
+			<input type="radio" name="selected-image" class="selectedImage hidden" value="{{image._id}}">
+			<div class="card ratio ratio-16x9 overflow-hidden">
+				<img ng-src="/images/view/{{image._id}}" class="store-product-image card-img-top" style="object-fit:cover">
+			</div>
+		</label>
+	</div>
+</div>

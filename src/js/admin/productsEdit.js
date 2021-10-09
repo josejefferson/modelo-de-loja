@@ -1,25 +1,34 @@
 angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile', ($scope, $compile) => {
-	$scope.product = serverData
+	$scope.product = serverData || {
+		media: []
+	}
 	$scope.remove = (item, parent) => {
 		const i = parent.indexOf(item)
 		if (i > -1) parent.splice(i, 1)
 	}
+	$scope.move = (arr, from, to) => {
+		arr.move(from, to)
+	}
 	$scope.selectImageModal = () => {
-		const html = $compile(selectImageModal)($scope)
+		const html = $compile('<ng-include src="\'/templates/select-media.html\'"></ng-include>')($scope)
 		Swal.fire({
-			title: 'Selecionar imagem',
+			title: 'Selecionar mídia',
 			width: '100%',
 			padding: '20px 0',
 			showCloseButton: true,
 			showCancelButton: true,
 			confirmButtonText: 'Selecionar',
 			cancelButtonText: 'Cancelar',
+			customClass: {
+				popup: 'select-media'
+			},
 			willOpen: popup => {
 				angular.element(popup.querySelector('.swal2-content')).append(html)
 			},
 			preConfirm: () => {
-				const imageId = document.querySelector('.selectedImage:checked').value
+				const imageId = document.querySelector('.selectedImage:checked')
 				if (!imageId) return
+				$scope.product.media.push({ type: 'image', url: '/images/view/' + imageId.value })
 				$scope.$apply()
 			}
 		})
@@ -34,10 +43,11 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			cancelButtonText: 'Cancelar'
 		})
 		if (!value) return
+		$scope.product.media.push({ type: 'image', url: value })
 		$scope.$apply()
 	}
 	$scope.uploadModal = () => {
-		const html = $compile(uploadImageModal)($scope)
+		const html = $compile('<ng-include src="\'/templates/upload.html\'"></ng-include>')($scope)
 		Swal.fire({
 			width: '100%',
 			padding: '20px 0',
@@ -49,7 +59,7 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 		})
 	}
 	$scope.selectYouTubeModal = () => {
-		const html = $compile(selectYouTubeModal)($scope)
+		const html = $compile('<ng-include src="\'/templates/select-youtubeo.html\'"></ng-include>')($scope)
 		Swal.fire({
 			width: '100%',
 			padding: '20px 0',
@@ -61,3 +71,9 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 		})
 	}
 }])
+
+Array.prototype.move = function (from, to) {
+	const element = this[from]
+	this.splice(from, 1)
+	this.splice(to, 0, element)
+}

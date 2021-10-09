@@ -1,0 +1,31 @@
+<ul class="nav nav-tabs">
+	<li class="nav-item ms-4">
+		<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1" type="button">Minhas imagens</button>
+	</li>
+	<li class="nav-item">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2" type="button">URL (link)</button>
+	</li>
+	<li class="nav-item">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button">Upload</button>
+	</li>
+	<li class="nav-item">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4" type="button">YouTube</button>
+	</li>
+</ul>
+<div class="tab-content" id="myTabContent">
+	<div class="p-4 tab-pane fade show active" id="tab1">
+		<ng-include src="'/templates/select-image.html'"></ng-include>
+	</div>
+	<div class="p-4 tab-pane fade" id="tab2">
+		Este recurso não está funcionando por enquanto...
+		<ng-include src="'/templates/select-image-url.html'"></ng-include>
+	</div>
+	<div class="p-4 tab-pane fade" id="tab3">
+		Este recurso está funcionando parcialmente por enquanto...
+		<ng-include src="'/templates/upload.html'"></ng-include>
+	</div>
+	<div class="p-4 tab-pane fade" id="tab4">
+		Este recurso não está funcionando por enquanto...
+		<ng-include src="'/templates/select-youtube.html'"></ng-include>
+	</div>
+</div>

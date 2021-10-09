@@ -3,5 +3,21 @@
 }
 
 .selImage input:checked + .card {
-	border: #0d6efd 5px solid;
+	outline: #0d6efd 5px solid;
+	outline-offset: -2px;
+}
+.selImage input:checked + .card img {
+	border-radius: 0 !important;
+}
+
+.selImage input:checked + .card::after {
+	content: '\F012C';
+	position: absolute;
+	right: 0;
+	top: 0;
+	background-color: #0d6efd;
+	color: white;
+	font: normal normal normal 24px/1 "Material Design Icons";
+	font-size: inherit;
+	border-radius: 0 0 0 10px;
 }

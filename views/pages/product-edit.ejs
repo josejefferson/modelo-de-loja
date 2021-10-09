@@ -8,6 +8,7 @@
 </div>
 
 
+<!-- <ng-include src="'/templates/select-media.html'"></ng-include> -->
 
 
 <%
@@ -62,36 +63,45 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 
 				<label class="col-6 col-lg-3 form-group d-block">
 					<div class="mt-2"><i class="fas fa-archive"></i> Estoque <span class="text-danger">*</span></div>
-					<input type="number" class="form-control" name="stock" autocomplete="off"
-						ng-model="product.stock" required>
+					<div class="input-group">
+						<input type="number" class="form-control" name="stock" autocomplete="off" ng-model="product.stock" required>
+						<div class="input-group-text">un.</div>
+					</div>
 				</label>
 			</div>
 
 			<label class="form-group d-block">
 				<div class="mt-2"><i class="fas fa-image"></i> URL da imagem</div>
-				<input type="url" class="form-control" name="image" autocomplete="off"
-					ng-model="product.image">
+				<input type="text" class="form-control" name="image" autocomplete="off" ng-model="product.image"> <!--temp type text-->
 			</label>
 
 
 			<div>
 				<div class="mt-2"><i class="fas fa-photo-video"></i> Imagens/vídeos</div>
 				<div class="row">
-					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" ng-repeat="m in product.media" ng-switch="m.type">
-						<div class="card" ng-switch-when="image">
-							<input type="hidden" name="product.media[{{::$index}}][type]" value="image">
-							<input type="hidden" name="product.media[{{::$index}}][url]" value="{{::m.url}}">
-							<img ng-src="{{::m.url}}" class="card-img-top">
-							<ul class="list-group list-group-flush">
-								<button type="button" class="list-group-item list-group-item-action list-group-item-danger"
-									ng-click="::remove(m, product.media)">
-									<i class="fas fa-times"></i> Remover
+					<div class="col-6 col-sm-4 col-lg-3 col-xxl-2" ng-repeat="m in product.media" ng-switch="m.type">
+						<div class="card overflow-hidden" ng-switch-when="image">
+							<input type="hidden" name="media[{{::$index}}][type]" value="image">
+							<input type="hidden" name="media[{{::$index}}][url]" value="{{::m.url}}">
+							<div class="ratio ratio-16x9 overflow-hidden">
+								<img ng-src="{{::m.url}}" class="card-img-top" style="object-fit: cover;">
+							</div>
+
+							<div class="row m-0">
+								<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index - 1)" ng-disabled="$index === 0">
+									<i class="mdi mdi-arrow-left"></i>
 								</button>
-							</ul>
+								<button type="button" class="col btn btn-light btn-sm rounded-0" ng-click="::remove(m, product.media)">
+									<i class="mdi mdi-delete"></i>
+								</button>
+								<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index + 1)" ng-disabled="$index === product.media.length - 1">
+									<i class="mdi mdi-arrow-right"></i>
+								</button>
+							</div>
 						</div>
 
 						<div ng-switch-when="yt-video">
-							O sistema não está preparado para mostrar vídeos
+							O sistema não está preparado para mostrar vídeos do YouTube
 						</div>
 					</div>
 				</div>
@@ -144,11 +154,15 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 							<i class="fas fa-xs fa-star w-auto text-warning"></i>
 							<i class="far fa-xs fa-star w-auto text-warning"></i>
 							<i class="far fa-xs fa-star w-auto text-warning"></i>
-							<small><small class="fs-8">3 (11)</small></small>
+							<small><small class="fs-8">3 (45)</small></small>
 						</div>
 						<div class="mt-2">
+							<s class="d-block fs-6 text-secondary" ng-if="product.oldprice">
+								<small>R$ {{product.oldprice.toFixed(2).toString().replace('.', ',')}}</small>
 							</s>
-							<div ng-if="product.price"><b class="fs-5">R$ {{product.price.toString().replace('.',',')}}</b></div>
+							<div ng-if="product.price">
+								<b class="fs-5">R$ {{product.price.toFixed(2).toString().replace('.', ',')}}</b>
+							</div>
 							<small>
 								<span ng-if="product.stock > 0">({{product.stock}} unid. dispon.)</span>
 								<span ng-if="product.stock === -1">(disponível)</span>
@@ -169,12 +183,7 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 </>
 
 <%- contentFor('script') %>
-<script>
-	const serverData = <%- JSON.stringify(locals.product || locals.userData?.[0] || {}) %>
-	const selectImageModal = `<%- include('../partials/_selectImage.ejs').replace(/`/g, '\\`') %>`
-	const uploadImageModal = `<%- include('../partials/_upload.ejs').replace(/`/g, '\\`') %>`
-	const selectYouTubeModal = `<%- include('../partials/_selectYouTube.ejs').replace(/`/g, '\\`') %>`
-</script>
+<script>const serverData = <%- JSON.stringify(locals.product || locals.userData?.[0] || null) %></script>
 <script src="/js/admin/productsEdit.js"></script>
 <script src="/js/admin/selectImage.js"></script>
 <script src="/js/admin/upload.js"></script>
