@@ -50,7 +50,7 @@
 		</div>
 
 		<!-- Ações globais -->
-		<div class="my-2 d-flex gap-2 px-3 text-center" ng-if="env === 'pending'">
+		<div class="my-2 d-flex gap-2 px-3 text-center" ng-show="env === 'pending'">
 			<button class="btn btn-outline-success flex-grow-1" ng-click="confirmAll(reqs | reqs:env, 'confirm')" title="Confirmar todos">
 				<i class="fas fa-check"></i></button>
 			<button class="btn btn-outline-danger flex-grow-1" ng-click="confirmAll(reqs | reqs:env, 'reject')" title="Rejeitar todos">
@@ -68,7 +68,7 @@
 				<a href="/products/view/{{::req.productId._id}}" target="_blank" class="col-2">
 					<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
 						<img ng-src="{{::req.productId.image}}" ng-if="::req.productId.image" style="object-fit: cover;">
-						<div class="d-flex align-items-center justify-content-center text-secondary bg-light" ng-if="::!req.productId.image">
+						<div class="d-flex align-items-center justify-content-center text-secondary bg-light" ng-hide="::req.productId.image">
 							<i class="fas fa-2x fa-shopping-basket"></i>
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 					<div>{{::req.other}}</div>
 	
 					<!-- Botões de ação -->
-					<div class="mt-1" ng-if="env !== 'history'">
+					<div class="mt-1" ng-hide="env === 'history'">
 						<button class="btn p-0 border border-success text-success"
 							ng-class="{'bg-success text-white': req.status === 'confirmed'}" ng-click="confirm(req, 'confirm')"
 							ng-disabled="!req.open" title="Confirmar">
@@ -100,7 +100,7 @@
 					</div>
 
 					<!-- Cancelar pedido -->
-					<div class="mt-2" ng-if="env === 'history' && req.status === 'pending'">
+					<div class="mt-2" ng-show="env === 'history' && req.status === 'pending'">
 						<button class="btn btn-outline-danger p-1" ng-click="cancel(req, clientId)"
 							title="Cancelar pedido"><i class="fas fa-times"></i> Cancelar</button>
 					</div>

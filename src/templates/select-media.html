@@ -1,31 +1,36 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs justify-content-center">
 	<li class="nav-item ms-4">
-		<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1" type="button">Minhas imagens</button>
+		<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#image" type="button">Minhas imagens</button>
 	</li>
 	<li class="nav-item">
-		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2" type="button">URL (link)</button>
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#imageURL" type="button">URL (link)</button>
 	</li>
 	<li class="nav-item">
-		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button">Upload</button>
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#upload" type="button">Upload</button>
 	</li>
 	<li class="nav-item">
-		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4" type="button">YouTube</button>
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#youtube" type="button">YouTube</button>
 	</li>
 </ul>
 <div class="tab-content" id="myTabContent">
-	<div class="p-4 tab-pane fade show active" id="tab1">
+	<div class="p-4 tab-pane fade show active" id="image">
 		<ng-include src="'/templates/select-image.html'"></ng-include>
 	</div>
-	<div class="p-4 tab-pane fade" id="tab2">
-		Este recurso não está funcionando por enquanto...
+	<div class="p-4 tab-pane fade" id="imageURL">
 		<ng-include src="'/templates/select-image-url.html'"></ng-include>
 	</div>
-	<div class="p-4 tab-pane fade" id="tab3">
-		Este recurso está funcionando parcialmente por enquanto...
+	<div class="p-4 tab-pane fade" id="upload">
 		<ng-include src="'/templates/upload.html'"></ng-include>
+		<div class="row mt-3">
+			<label class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 selImage" ng-repeat="upload in uploads">
+				<input type="checkbox" class="selected-media hidden" data-type="image.id" value="{{::upload.id}}" checked>
+				<div class="card ratio ratio-16x9 overflow-hidden">
+					<img ng-src="/images/view/{{::upload.id}}" class="store-product-image card-img-top" style="object-fit:cover">
+				</div>
+			</label>
+		</div>
 	</div>
-	<div class="p-4 tab-pane fade" id="tab4">
-		Este recurso não está funcionando por enquanto...
+	<div class="p-4 tab-pane fade" id="youtube">
 		<ng-include src="'/templates/select-youtube.html'"></ng-include>
 	</div>
 </div>

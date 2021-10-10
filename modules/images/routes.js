@@ -38,8 +38,8 @@ routes.post('/upload',
 		db.add({
 			file: fs.readFileSync(filePath),
 			contentType: req.file.mimetype
-		}).then(() => {
-			res.json({ success: true })
+		}).then((image) => {
+			res.json({ success: true, id: image._id })
 		}).catch((err) => {
 			console.error(err)
 			res.json({ success: false })

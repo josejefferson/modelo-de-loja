@@ -39,6 +39,10 @@ db.getMine = (req, res, next) => {
 	})
 	return Promise.all(clients).then((clients) => {
 		clients = clients.filter(p => p != null)
+		if (clients.length === 0) {
+			req.flash('warningMsg', 'Cadastre seus dados antes de comprar')
+			return res.redirect('/clients/add?r=' + encodeURIComponent(req.originalUrl))
+		}
 		req.data.users = clients || []
 		next()
 	}).catch((err) => {

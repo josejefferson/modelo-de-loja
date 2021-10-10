@@ -1,12 +1,16 @@
 angular.module('store').controller('selectImageCtrl', ['$scope', ($scope) => {
 	$scope.loading = true
 	$scope.images = []
+	$scope.getImages = getImages
 
-	fetch('/images/api')
-		.then(r => { if (!r.ok) throw r; return r.json() })
-		.then(r => {
-			$scope.images = r
+	function getImages() {
+		$scope.loading = true
+		axios.get('/images/api')
+		.then((r) => {
+			$scope.images = r.data
 			$scope.loading = false
 			$scope.$apply()
 		})
+	}
+	getImages()
 }])

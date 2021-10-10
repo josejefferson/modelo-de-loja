@@ -3,6 +3,7 @@ function render(page, title, _next = false, folder = 'pages') {
 		req.data = req.data || {}
 		res.locals.successMsg = req.flash('successMsg')
 		res.locals.warningMsg = req.flash('warningMsg')
+		res.locals.infoMsg = req.flash('infoMsg')
 		res.locals.errorMsg = req.flash('errorMsg')
 		res.locals.userData = req.flash('userData')
 

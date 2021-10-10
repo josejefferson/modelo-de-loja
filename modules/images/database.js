@@ -19,7 +19,7 @@ db.get = (req, res, next) => {
 
 db.getAll = (req, res, next) => {
 	Image.find().select('-data').then((images) => {
-		req.data.images = images || []
+		req.data.images = images.reverse() || []
 		next()
 	}).catch((err) => {
 		res.status(500).render('others/error', {

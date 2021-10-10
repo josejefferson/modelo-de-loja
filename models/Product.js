@@ -15,8 +15,8 @@ const Product = mongoose.model('Products', {
 	},
 	image: String,
 	media: [{
-		type: { type: String, enum: ['image', 'yt-video'] },
-		url: String
+		type: { type: String, enum: ['image.url', 'image.id', 'youtube'] },
+		value: String
 	}],
 	stock: { type: Number, required: true },
 	hidden: { type: Boolean, default: false }

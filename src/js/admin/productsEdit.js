@@ -1,15 +1,19 @@
+angular.module('store').animation('.store-product-edit-media', () => ({ enter: anim.open, leave: anim.close }))
+
 angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile', ($scope, $compile) => {
-	$scope.product = serverData || {
-		media: []
-	}
+	$scope.uploads = []
+	$scope.$on('upload', (event, arg) => {$scope.uploads.push(arg)})
+	$scope.product = serverData || {media: []}
 	$scope.remove = (item, parent) => {
 		const i = parent.indexOf(item)
 		if (i > -1) parent.splice(i, 1)
 	}
 	$scope.move = (arr, from, to) => {
-		arr.move(from, to)
+		const element = arr[from]
+		arr.splice(from, 1)
+		arr.splice(to, 0, element)
 	}
-	$scope.selectImageModal = () => {
+	$scope.selectMediaModal = () => {
 		const html = $compile('<ng-include src="\'/templates/select-media.html\'"></ng-include>')($scope)
 		Swal.fire({
 			title: 'Selecionar mídia',
@@ -22,58 +26,24 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			customClass: {
 				popup: 'select-media'
 			},
-			willOpen: popup => {
+			willOpen: (popup) => {
 				angular.element(popup.querySelector('.swal2-content')).append(html)
 			},
-			preConfirm: () => {
-				const imageId = document.querySelector('.selectedImage:checked')
-				if (!imageId) return
-				$scope.product.media.push({ type: 'image', url: '/images/view/' + imageId.value })
-				$scope.$apply()
+			preConfirm: (...args) => {
+				const selectedImages = document.querySelectorAll('.selected-media:checked')
+				const selected = [...selectedImages].map((image) => {
+					return { type: image.dataset.type || 'image.url', value: image.value }
+				})
+				return selected
 			}
-		})
-	}
-	$scope.selectImageURLModal = async () => {
-		const { value } = await Swal.fire({
-			title: 'Inserir URL de imagem',
-			text: 'Digite ou cole o link da imagem',
-			input: 'text',
-			showCancelButton: true,
-			confirmButtonText: 'Inserir',
-			cancelButtonText: 'Cancelar'
-		})
-		if (!value) return
-		$scope.product.media.push({ type: 'image', url: value })
-		$scope.$apply()
-	}
-	$scope.uploadModal = () => {
-		const html = $compile('<ng-include src="\'/templates/upload.html\'"></ng-include>')($scope)
-		Swal.fire({
-			width: '100%',
-			padding: '20px 0',
-			showCloseButton: true,
-			showConfirmButton: false,
-			willOpen: popup => {
-				angular.element(popup.querySelector('.swal2-content')).append(html)
-			}
-		})
-	}
-	$scope.selectYouTubeModal = () => {
-		const html = $compile('<ng-include src="\'/templates/select-youtubeo.html\'"></ng-include>')($scope)
-		Swal.fire({
-			width: '100%',
-			padding: '20px 0',
-			showCloseButton: true,
-			showConfirmButton: false,
-			willOpen: popup => {
-				angular.element(popup.querySelector('.swal2-content')).append(html)
-			}
+		}).then((result) => {
+			if (!result.isConfirmed) return
+			$scope.product.media.push(...result.value)
+			$scope.$apply()		
 		})
 	}
 }])
 
-Array.prototype.move = function (from, to) {
-	const element = this[from]
-	this.splice(from, 1)
-	this.splice(to, 0, element)
-}
+angular.module('store').filter('trusted', ['$sce', ($sce) => {
+	return (url) => $sce.trustAsResourceUrl(url)
+}])

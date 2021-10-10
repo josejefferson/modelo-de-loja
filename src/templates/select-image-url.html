@@ -1,0 +1,12 @@
+<form name="imageURLForm" ng-class="{'was-validated': imageURLForm.imageURL.$invalid}">
+	<p>Digite ou cole o link <b>direto</b> para a imagem</p>
+	<input type="url" name="imageURL" class="form-control form-control-lg" placeholder="Link da imagem" ng-model="imageURL">
+	<div class="invalid-feedback" ng-show="imageURLForm.imageURL.$invalid">
+		URL inválida
+	</div>
+
+	<div class="card ratio ratio-16x9 overflow-hidden mx-auto mt-3" ng-if="imageURL && imageURLForm.imageURL.$valid" style="width: 300px;max-width:100%;">
+		<input type="checkbox" class="selected-media hidden" data-type="image.url" value="{{imageURL}}" checked>		
+		<img ng-src="{{imageURL}}" class="store-product-image card-img-top" style="object-fit:cover">
+	</div>
+</form>

@@ -9,8 +9,8 @@ const { validate } = require('./validators')
 
 routes.get('/:id',
 	validate.id,
-	productActions.get,
 	clientActions.getMine,
+	productActions.get,
 	render('buy', 'Comprar')
 )
 

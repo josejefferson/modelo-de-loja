@@ -5,7 +5,7 @@ product.description = product.description?.replace(/\n/g, '<br>')
 const {_1, _2, _3, _4, _5} = product.rating
 product.ratingUsers = _1 + _2 + _3 + _4 + _5
 product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
-if (product.image) product.media.push({ type: 'image', url: product.image })
+if (product.image) product.media.unshift({ type: 'image.url', value: product.image })
 const _badge = product.badge ? `(${product.badge})` : ''
 const _disStk = !product.stock ? 'disabled' : ''
 const _cartHid = cart.includes(product.id) ? 'hidden' : ''
@@ -27,7 +27,11 @@ if (pageDescription.length > 153) pageDescription = pageDescription.substr(0, 15
 	<div class="carousel-inner" style="max-height:300px">
 		<% product.media.forEach((m, i) => { %>
 			<div class="carousel-item	ratio ratio-16x9 <%=i===0?'active':''%>">
-				<img src="<%= m.url %>" class="d-block w-100" style="object-fit:contain;max-height:300px">
+				<% if (m.type === 'image.id' || m.type === 'image.url') { %>
+					<img src="<%= m.type === 'image.id' ? '/images/view/' : '' %><%= m.value %>" class="d-block w-100" style="object-fit:contain;max-height:300px">
+				<% } else if (m.type === 'youtube') { %>
+					<iframe src="https://www.youtube-nocookie.com/embed/<%= m.value %>?rel=0" frameborder="0" style="max-height:300px"></iframe>
+				<% } %>
 			</div>
 		<% }) %>
 	</div>

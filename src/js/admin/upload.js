@@ -1,4 +1,4 @@
-angular.module('store').controller('fileUploadCtrl', ['$scope', ($scope) => {
+angular.module('store').controller('fileUploadCtrl', ['$scope', '$rootScope', ($scope, $rootScope) => {
 	$scope.upload = {
 		state: '',
 		error: null,
@@ -55,6 +55,7 @@ angular.module('store').controller('fileUploadCtrl', ['$scope', ($scope) => {
 				}).then(r => {
 					if (!r.data.success || r.data.invalid) throw r.err || ''
 					fileStatus.status = 'success'
+					$rootScope.$broadcast('upload', { id: r.data.id })
 					$scope.$apply()
 				}).catch(err => {
 					if (err.response.data && err.response.data.error) {

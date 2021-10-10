@@ -15,8 +15,8 @@ schema.add = Joi.object({
 	image: Joi.string().allow('').label('Imagem'),
 	media: Joi.array().items(
 		Joi.object({
-			type: Joi.string().valid('image', 'yt-video').required(),
-			url: Joi.string().required()
+			type: Joi.string().valid('image.url', 'image.id', 'youtube').required(),
+			value: Joi.string().required()
 		})
 	).empty('').label('Mídia'),
 	stock: Joi.number().empty('').default(-1).label('Estoque'),
@@ -33,8 +33,8 @@ schema.edit = Joi.object({
 	image: Joi.string().allow('').label('Imagem'),
 	media: Joi.array().items(
 		Joi.object({
-			type: Joi.string().valid('image', 'yt-video').required(),
-			url: Joi.string().required()
+			type: Joi.string().valid('image.url', 'image.id', 'youtube').required(),
+			value: Joi.string().required()
 		})
 	).empty('').label('Mídia'),
 	stock: Joi.number().empty('').default(-1).label('Estoque'),

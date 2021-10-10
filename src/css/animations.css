@@ -1,0 +1,66 @@
+.store-requests-client.animation-pre-open,
+.store-product-edit-media.animation-pre-open {
+	width: 0;
+	opacity: 0;
+	margin-right: 0;
+	transform: scale(0.5);
+	overflow: hidden;
+}
+
+.store-requests-client.animation-open,
+.store-product-edit-media.animation-open {
+	opacity: 1;
+	margin-right: 10px;
+	transform: scale(1);
+	transition:
+		width 200ms ease,
+		margin-right 200ms ease,
+		opacity 150ms ease 200ms,
+		transform 150ms ease 200ms;
+}
+
+.store-requests-client.animation-close,
+.store-product-edit-media.animation-close {
+	opacity: 0 !important;
+	transform: scale(0.5);
+	width: 0 !important;
+	margin-right: 0 !important;
+	overflow: hidden !important;
+	transition:
+		opacity 150ms ease,
+		transform 150ms ease,
+		width 200ms ease 150ms,
+		margin-right 200ms ease 150ms;
+}
+
+.store-requests-client-product.animation-pre-open {
+	height: 0;
+	opacity: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	overflow: hidden;
+}
+
+.store-requests-client-product.animation-open {
+	opacity: 1;
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+	transition:
+		height 200ms ease,
+		padding-top 200ms ease,
+		padding-bottom 200ms ease,
+		opacity 150ms ease 200ms;
+}
+
+.store-requests-client-product.animation-close {
+	opacity: 0 !important;
+	height: 0 !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	overflow: hidden !important;
+	transition:
+		opacity 150ms ease,
+		height 200ms ease 150ms,
+		padding-top 200ms ease 150ms,
+		padding-bottom 200ms ease 150ms;
+}

@@ -1,3 +1,6 @@
+angular.module('store').animation('.store-requests-client', () => ({ enter: anim.open, leave: anim.close }))
+angular.module('store').animation('.store-requests-client-product', () => ({ enter: anim.open, leave: anim.close }))
+
 angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 	const socket = io(location.origin + '/requests')
 	socket.on('connect', () => {

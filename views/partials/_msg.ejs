@@ -11,5 +11,9 @@
 		// <% locals.warningMsg?.forEach(msg => { %>
 		await toast(<%-JSON.stringify({ msg })%>.msg, 'warning')
 		// <% }) %>
+
+		// <% locals.infoMsg?.forEach(msg => { %>
+		await toast(<%-JSON.stringify({ msg })%>.msg, 'info')
+		// <% }) %>
 	})()
 </script>

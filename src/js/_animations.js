@@ -1,8 +1,5 @@
-angular.module('store').animation('.store-requests-client', () => ({ enter: anim.openSlide, leave: anim.closeSlide }))
-angular.module('store').animation('.store-requests-client-product', () => ({ enter: anim.openSlide, leave: anim.closeSlide }))
-
 const anim = {
-	openSlide: (el, done) => {
+	open: (el, done) => {
 		const width = el[0].clientWidth
 		const height = el[0].clientHeight
 		el[0].classList.add('animation-pre-open')
@@ -21,7 +18,7 @@ const anim = {
 		return done
 	},
 
-	closeSlide: (el, done) => {
+	close: (el, done) => {
 		el[0].style.width = el[0].clientWidth + 'px'
 		el[0].style.height = el[0].clientHeight + 'px'
 		setTimeout(() => el[0].classList.add('animation-close'), 0)
