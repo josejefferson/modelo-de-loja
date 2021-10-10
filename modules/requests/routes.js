@@ -39,12 +39,13 @@ routes.post('/cancel/:id',
 )
 
 routes.post('/confirm/:id',
-	(req, res, next) => {
-		db.get({ id: req.params.id }).then((request) => {
-			req.data.request = request
-			next()
-		})
-	},
+	db.get,
+	// (req, res, next) => {
+	// 	db.get({ id: req.params.id }).then((request) => {
+	// 		req.data.request = request
+	// 		next()
+	// 	})
+	// },
 	productActions.getBody,
 	(req, res, next) => {
 		const request = req.data.request
