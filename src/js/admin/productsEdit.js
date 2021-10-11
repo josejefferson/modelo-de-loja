@@ -8,12 +8,14 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 		const i = parent.indexOf(item)
 		if (i > -1) parent.splice(i, 1)
 	}
+
 	$scope.move = (arr, from, to) => {
 		const element = arr[from]
 		arr.splice(from, 1)
 		arr.splice(to, 0, element)
 	}
-	$scope.selectMediaModal = () => {
+	$scope.selectMediaModal = (multiple = true) => {
+		$scope.multiple = multiple
 		const html = $compile('<ng-include src="\'/templates/select-media.html\'"></ng-include>')($scope)
 		Swal.fire({
 			title: 'Selecionar mídia',
@@ -38,7 +40,9 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			}
 		}).then((result) => {
 			if (!result.isConfirmed) return
-			$scope.product.media.push(...result.value)
+				$scope.product.media.push(...result.value)
+			$scope.uploads = []
+			$scope.multiple = null
 			$scope.$apply()		
 		})
 	}
@@ -47,3 +51,13 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 angular.module('store').filter('trusted', ['$sce', ($sce) => {
 	return (url) => $sce.trustAsResourceUrl(url)
 }])
+
+angular.module('store').directive('ngType', () => { 
+	return (scope, elem, attrs) => {
+		if (scope.multiple) {
+			elem.attr('type', 'checkbox')
+		} else {
+			elem.attr('type', 'radio')
+		}
+	}
+})

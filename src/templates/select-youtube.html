@@ -2,12 +2,12 @@
 	<p>Digite ou cole o link ou ID do vídeo do YouTube</p>
 	<input type="text" name="youtube" class="form-control form-control-lg" ng-class="{'is-invalid': youtube !== '' && !youtubeID}"
 		placeholder="Link ou ID do YouTube" ng-model="youtube" ng-change="getYTID(youtube)">
-	<div class="invalid-feedback" ng-show="youtubeID === null">
+	<div class="invalid-feedback">
 		URL inválida
 	</div>
 
 	<div class="ratio ratio-16x9 overflow-hidden mx-auto mt-3" ng-if="youtubeID" style="width: 500px;max-width:100%;">
-		<input type="checkbox" class="selected-media hidden" data-type="youtube" value="{{youtubeID}}" checked>		
+		<input ng-type type="checkbox" name="selected-media" class="selected-media hidden" data-type="youtube" value="{{youtubeID}}" checked>		
 		<iframe ng-src="{{'https://www.youtube-nocookie.com/embed/' + youtubeID + '?rel=0' | trusted}}" frameborder="0"></iframe>
 	</div>
 </form>

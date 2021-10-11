@@ -1,4 +1,5 @@
 angular.module('store').controller('selectYouTubeCtrl', ['$scope', ($scope) => {
+	$scope.youtube = ''
 	$scope.youtubeID = null
 	$scope.getYTID = (url) => {
 		return $scope.youtubeID = parseYTURL(url)
