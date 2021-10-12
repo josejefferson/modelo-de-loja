@@ -16,6 +16,7 @@ const logger = require('./modules/logger')
 require('./modules/database')
 require('./modules/login/passport')(passport)
 require('./modules/sockets').start(server)
+require('./modules/notifications')
 
 app.set('view engine', 'ejs')
 app.use(session({
@@ -37,7 +38,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(expressLayouts)
 app.use(helmet({ contentSecurityPolicy: false }))
 app.use(express.static('src'))
-app.use(morgan('dev', { stream: { write: (str) => logger().http(str.trim()) } }))
+// app.use(morgan('dev', { stream: { write: (str) => logger().http(str.trim()) } }))
 app.use('/', require('./modules/routes'))
 
 const PORT = process.env.PORT || 3000

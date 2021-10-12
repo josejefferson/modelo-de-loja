@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const Image = mongoose.model('Images', {
-	data: Buffer,
-	contentType: String
+	data: { type: Buffer, required: true },
+	contentType: { type: String, required: true }
 })
 
 module.exports = Image

@@ -13,7 +13,10 @@ const Product = mongoose.model('Products', {
 		_4: { type: Number, default: 0 },
 		_5: { type: Number, default: 0 }
 	},
-	image: String,
+	image: {
+		type: { type: String, enum: ['image.url', 'image.id'] },
+		value: String
+	},
 	media: [{
 		type: { type: String, enum: ['image.url', 'image.id', 'youtube'] },
 		value: String

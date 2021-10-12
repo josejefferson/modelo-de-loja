@@ -67,7 +67,8 @@
 				<!-- Imagem -->
 				<a href="/products/view/{{::req.productId._id}}" target="_blank" class="col-2">
 					<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-						<img ng-src="{{::req.productId.image}}" ng-if="::req.productId.image" style="object-fit: cover;">
+						<img ng-src="{{::req.productId.image.value}}" ng-if="::req.productId.image.type === 'image.url'" style="object-fit: cover;">
+						<img ng-src="/images/view/{{::req.productId.image.value}}" ng-if="::req.productId.image.type === 'image.id'" style="object-fit: cover;">
 						<div class="d-flex align-items-center justify-content-center text-secondary bg-light" ng-hide="::req.productId.image">
 							<i class="fas fa-2x fa-shopping-basket"></i>
 						</div>

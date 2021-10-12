@@ -14,8 +14,9 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 		arr.splice(from, 1)
 		arr.splice(to, 0, element)
 	}
-	$scope.selectMediaModal = (multiple = true) => {
-		$scope.multiple = multiple
+	$scope.selectMediaModal = (multiple = true, destination = 'product.media', disabledTabs = []) => {
+		$scope.selectMediaModalMultiple = multiple
+		$scope.selectMediaModalDisabledTabs = disabledTabs
 		const html = $compile('<ng-include src="\'/templates/select-media.html\'"></ng-include>')($scope)
 		Swal.fire({
 			title: 'Selecionar mídia',
@@ -40,9 +41,13 @@ angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile'
 			}
 		}).then((result) => {
 			if (!result.isConfirmed) return
-				$scope.product.media.push(...result.value)
+			switch (destination) {
+				case 'product.media': $scope.product.media.push(...result.value); break
+				case 'product.image': $scope.product.image = result.value[0]
+			}
 			$scope.uploads = []
-			$scope.multiple = null
+			$scope.selectMediaModalMultiple = undefined
+			$scope.selectMediaModalDisabledTabs = []
 			$scope.$apply()		
 		})
 	}
@@ -54,7 +59,7 @@ angular.module('store').filter('trusted', ['$sce', ($sce) => {
 
 angular.module('store').directive('ngType', () => { 
 	return (scope, elem, attrs) => {
-		if (scope.multiple) {
+		if (scope.selectMediaModalMultiple) {
 			elem.attr('type', 'checkbox')
 		} else {
 			elem.attr('type', 'radio')

@@ -12,7 +12,10 @@ schema.add = Joi.object({
 	price: Joi.number().min(0).required().label('Preço'),
 	oldprice: Joi.number().empty('').min(0).default(null).label('Preço antigo'),
 	badge: Joi.string().allow('').label('Selo'),
-	image: Joi.string().allow('').label('Imagem'),
+	image: Joi.object({
+		type: Joi.string().valid('image.url', 'image.id').required(),
+		value: Joi.string().required()
+	}).label('Imagem'),
 	media: Joi.array().items(
 		Joi.object({
 			type: Joi.string().valid('image.url', 'image.id', 'youtube').required(),
@@ -30,7 +33,10 @@ schema.edit = Joi.object({
 	price: Joi.number().min(0).required().label('Preço'),
 	oldprice: Joi.number().empty('').min(0).default(null).label('Preço antigo'),
 	badge: Joi.string().allow('').label('Selo'),
-	image: Joi.string().allow('').label('Imagem'),
+	image: Joi.object({
+		type: Joi.string().valid('image.url', 'image.id').required(),
+		value: Joi.string().required()
+	}).label('Imagem'),
 	media: Joi.array().items(
 		Joi.object({
 			type: Joi.string().valid('image.url', 'image.id', 'youtube').required(),

@@ -5,7 +5,7 @@ product.description = product.description?.replace(/\n/g, '<br>')
 const {_1, _2, _3, _4, _5} = product.rating
 product.ratingUsers = _1 + _2 + _3 + _4 + _5
 product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
-if (product.image) product.media.unshift({ type: 'image.url', value: product.image })
+if (product.image) product.media.unshift(product.image)
 const _badge = product.badge ? `(${product.badge})` : ''
 const _disStk = !product.stock ? 'disabled' : ''
 const _cartHid = cart.includes(product.id) ? 'hidden' : ''

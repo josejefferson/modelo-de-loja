@@ -1,11 +1,10 @@
-/* .navbar-collapse,
-.navbar-nav,
-.nav-item,
-.nav-link {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-} */
+.skip-navigation:not(:focus) {
+	opacity: 0;
+	width: 0;
+	height: 0;
+	padding: 0;
+	border-width: 0;
+}
 
 .btn-floating {
 	bottom: 20px;

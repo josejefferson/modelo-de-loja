@@ -73,16 +73,40 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 				</label>
 			</div><!-- .row -->
 
-			<!-- URL da imagem principal -->
-			<label class="form-group d-block">
-				<div class="mt-2"><i class="fas fa-image"></i> URL da imagem</div>
-				<input type="text" class="form-control" name="image" autocomplete="off" ng-model="product.image" ng-model-options="{debounce:{blur:0,'*':1000}}">
-				<button ng-click="selectMediaModal(false)" class="btn" type="button">Selecionar</button>
-			</label>
-
 			<!-- Mídias -->
 			<div class="mt-2"><i class="fas fa-photo-video"></i> Imagens/vídeos</div>
 			<div class="row g-2 mt-1">
+				<!-- Imagem principal -->
+				<div class="col-6 col-sm-4 col-lg-3 col-xxl-2" ng-if="product.image">
+					<div class="card border-dark overflow-hidden">
+						<!-- Imagem -->
+						<div class="ratio ratio-16x9 overflow-hidden">
+							<input type="hidden" name="image[type]" value="{{::product.image.type}}">
+							<input type="hidden" name="image[value]" value="{{::product.image.value}}">
+							<img ng-src="{{::product.image.value}}" ng-if="::product.image.type === 'image.url'" class="card-img-top" style="object-fit: cover;">
+							<img ng-src="/images/view/{{::product.image.value}}" ng-if="::product.image.type === 'image.id'" class="card-img-top" style="object-fit: cover;">
+						</div>
+
+						<!-- Botões de ação -->
+						<div class="row m-0">
+							<!-- Remover -->
+							<button type="button" class="col btn btn-danger btn-sm rounded-0" ng-click="::product.image = undefined">
+								<i class="mdi mdi-delete"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Selecionar imagem principal -->
+				<div class="col-6 col-sm-4 col-lg-3 col-xxl-2" ng-hide="product.image">
+					<div class="card shadow-sm h-100 bg-light" ng-click="selectMediaModal(false, 'product.image', ['youtube'])">
+						<button type="button" class="btn card-body d-flex flex-column align-items-center justify-content-center p-2">
+							<i class="fas fa-image fa-3x"></i>
+							<b class="mt-3 fs-6">Selecionar imagem da capa</b>
+						</button>
+					</div>
+				</div>
+
 				<!-- Mídia -->
 				<div class="store-product-edit-media col-6 col-sm-4 col-lg-3 col-xxl-2" ng-repeat="m in product.media" ng-switch="::m.type">
 					<!-- Se imagem -->
@@ -105,7 +129,7 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 						<!-- Botões de ação -->
 						<div class="row m-0">
 							<!-- Mover para esquerda -->
-							<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index - 1)" ng-disabled="::$index === 0">
+							<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index - 1)" ng-disabled="$index === 0">
 								<i class="mdi mdi-arrow-left"></i>
 							</button>
 							<!-- Remover -->
@@ -113,7 +137,7 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 								<i class="mdi mdi-delete"></i>
 							</button>
 							<!-- Mover para direita -->
-							<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index + 1)" ng-disabled="::$index === product.media.length - 1">
+							<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index + 1)" ng-disabled="$index === product.media.length - 1">
 								<i class="mdi mdi-arrow-right"></i>
 							</button>
 						</div>
@@ -122,7 +146,7 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 
 				<!-- Botão de adicionar mídia -->
 				<div class="col-6 col-sm-4 col-lg-3 col-xxl-2">
-					<div class="card shadow-sm h-100 bg-light" ng-click="selectMediaModal(true)">
+					<div class="card shadow-sm h-100 bg-light" ng-click="selectMediaModal(true, 'product.media')">
 						<button type="button" class="btn card-body d-flex flex-column align-items-center justify-content-center p-2">
 							<i class="fas fa-plus fa-3x"></i>
 							<b class="mt-3 fs-6">Adicionar mídia</b>
@@ -151,7 +175,8 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 
 				<!-- Imagem -->
 				<div class="ratio ratio-16x9 overflow-hidden" ng-if="product.image">
-					<img ng-src="{{product.image}}" class="store-product-image card-img-top" style="object-fit:cover">
+					<img ng-src="{{product.image.value}}" ng-if="product.image.type === 'image.url'" class="store-product-image card-img-top" style="object-fit: cover;">
+					<img ng-src="/images/view/{{product.image.value}}" ng-if="product.image.type === 'image.id'" class="store-product-image card-img-top" style="object-fit: cover;">
 				</div>
 
 				<!-- Indicação sem imagem -->

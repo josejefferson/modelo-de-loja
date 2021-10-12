@@ -20,7 +20,8 @@ const _usAddRedir = encodeURIComponent(url)
 				<ul class="list-group">
 					<li class="list-group-item list-group-item-light px-2" ng-repeat="product in products">
 						<div class="row gx-1">
-							<img class="col-2 rounded" ng-src="{{::product.image}}" style="object-fit:cover">
+							<img ng-src="{{::product.image.value}}" ng-if="::product.image.type === 'image.url'" class="col-2 rounded" style="object-fit: cover;">
+							<img ng-src="/images/view/{{::product.image.value}}" ng-if="::product.image.type === 'image.id'" class="col-2 rounded" style="object-fit: cover;">
 							<div class="col ps-2">
 								<h6>{{::product.name}}</h6>
 								<input type="hidden" name="products[{{::$index}}][id]" value="{{::product._id}}">

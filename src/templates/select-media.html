@@ -1,15 +1,23 @@
 <ul class="nav nav-tabs justify-content-center">
-	<li class="nav-item ms-4">
-		<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#image" type="button">Minhas imagens</button>
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('image')">
+		<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#image" type="button">
+			<i class="fas fa-image"></i> <span class="d-none d-md-block">Imagens enviadas</span>
+		</button>
 	</li>
-	<li class="nav-item">
-		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#imageURL" type="button">URL (link)</button>
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('imageURL')">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#imageURL" type="button">
+			<i class="fas fa-link"></i> <span class="d-none d-md-block">URL (link)</span>
+		</button>
 	</li>
-	<li class="nav-item">
-		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#upload" type="button">Upload</button>
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('upload')">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#upload" type="button">
+			<i class="fas fa-upload"></i> <span class="d-none d-md-block">Upload</span>
+		</button>
 	</li>
-	<li class="nav-item">
-		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#youtube" type="button">YouTube</button>
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('youtube')">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#youtube" type="button">
+			<i class="fab fa-youtube"></i> <span class="d-none d-md-block">YouTube</span>
+		</button>
 	</li>
 </ul>
 <div class="tab-content" id="myTabContent">
