@@ -1,0 +1,15 @@
+<ul class="list-group rounded-0">
+	<a href="{{::notification.url}}" class="notification list-group-item list-group-item-action list-group-item-light px-2" ng-repeat="notification in notifications track by $index" ng-class="{'not-read': !notification.read}">
+		<div class="row gx-1">
+			<div class="col-2" ng-if="::notification.image">
+				<div class="ratio ratio-1x1 rounded-circle overflow-hidden">
+					<img ng-src="{{::notification.image}}" ng-if="::notification.image" class="col-2 rounded" style="object-fit: cover;">
+				</div>
+			</div>
+			<div class="col ps-2">
+				<h6 ng-if="::notification.title">{{::notification.title}}</h6>
+				<p ng-if="::notification.message">{{::notification.message}}</p>
+			</div>
+		</div>
+	</a>
+</ul>

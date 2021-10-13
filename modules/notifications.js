@@ -10,13 +10,26 @@ io.of('/notifications').use((socket, next) => {
 })
 
 io.of('/notifications').on('connection', (socket) => {
-	const userIDs = (socket.cookies.userIds.split(',') || []).filter(userID => /^[A-Fa-f0-9]{24}$/.test(userID))
+	const userIDs = (socket.cookies.userIds.split(',') || []).filter((userID) => /^[A-Fa-f0-9]{24}$/.test(userID))
 	for (const userID of userIDs) {
 		socket.join(userID)
 	}
 
 	Notification.find({ client: userIDs }).then((notifications) => {
-		console.log(notifications)
+		socket.emit('notifications', notifications)
+	}).catch((err) => {
+		console.error(err)
+	})
+
+	socket.on('read', () => {
+		Notification.find({ client: userIDs, read: false }).then((notifications) => {
+			return Promise.all(notifications.map((notification) => {
+				notification.read = true
+				return notification.save().catch(() => {})
+			}))
+		}).then((notifications) => {
+			// console.log(notifications)
+		})
 	})
 })
 

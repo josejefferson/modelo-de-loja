@@ -227,3 +227,27 @@ body.sidebar-open .sidebar-background {
 	opacity: 1;
 	pointer-events: all;
 }
+
+.notifications-popover {
+	max-width: 100%;
+	max-height: 100%;
+	width: 360px;
+	height: 480px;
+	overflow-y: auto;
+}
+
+.notifications-popover .popover-arrow {
+	display: none;
+}
+
+.notifications-popover .popover-body {
+	padding: 0;
+}
+
+.notification.not-read {
+	border-left: var(--bs-primary) 5px solid;
+}
+
+.open-notifications {
+	cursor: pointer;
+}

@@ -106,7 +106,20 @@
 						</a>
 					</li>
 				<% } %>
+
 			</ul>
 		</div>
+		<li class="nav-item" ng-controller="notificationsCtrl">
+			<div class="open-notifications badge bg-primary rounded-pill fs-6 p-2" ng-class="{'bg-danger': unreadNotificationCount() > 0}" title="Notificações">
+				<i class="fas fa-bell text-light"></i>
+				<span>{{unreadNotificationCount()}}</span>
+			</div>
+		</li>
 	</div>
 </nav>
+
+<div class="hidden">
+	<div class="notifications-popover-content">
+		<ng-include src="'/templates/notifications.html'" ng-controller="notificationsCtrl">Carregando...</ng-include>
+	</div>
+</div>
