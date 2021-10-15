@@ -59,8 +59,8 @@ db.add = (req, res, next) => {
 		email: req.body.email,
 		password: bcrypt.hashSync(req.body.password, 10),
 		admin: true
-	}).then(() => {
-		req.flash('successMsg', `Administrador "${req.body.name}" adicionado com sucesso`)
+	}).then((admin) => {
+		req.flash('successMsg', `Administrador "${admin.name}" adicionado com sucesso`)
 		return res.redirect(req.query.r || '/admins')
 	}).catch((err) => {
 		// validar administrador já existente
@@ -89,8 +89,8 @@ db.edit = (req, res, next) => {
 
 // Remove um administrador
 db.remove = (req, res, next) => {
-	Admin.deleteMany({ _id: req.params.id }).then(() => {
-		req.flash('successMsg', 'Administrador excluído com sucesso')
+	Admin.findByIdAndDelete(req.params.id).then((admin) => {
+		req.flash('successMsg', `Administrador "${admin.name}" excluído com sucesso`)
 		res.redirect(req.query.r || '/admins')
 	}).catch((err) => {
 		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir administrador')

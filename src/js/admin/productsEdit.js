@@ -1,6 +1,6 @@
 angular.module('store').animation('.store-product-edit-media', () => ({ enter: anim.open, leave: anim.close }))
 
-angular.module('store', []).controller('productsEditCtrl', ['$scope', '$compile', ($scope, $compile) => {
+angular.module('store').controller('productsEditCtrl', ['$scope', '$compile', ($scope, $compile) => {
 	$scope.uploads = []
 	$scope.$on('upload', (event, arg) => {$scope.uploads.push(arg)})
 	$scope.product = serverData || {media: []}

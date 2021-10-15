@@ -31,6 +31,13 @@ io.of('/notifications').on('connection', (socket) => {
 			// console.log(notifications)
 		})
 	})
+
+	// temp
+	socket.on('send', (notification) => {
+		Notification.create(notification).then((notification) => {
+			socket.emit('notification', notification)
+		})
+	})
 })
 
 module.exports = {

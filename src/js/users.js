@@ -8,3 +8,10 @@ $('.remove').click(async function () {
 	Cookies.set('userIds', userIds, { expires: 3650 })
 	$this.closest('.user').slideUp('fast', function () { $(this).remove() })
 })
+
+$('.delete').click(async function () {
+	if (!await ask('Excluir cliente', 'Tem certeza que deseja remover excluir este cliente?')) return
+	$this = $(this)
+	clientId = $this.data('clientId')
+	location.href = '/clients/remove/' + clientId
+})

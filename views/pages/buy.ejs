@@ -9,7 +9,7 @@ const _usAddRedir = encodeURIComponent(url)
 <div class="container my-4" ng-controller="buyCtrl">
 	<h1 class="mb-4"><i class="fas fa-dollar-sign"></i> Comprar</h1>
 
-	<form action="/buy<%= _redir %>" method="POST" name="buy">
+	<form action="/requests/buy<%= _redir %>" method="POST" name="buy">
 		<div class="row g-4">
 			<!-- PRODUTOS -->
 			<div class="col-12 col-lg-4 order-lg-last">

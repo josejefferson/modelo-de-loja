@@ -39,6 +39,22 @@ db.getMine = (req, res, next) => {
 	})
 	return Promise.all(clients).then((clients) => {
 		clients = clients.filter(p => p != null)
+		req.data.users = clients || []
+		next()
+	}).catch((err) => {
+		res.status(500).render('others/error', {
+			_title: 'Ocorreu um erro ao carregar clientes',
+			message: 'Tente novamente recarregando a página'
+		})
+	})
+}
+
+db.getMineToBuy = (req, res, next) => {
+	const clients = req.data.userIDs.map((id) => {
+		return Client.findById(id).catch(() => null)
+	})
+	return Promise.all(clients).then((clients) => {
+		clients = clients.filter(p => p != null)
 		if (clients.length === 0) {
 			req.flash('warningMsg', 'Cadastre seus dados antes de comprar')
 			return res.redirect('/clients/add?r=' + encodeURIComponent(req.originalUrl))
@@ -104,11 +120,11 @@ db.edit = (req, res, next) => {
 }
 
 db.remove = (req, res, next) => {
-	return Client.removeMany({ _id: req.params.id }).then(() => { // tentar organizar removeMany findById
-		req.flash('successMsg', 'Cliente excluído com sucesso')
-		res.redirect(req.query.r || '/clients')
+	return Client.findByIdAndDelete(req.params.id).then((client) => { // tentar organizar removeMany findById
+		req.flash('successMsg', `Cliente "${client.name}" excluído com sucesso`)
+		res.redirect(req.query.r || '/clients/all')
 	}).catch((err) => {
 		req.flash('errorMsg', 'Ocorreu um erro desconhecido ao excluir cliente')
-		res.redirect(req.query.r || '/clients')
+		res.redirect(req.query.r || '/clients/all')
 	})
 }

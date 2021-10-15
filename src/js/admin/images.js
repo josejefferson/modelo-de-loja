@@ -5,7 +5,7 @@ $('.remove').click(async function () {
 	location.href = '/images/remove/' + imageId
 })
 
-angular.module('store', []).controller('imagesCtrl', ['$scope', '$compile', ($scope, $compile) => {
+angular.module('store').controller('imagesCtrl', ['$scope', '$compile', ($scope, $compile) => {
 	$scope.loadController = () => {
 		const html = $compile('<ng-include src="\'/templates/upload.html\'"></ng-include>')($scope)
 		Swal.fire({

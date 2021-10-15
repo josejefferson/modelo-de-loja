@@ -28,13 +28,17 @@ const _redir = locals.redir ? '?r=' + redir : ''
 					<%= user.email || '-----' %>
 				</a></div>
 
-			<% if (env === 'edit' || env === 'buy') { %>
+			<% if (env === 'edit' || env === 'buy' || env === 'all') { %>
 				<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
 					<div class="btn-group">
 						<a href="/clients/edit/<%= user._id %><%=_redir%>" class="btn btn-sm btn-outline-secondary">
 							<i class="fas fa-pencil-alt"></i> Editar
 						</a>
-						<% if (env !== 'buy') { %>
+						<% if (env === 'all') { %>
+							<button class="btn btn-sm btn-outline-secondary delete" data-client-id="<%= user._id %>">
+								<i class="fas fa-trash-alt"></i> Remover
+							</button>
+						<% } else if (env !== 'buy') { %>
 							<button class="btn btn-sm btn-outline-secondary remove" data-client-id="<%= user._id %>">
 								<i class="fas fa-trash-alt"></i> Remover
 							</button>

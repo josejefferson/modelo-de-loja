@@ -14,7 +14,7 @@ const { name, email } = locals.admin || locals.userData?.[0] || {}
 	<form action="<%= action %>" method="POST" name="adminsEdit">
 		<label class="form-group d-block">
 			<div><i class="fas fa-file-signature"></i> Nome <span class="text-danger">*</span></div>
-			<input type="text" class="form-control" name="name" value="<%= name %>" autocomplete="off" autofocus required>
+			<input type="text" class="form-control" name="name" minlength="5" value="<%= name %>" autocomplete="off" autofocus required>
 		</label>
 
 		<label class="form-group d-block">
@@ -24,12 +24,12 @@ const { name, email } = locals.admin || locals.userData?.[0] || {}
 
 		<label class="form-group d-block">
 			<div class="mt-2"><i class="fas fa-key"></i> Senha <span class="text-danger">*</span></div>
-			<input type="password" class="form-control" name="password" required>
+			<input type="password" class="form-control" name="password" minlength="8" required>
 		</label>
 
 		<label class="form-group d-block">
 			<div class="mt-2"><i class="fas fa-key"></i> Confirmar senha <span class="text-danger">*</span></div>
-			<input type="password" class="form-control" name="confirmpassword" required>
+			<input type="password" class="form-control" name="confirmpassword" minlength="8" required>
 		</label>
 
 		<div class="text-center mt-3">

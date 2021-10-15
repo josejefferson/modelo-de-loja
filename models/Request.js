@@ -14,7 +14,7 @@ const Request = mongoose.model('Requests', {
 	quantity: { type: Number, default: 1 },
 	other: String,
 	date: { type: Date, default: Date.now },
-	status: { type: String, enum: ['pending', 'confirmed', 'rejected'], default: 'pending' },
+	status: { type: String, enum: ['pending', 'confirmed', 'rejected', 'canceled'], default: 'pending' },
 	open: { type: Boolean, default: true },
 	feedback: String
 })

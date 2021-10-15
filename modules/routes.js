@@ -22,7 +22,6 @@ routes.use('/clients', checkDB, require('./clients/routes'))
 routes.use('/images', checkDB, require('./images/routes'))
 routes.use('/products', checkDB, require('./products/routes'))
 routes.use('/requests', checkDB, require('./requests/routes'))
-routes.use('/buy', checkDB, require('./buy'))
 routes.use('/', require('./login/routes'))
 routes.get('/ads', render('ads', 'Anúncios')) // temp
 routes.get('/highlights', render('highlights', 'Destaques')) // temp
