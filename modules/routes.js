@@ -38,7 +38,8 @@ routes.get('/email/request/:id', checkDB, requestsDB.get, (req, res, next) => {
 	res.render('others/email-request', {
 		layout: false,
 		moment: moment,
-		request: req.data.request
+		request: req.data.request,
+		purpose: 'feedback'
 	})
 	// render('email-request', 'E-mail', false, 'others')
 })

@@ -25,4 +25,5 @@ actions.confirm = (req, res, next) => {
 		action: req.body.confirm,
 		...(req.body.feedback && { feedback: req.body.feedback })
 	})
+	next()
 }

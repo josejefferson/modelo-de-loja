@@ -7,7 +7,6 @@ const STATUSES = {
 	closed: ['fechado', '#198754', 'https://i.imgur.com/JxZhmmG.png']
 }
 const status = STATUSES[request.open ? request.status : 'closed']
-const purpose = request.open ? request.status : 'closed' // mudar para purpose (exemplo feedback)
 %>
 
 <html lang="pt-BR">
@@ -16,20 +15,22 @@ const purpose = request.open ? request.status : 'closed' // mudar para purpose (
 
 <body bgcolor="#ffffff" style="font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
 	<!-- Barra de navegação -->
-	<div style="background-color: #212529; border-radius: 5px; padding: 8px 24px;">
-		<table>
-			<tbody>
-				<tr>
-					<td style="width: 36px;">
-						<img src="https://i.imgur.com/SMMTZe2.png" width="24px" height="24px" style="width: 24px; height: 24px;">
-					</td>
-					<td style="color: #ffffff; font-size: 1.25rem; line-height: 40px;">
-						Modelo de loja
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<a href="http://localhost:3000/" target="_blank" style="text-decoration: none;">
+		<div style="background-color: #212529; border-radius: 5px; padding: 8px 24px;">
+			<table>
+				<tbody>
+					<tr>
+						<td style="width: 36px;">
+							<img src="https://i.imgur.com/SMMTZe2.png" width="24px" height="24px" style="width: 24px; height: 24px;">
+						</td>
+						<td style="color: #ffffff; font-size: 1.25rem; line-height: 40px;">
+							Modelo de loja
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</a>
 
 	<!-- Texto da mensagem -->
 	<div align="center" style="padding: 0 16px;">
@@ -54,7 +55,18 @@ const purpose = request.open ? request.status : 'closed' // mudar para purpose (
 							Agradecemos por comprar no Modelo de Loja, volte sempre!
 						<% break; case 'feedback': %>
 							Foi adicionado um aviso ao seu pedido de <%= request.quantity %> &times; <%= request.productId.name %>:<br>
-							<i><%= request.feedback %></i>
+							<table style="border: 1px solid #e8eaed; border-radius: 8px; padding: 8px; width: 100%;">
+								<tbody>
+									<tr>
+										<td style="width: 32px;">
+											<div style="background-color: #0d6efd; border-radius: 50%; height: 16px; padding: 4px; width: 16px;">
+												<img src="https://i.imgur.com/1pNMIOg.png" width="16px" height="16px">
+											</div>
+										</td>
+										<td><i><%= request.feedback %></i></td>
+									</tr>
+								</tbody>
+							</table>
 						<% break } %>
 					</td>
 				</tr>

@@ -12,7 +12,8 @@
 <div class="container my-4">
 	<h1 class="mb-4"><i class="fas fa-list"></i> Logs</h1>
 	
-	<% for (log of logs) { %>
+	<% for (let log of logs) { %>
+		<% if (typeof log.message !== 'string') log.message = log.message.toString() %>
 		<div class="row">
 			<div class="col-auto">
 				<div class="justify-content-center badge rounded-pill bg-<%= LEVEL_COLORS[log.level] || 'light' %> text-uppercase" style="width:60px;">
