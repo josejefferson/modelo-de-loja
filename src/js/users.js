@@ -19,7 +19,15 @@ $('.delete').click(async function () {
 $('#import').change(function () {
 	if (this.files[0]) {
 		readFile(this.files[0]).then((content) => {
-			Cookies.set('userIds', content, { expires: 3650 })
+			let userIds = Cookies.get('userIds')
+			if (userIds) userIds = userIds.split(',')
+			else userIds = []
+			let clients = userIds.concat(content.split(','))
+			clients = clients.filter((client) => {
+				return client.length === 24 && /^[0-9a-f]+$/.test(client)
+			})
+			clients = [...new Set(clients)]
+			Cookies.set('userIds', clients.join(','), { expires: 3650 })
 			location.reload()
 		})
 	}
