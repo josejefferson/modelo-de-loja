@@ -14,6 +14,7 @@ actions.buy = (req, res, next) => {
 		clientId: req.data.clientUser._id,
 		requests: req.data.requests
 	}) // enviar informações completas do cliente
+	next()
 }
 
 actions.confirm = (req, res, next) => {

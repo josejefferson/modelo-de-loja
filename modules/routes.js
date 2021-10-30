@@ -32,6 +32,17 @@ routes.get('/logs', (req, res, next) => {
 }, render('logs', 'Logs')) // temp
 routes.get('/test', render('_test', 'Testes')) // temp
 
+const moment = require('moment')
+const requestsDB = require('./requests/database')
+routes.get('/email/request/:id', checkDB, requestsDB.get, (req, res, next) => {
+	res.render('others/email-request', {
+		layout: false,
+		moment: moment,
+		request: req.data.request
+	})
+	// render('email-request', 'E-mail', false, 'others')
+})
+
 
 function checkDB(req, res, next) {
 	if (mongoose.connection.readyState != 1) {
