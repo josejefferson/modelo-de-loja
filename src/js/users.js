@@ -15,3 +15,34 @@ $('.delete').click(async function () {
 	clientId = $this.data('clientId')
 	location.href = '/clients/remove/' + clientId
 })
+
+$('#import').change(function () {
+	if (this.files[0]) {
+		readFile(this.files[0]).then((content) => {
+			Cookies.set('userIds', content, { expires: 3650 })
+			location.reload()
+		})
+	}
+})
+
+$('.export').click(function () {
+	const userIDs = Cookies.get('userIds')
+	const blob = new Blob([userIDs], { type: 'text/plain' })
+	const $link = document.createElement('a')
+	$link.href = URL.createObjectURL(blob)
+	$link.download = 'Clientes do Modelo de Loja.txt'
+	document.body.appendChild($link)
+	$link.click()
+	document.body.removeChild($link)
+})
+
+function readFile(file) {
+	return new Promise((resolve, reject) => {
+		let reader = new FileReader()
+		reader.onload = () => {
+			resolve(reader.result)
+		}
+		reader.onerror = reject
+		reader.readAsText(file)
+	})
+}
