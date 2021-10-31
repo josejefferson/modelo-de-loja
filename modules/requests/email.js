@@ -33,6 +33,9 @@ actions.cancel = (req, res, next) => {
 }
 
 function sendEmail(purpose, req, res, next) {
+	// Cancelar se as credenciais não foram informadas
+	if (!process.env['GMAIL_EMAIL'] || !process.env['GMAIL_PASSWORD']) return
+
 	const requests = req.data.requests || [req.data.request]
 	for (const request of requests) {
 		request.populate(['productId', 'clientId']).then(async (request) => {
@@ -49,8 +52,7 @@ function sendEmail(purpose, req, res, next) {
 			}
 
 			transporter.sendMail(mailOptions, (error, info) => {
-				if (error) logger('E-mail').error(error)
-				else logger('E-mail').info(info)
+				if (error) logger('Nodemailer').error('Erro ao enviar e-mail! ' + error.message)
 			})
 		})
 	}
