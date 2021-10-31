@@ -1,5 +1,5 @@
 <%
-requests = requests.reverse().reduce((a, b) => {
+requests = requests.reverse().filter(r => r.clientId).reduce((a, b) => {
 	a[b.clientId._id] = a[b.clientId._id] || []
 	a[b.clientId._id].push(b)
 	return a
