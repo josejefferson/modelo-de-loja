@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const logger = require('./logger')('MongoDB')
+const logger = require('@modules/logger')('MongoDB')
 
 let mongoDBURL = process.env.NODE_ENV === 'development' ? 'mongodb://localhost' : process.env.MONGO_DB
 if (!mongoDBURL) {
@@ -23,11 +23,11 @@ function mongoConnect() {
 
 mongoConnect()
 
-require('../models/Ad')
-require('../models/Admin')
-require('../models/Client')
-require('../models/Highlight')
-require('../models/Image')
-require('../models/Notification')
-require('../models/Product')
-require('../models/Request')
+require('@models/Ad')
+require('@models/Admin')
+require('@models/Client')
+require('@models/Highlight')
+require('@models/Image')
+require('@models/Notification')
+require('@models/Product')
+require('@models/Request')

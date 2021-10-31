@@ -1,6 +1,6 @@
 console.clear()
-// require('./modules/pretty-error')
 require('dotenv/config')
+require('module-alias/register')
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const app = express()
@@ -12,12 +12,12 @@ const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
 const helmet = require('helmet')
-const logger = require('./modules/logger')
+const logger = require('@modules/logger')
 
-require('./modules/database')
-require('./modules/login/passport')(passport)
-require('./modules/sockets').start(server)
-require('./modules/notifications')
+require('@modules/database')
+require('@modules/login/passport')(passport)
+require('@modules/sockets').start(server)
+require('@modules/notifications')
 
 app.set('view engine', 'ejs')
 app.use(session({
@@ -40,7 +40,7 @@ app.use(expressLayouts)
 app.use(helmet({ contentSecurityPolicy: false }))
 app.use(express.static('src'))
 // app.use(morgan('dev', { stream: { write: (str) => logger().http(str.trim()) } }))
-app.use('/', require('./modules/routes'))
+app.use('/', require('@modules/routes'))
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {

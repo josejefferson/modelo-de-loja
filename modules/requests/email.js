@@ -1,7 +1,7 @@
 const ejs = require('ejs')
-const transporter = require('../emails')
 const moment = require('moment')
-const logger = require('../logger')
+const transporter = require('@modules/emails')
+const logger = require('@modules/logger')
 module.exports = actions = {}
 
 const SUBJECTS = {

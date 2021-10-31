@@ -1,4 +1,4 @@
-const io = require('./sockets').io
+const io = require('@modules/sockets').io
 const cookie = require('cookie')
 const Notification = require('mongoose').model('Notifications')
 

@@ -1,10 +1,10 @@
 const express = require('express')
 const routes = express.Router()
 const mongoose = require('mongoose')
-const logger = require('./logger')
+const logger = require('@modules/logger')
 const fs = require('fs')
 
-const { render, renderMsg } = require('../helpers/helpers')
+const { render, renderMsg } = require('@helpers/helpers')
 routes.use((req, res, next) => {
 	req.data = req.data || {}
 	req.data.cart = []
@@ -15,14 +15,14 @@ routes.use((req, res, next) => {
 	next()
 })
 
-routes.use('/', checkDB, require('./home/routes'))
-routes.use('/admins', checkDB, require('./admins/routes'))
-routes.use('/cart', checkDB, require('./cart/routes'))
-routes.use('/clients', checkDB, require('./clients/routes'))
-routes.use('/images', checkDB, require('./images/routes'))
-routes.use('/products', checkDB, require('./products/routes'))
-routes.use('/requests', checkDB, require('./requests/routes'))
-routes.use('/', require('./login/routes'))
+routes.use('/', checkDB, require('@modules/home/routes'))
+routes.use('/admins', checkDB, require('@modules/admins/routes'))
+routes.use('/cart', checkDB, require('@modules/cart/routes'))
+routes.use('/clients', checkDB, require('@modules/clients/routes'))
+routes.use('/images', checkDB, require('@modules/images/routes'))
+routes.use('/products', checkDB, require('@modules/products/routes'))
+routes.use('/requests', checkDB, require('@modules/requests/routes'))
+routes.use('/', require('@modules/login/routes'))
 routes.get('/ads', render('ads', 'Anúncios')) // temp
 routes.get('/highlights', render('highlights', 'Destaques')) // temp
 routes.get('/logs', (req, res, next) => {
@@ -33,7 +33,7 @@ routes.get('/logs', (req, res, next) => {
 routes.get('/test', render('_test', 'Testes')) // temp
 
 const moment = require('moment')
-const requestsDB = require('./requests/database')
+const requestsDB = require('@modules/requests/database')
 routes.get('/email/request/:id', checkDB, requestsDB.get, (req, res, next) => {
 	res.render('others/email-request', {
 		layout: false,

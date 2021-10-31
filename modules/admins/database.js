@@ -1,6 +1,6 @@
 const Admin = require('mongoose').model('Admins')
 const bcrypt = require('bcryptjs')
-const logger = require('../logger')('MongoDB')
+const logger = require('@modules/logger')('MongoDB')
 module.exports = db = {}
 
 // CRIA UM ADMINISTRADOR CASO NÃO EXISTA NENHUM

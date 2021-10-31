@@ -1,12 +1,12 @@
 const express = require('express')
 const routes = express.Router()
-const { render } = require('../../helpers/helpers')
+const { render } = require('@helpers/helpers')
 const db = require('./database')
-const clientActions = require('../clients/database')
-const productActions = require('../products/database')
-const { validate } = require('../validators')
 const socket = require('./sockets')
 const email = require('./email')
+const clientActions = require('@modules/clients/database')
+const productActions = require('@modules/products/database')
+const { validate } = require('@modules/validators')
 module.exports = routes
 
 routes.get('/', db.getAll, render('requests', 'Pedidos'))

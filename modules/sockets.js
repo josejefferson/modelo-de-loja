@@ -1,5 +1,5 @@
 const { Server } = require('socket.io')
-const logger = require('./logger')('Socket.IO')
+const logger = require('@modules/logger')('Socket.IO')
 let io = null
 
 module.exports = {

@@ -1,9 +1,9 @@
 const express = require('express')
 const routes = express.Router()
-const { render } = require('../../helpers/helpers')
+const { render } = require('@helpers/helpers')
 const db = require('./database')
 const { validate } = require('./validators')
-const { admin } = require('../restrictions')
+const { admin } = require('@modules/restrictions')
 module.exports = routes
 
 routes.get('/', db.getMine, render('clients', 'Clientes'))

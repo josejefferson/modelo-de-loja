@@ -1,4 +1,4 @@
-const io = require('../sockets').io
+const io = require('@modules/sockets').io
 module.exports = actions = {}
 
 io.of('/history').on('connection', (socket) => {

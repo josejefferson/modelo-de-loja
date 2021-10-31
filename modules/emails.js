@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer')
-const logger = require('./logger')('Nodemailer')
+const logger = require('@modules/logger')('Nodemailer')
 
 const missingCred = !process.env['GMAIL_EMAIL'] || !process.env['GMAIL_PASSWORD']
 
