@@ -1,5 +1,6 @@
 const ejs = require('ejs')
 const moment = require('moment')
+const { random } = require('@helpers/helpers')
 const transporter = require('@modules/emails')
 const logger = require('@modules/logger')
 module.exports = actions = {}
@@ -39,7 +40,7 @@ function sendEmail(purpose, req, res, next) {
 	const requests = req.data.requests || [req.data.request]
 	for (const request of requests) {
 		request.populate(['productId', 'clientId']).then(async (request) => {
-			if (!request.clientId.email) return
+			if (!request.clientId.email || !request.clientId.emailConfirmed || !request.clientId.sendEmails) return
 			const html = await ejs.renderFile('./views/others/email-request.ejs', { request, purpose, moment })
 			const mailOptions = {
 				from: {
@@ -47,7 +48,7 @@ function sendEmail(purpose, req, res, next) {
 					address: process.env['GMAIL_EMAIL']
 				},
 				to: request.clientId.email,
-				subject: SUBJECTS[purpose],
+				subject: SUBJECTS[purpose] + ` [${random.string(6, random.NUM)}]`,
 				html: html
 			}
 

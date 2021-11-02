@@ -289,7 +289,8 @@ const status = STATUSES[request.open ? request.status : 'closed']
 			<div align="left"
 				style="color: #9aa0a6; font-size: 12px; letter-spacing: 0.3px; line-height: 16px; max-width: 528px; min-width: 256px; width: 100%;">
 				Este e-mail foi enviado automaticamente, não responda-o. Caso não queira receber mais e-mails deste site <a
-					href="" style="color: #9aa0a6;">cancele sua inscrição</a>.</div>
+					href="http://localhost:3000/clients/email/unsubscribe/<%= request.clientId._id %>" style="color: #9aa0a6;">cancele sua
+					inscrição</a> ou <a href="http://localhost:3000/clients/email/unsubscribe/<%= request.clientId._id %>">cancele sua confirmação</a>.</div>
 		</div>
 	</div>
 </body>

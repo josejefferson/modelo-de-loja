@@ -1,7 +1,7 @@
 <%
 const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
 const action = (locals.user ? `/clients/edit/${user._id}` : '/clients/add') + _redir
-const { name, address, phone, whatsapp, email } = locals.user || locals.userData?.[0] || {}
+const { name, address, phone, whatsapp, email, sendEmails } = locals.user || locals.userData?.[0] || {}
 %>
 
 <div class="container my-4">
@@ -35,6 +35,11 @@ const { name, address, phone, whatsapp, email } = locals.user || locals.userData
 		<label class="form-group d-block">
 			<div class="mt-2"><i class="fas fa-at"></i> E-mail</div>
 			<input type="email" class="form-control" name="email" value="<%= email %>" autocomplete="off">
+		</label>
+
+		<label class="form-check form-switch mt-2">
+			<input class="form-check-input" type="checkbox" name="sendEmails" value="true" <%= locals.user ? (sendEmails ? 'checked' : '') : 'checked' %>>
+			<div class="form-check-label"><i class="fas fa-envelope"></i> Receber e-mails sobre seus pedidos (recomendado)</div>
 		</label>
 
 		<div class="text-center mt-3">

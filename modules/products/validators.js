@@ -23,7 +23,7 @@ schema.add = Joi.object({
 		})
 	).empty('').label('Mídia'),
 	stock: Joi.number().empty('').default(-1).label('Estoque'),
-	hidden: Joi.boolean().default(false).label('Oculto'),
+	hidden: Joi.boolean().default(false).label('Oculto')
 }).unknown()
 
 // Edit
@@ -44,12 +44,12 @@ schema.edit = Joi.object({
 		})
 	).empty('').label('Mídia'),
 	stock: Joi.number().empty('').default(-1).label('Estoque'),
-	hidden: Joi.boolean().default(false).label('Oculto'),
+	hidden: Joi.boolean().default(false).label('Oculto')
 }).unknown()
 
 // Remove
 schema.remove = Joi.object({
-	id: Joi.string().lowercase().hex().length(24).required().label('ID'),
+	id: Joi.string().lowercase().hex().length(24).required().label('ID')
 }).unknown()
 
 

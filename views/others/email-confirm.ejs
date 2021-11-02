@@ -1,0 +1,60 @@
+<html lang="pt-BR">
+
+<head></head>
+
+<body bgcolor="#ffffff" style="font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+	<!-- Barra de navegação -->
+	<a href="http://localhost:3000/" target="_blank" style="text-decoration: none;">
+		<div style="background-color: #212529; border-radius: 5px; padding: 8px 24px;">
+			<table>
+				<tbody>
+					<tr>
+						<td style="width: 36px;">
+							<img src="https://i.imgur.com/SMMTZe2.png" width="24px" height="24px" style="width: 24px; height: 24px;">
+						</td>
+						<td style="color: #ffffff; font-size: 1.25rem; line-height: 40px;">
+							Modelo de loja
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</a>
+
+	<!-- Texto da mensagem -->
+	<div align="center" style="padding: 0 16px;">
+		<table align="center" width="100%" style="max-width: 528px; min-width: 256px; padding-top: 32px;">
+			<tbody>
+				<tr>
+					<td style="color: #5F6368;">Olá, alguém criou uma conta no site "Modelo de Loja" utilizando este e-mail.</td>
+				</tr>
+				<tr>
+					<td>Se não foi você, apenas ignore este e-mail.</td>
+				</tr>
+				<tr>
+					<td>Caso contrário, clique no botão abaixo para confirmar o e-mail</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div style="height: 16px;"></div>
+
+		<div align="center">
+			<a href="http://localhost:3000/clients/email/confirm/<%= client.emailVerificationToken %>"
+				style="background-color: #4184f3; border-radius: 5px; color: #ffffff; display: inline-block; font-size: 14px; font-weight: 400; line-height: 16px; min-width: 90px; padding: 10px 24px; text-decoration: none;"
+				target="_blank">Confirmar e-mail</a>
+		</div>
+
+		<!-- Rodapé -->
+		<div align="center" width="100%" style="padding-top: 16px; width: 100%;">
+			<div align="left"
+				style="color: #9aa0a6; font-size: 12px; letter-spacing: 0.3px; line-height: 16px; max-width: 528px; min-width: 256px; width: 100%;">
+				Este e-mail foi enviado automaticamente pelo site Modelo de Loja, não responda-o. Se você confirmou por engano,
+				recomendo que <a href="http://localhost:3000/clients/email/unconfirm/<%= client._id %>" style="color: #9aa0a6;">cancele
+					sua confirmação</a>.
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

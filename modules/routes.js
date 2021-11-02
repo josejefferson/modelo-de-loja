@@ -32,6 +32,7 @@ routes.get('/logs', (req, res, next) => {
 }, render('logs', 'Logs')) // temp
 routes.get('/test', render('_test', 'Testes')) // temp
 
+// TEMP
 const moment = require('moment')
 const requestsDB = require('@modules/requests/database')
 routes.get('/email/request/:id', checkDB, requestsDB.get, (req, res, next) => {
@@ -42,6 +43,11 @@ routes.get('/email/request/:id', checkDB, requestsDB.get, (req, res, next) => {
 		purpose: 'feedback'
 	})
 	// render('email-request', 'E-mail', false, 'others')
+})
+routes.get('/test2', (req, res, next) => {
+	res.render('others/email-confirm', {
+		layout: false
+	})
 })
 
 

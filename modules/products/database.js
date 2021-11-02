@@ -83,7 +83,7 @@ db.edit = (req, res, next) => {
 		product.image = req.body.image
 		product.media = req.body.media || []
 		product.stock = req.body.stock
-		product.hidden = req.body.hidden ? true : false
+		product.hidden = !!req.body.hidden
 		return product.save()
 	}).then((product) => {
 		req.flash('successMsg', `Produto "${product.name}" editado com sucesso`)

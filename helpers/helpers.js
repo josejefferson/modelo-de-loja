@@ -40,4 +40,26 @@ function renderMsg(title, message) {
 	}
 }
 
-module.exports = { render, renderMsg }
+const NUM = '0123456789'
+const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+const ALPHANUM = ALPHA + NUM
+const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz'
+const HEX = 'abcdef' + NUM
+const random = {
+	NUM,
+	ALPHA,
+	ALPHANUM,
+	ALPHA_UPPER,
+	ALPHA_LOWER,
+	HEX,
+	string: (length = 24, characters = ALPHANUM) => {
+		let result = ''
+		const charLen = characters.length
+		for (let i = 0; i < length; i++)
+			result += characters[Math.floor(Math.random() * charLen)]
+		return result
+	}
+}
+
+module.exports = { render, renderMsg, random }
