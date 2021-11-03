@@ -6,15 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#212529">
 	<meta name="color-scheme" content="light">
-	
+
 	<link rel="canonical" href="<%= locals.fullURL %>">
 	<link rel="shortcut icon" href="/favicon.png" type="image/png">
 	<link rel="manifest" href="/manifest.json">
 
 	<meta name="og:locale" content="pt_BR">
 	<meta name="og:site_name" content="Modelo de Loja">
-	
-	<title><%- locals._title %> - Modelo de loja</title>
+
+	<title><%= locals._title %> - Modelo de loja</title>
 	<link rel="stylesheet" href="/lib/css/fontawesome-all.min.css">
 	<link rel="stylesheet" href="/lib/css/materialdesignicons.min.css">
 	<link rel="stylesheet" href="/lib/css/bootstrap.min.css">
@@ -43,7 +43,15 @@
 	</div>
 	<%- defineContent('body') %>
 	<%- include('partials/_footer.ejs') %>
-	
+
+	<script type="application/json" class="toasts">
+		<%- JSON.stringify({
+			success: locals.successMsg || [],
+			error: locals.errorMsg || [],
+			warning: locals.warningMsg || [],
+			info: locals.infoMsg || []
+		}).replace(/\//g, '\\\/') %>
+	</script>
 	<script src="/lib/js/jquery.min.js"></script>
 	<script src="/lib/js/axios.min.js"></script>
 	<script src="/lib/js/moment.min.js"></script>
@@ -53,12 +61,10 @@
 	<script src="/lib/js/angular.min.js"></script>
 	<script src="/lib/js/angular-animate.min.js"></script>
 	<script src="/js/_animations.js"></script>
-	<script>angular.module('store', ['ngAnimate'])</script>
 	<script src="/socket.io/socket.io.min.js"></script>
 	<script src="/js/index.js"></script>
 	<script src="/js/_notifications.js"></script>
 	<%- defineContent('script') %>
-	<%- include('partials/_msg.ejs') %>
 </body>
 
 </html>

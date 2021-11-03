@@ -19,11 +19,6 @@ schema.edit = Joi.object({
 	password: Joi.string().min(8).max(50).label('Senha')
 }).unknown()
 
-// Remove
-schema.remove = Joi.object({
-	id: Joi.string().lowercase().hex().length(24).required().label('ID'),
-}).unknown()
-
 
 function validator(schema, data, options = {}) {
 	return schema.validate(data, { messages, stripUnknown: true, ...options })

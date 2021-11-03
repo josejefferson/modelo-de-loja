@@ -9,5 +9,7 @@
 
 <%- contentFor('script') %>
 <script src="/socket.io/socket.io.min.js"></script>
-<script>const serverData = <%- JSON.stringify(myRequests) %></script>
+<script type="application/json" class="server-data">
+	<%- JSON.stringify(myRequests).replace(/\//g, '\\\/') %>
+</script>
 <script src="/js/history.js"></script>

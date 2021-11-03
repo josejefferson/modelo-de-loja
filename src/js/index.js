@@ -1,5 +1,8 @@
-if (!navigator.cookieEnabled)
+if (!navigator.cookieEnabled) {
 	document.querySelector('.store-cb').classList.remove('hidden')
+}
+
+angular.module('store', ['ngAnimate'])
 
 function cart(opts = {}) {
 	let cart = Cookies.get('cart') ?
@@ -49,3 +52,34 @@ document.querySelector('.sidebar-background').addEventListener('click', toggleSi
 function toggleSidebar() {
 	document.body.classList.toggle('sidebar-open')
 }
+
+function htmlDecode(input) {
+	var doc = new DOMParser().parseFromString(input, 'text/html')
+	return doc.documentElement.textContent
+}
+
+// DADOS DO SERVIDOR
+window.addEventListener('load', () => {
+	const $serverData = document.querySelector('script.server-data')
+	if ($serverData) try {
+		const serverData = JSON.parse(htmlDecode($serverData.textContent))
+		window.serverData = serverData
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+// TOASTS
+window.addEventListener('load', async () => {
+	const $toasts = document.querySelector('script.toasts')
+	if ($toasts) try {
+		const toasts = JSON.parse(htmlDecode($toasts.textContent))
+		for (const type in toasts) {
+			for (const text of toasts[type]) {
+				await toast(text, type)
+			}
+		}
+	} catch (err) {
+		console.error(err)
+	}
+})

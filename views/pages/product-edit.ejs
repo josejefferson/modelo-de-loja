@@ -233,7 +233,9 @@ const action = (locals.product ? `/products/edit/${product.id}` : '/products/add
 
 
 <%- contentFor('script') %>
-<script>const serverData = <%- JSON.stringify(locals.product || locals.userData?.[0] || null) %></script>
+<script type="application/json" class="server-data">
+	<%- JSON.stringify(locals.product || locals.userData?.[0] || null).replace(/\//g, '\\\/') %>
+</script>
 <script src="/js/admin/productsEdit.js"></script>
 <script src="/js/admin/selectImage.js"></script>
 <script src="/js/admin/upload.js"></script>

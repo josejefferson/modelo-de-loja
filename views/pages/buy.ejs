@@ -84,5 +84,7 @@ const _usAddRedir = encodeURIComponent(url)
 </div>
 
 <%- contentFor('script') %>
-<script>const serverData = <%- JSON.stringify(products) %></script>
+<script type="application/json" class="server-data">
+	<%- JSON.stringify(products).replace(/\//g, '\\\/') %>
+</script>
 <script src="/js/buy.js"></script>

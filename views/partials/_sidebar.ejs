@@ -10,25 +10,25 @@
 
 	<ul class="nav nav-pills flex-column mb-auto">
 		<li class="nav-item">
-			<a class="nav-link link-light <%-(locals._page==='home')&&'active'%>" href="/">
+			<a class="nav-link link-light <%= (locals._page === 'home') && 'active' %>" href="/">
 				<i class="fas fa-home"></i> Início
 			</a>
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link link-light <%-(locals._page==='clients')&&'active'%>" href="/clients">
+			<a class="nav-link link-light <%= (locals._page === 'clients') && 'active' %>" href="/clients">
 				<i class="fas fa-users"></i> Usuários
 			</a>
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link link-light <%-(locals._page==='buy')&&'active'%>" href="/cart">
+			<a class="nav-link link-light <%= (locals._page === 'buy') && 'active' %>" href="/cart">
 				<i class="fas fa-shopping-cart"></i> Carrinho
 			</a>
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link link-light <%-(locals._page==='my-requests')&&'active'%>" href="/requests/my">
+			<a class="nav-link link-light <%= (locals._page === 'my-requests') && 'active' %>" href="/requests/my">
 				<i class="fas fa-history"></i> Compras
 			</a>
 		</li>
@@ -38,49 +38,49 @@
 				<hr class="bg-light">
 
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='products')&&'active'%>" href="/products">
+					<a class="nav-link link-light <%= (locals._page === 'products') && 'active' %>" href="/products">
 						<i class="fas fa-shopping-bag"></i> Produtos
 					</a>
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='requests')&&'active'%>" href="/requests">
+					<a class="nav-link link-light <%= (locals._page === 'requests') && 'active' %>" href="/requests">
 						<i class="fas fa-bullhorn"></i> Pedidos
 					</a>
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='highlights')&&'active'%>" href="/highlights">
+					<a class="nav-link link-light <%= (locals._page === 'highlights') && 'active' %>" href="/highlights">
 						<i class="fas fa-certificate"></i> Destaques
 					</a>
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='ads')&&'active'%>" href="/ads">
+					<a class="nav-link link-light <%= (locals._page === 'ads') && 'active' %>" href="/ads">
 						<i class="fas fa-bullhorn"></i> Anúncios
 					</a>
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='admins')&&'active'%>" href="/admins">
+					<a class="nav-link link-light <%= (locals._page === 'admins') && 'active' %>" href="/admins">
 						<i class="fas fa-user-shield"></i> Admins
 					</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='images')&&'active'%>" href="/images">
+					<a class="nav-link link-light <%= (locals._page === 'images') && 'active' %>" href="/images">
 						<i class="fas fa-image"></i> Imagens
 					</a>
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='clients-all')&&'active'%>" href="/clients/all">
+					<a class="nav-link link-light <%= (locals._page === 'clients-all') && 'active' %>" href="/clients/all">
 						<i class="fas fa-users"></i> Todos os clientes
 					</a>
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link link-light <%-(locals._page==='logs')&&'active'%>" href="/logs">
+					<a class="nav-link link-light <%= (locals._page === 'logs') && 'active' %>" href="/logs">
 						<i class="fas fa-list"></i> Logs
 					</a>
 				</li>
@@ -98,7 +98,7 @@
 			</li>
 		<% } else { %>
 			<li class="nav-item">
-				<a class="nav-link link-light <%-(locals._page==='login')&&'active'%>" href="/login">
+				<a class="nav-link link-light <%= (locals._page === 'login') && 'active' %>" href="/login">
 					<i class="fas fa-user-shield"></i> Painel do administrador
 				</a>
 			</li>

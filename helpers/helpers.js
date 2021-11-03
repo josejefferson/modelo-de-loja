@@ -29,10 +29,10 @@ function render(page, title, _next = false, folder = 'pages') {
 
 function renderMsg(title, message) {
 	return (req, res, next) => {
-		res.render('others/objNotFound', {
+		res.render('others/error', {
 			url: req.originalUrl,
 			fullURL: req.protocol + '://' + req.get('host') + req.originalUrl,
-			_page: 'others/objNotFound',
+			_page: 'others/error',
 			_title: title,
 			title,
 			message
