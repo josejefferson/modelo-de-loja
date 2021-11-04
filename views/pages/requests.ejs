@@ -55,9 +55,9 @@ requests = requests.reverse().filter(r => r.clientId).reduce((a, b) => {
 	</div>
 </div>
 
-<%- contentFor('script') %>
-<script src="/socket.io/socket.io.min.js"></script>
 <script type="application/json" class="server-data">
 	<%- JSON.stringify(requests).replace(/\//g, '\\\/') %>
 </script>
+<%- contentFor('script') %>
+<script src="/socket.io/socket.io.min.js"></script>
 <script src="/js/admin/requests.js"></script>

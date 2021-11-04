@@ -109,8 +109,8 @@
 
 				<!-- Horário e preço total -->
 				<div class="col-auto text-end">
-					<small class="d-block" title="{{::moment(req.date).format('hh:mma DD/MM/YYYY')}}">
-						{{::moment(req.date).fromNow()}}
+					<small class="d-block" title="{{::dayjs(req.date).format('hh:mma DD/MM/YYYY')}}">
+						{{::dayjs(req.date).fromNow()}}
 					</small>
 					<div>
 						<span class="badge bg-white rounded-pill">
@@ -126,8 +126,8 @@
 								'border-success border-5': req.status === 'confirmed'}">
 				<img ng-src="{{::req.productId.image}}" class="card-img position-absolute requestImg">
 				<div class="card-body pt-2" style="z-index:1">
-					<small class="momentUpdate d-block text-end"
-						data-time="{{::req.date}}">{{::moment(req.date).fromNow()}}</small>
+					<small class="dayjsUpdate d-block text-end"
+						data-time="{{::req.date}}">{{::dayjs(req.date).fromNow()}}</small>
 					<h4 class="card-title">{{::req.quantity}} × {{::req.productId.name}}</h4>
 					<div>
 						<b><i class="fas fa-dollar-sign"></i></b>
@@ -136,7 +136,7 @@
 					</div>
 					<div>
 						<b><i class="fas fa-calendar"></i></b>
-						{{::moment(req.date).format('hh:mma DD/MM/YYYY')}}
+						{{::dayjs(req.date).format('hh:mma DD/MM/YYYY')}}
 					</div>
 					<div>
 						<b class="d-block"><i class="fas fa-info-circle"></i> Mais informações:</b>

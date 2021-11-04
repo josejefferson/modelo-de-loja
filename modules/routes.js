@@ -31,7 +31,11 @@ routes.get('/logs', (req, res, next) => {
 	req.data.logs = logs.split('\n').map((log) => log ? JSON.parse(log) : undefined).filter(_ => _)
 	next()
 }, render('logs', 'Logs')) // temp
-// routes.get('/test', render('_test', 'Testes')) // temp
+routes.get('/rating/:id/:star/:quantity', (req, res, next) => {
+	require('mongoose').model('Products').findByIdAndUpdate(req.params.id, {$inc:{['rating.' + req.params.star]: parseInt(req.params.quantity)}}).then((r) => {
+		res.json(r)
+	}).catch(console.error)
+}) // temp
 
 
 function checkDB(req, res, next) {

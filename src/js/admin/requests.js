@@ -25,7 +25,7 @@ angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 	})
 
 	$scope.keys = Object.keys
-	$scope.moment = window.moment
+	$scope.dayjs = window.dayjs
 	$scope.requests = serverData
 	$scope.sum = (reqs) => {
 		return 'R$ ' + reqs.reduce((total, req) => {
@@ -111,7 +111,7 @@ function filter(env) {
 }
 
 window.setInterval(() => {
-	document.querySelectorAll('.momentUpdate').forEach(e => {
-		e.innerText = moment(e.dataset.time).fromNow()
+	document.querySelectorAll('.dayjsUpdate').forEach(e => {
+		e.innerText = dayjs(e.dataset.time).fromNow()
 	})
 }, 5000)

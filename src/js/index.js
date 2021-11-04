@@ -3,6 +3,8 @@ if (!navigator.cookieEnabled) {
 }
 
 angular.module('store', ['ngAnimate'])
+dayjs.locale('pt-br')
+dayjs.extend(window.dayjs_plugin_relativeTime)
 
 function cart(opts = {}) {
 	let cart = Cookies.get('cart') ?
@@ -59,15 +61,13 @@ function htmlDecode(input) {
 }
 
 // DADOS DO SERVIDOR
-window.addEventListener('load', () => {
-	const $serverData = document.querySelector('script.server-data')
-	if ($serverData) try {
-		const serverData = JSON.parse(htmlDecode($serverData.textContent))
-		window.serverData = serverData
-	} catch (err) {
-		console.error(err)
-	}
-})
+const $serverData = document.querySelector('script.server-data')
+if ($serverData) try {
+	const serverData = JSON.parse(htmlDecode($serverData.textContent))
+	window.serverData = serverData
+} catch (err) {
+	console.error(err)
+}
 
 // TOASTS
 window.addEventListener('load', async () => {

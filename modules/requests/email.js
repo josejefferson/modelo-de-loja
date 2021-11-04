@@ -1,5 +1,5 @@
 const ejs = require('ejs')
-const moment = require('moment')
+const dayjs = require('dayjs')
 const { random } = require('@helpers/helpers')
 const transporter = require('@modules/emails')
 const logger = require('@modules/logger')
@@ -41,7 +41,7 @@ function sendEmail(purpose, req, res, next) {
 	for (const request of requests) {
 		request.populate(['productId', 'clientId']).then(async (request) => {
 			if (!request.clientId.email || !request.clientId.emailConfirmed || !request.clientId.sendEmails) return
-			const html = await ejs.renderFile('./views/others/email-request.ejs', { request, purpose, moment })
+			const html = await ejs.renderFile('./views/others/email-request.ejs', { request, purpose, dayjs })
 			const mailOptions = {
 				from: {
 					name: 'Modelo de Loja',

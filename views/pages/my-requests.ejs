@@ -7,9 +7,9 @@
 	</ng-include>
 </div>
 
-<%- contentFor('script') %>
-<script src="/socket.io/socket.io.min.js"></script>
 <script type="application/json" class="server-data">
 	<%- JSON.stringify(myRequests).replace(/\//g, '\\\/') %>
 </script>
+<%- contentFor('script') %>
+<script src="/socket.io/socket.io.min.js"></script>
 <script src="/js/history.js"></script>

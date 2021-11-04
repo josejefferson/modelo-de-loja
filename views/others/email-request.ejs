@@ -129,7 +129,7 @@ const status = STATUSES[request.open ? request.status : 'closed']
 								<!-- Data do pedido -->
 								<tr>
 									<td style="color: #5F6368; font-size: 12px; letter-spacing: 0.3px;">
-										Pedido realizado em <%= moment(request.date).format('D [de] MMM. [às] h:mm A') %>
+										Pedido realizado em <%= dayjs(request.date).format('D [de] MMM. [às] h:mm A') %>
 									</td>
 								</tr>
 								<tr height="8px"></tr>
