@@ -5,7 +5,7 @@ const fs = require('fs')
 const routes = express.Router()
 module.exports = routes
 
-const { render, renderMsg } = require('@helpers/helpers')
+const { render, renderMsg } = require('@modules/helpers')
 routes.use((req, res, next) => {
 	req.data = req.data || {}
 	req.data.cart = []

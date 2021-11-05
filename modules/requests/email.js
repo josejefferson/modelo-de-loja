@@ -1,6 +1,6 @@
 const ejs = require('ejs')
 const dayjs = require('dayjs')
-const { random } = require('@helpers/helpers')
+const { random } = require('@modules/helpers')
 const transporter = require('@modules/emails')
 const logger = require('@modules/logger')
 module.exports = actions = {}

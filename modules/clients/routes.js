@@ -1,6 +1,6 @@
 const express = require('express')
 const routes = express.Router()
-const { render } = require('@helpers/helpers')
+const { render } = require('@modules/helpers')
 const db = require('./database')
 const { validate } = require('./validators')
 const { admin } = require('@modules/restrictions')

@@ -1,5 +1,5 @@
 const Client = require('mongoose').model('Clients')
-const { random } = require('@helpers/helpers')
+const { random } = require('@modules/helpers')
 const email = require('./email')
 module.exports = db = {}
 
