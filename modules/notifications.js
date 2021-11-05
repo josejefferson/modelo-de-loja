@@ -10,7 +10,7 @@ io.of('/notifications').use((socket, next) => {
 })
 
 io.of('/notifications').on('connection', (socket) => {
-	const userIDs = (socket.cookies.userIds.split(',') || []).filter((userID) => /^[A-Fa-f0-9]{24}$/.test(userID))
+	const userIDs = (socket.cookies.userIds?.split(',') || []).filter((userID) => /^[A-Fa-f0-9]{24}$/.test(userID))
 	for (const userID of userIDs) {
 		socket.join(userID)
 	}
