@@ -18,7 +18,7 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 			<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge"><%= product.badge %></div>
 		<% } %>
 
-		<% if (product.image) { %>
+		<% if (product.image.type && product.image.value) { %>
 			<div class="ratio ratio-16x9 overflow-hidden">
 				<img src="<%= product.image.type === 'image.id' ? '/images/view/' : '' %><%= product.image.value %>" class="store-product-image card-img-top" style="object-fit:cover">
 			</div>

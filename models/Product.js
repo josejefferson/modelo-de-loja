@@ -13,12 +13,12 @@ const Product = mongoose.model('Products', {
 		3: Number,
 		4: Number,
 		5: Number,
-		default: {1:0,2:0,3:0,4:0,5:0},
+		default: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
 		get: function (r) {
 			const items = Object.entries(r)
 			let sum = 0
 			let total = 0
-			for (const [key,value] of items) {
+			for (const [key, value] of items) {
 				total += value
 				sum += value * parseInt(key)
 			}
