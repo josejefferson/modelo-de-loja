@@ -22,7 +22,10 @@ db.getMine = (req, res, next) => {
 	Promise.all(
 		req.data.userIDs.map((userID) => {
 			return Request.find({ clientId: userID })
-				.populate('productId', 'name price image').populate('clientId').then((requests) => {
+				.populate('productId', 'name price image ratings').populate('clientId').then((requests) => {
+					requests.forEach((rq) => {
+						rq.productId.ratings = rq.productId.ratings.filter(r => req.data.userIDs.includes(r.client.toString()))
+					})
 					requests.reverse()
 					req.data.myRequests[userID] = requests
 				}).catch((err) => {
@@ -78,6 +81,7 @@ db.cancel = (req, res, next) => {
 		res.status(400).json({ message: 'Você não pode cancelar, o pedido não está mais pendente' })
 	} else {
 		request.status = 'canceled'
+		request.open = false
 		request.save().then((request) => {
 			res.json({ success: true })
 		}).catch((err) => {

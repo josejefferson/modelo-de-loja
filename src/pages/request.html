@@ -79,6 +79,15 @@
 				<div class="col ps-2">
 					<h6 class="m-0">{{::req.quantity}} × {{::req.productId.name}}</h6>
 					<div>{{::req.other}}</div>
+
+					<div class="rating rating-{{::findRating(req.productId.ratings, reqs[0].clientId._id)}}" data-rating="{{::findRating(req.productId.ratings, reqs[0].clientId._id)}}" data-client="{{::req.clientId._id}}" data-product="{{::req.productId._id}}" ng-if="::!req.open" ng-hide="env !== 'history'">
+						<span class="text-warning mdi rating-star-1"></span>
+						<span class="text-warning mdi rating-star-2"></span>
+						<span class="text-warning mdi rating-star-3"></span>
+						<span class="text-warning mdi rating-star-4"></span>
+						<span class="text-warning mdi rating-star-5"></span>
+						<span class="text-danger mdi mdi-close-circle-outline rating-star-0"></span>
+					</div>
 	
 					<!-- Botões de ação -->
 					<div class="mt-1" ng-hide="env === 'history'">

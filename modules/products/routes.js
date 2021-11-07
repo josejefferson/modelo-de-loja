@@ -5,6 +5,7 @@ const { validate } = require('./validators')
 const db = require('./database')
 
 routes.get('/view/:id', validate.id, db.get, render('product', 'Produto'))
+routes.get('/rate/:id/:client/:rating', validate.id, validate.rate, db.rate) // temporariamente get
 // routes.use(admin)
 routes.get('/', db.getALL, render('products', 'Produtos'))
 routes.get('/add', render('product-edit', 'Adicionar produto'))

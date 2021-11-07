@@ -6,6 +6,22 @@ const Product = mongoose.model('Products', {
 	price: { type: Number, required: true },
 	oldprice: { type: Number },
 	badge: { type: String },
+	ratings: {
+		type: [{
+			client: { 
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Clients',
+				required: true
+			},
+			rating: {
+				type: Number,
+				required: true
+			}
+		}],
+		select: false,
+		required: true,
+		default: []
+	},
 	rating: {
 		type: mongoose.Mixed,
 		1: Number,
@@ -13,21 +29,10 @@ const Product = mongoose.model('Products', {
 		3: Number,
 		4: Number,
 		5: Number,
-		default: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-		get: function (r) {
-			const items = Object.entries(r)
-			let sum = 0
-			let total = 0
-			for (const [key, value] of items) {
-				total += value
-				sum += value * parseInt(key)
-			}
-			return {
-				...r,
-				average: Math.round(sum / total) || 0,
-				totalUsers: total
-			}
-		}
+		average: Number,
+		totalUsers: Number,
+		default: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, average: 0, totalUsers: 0 },
+		required: true
 	},
 	image: {
 		type: { type: String, enum: ['image.url', 'image.id'] },

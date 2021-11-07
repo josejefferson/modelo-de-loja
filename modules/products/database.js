@@ -4,11 +4,12 @@ module.exports = db = {}
 
 // Busca um produto
 db.get = (req, res, next) => {
-	return Product.findById(req.params.id).then((product) => {
+	return Product.findById(req.params.id).select('+ratings').then((product) => {
 		if (!product) return res.status(400).render('others/error', {
 			_title: 'Este produto não existe',
 			message: 'Talvez o link esteja incorreto ou o produto foi excluído'
 		})
+		product.ratings = product.ratings.filter(r => req.data.userIDs.includes(r.client.toString()))
 		req.data.product = product
 		next()
 	}).catch((err) => {
@@ -46,6 +47,45 @@ db.getALL = (req, res, next) => {
 		res.status(500).render('others/error', {
 			_title: 'Ocorreu um erro ao carregar produtos',
 			message: 'Tente novamente recarregando a página'
+		})
+	})
+}
+
+db.rate = (req, res, next) => {
+	Product.findById(req.params.id).select('+ratings').then((product) => {
+		if (!product) return res.status(400).render('others/error', {
+			_title: 'Este produto não existe',
+			message: 'Talvez o link esteja incorreto ou o produto foi excluído'
+		})
+		
+		Request.findOne({clientId: req.params.client, productId: product._id, status: 'confirmed', open: false}).then((request) => {
+			if (!request) return res.status(400).render('others/error', {
+				_title: 'Você não pode avaliar',
+				message: 'Você não pode avaliar um produto que nunca comprou e recebeu'
+			})			
+
+			let rating = product.ratings.find(r => r.client == req.params.client)
+			if (req.params.rating == '0') {
+				if (rating) product.ratings.pull({ _id: rating._id })
+			} else {
+				if (rating) rating.rating = req.params.rating
+				else rating = product.ratings.push({
+					client: req.params.client,
+					rating: req.params.rating
+				})
+			}
+
+			product.rating = {
+				1: product.ratings.filter(r => r.rating == 1).length,
+				2: product.ratings.filter(r => r.rating == 2).length,
+				3: product.ratings.filter(r => r.rating == 3).length,
+				4: product.ratings.filter(r => r.rating == 4).length,
+				5: product.ratings.filter(r => r.rating == 5).length,
+				totalUsers: product.ratings.length,
+				average: product.ratings.reduce((a, c) => a += c.rating, 0) / product.ratings.length
+			}
+
+			product.save().then(()=>res.send('Funcionou!'))
 		})
 	})
 }

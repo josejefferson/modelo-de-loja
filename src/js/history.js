@@ -57,6 +57,15 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 	$scope.rt = (req, rating) => {
 		req.rating = rating
 	}
+	$scope.findRating = (ratings, client) => {
+		return ratings.find(r => r.client == client)?.rating || 0
+	}
+	$scope.init = () => {
+		/// temp!!!!
+		setTimeout(() => {
+			document.querySelectorAll('.rating').forEach(e => Rating(e))
+		}, 100)
+	}
 }]).filter('users', () => {
 	return (input, env) => {
 		const output = {}

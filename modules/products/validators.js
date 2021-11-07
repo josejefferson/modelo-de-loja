@@ -52,6 +52,8 @@ schema.remove = Joi.object({
 	id: Joi.string().lowercase().hex().length(24).required().label('ID')
 }).unknown()
 
+// Rate
+schema.rate = Joi.number().integer().min(0).max(5)
 
 
 function validator(schema, data, options = {}) {
@@ -64,6 +66,16 @@ validate.id = (req, res, next) => {
 		return res.status(400).render('others/error', {
 			_title: 'ID inválido',
 			message: 'Verifique se o link está correto'
+		})
+	}
+	next()
+}
+
+validate.rate = (req, res, next) => {
+	if (validator(schema.rate, req.params.rating).error) {
+		return res.status(400).render('others/error', {
+			_title: 'Avaliação inválida',
+			message: 'A avaliação deve ser um número inteiro maior ou igual a 0 e menor ou igual a 5'
 		})
 	}
 	next()
