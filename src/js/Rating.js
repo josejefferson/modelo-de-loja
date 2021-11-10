@@ -1,9 +1,5 @@
 function Rating(element) {
-	if (!element) return
-	let currentRating = element.dataset.rating
-	const productID = element.dataset.product
-	const clientID = element.dataset.client
-
+	if (!element) return rate
 	const ratingStars = [
 		element.querySelector('.rating-star-0'),
 		element.querySelector('.rating-star-1'),
@@ -14,17 +10,23 @@ function Rating(element) {
 	]
 
 	for (const i in ratingStars) {
-		ratingStars[i].addEventListener('click', () => {
-			element.classList.add('rating-disabled')
-			axios.get(`/products/rate/${productID}/${clientID}/${i}`).then(() => {
+		ratingStars[i].addEventListener('click', () => rate(i, element))
+	}
+
+	function rate(stars, element) {
+		element.classList.add('rating-disabled')
+		return new Promise((resolve, reject) => {
+			axios.get(`/products/rate/${element.dataset.product}/${element.dataset.client}/${stars}`).then(() => {
 				element.classList.remove('rating-0', 'rating-1', 'rating-2', 'rating-3', 'rating-4', 'rating-5')
-				element.classList.add('rating-' + i)
+				element.classList.add('rating-' + stars)
 				element.classList.remove('rating-disabled')
-			}).catch(() => {
+				resolve(stars)
+			}).catch((err) => {
 				element.classList.remove('rating-disabled')
+				reject(err)
 			})
 		})
 	}
-}
 
-document.querySelectorAll('.rating').forEach(e => Rating(e))
+	return rate
+}

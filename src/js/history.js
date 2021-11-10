@@ -1,4 +1,4 @@
-angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
+angular.module('store').controller('historyCtrl', ['$scope', '$element', ($scope) => {
 	const socket = io(location.origin + '/history')
 	socket.on('connect', () => {
 		console.log('[SOCKET] Conectado')
@@ -54,35 +54,33 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 				$scope.$apply()
 			})
 	}
-	$scope.rt = (req, rating) => {
-		req.rating = rating
-	}
-	$scope.findRating = (ratings, client) => {
+	$scope.getRating = (ratings, client) => {
 		return ratings.find(r => r.client == client)?.rating || 0
 	}
-	$scope.init = () => {
-		/// temp!!!!
-		setTimeout(() => {
-			document.querySelectorAll('.rating').forEach(e => Rating(e))
-		}, 100)
-	}
-}]).filter('users', () => {
+	$scope.rate = (e, stars) => Rating()(stars, e.target.parentElement)
+}])
+
+angular.module('store').filter('users', () => {
 	return (input, env) => {
 		const output = {}
-		for (key in input)
-			if (input[key].some(filter(env)))
+		for (key in input) {
+			if (input[key].some(filter(env))) {
 				output[key] = input[key]
+			}
+		}
 		return output
 	}
-}).filter('reqs', () => {
-	return (input, env) => {
-		return input.filter(filter(env))
-	}
-}).filter('money', () => {
-	return input => {
-		return input.toFixed(2).toString().replace('.', ',')
-	}
-}).filter('url', () => encodeURIComponent)
+})
+
+angular.module('store').filter('reqs', () => {
+	return (input, env) => input.filter(filter(env))
+})
+
+angular.module('store').filter('money', () => {
+	return (input) => input.toFixed(2).toString().replace('.', ',')
+})
+
+angular.module('store').filter('url', () => encodeURIComponent)
 
 function filter(env) {
 	return r => {
