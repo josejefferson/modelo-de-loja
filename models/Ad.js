@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
+const encrypt = require('mongoose-encryption')
 
-const Ad = mongoose.model('Ads', {
+const schema = new mongoose.Schema({
 })
 
-module.exports = Ad
+if (process.env.DB_ENC) schema.plugin(encrypt, {
+	encryptionKey: process.env.DB_ENC_KEY,
+	signingKey: process.env.DB_SIG_KEY
+})
+
+module.exports = mongoose.model('Ads', schema)

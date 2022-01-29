@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const encrypt = require('mongoose-encryption')
 
-const Notification = mongoose.model('Notifications', {
+const schema = new mongoose.Schema({
 	client: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Clients',
@@ -15,4 +16,9 @@ const Notification = mongoose.model('Notifications', {
 	read: { type: Boolean, default: false }
 })
 
-module.exports = Notification
+if (process.env.DB_ENC) schema.plugin(encrypt, {
+	encryptionKey: process.env.DB_ENC_KEY,
+	signingKey: process.env.DB_SIG_KEY
+})
+
+module.exports = mongoose.model('Notifications', schema)

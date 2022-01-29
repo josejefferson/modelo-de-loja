@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const encrypt = require('mongoose-encryption')
 
-const Client = mongoose.model('Clients', {
+const schema = new mongoose.Schema({
 	name: { type: String, required: true },
 	address: { type: String, required: true },
 	phone: String,
@@ -17,4 +18,9 @@ const Client = mongoose.model('Clients', {
 	emailVerificationToken: { type: String }
 })
 
-module.exports = Client
+if (process.env.DB_ENC) schema.plugin(encrypt, {
+	encryptionKey: process.env.DB_ENC_KEY,
+	signingKey: process.env.DB_SIG_KEY
+})
+
+module.exports = mongoose.model('Clients', schema)

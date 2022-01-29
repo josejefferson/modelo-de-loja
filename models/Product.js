@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const encrypt = require('mongoose-encryption')
 
-const Product = mongoose.model('Products', {
+const schema = new mongoose.Schema({
 	name: { type: String, required: true },
 	description: String,
 	price: { type: Number, required: true },
@@ -46,4 +47,9 @@ const Product = mongoose.model('Products', {
 	hidden: { type: Boolean, default: false }
 })
 
-module.exports = Product
+if (process.env.DB_ENC) schema.plugin(encrypt, {
+	encryptionKey: process.env.DB_ENC_KEY,
+	signingKey: process.env.DB_SIG_KEY
+})
+
+module.exports = mongoose.model('Products', schema)
