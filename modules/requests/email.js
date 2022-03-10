@@ -33,9 +33,10 @@ actions.cancel = (req, res, next) => {
 	sendEmail('canceled', req, res, next)
 }
 
-function sendEmail(purpose, req, res, next) {
+async function sendEmail(purpose, req, res, next) {
 	// Cancelar se as credenciais não foram informadas
-	if (!process.env['GMAIL_EMAIL'] || !process.env['GMAIL_PASSWORD']) return
+	if (!process.env['EMAIL'] || !process.env['CLIENT_ID'] || !process.env['CLIENT_SECRET'] || !process.env['REFRESH_TOKEN']) return
+	const transport = await transporter
 
 	const requests = req.data.requests || [req.data.request]
 	for (const request of requests) {
@@ -52,7 +53,7 @@ function sendEmail(purpose, req, res, next) {
 				html: html
 			}
 
-			transporter.sendMail(mailOptions, (error, info) => {
+			transport.sendMail(mailOptions, (error, info) => {
 				if (error) logger('Nodemailer').error('Erro ao enviar e-mail! ' + error.message)
 			})
 		})

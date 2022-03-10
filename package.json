@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
+    "googleapis": "^96.0.0",
     "helmet": "^4.6.0",
     "joi": "^17.4.2",
     "joi-translation-pt-br": "^0.0.6",
