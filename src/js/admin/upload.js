@@ -1,3 +1,9 @@
+// import '/lib/js/filepond.min.js'
+// import '/lib/js/filepond-plugin-file-validate-size.min.js'
+// import '/lib/js/filepond-plugin-file-validate-type.min.js'
+// import '/lib/js/filepond.pt-br.min.js'
+
+console.log('Imported')
 angular.module('store').controller('fileUploadCtrl', ['$scope', '$rootScope', ($scope, $rootScope) => {
 	FilePond.registerPlugin(
 		FilePondPluginFileValidateSize,
