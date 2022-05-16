@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/css/Rating.css">
+
+<div class="container my-4" ng-controller="historyCtrl">
+	<h1 class="mb-4"><i class="fas fa-history"></i> Histórico de compras</h1>
+	<ng-include src="'/pages/request.html'" ng-init="env='history'" ng-if="true" onload="init()">
+		<div class="text-center mt-4">
+			<div class="spinner-border me-3"></div><span class="fs-3">Carregando...</span>
+		</div>
+	</ng-include>
+</div>
+
+<script type="application/json" class="server-data">
+	<%- JSON.stringify(myRequests).replace(/\//g, '\\\/') %>
+</script>
+<%- contentFor('script') %>
+<script src="/socket.io/socket.io.min.js"></script>
+<script src="/js/history.js"></script>
+<script src="/js/Rating.js"></script>

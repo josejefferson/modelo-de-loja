@@ -1,0 +1,31 @@
+<% const LEVEL_COLORS = {
+	crit: 'danger',
+	error: 'danger',
+	warn: 'warning',
+	fail: 'danger',
+	succ: 'success',
+	info: 'info',
+	http: 'primary',
+	debug: 'dark'
+} %>
+
+<div class="container my-4">
+	<h1 class="mb-4"><i class="fas fa-list"></i> Logs</h1>
+	
+	<% for (let log of logs) { %>
+		<% if (typeof log.message !== 'string') log.message = log.message.toString() %>
+		<div class="row">
+			<div class="col-auto">
+				<div class="justify-content-center badge rounded-pill bg-<%= LEVEL_COLORS[log.level] || 'light' %> text-uppercase" style="width:60px;">
+					<%= log.level %>
+				</div>
+			</div>
+
+			<div class="col-auto text-dark">
+				<%= log.timestamp %>
+			</div>
+
+			<pre class="col mb-0 text-<%= LEVEL_COLORS[log.level] || 'dark' %>"><% if (log.mod) { %><b><%= log.mod %>:</b> <% } %><%= log.message.replace(/\u001b\[\d+m/g, '') %></pre>
+		</div>
+	<% } %>
+</div>

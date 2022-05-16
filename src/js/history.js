@@ -1,4 +1,4 @@
-angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
+angular.module('store').controller('historyCtrl', ['$scope', '$element', ($scope) => {
 	const socket = io(location.origin + '/history')
 	socket.on('connect', () => {
 		console.log('[SOCKET] Conectado')
@@ -26,11 +26,12 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 					`"${request.productId.name}"`, 'info', 'comment-alt')
 				break
 		}
+		new Audio('/sounds/tone.wav').play()
 		$scope.$apply()
 	})
 
 	$scope.keys = Object.keys
-	$scope.moment = window.moment
+	$scope.dayjs = window.dayjs
 	$scope.requests = serverData
 	$scope.sum = (reqs) => {
 		return 'R$ ' + reqs.reduce((total, req) => {
@@ -53,26 +54,33 @@ angular.module('store').controller('historyCtrl', ['$scope', ($scope) => {
 				$scope.$apply()
 			})
 	}
-	$scope.rt = (req, rating) => {
-		req.rating = rating
+	$scope.getRating = (ratings, client) => {
+		return ratings.find(r => r.client == client)?.rating || 0
 	}
-}]).filter('users', () => {
+	$scope.rate = (e, stars) => Rating()(stars, e.target.parentElement)
+}])
+
+angular.module('store').filter('users', () => {
 	return (input, env) => {
 		const output = {}
-		for (key in input)
-			if (input[key].some(filter(env)))
+		for (key in input) {
+			if (input[key].some(filter(env))) {
 				output[key] = input[key]
+			}
+		}
 		return output
 	}
-}).filter('reqs', () => {
-	return (input, env) => {
-		return input.filter(filter(env))
-	}
-}).filter('money', () => {
-	return input => {
-		return input.toFixed(2).toString().replace('.', ',')
-	}
-}).filter('url', () => encodeURIComponent)
+})
+
+angular.module('store').filter('reqs', () => {
+	return (input, env) => input.filter(filter(env))
+})
+
+angular.module('store').filter('money', () => {
+	return (input) => input.toFixed(2).toString().replace('.', ',')
+})
+
+angular.module('store').filter('url', () => encodeURIComponent)
 
 function filter(env) {
 	return r => {
@@ -84,7 +92,7 @@ function filter(env) {
 }
 
 window.setInterval(() => {
-	document.querySelectorAll('.momentUpdate').forEach(e => {
-		e.innerText = moment(e.dataset.time).fromNow()
+	document.querySelectorAll('.dayjsUpdate').forEach(e => {
+		e.innerText = dayjs(e.dataset.time).fromNow()
 	})
 }, 5000)

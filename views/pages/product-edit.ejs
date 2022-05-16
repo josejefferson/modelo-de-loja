@@ -1,0 +1,247 @@
+<!-- <div style="position: fixed;right: 0;top: 0;z-index:1034;color:white;background-color: rgba(0,0,0,0.5);font-size:24px;pointer-events:none">
+	<span class="d-sm-none">XS</span>
+	<span class="d-none d-sm-block d-md-none">SM</span>
+	<span class="d-none d-md-block d-lg-none">MD</span>
+	<span class="d-none d-lg-block d-xl-none">LG</span>
+	<span class="d-none d-xl-block d-xxl-none">XL</span>
+	<span class="d-none d-xxl-block">XXL</span>
+</div> -->
+
+
+<%
+const _redir = query.r ? `?r=${encodeURIComponent(query.r)}` : ''
+const action = (locals.product ? `/products/edit/${product.id}` : '/products/add') + _redir
+%>
+
+<main class="container my-4" ng-controller="productsEditCtrl">
+	<!-- TÍTULO DA PÁGINA -->
+	<% if (!locals.product) { %>
+		<h1 class="mb-4"><i class="fas fa-plus"></i> Adicionar produto</h1>
+	<% } else { %>
+		<h1 class="mb-4"><i class="fas fa-pencil-alt"></i> Editar produto</h1>
+	<% } %>
+
+	<form action="<%= action %>" method="POST" class="row">
+		<div class="col-12 col-md-9">
+			<!-- Nome -->
+			<label class="form-group d-block">
+				<div><i class="fas fa-file-signature"></i> Nome <span class="text-danger">*</span></div>
+				<input type="text" class="form-control form-control-lg" name="name" autocomplete="off"
+					ng-model="product.name" autofocus required>
+			</label>
+
+			<!-- Descrição -->
+			<label class="form-group d-block">
+				<div class="mt-2"><i class="fas fa-align-left"></i> Descrição</div>
+				<textarea class="form-control" rows="4" name="description" autocomplete="off"
+					ng-model="product.description"></textarea>
+			</label>
+
+			<div class="row">
+				<!-- Preço -->
+				<label class="col-6 col-lg-3 form-group d-block">
+					<div class="mt-2"><i class="fas fa-dollar-sign"></i> Preço <span class="text-danger">*</span></div>
+					<div class="input-group">
+						<div class="input-group-text">R$</div>
+						<input type="number" step=".01" class="form-control" name="price" autocomplete="off" ng-model="product.price" required>
+					</div>
+				</label>
+
+				<!-- Preço antigo -->
+				<label class="col-6 col-lg-3 form-group d-block">
+					<div class="mt-2"><i class="fas fa-dollar-sign"></i> Preço antigo</div>
+					<div class="input-group">
+						<div class="input-group-text">R$</div>
+						<input type="number" step=".01" class="form-control" name="oldprice" autocomplete="off" ng-model="product.oldprice">
+					</div>
+				</label>
+
+				<!-- Selo -->
+				<label class="col-6 col-lg-3 form-group d-block">
+					<div class="mt-2"><i class="fas fa-tag"></i> Selo</div>
+					<input type="text" class="form-control" name="badge" autocomplete="off"
+						ng-model="product.badge">
+				</label>
+
+				<!-- Estoque -->
+				<label class="col-6 col-lg-3 form-group d-block">
+					<div class="mt-2"><i class="fas fa-archive"></i> Estoque <span class="text-danger">*</span></div>
+					<div class="input-group">
+						<input type="number" class="form-control" name="stock" autocomplete="off" ng-model="product.stock" required>
+						<div class="input-group-text">un.</div>
+					</div>
+				</label>
+			</div><!-- .row -->
+
+			<!-- Mídias -->
+			<div class="mt-2"><i class="fas fa-photo-video"></i> Imagens/vídeos</div>
+			<div class="row g-2 mt-1">
+				<!-- Imagem principal -->
+				<div class="col-6 col-sm-4 col-lg-3 col-xxl-2" ng-if="product.image">
+					<div class="card border-dark overflow-hidden">
+						<!-- Imagem -->
+						<div class="ratio ratio-16x9 overflow-hidden">
+							<input type="hidden" name="image[type]" value="{{::product.image.type}}">
+							<input type="hidden" name="image[value]" value="{{::product.image.value}}">
+							<img ng-src="{{::product.image.value}}" ng-if="::product.image.type === 'image.url'" class="card-img-top" style="object-fit: cover;">
+							<img ng-src="/images/view/{{::product.image.value}}" ng-if="::product.image.type === 'image.id'" class="card-img-top" style="object-fit: cover;">
+						</div>
+
+						<!-- Botões de ação -->
+						<div class="row m-0">
+							<!-- Remover -->
+							<button type="button" class="col btn btn-danger btn-sm rounded-0" ng-click="::product.image = undefined">
+								<i class="mdi mdi-delete"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Selecionar imagem principal -->
+				<div class="col-6 col-sm-4 col-lg-3 col-xxl-2" ng-hide="product.image">
+					<div class="card shadow-sm h-100 bg-light" ng-click="selectMediaModal(false, 'product.image', ['youtube'])">
+						<button type="button" class="btn card-body d-flex flex-column align-items-center justify-content-center p-2">
+							<i class="fas fa-image fa-3x"></i>
+							<b class="mt-3 fs-6">Selecionar imagem da capa</b>
+						</button>
+					</div>
+				</div>
+
+				<!-- Mídia -->
+				<div class="store-product-edit-media col-6 col-sm-4 col-lg-3 col-xxl-2" ng-repeat="m in product.media" ng-switch="::m.type">
+					<!-- Se imagem -->
+					<div class="card overflow-hidden">
+						<!-- Inputs -->
+						<input type="hidden" name="media[{{::$index}}][type]" value="{{::m.type}}">
+						<input type="hidden" name="media[{{::$index}}][value]" value="{{::m.value}}">
+
+						<!-- Imagem -->
+						<div class="ratio ratio-16x9 overflow-hidden" ng-switch-when="image.url|image.id" ng-switch-when-separator="|">
+							<img ng-src="{{::m.value}}" ng-if="::m.type === 'image.url'" class="card-img-top" style="object-fit: cover;">
+							<img ng-src="/images/view/{{::m.value}}" ng-if="::m.type === 'image.id'" class="card-img-top" style="object-fit: cover;">
+						</div>
+
+						<!-- Se vídeo do YouTube -->
+						<div class="ratio ratio-16x9 overflow-hidden" ng-switch-when="youtube">
+							<iframe ng-src="{{'https://www.youtube-nocookie.com/embed/' + m.value + '?rel=0' | trusted}}" frameborder="0"></iframe>
+						</div>
+
+						<!-- Botões de ação -->
+						<div class="row m-0">
+							<!-- Mover para esquerda -->
+							<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index - 1)" ng-disabled="$index === 0">
+								<i class="mdi mdi-arrow-left"></i>
+							</button>
+							<!-- Remover -->
+							<button type="button" class="col btn btn-light btn-sm rounded-0" ng-click="::remove(m, product.media)">
+								<i class="mdi mdi-delete"></i>
+							</button>
+							<!-- Mover para direita -->
+							<button type="button" class="col-auto btn btn-light btn-sm rounded-0" ng-click="::move(product.media, $index, $index + 1)" ng-disabled="$index === product.media.length - 1">
+								<i class="mdi mdi-arrow-right"></i>
+							</button>
+						</div>
+					</div>
+				</div><!-- /Mídia -->
+
+				<!-- Botão de adicionar mídia -->
+				<div class="col-6 col-sm-4 col-lg-3 col-xxl-2">
+					<div class="card shadow-sm h-100 bg-light" ng-click="selectMediaModal(true, 'product.media')">
+						<button type="button" class="btn card-body d-flex flex-column align-items-center justify-content-center p-2">
+							<i class="fas fa-plus fa-3x"></i>
+							<b class="mt-3 fs-6">Adicionar mídia</b>
+						</button>
+					</div>
+				</div>
+
+			</div><!-- .row -->
+
+
+			<!-- Opção oculto -->
+			<label class="form-check form-switch mt-2">
+				<input class="form-check-input" type="checkbox" name="hidden" value="true" ng-model="product.hidden">
+				<div class="form-check-label"><i class="fas fa-eye-slash"></i> Oculto</div>
+			</label>
+		</div><!-- .col-12.col-md-9 -->
+
+
+		<!-- PRÉ-VISUALIZAÇÃO DO CARD DO PRODUTO -->
+		<div class="store-product d-none d-md-block col-3 px-1 py-1">
+			<h4 class="text-muted mb-3"><span class="text-truncate">Pré-visualização</span></h4>
+			<div class="card shadow text-decoration-none text-dark">
+				<!-- Selo -->
+				<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge" ng-if="product.badge"
+				ng-bind="product.badge"></div>
+
+				<!-- Imagem -->
+				<div class="ratio ratio-16x9 overflow-hidden" ng-if="product.image">
+					<img ng-src="{{product.image.value}}" ng-if="product.image.type === 'image.url'" class="store-product-image card-img-top" style="object-fit: cover;">
+					<img ng-src="/images/view/{{product.image.value}}" ng-if="product.image.type === 'image.id'" class="store-product-image card-img-top" style="object-fit: cover;">
+				</div>
+
+				<!-- Indicação sem imagem -->
+				<div class="ratio ratio-16x9 bg-light" ng-show="!product.image">
+					<div class="d-flex align-items-center justify-content-center text-secondary">
+						<i class="fas fa-5x fa-shopping-basket"></i>
+					</div>
+				</div>
+
+				<div class="card-body d-flex flex-column">
+					<!-- Nome do produto -->
+					<h5 class="card-title">
+						<i class="fas fa-eye-slash" ng-show="product.hidden"></i> {{product.name}}
+					</h5>
+
+					<div class="card-text">
+						<!-- Avaliação -->
+						<div>
+							<i class="fas fa-xs fa-star w-auto text-warning"></i>
+							<i class="fas fa-xs fa-star w-auto text-warning"></i>
+							<i class="fas fa-xs fa-star w-auto text-warning"></i>
+							<i class="far fa-xs fa-star w-auto text-warning"></i>
+							<i class="far fa-xs fa-star w-auto text-warning"></i>
+							<small><small class="fs-8">3 (45)</small></small>
+						</div>
+
+						<div class="mt-2">
+							<!-- Preço antigo -->
+							<s class="d-block fs-6 text-secondary" ng-if="product.oldprice">
+								<small>R$ {{product.oldprice.toFixed(2).toString().replace('.', ',')}}</small>
+							</s>
+							<!-- Preço -->
+							<div ng-if="product.price">
+								<b class="fs-5">R$ {{product.price.toFixed(2).toString().replace('.', ',')}}</b>
+							</div>
+							<!-- Estoque -->
+							<small>
+								<span ng-if="product.stock > 0">({{product.stock}} unid. dispon.)</span>
+								<span ng-show="product.stock === -1">(disponível)</span>
+								<span ng-show="product.stock === 0" class="text-danger">(esgotado)</span>
+							</small>
+						</div><!-- .mt-2 -->
+					</div><!-- .card-text -->
+				</div><!-- .card-body -->
+			</div><!-- .card -->
+		</div><!-- .store-product -->
+
+		<!-- BOTÃO DE SALVAR PRODUTO -->
+		<button class="btn btn-lg btn-success mx-auto w-auto" type="submit">
+			<i class="fas fa-save"></i> Salvar produto
+		</button>
+	</form>
+</main>
+
+
+<script type="application/json" class="server-data">
+	<%- JSON.stringify(locals.product || locals.userData?.[0] || null).replace(/\//g, '\\\/') %>
+</script>
+<%- contentFor('script') %>
+<script src="/js/admin/productsEdit.js"></script>
+<script src="/js/admin/selectImage.js"></script>
+<script src="/lib/js/filepond.min.js"></script>
+<script src="/lib/js/filepond-plugin-file-validate-size.min.js"></script>
+<script src="/lib/js/filepond-plugin-file-validate-type.min.js"></script>
+<script src="/lib/js/filepond.pt-br.min.js"></script>
+<script src="/js/admin/upload.js"></script>
+<script src="/lib/js/jsVideoUrlParser.min.js"></script>
+<script src="/js/admin/selectYouTube.js"></script>

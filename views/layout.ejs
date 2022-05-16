@@ -3,17 +3,31 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><%- _title %> - Modelo de loja</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#212529">
+	<meta name="color-scheme" content="light">
+
+	<link rel="canonical" href="<%= locals.fullURL %>">
+	<link rel="shortcut icon" href="/favicon.png" type="image/png">
+	<link rel="manifest" href="/manifest.json">
+
+	<meta name="og:locale" content="pt_BR">
+	<meta name="og:site_name" content="Modelo de Loja">
+
+	<title><%= locals._title %> - Modelo de loja</title>
 	<link rel="stylesheet" href="/lib/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="/lib/css/materialdesignicons.min.css">
 	<link rel="stylesheet" href="/lib/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/lib/css/bootstrap-colors.css">
 	<link rel="stylesheet" href="/lib/css/sweetalert2.min.css">
+	<link rel="stylesheet" href="/css/animations.css">
 	<link rel="stylesheet" href="/css/index.css">
+	<%- defineContent('heads') %>
 </head>
 
 <body>
 	<%- include('partials/_header.ejs') %>
+	<%- include('partials/_sidebar.ejs') %>
 	<noscript>
 		<div class="container alert alert-danger mt-3">
 			<i class="fab fa-js-square"></i>
@@ -22,25 +36,37 @@
 		</div>
 	</noscript>
 
-	<div class="container alert alert-danger mt-3 cookiesBlocked hidden">
+	<div class="container alert alert-danger mt-3 store-cb hidden">
 		<i class="fas fa-cookie-bite"></i>
 		Parece que os cookies do seu navegador estão bloqueados!
 		Por favor, desbloqueie-os para que você possa continuar a usar o nosso site!
 	</div>
 	<%- defineContent('body') %>
 	<%- include('partials/_footer.ejs') %>
-	
+
+	<script type="application/json" class="toasts">
+		<%- JSON.stringify({
+			success: locals.successMsg || [],
+			error: locals.errorMsg || [],
+			warning: locals.warningMsg || [],
+			info: locals.infoMsg || []
+		}).replace(/\//g, '\\\/') %>
+	</script>
 	<script src="/lib/js/jquery.min.js"></script>
-	<script src="/lib/js/moment.min.js"></script>
+	<script src="/lib/js/axios.min.js"></script>
+	<script src="/lib/js/dayjs.min.js"></script>
+	<script src="/lib/js/dayjs-pt-br.min.js"></script>
+	<script src="/lib/js/dayjs-relativeTime.min.js"></script>	
 	<script src="/lib/js/js.cookie.min.js"></script>
 	<script src="/lib/js/sweetalert2.min.js"></script>
-	<script src="/lib/js/bootstrap.min.js"></script>
+	<script src="/lib/js/bootstrap.bundle.min.js"></script>
 	<script src="/lib/js/angular.min.js"></script>
 	<script src="/lib/js/angular-animate.min.js"></script>
-	<script>angular.module('store', ['ngAnimate'])</script>
+	<script src="/js/_animations.js"></script>
+	<script src="/socket.io/socket.io.min.js"></script>
 	<script src="/js/index.js"></script>
+	<script src="/js/_notifications.js"></script>
 	<%- defineContent('script') %>
-	<%- include('partials/_msg.ejs') %>
 </body>
 
 </html>

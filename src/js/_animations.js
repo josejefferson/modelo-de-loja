@@ -1,15 +1,28 @@
-angular.module('store').animation('.request', () => ({ enter: anim.open, leave: anim.close }))
-
 const anim = {
 	open: (el, done) => {
-		console.log('ANIMATION')
-		el.stop(true, false).css({ display: 'none', opacity: 0 }).slideDown(100).fadeTo(300, 1, done)
+		const width = el[0].clientWidth
+		const height = el[0].clientHeight
+		el[0].classList.add('animation-pre-open')
+		setTimeout(() => {
+			el[0].style.width = width + 'px'
+			el[0].style.height = height + 'px'
+			el[0].classList.add('animation-open')
+		}, 0)
+		setTimeout(() => {
+			el[0].classList.remove('animation-pre-open')
+			el[0].classList.remove('animation-open')
+			el[0].style.width = null
+			el[0].style.height = null
+			done()
+		}, 350)
 		return done
 	},
-	
+
 	close: (el, done) => {
-		console.log('ANIMATION')
-		el.stop(true, false).fadeTo(500, 0).slideUp(100, done)
+		el[0].style.width = el[0].clientWidth + 'px'
+		el[0].style.height = el[0].clientHeight + 'px'
+		setTimeout(() => el[0].classList.add('animation-close'), 0)
+		setTimeout(done, 350)
 		return done
-	},
+	}
 }

@@ -12,5 +12,28 @@
 	</div>
 </div>
 
+<%- contentFor('script') %>
 <script src="/socket.io/socket.io.min.js"></script>
 <script src="/js/home.js"></script>
+
+<%- contentFor('heads') %>
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org/",
+		"@type": "Store",
+		"name": "Modelo de Loja",
+		"description": "Uma loja que vende coisas aleatórias",
+		"image": "",
+		"openingHours": "",
+		"telephone": "+5511987654321",
+		"email": "",
+		"address": {
+			"@type": "PostalAddress",
+			"streetAddress": "Rua",
+			"addressLocality": "Cidade",
+			"addressRegion": "UF",
+			"addressCountry": "BRA"
+		},
+		"currenciesAccepted": "BRL",
+	}
+</script>

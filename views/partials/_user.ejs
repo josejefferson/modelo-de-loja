@@ -11,30 +11,43 @@ const _redir = locals.redir ? '?r=' + redir : ''
 <% } %>
 	<div class="card shadow-sm h-100">
 		<div class="card-body d-flex flex-column">
-			<h4><i class="fas fa-user"></i>
-				<%= user.name %>
-			</h4>
+			<h4><i class="fas fa-user"></i> <%= user.name %></h4>
 			<hr>
-			<div><i class="fas fa-map-marker-alt"></i> <b>Endereço:</b>
-				<%= user.address %>
+			<div>
+				<i class="fas fa-map-marker-alt"></i> <b>Endereço:</b> <%= user.address %>
 			</div>
-			<div><i class="fas fa-phone-alt"></i> <b>Telefone:</b> <a href="tel:<%= user.phone %>">
-					<%= user.phone || '-----' %>
-				</a></div>
-			<div><i class="fab fa-whatsapp"></i> <b>WhatsApp:</b> <a href="https://api.whatsapp.com/send?phone=<%= user.whatsapp %>">
-					<%= user.whatsapp || '-----' %>
-				</a></div>
-			<div><i class="fas fa-at"></i> <b>E-mail:</b> <a href="mailto:<%= user.email %>">
-					<%= user.email || '-----' %>
-				</a></div>
+			<% if (user.phone) { %><div>
+				<i class="fas fa-phone-alt"></i> <b>Telefone:</b>
+				<a href="tel:<%= user.phone %>"><%= user.phone %></a>
+			</div><% } %>
+			<% if (user.whatsapp) { %><div>
+				<i class="fab fa-whatsapp"></i> <b>WhatsApp:</b>
+				<a href="https://api.whatsapp.com/send?phone=<%= user.whatsapp %>"><%= user.whatsapp %></a>
+			</div><% } %>
+			<% if (user.email) { %><div>
+				<i class="fas fa-at"></i> <b>E-mail:</b>
+				<a href="mailto:<%= user.email %>"><%= user.email %></a>
+				<% if (user.emailConfirmed) { %>
+					<i class="fas fa-check-circle text-success" title="E-mail confirmado"></i>
+					<% if (!user.sendEmails) { %><i class="mdi mdi-email-off text-warning" title="E-mails desativados"></i><% } %>
+				<% } else { %>
+					<i class="fas fa-times-circle text-danger" title="E-mail não confirmado"></i>
+					<a href="/clients/email/resend/<%= user._id %>" class="fas fa-redo-alt text-decoration-none"
+						title="Reenviar e-mail de confirmação"></a></i>
+				<% } %>
+			</div><% } %>
 
-			<% if (env === 'edit' || env === 'buy') { %>
+			<% if (env === 'edit' || env === 'buy' || env === 'all') { %>
 				<div class="d-inline-flex flex-grow-1 align-items-end mt-3">
 					<div class="btn-group">
-						<a href="/users/edit/<%= user._id %><%=_redir%>" class="btn btn-sm btn-outline-secondary">
+						<a href="/clients/edit/<%= user._id %><%=_redir%>" class="btn btn-sm btn-outline-secondary">
 							<i class="fas fa-pencil-alt"></i> Editar
 						</a>
-						<% if (env !== 'buy') { %>
+						<% if (env === 'all') { %>
+							<button class="btn btn-sm btn-outline-secondary delete" data-client-id="<%= user._id %>">
+								<i class="fas fa-trash-alt"></i> Remover
+							</button>
+						<% } else if (env !== 'buy') { %>
 							<button class="btn btn-sm btn-outline-secondary remove" data-client-id="<%= user._id %>">
 								<i class="fas fa-trash-alt"></i> Remover
 							</button>

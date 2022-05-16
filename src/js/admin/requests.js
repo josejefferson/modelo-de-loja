@@ -1,19 +1,31 @@
+angular.module('store').animation('.store-requests-client', () => ({ enter: anim.open, leave: anim.close }))
+angular.module('store').animation('.store-requests-client-product', () => ({ enter: anim.open, leave: anim.close }))
+
 angular.module('store').controller('requestsCtrl', ['$scope', ($scope) => {
 	const socket = io(location.origin + '/requests')
 	socket.on('connect', () => {
 		console.log('[SOCKET] Conectado')
 	})
 	socket.on('newRequests', requests => {
+		const existentClient = $scope.requests[requests.clientId] ? true : false
+
 		requests.requests.forEach(request => {
 			$scope.requests[requests.clientId] = $scope.requests[requests.clientId] || []
 			$scope.requests[requests.clientId].unshift(request)
 			$scope.$apply()
 			toast(`Novo pedido do usuário "${request.clientId.name}"`, 'info')
 		})
+
+		if (!existentClient) {
+			new Audio('/sounds/doorBell.wav').play()
+		}
+		else {
+			new Audio('/sounds/deskBell.wav').play()
+		}
 	})
 
 	$scope.keys = Object.keys
-	$scope.moment = window.moment
+	$scope.dayjs = window.dayjs
 	$scope.requests = serverData
 	$scope.sum = (reqs) => {
 		return 'R$ ' + reqs.reduce((total, req) => {
@@ -99,7 +111,7 @@ function filter(env) {
 }
 
 window.setInterval(() => {
-	document.querySelectorAll('.momentUpdate').forEach(e => {
-		e.innerText = moment(e.dataset.time).fromNow()
+	document.querySelectorAll('.dayjsUpdate').forEach(e => {
+		e.innerText = dayjs(e.dataset.time).fromNow()
 	})
 }, 5000)

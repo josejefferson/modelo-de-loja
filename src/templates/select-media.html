@@ -1,0 +1,44 @@
+<ul class="nav nav-tabs justify-content-center">
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('image')">
+		<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#image" type="button">
+			<i class="fas fa-image"></i> <span class="d-none d-md-block">Imagens enviadas</span>
+		</button>
+	</li>
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('imageURL')">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#imageURL" type="button">
+			<i class="fas fa-link"></i> <span class="d-none d-md-block">URL (link)</span>
+		</button>
+	</li>
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('upload')">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#upload" type="button">
+			<i class="fas fa-upload"></i> <span class="d-none d-md-block">Upload</span>
+		</button>
+	</li>
+	<li class="nav-item" ng-hide="::selectMediaModalDisabledTabs.includes('youtube')">
+		<button class="nav-link" data-bs-toggle="tab" data-bs-target="#youtube" type="button">
+			<i class="fab fa-youtube"></i> <span class="d-none d-md-block">YouTube</span>
+		</button>
+	</li>
+</ul>
+<div class="tab-content" id="myTabContent">
+	<div class="p-4 tab-pane fade show active" id="image">
+		<ng-include src="'/templates/select-image.html'"></ng-include>
+	</div>
+	<div class="p-4 tab-pane fade" id="imageURL">
+		<ng-include src="'/templates/select-image-url.html'"></ng-include>
+	</div>
+	<div class="p-4 tab-pane fade" id="upload">
+		<ng-include src="'/templates/upload.html'"></ng-include>
+		<div class="row mt-3">
+			<label class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 selImage" ng-repeat="upload in uploads">
+				<input ng-type type="checkbox" name="selected-media" class="selected-media hidden" data-type="image.id" value="{{::upload.id}}" checked>
+				<div class="card ratio ratio-16x9 overflow-hidden">
+					<img ng-src="/images/view/{{::upload.id}}" class="store-product-image card-img-top" style="object-fit:cover">
+				</div>
+			</label>
+		</div>
+	</div>
+	<div class="p-4 tab-pane fade" id="youtube">
+		<ng-include src="'/templates/select-youtube.html'"></ng-include>
+	</div>
+</div>

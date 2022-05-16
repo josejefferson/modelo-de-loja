@@ -1,0 +1,298 @@
+<%
+const STATUSES = {
+	pending: ['pendente', '#fd7e14', 'https://i.imgur.com/I897mVE.png'],
+	confirmed: ['confirmado', '#20c997', 'https://i.imgur.com/joOBQFX.png'],
+	rejected: ['rejeitado', '#dc3545', 'https://i.imgur.com/wGi48AL.png'],
+	canceled: ['cancelado', '#d63384', 'https://i.imgur.com/wGi48AL.png'],
+	closed: ['fechado', '#198754', 'https://i.imgur.com/JxZhmmG.png']
+}
+const status = STATUSES[request.open ? request.status : 'closed']
+%>
+
+<html lang="pt-BR">
+
+<head></head>
+
+<body bgcolor="#ffffff" style="font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+	<!-- Barra de navegação -->
+	<a href="http://localhost:3000/" target="_blank" style="text-decoration: none;">
+		<div style="background-color: #212529; border-radius: 5px; padding: 8px 24px;">
+			<table>
+				<tbody>
+					<tr>
+						<td style="width: 36px;">
+							<img src="https://i.imgur.com/SMMTZe2.png" width="24px" height="24px" style="width: 24px; height: 24px;">
+						</td>
+						<td style="color: #ffffff; font-size: 1.25rem; line-height: 40px;">
+							Modelo de loja
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</a>
+
+	<!-- Texto da mensagem -->
+	<div align="center" style="padding: 0 16px;">
+		<table align="center" width="100%" style="max-width: 528px; min-width: 256px; padding-top: 32px;">
+			<tbody>
+				<tr>
+					<td style="color: #5F6368;">Olá <%= request.clientId.name %>,</td>
+				</tr>
+				<tr>
+					<td>
+						<% switch (purpose) { case 'pending': %>
+ 							Seu pedido de <%= request.quantity %> &times; <%= request.productId.name %> foi realizado com sucesso!<br>							Aguarde até que ele seja confirmado pelo administrador.
+						<% break; case 'confirmed': %>
+							Seu pedido de <%= request.quantity %> &times; <b%= request.productId.name %> foi <b>confirmado</b>!<br>
+							Em breve o seu pedido será entregue, aguarde!
+						<% break; case 'rejected': %>
+							Seu pedido de <%= request.quantity %> &times; <%= request.productId.name %> foi <b>rejeitado</b>!
+							<% break; case 'canceled': %>
+							Você cancelou seu pedido de <%= request.quantity %> &times; <%= request.productId.name %>.
+						<% break; case 'closed': %>
+							Seu pedido de <%= request.quantity %> &times; <%= request.productId.name %> foi <b>fechado</b>!<br>
+							Agradecemos por comprar no Modelo de Loja, volte sempre!
+						<% break; case 'feedback': %>
+							Foi adicionado um aviso ao seu pedido de <%= request.quantity %> &times; <%= request.productId.name %>:<br>
+							<table style="border: 1px solid #e8eaed; border-radius: 8px; padding: 8px; width: 100%;">
+								<tbody>
+									<tr>
+										<td style="width: 32px;">
+											<div style="background-color: #0d6efd; border-radius: 50%; height: 16px; padding: 4px; width: 16px;">
+												<img src="https://i.imgur.com/1pNMIOg.png" width="16px" height="16px">
+											</div>
+										</td>
+										<td><i><%= request.feedback %></i></td>
+									</tr>
+								</tbody>
+							</table>
+						<% break } %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Borda superior do card -->
+		<div style="height: 16px;"></div>
+		<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+			style="background-color: <%= status[1] %>; border: 1px solid #e8eaed; border-bottom: 0; border-radius:8px 8px 0 0; max-width: 528px; min-width: 256px;">
+			<tbody>
+				<tr>
+					<td colspan="2" height="4px"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Corpo do card -->
+		<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+			style="border: 1px solid #e8eaed; border-top: 0; border-radius: 0 0 8px 8px; max-width: 528px; min-width: 256px;">
+			<tbody>
+				<tr>
+					<td rowspan="3" width="24px"></td>
+					<td colspan="2" height="20px"></td>
+					<td colspan="2" height="24px"></td>
+					<td rowspan="3" width="24px"></td>
+				</tr>
+				<tr>
+					<!-- Imagem do produto -->
+					<td valign="top" width="20px" style="padding-right: 16px;">
+						<img
+							src="<%= request.productId.image.type === 'image.id' ? 'http://localhost:3000/images/view/' + request.productId.image.value : request.productId.image.value %>"
+							width="40px" height="40px" style="border-radius: 50%; height: 40px; width: 40px;">
+					</td>
+					<td>
+						<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%;">
+							<tbody>
+								<tr>
+									<td
+										style="color: #5F6368; font-size: 11px; font-weight: 500; letter-spacing: 0.8px; line-height: 16px; text-transform: uppercase; ">
+										Seu pedido
+									</td>
+								</tr>
+								<tr height="4px"></tr>
+
+								<!-- Nome do produto -->
+								<tr>
+									<td style="font-size: 18px; line-height: 24px;">
+										<%= request.quantity %> &times; <%= request.productId.name %> (R$ <%= request.productId.price.toFixed(2).replace('.', ',') %>)
+									</td>
+								</tr>
+								<tr height="8px"></tr>
+
+								<!-- Descrição do produto -->
+								<tr style="font-size: 14px;">
+									<td><%= request.productId.description %></td>
+								</tr>
+								<tr height="8px"></tr>
+
+								<!-- Data do pedido -->
+								<tr>
+									<td style="color: #5F6368; font-size: 12px; letter-spacing: 0.3px;">
+										Pedido realizado em <%= dayjs(request.date).format('D [de] MMM. [às] h:mm A') %>
+									</td>
+								</tr>
+								<tr height="8px"></tr>
+
+								<!-- Botão "Meus pedidos" -->
+								<tr>
+									<td>
+										<table border="0" cellpadding="0" cellspacing="0"
+											style="border-collapse: collapse; display: inline-block;">
+											<tbody>
+												<tr>
+													<td>
+														<a href="http://localhost:3000/requests/my#"
+															style="border-radius: 4px; border: 1px solid #dadce0; box-sizing: border-box; color: #202124; display: inline-block; font-size: 14px; font-weight: 500; height: 32px; letter-spacing: 0.25px; line-height: 30px; padding: 0 24px; text-decoration: none;"
+															target="_blank">Meus pedidos</a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr><!-- Fim do botão "Meus pedidos" -->
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr height="24px"></tr>
+
+				<!-- Divisão -->
+				<tr>
+					<td></td>
+					<td colspan="4" style="border-top: #e8eaed 1px solid;"></td>
+					<td></td>
+				</tr>
+				<tr height="16px"></tr>
+
+				<tr>
+					<td></td>
+					<!-- Ícone de usuário -->
+					<td style="padding-right: 16px;" valign="top" width="20px">
+						<div style="border-radius: 50%;background-color: #6f42c1;height: 24px; width: 24px;padding: 8px;">
+							<img src="https://i.imgur.com/kdpUSS4.png" width="24px" height="24px">
+						</div>
+					</td>
+
+					<td>
+						<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%;">
+							<tbody>
+								<tr>
+									<td
+										style="color: #5F6368; float:left; font-size: 11px; font-weight: 500; letter-spacing: 0.8px; line-height: 16px; text-transform: uppercase;">
+										Destinatário
+									</td>
+								</tr>
+								<!-- Nome do cliente -->
+								<tr>
+									<td style="font-size: 18px; line-height: 24px;">
+										<%= request.clientId.name %>
+									</td>
+								</tr>
+								<!-- Informações do cliente -->
+								<% if (request.clientId.address) { %>
+									<tr style="font-size: 14px;">
+										<td style="padding-top: 4px;"><b>Endereço:</b> <%= request.clientId.address %></td>
+									</tr>
+								<% } %>
+								<% if (request.clientId.phone) { %>
+									<tr style="font-size: 14px;">
+										<td style="padding-top: 4px;"><b>Telefone:</b> <%= request.clientId.phone %></td>
+									</tr>
+								<% } %>
+								<% if (request.clientId.whatsapp) { %>
+									<tr style="font-size: 14px;">
+										<td style="padding-top: 4px;"><b>WhatsApp:</b> <%= request.clientId.whatsapp %></td>
+									</tr>
+								<% } %>
+								<% if (request.clientId.email) { %>
+									<tr style="font-size: 14px;">
+										<td style="padding-top: 4px;"><b>E-mail:</b> <%= request.clientId.email %></td>
+									</tr>
+								<% } %>
+								</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr height="16px"></tr>
+
+				<!-- Divisão -->
+				<tr>
+					<td></td>
+					<td colspan="4" style="border-top: #e8eaed 1px solid;"></td>
+					<td></td>
+				</tr>
+				<tr height="16px"></tr>
+
+				<tr>
+					<td></td>
+					<!-- Ícone de status do pedido -->
+					<td valign="top" width="20px" style="padding-right: 16px;">
+						<div style="background-color: <%= status[1] %>; border-radius: 50%; height: 24px; padding: 8px; width: 24px;">
+							<img src="<%= status[2] %>" width="24px" height="24px">
+						</div>
+					</td>
+
+					<!-- Status -->
+					<td style="font-size: 18px; line-height: 24px;">
+						Pedido <%= status[0] %>
+					</td>
+				</tr>
+				<tr height="16px"></tr>
+
+				<% if (request.feedback) { %>
+					<!-- Divisão -->
+					<tr>
+						<td></td>
+						<td colspan="4" style="border-top: #e8eaed 1px solid;"></td>
+						<td></td>
+					</tr>
+					<tr height="16px"></tr>
+
+
+					<tr>
+						<td></td>
+						<!-- Ícone de feedback -->
+						<td valign="top" width="20px" style="padding-right: 16px;">
+							<div style="background-color: #0d6efd; border-radius: 50%; height: 24px; padding: 8px; width: 24px;">
+								<img src="https://i.imgur.com/1pNMIOg.png" width="24px" height="24px">
+							</div>
+						</td>
+
+						<td style="font-size: 18px; line-height: 24px;">
+							<table cellpadding="0" cellspacing="0" style="width: 100%;">
+								<tbody>
+									<tr>
+										<td style="font-size: 18px; line-height: 24px;">
+											Feedback do administrador
+										</td>
+									</tr>
+
+									<!-- Feedback -->
+									<tr>
+										<td style="font-size: 14px; padding-top: 4px;">
+											<i><%= request.feedback %></i>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				<% } %>
+
+				<tr height="16px"></tr>
+			</tbody>
+		</table>
+
+		<!-- Rodapé -->
+		<div align="center" width="100%" style="padding-top: 16px; width: 100%;">
+			<div align="left"
+				style="color: #9aa0a6; font-size: 12px; letter-spacing: 0.3px; line-height: 16px; max-width: 528px; min-width: 256px; width: 100%;">
+				Este e-mail foi enviado automaticamente, não responda-o. Caso não queira receber mais e-mails deste site <a
+					href="http://localhost:3000/clients/email/unsubscribe/<%= request.clientId._id %>" style="color: #9aa0a6;">cancele sua
+					inscrição</a> ou <a href="http://localhost:3000/clients/email/unsubscribe/<%= request.clientId._id %>">cancele sua confirmação</a>.</div>
+		</div>
+	</div>
+</body>
+
+</html>

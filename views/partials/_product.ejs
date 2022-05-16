@@ -2,9 +2,6 @@
 const env = locals.env || 'show'
 product.priceStr = product.price?.toFixed(2).toString().replace('.', ',')
 product.oldpriceStr = product.oldprice?.toFixed(2).toString().replace('.', ',')
-const {_1, _2, _3, _4, _5} = product.rating
-product.ratingUsers = _1 + _2 + _3 + _4 + _5
-product.ratingNum = Math.round((_1 * 1 + _2 * 2 + _3 * 3 + _4 * 4 + _5 * 5) / product.ratingUsers) || 0
 const _link = env === 'view' ? 'a' : 'div'
 const _buyCol = env !== 'buy' ? 'col-6' : 'col-12 mb-3'
 const _stkQtd = (product.stock >= 0) ? `(${product.stock} unid. dispon.)` : '(disponível)'
@@ -15,20 +12,20 @@ const _calcPrc = `'R$ ' + ((products.p${product.id}.qtd*${product.price}||false)
 const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin};products.p${product.id}.price=${product.price}`
 %>
 
-<div class="col <%=_buyCol%> col-md-4 col-lg-3 px-1 py-1">
-	<<%=_link%> href="/product/<%= product.id %>" class="card shadow text-decoration-none text-dark h-100">
+<div class="store-product store-product-env-<%= env %> col <%=_buyCol%> col-md-4 col-lg-3 px-1 py-1">
+	<<%=_link%> href="/products/view/<%= product.id %>" class="card shadow text-decoration-none text-dark h-100">
 		<% if (product.badge) { %>
 			<div class="position-absolute top-0 end-0 bg-danger text-white p-1 prodBadge"><%= product.badge %></div>
 		<% } %>
 
-		<% if (product.image) { %>
-			<div class="ratio ratio-16x9">
-				<img src="<%= product.image %>" class="card-img-top" style="object-fit:cover">
+		<% if (product.image.type && product.image.value) { %>
+			<div class="ratio ratio-16x9 overflow-hidden">
+				<img src="<%= product.image.type === 'image.id' ? '/images/view/' : '' %><%= product.image.value %>" class="store-product-image card-img-top" style="object-fit:cover">
 			</div>
 		<% } else { %>
 			<div class="ratio ratio-16x9 bg-light">
 				<div class="d-flex align-items-center justify-content-center text-secondary">
-					<i class="fas fa-5x fa-image"></i>
+					<i class="fas fa-5x fa-shopping-basket"></i>
 				</div>
 			</div>
 		<% } %>
@@ -40,12 +37,12 @@ const _pInit = `products.p${product.id}={};products.p${product.id}.qtd=${_stkMin
 			</h5>
 			<div class="card-text">
 				<div>
-					<i class="fa<%=product.ratingNum>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-					<i class="fa<%=product.ratingNum>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-					<i class="fa<%=product.ratingNum>=3?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-					<i class="fa<%=product.ratingNum>=4?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-					<i class="fa<%=product.ratingNum>=5?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
-					<small><small class="fs-8"><%= product.ratingNum %> (<%= product.ratingUsers %>)</small></small>
+					<i class="fa<%=product.rating.average>=1?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.rating.average>=2?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.rating.average>=3?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.rating.average>=4?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<i class="fa<%=product.rating.average>=5?'s':'r'%> fa-xs fa-star w-auto text-warning"></i>
+					<small><small class="fs-8">(<%= product.rating.totalUsers %>)</small></small>
 				</div>
 				<div class="mt-2">
 					<% if (product.oldpriceStr) { %>

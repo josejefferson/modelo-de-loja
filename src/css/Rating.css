@@ -1,0 +1,34 @@
+.rating.rating-disabled {
+	opacity: .5;
+	pointer-events: none;
+}
+
+.rating.rating-0 > .rating-star-0 {
+	display: none;
+}
+
+.rating-star-1::before,
+.rating-star-2::before,
+.rating-star-3::before,
+.rating-star-4::before,
+.rating-star-5::before {
+	content: '\F04D2';
+}
+
+.rating.rating-1 > .rating-star-1::before,
+.rating.rating-2 > .rating-star-1::before,
+.rating.rating-3 > .rating-star-1::before,
+.rating.rating-4 > .rating-star-1::before,
+.rating.rating-5 > .rating-star-1::before,
+.rating.rating-2 > .rating-star-2::before,
+.rating.rating-3 > .rating-star-2::before,
+.rating.rating-4 > .rating-star-2::before,
+.rating.rating-5 > .rating-star-2::before,
+.rating.rating-3 > .rating-star-3::before,
+.rating.rating-4 > .rating-star-3::before,
+.rating.rating-5 > .rating-star-3::before,
+.rating.rating-4 > .rating-star-4::before,
+.rating.rating-5 > .rating-star-4::before,
+.rating.rating-5 > .rating-star-5::before {
+	content: '\F04CE';
+}

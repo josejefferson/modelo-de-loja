@@ -1,0 +1,33 @@
+<div class="container my-4">
+	<h1 class="mb-4">
+		<i class="fas fa-users"></i> Usuários
+		<label for="import" class="btn" title="Importar">
+			<i class="fas fa-arrow-up"></i>
+		</label>
+		<input type="file" id="import" style="display:none">
+		<button class="export btn" title="Exportar"><i class="fas fa-arrow-down"></i></button><!--TODO:-->
+	</h1>
+
+	<div class="users row">
+		<% users.forEach(user => { %>
+			<%- include('../partials/_user.ejs', {user, env: 'edit' }) %>
+		<% }) %>
+
+		<div class="col-12 col-md-6 mt-4">
+			<div class="card shadow-sm h-100 bg-light">
+				<a href="/clients/add" class="btn card-body d-flex flex-column align-items-center justify-content-center">
+					<i class="fas fa-plus fa-5x"></i>
+					<b class="mt-3 fs-5">Adicionar usuário</b>
+				</a>
+			</div>
+		</div>
+
+		<a href="/clients/add" class="btn btn-primary btn-lg btn-floating px-2 px-md-3 shadow">
+			<i class="fas fa-plus me-md-2"></i>
+			<div class="d-none d-md-block">Adicionar</div>
+		</a>
+	</div>
+</div>
+
+<%- contentFor('script') %>
+<script src="/js/users.js"></script>

@@ -1,90 +1,129 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-	<div class="container">
-		<a class="navbar-brand" href="/"><i class="fas fa-shopping-basket"></i> Modelo de loja</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+	<div class="container-fluid justify-content-start">
+		<button class="open-sidebar btn me-2 p-0 px-1 d-lg-none" type="button">
 			<span class="navbar-toggler-icon"></span>
 		</button>
+		<a class="navbar-brand" href="/"><i class="fas fa-shopping-basket"></i> Modelo de loja</a>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item" title="Início">
-					<a class="nav-link <%-(_page==='home')&&'active'%>" href="/">
+					<a class="nav-link <%= (locals._page === 'home') && 'active' %>" href="/">
 						<i class="fas fa-home"></i> Início
 					</a>
 				</li>
 
-				<li class="nav-item" title="Usuários">
-					<a class="nav-link <%-(_page==='users')&&'active'%>" href="/users">
+				<li class="nav-item"
+					title="[Usuários]&#13;Edite suas informações pessoais, como nome, endereço, telefone, etc.">
+					<a class="nav-link <%= (locals._page === 'clients') && 'active' %>" href="/clients">
 						<i class="fas fa-users"></i> Usuários
 					</a>
 				</li>
 
-				<li class="nav-item" title="Carrinho">
-					<a class="nav-link <%-(_page==='buy')&&'active'%>" href="/cart">
+				<li class="nav-item" title="[Carrinho]&#13;Compre vários produtos de uma vez com o carrinho">
+					<a class="nav-link <%= (locals._page === 'buy') && 'active' %>" href="/cart">
 						<i class="fas fa-shopping-cart"></i> Carrinho
 					</a>
 				</li>
 
-				<li class="nav-item" title="Compras">
-					<a class="nav-link <%-(_page==='history')&&'active'%>" href="/history">
+				<li class="nav-item" title="[Compras]&#13;Veja e cancele suas compras recentes">
+					<a class="nav-link <%= (locals._page === 'my-requests') && 'active' %>" href="/requests/my">
 						<i class="fas fa-history"></i> Compras
 					</a>
 				</li>
 
-				<% if (authUser) { %>
-					<% if (authUser.admin) { %>
-						<hr class="bg-light my-1">
+				<% if (true || authUser) { %>
+				<% if (true || authUser.admin) { %>
+				<div class="vr bg-light mx-2"></div>
 
-						<li class="nav-item" title="Produtos">
-							<a class="nav-link <%-(_page==='admin/products')&&'active'%>" href="/products">
-								<i class="fas fa-shopping-bag"></i> Produtos
-							</a>
-						</li>
+				<li class="nav-item" title="[Produtos]&#13;Edite ou remova produtos">
+					<a class="nav-link <%= (locals._page === 'products') && 'active' %>" href="/products">
+						<i class="fas fa-shopping-bag"></i> Produtos
+					</a>
+				</li>
 
-						<li class="nav-item" title="Pedidos">
-							<a class="nav-link <%-(_page==='admin/requests')&&'active'%>" href="/requests">
-								<i class="fas fa-bullhorn"></i> Pedidos
-							</a>
-						</li>
+				<li class="nav-item" title="[Pedidos]&#13;Gerencie os pedidos dos usuários">
+					<a class="nav-link <%= (locals._page === 'requests') && 'active' %>" href="/requests">
+						<i class="fas fa-bullhorn"></i> Pedidos
+					</a>
+				</li>
 
-						<li class="nav-item" title="Destaques">
-							<a class="nav-link <%-(_page==='admin/highlights')&&'active'%>" href="/highlights">
+				<!-- Dropdown -->
+				<li class="nav-item dropdown dropdown-dark">
+					<!-- Abrir dropdown -->
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fas fa-plus"></i> Mais
+					</a>
+
+					<!-- Elementos do dropdown -->
+					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+						<li title="[Destaques]&#13;">
+							<a class="dropdown-item <%= (locals._page === 'highlights') && 'active' %>" href="/highlights">
 								<i class="fas fa-certificate"></i> Destaques
 							</a>
 						</li>
 
-						<li class="nav-item" title="Anúncios">
-							<a class="nav-link <%-(_page==='admin/ads')&&'active'%>" href="/ads">
-								<i class="fas fa-ad"></i> Anúncios
+						<li title="[Anúncios]&#13;">
+							<a class="dropdown-item <%= (locals._page === 'ads') && 'active' %>" href="/ads">
+								<i class="fas fa-bullhorn"></i> Anúncios
 							</a>
 						</li>
 
-						<li class="nav-item" title="Administradores">
-							<a class="nav-link <%-(_page==='admin/admins')&&'active'%>" href="/admins">
+						<li title="[Administradores]&#13;Gerencie os administradores do sistema">
+							<a class="dropdown-item <%= (locals._page === 'admins') && 'active' %>" href="/admins">
 								<i class="fas fa-user-shield"></i> Admins
 							</a>
 						</li>
-						
-						<li class="nav-item" title="Imagens">
-							<a class="nav-link <%-(_page==='admin/images')&&'active'%>" href="/images">
+
+						<li title="[Imagens]&#13;Gerencie as imagens enviadas para o banco de dados">
+							<a class="dropdown-item <%= (locals._page === 'images') && 'active' %>" href="/images">
 								<i class="fas fa-image"></i> Imagens
 							</a>
 						</li>
-					<% } %>
 
+						<li title="[Todos os clientes]&#13;Gerencie todos os clientes do banco de dados">
+							<a class="dropdown-item <%= (locals._page === 'clients-all') && 'active' %>" href="/clients/all">
+								<i class="fas fa-users"></i> Todos os clientes
+							</a>
+						</li>
+
+						<li title="[Logs]&#13;Gerencie os logs do sistema">
+							<a class="dropdown-item <%= (locals._page === 'logs') && 'active' %>" href="/logs">
+								<i class="fas fa-list"></i> Logs
+							</a>
+						</li>
+					</ul><!-- Elementos do dropdown -->
+				</li><!-- Dropdown -->
+				<% } %>
+
+				<div class="vr bg-light mx-2"></div>
 				<li class="nav-item" title="Sair">
 					<a class="nav-link" href="/logout">
 						<i class="fas fa-sign-out-alt"></i> Sair
 					</a>
 				</li>
-
 				<% } else { %>
-					<li class="nav-item" title="Painel do administrador">
-						<a class="nav-link <%-(_page==='login')&&'active'%>" href="/login">
-							<i class="fas fa-user-shield"></i> Painel do administrador
-						</a>
-					</li>
+				<div class="vr bg-light mx-2"></div>
+				<li class="nav-item" title="Painel do administrador">
+					<a class="nav-link <%= (locals._page === 'login') && 'active' %>" href="/login">
+						<i class="fas fa-user-shield"></i> Painel do administrador
+					</a>
+				</li>
 				<% } %>
 			</ul>
-		</div>
-	</div>
+		</div><!-- .collapse -->
+		<li class="nav-item" ng-controller="notificationsCtrl">
+			<div class="open-notifications badge bg-primary rounded-pill fs-6 p-2"
+				ng-class="{'bg-danger': unreadNotificationCount() > 0}" title="Notificações">
+				<i class="fas fa-bell text-light"></i>
+				<span>{{unreadNotificationCount()}}</span>
+			</div>
+		</li>
+	</div><!-- .container-fluid -->
 </nav>
+
+<div class="hidden">
+	<div class="notifications-popover-content">
+		<ng-include src="'/templates/notifications.html'" ng-controller="notificationsCtrl">Carregando...</ng-include>
+	</div>
+</div>
