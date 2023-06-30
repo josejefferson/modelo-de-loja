@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const logger = require('@modules/logger')('MongoDB')
 
-let mongoDBURL = process.env.NODE_ENV === 'development' ? 'mongodb://localhost' : process.env.MONGO_DB
+let mongoDBURL = process.env.MONGO_DB || 'mongodb://localhost'
 if (!mongoDBURL) {
 	logger.warn('O link do banco de dados remoto não foi definido')
 	mongoDBURL = 'mongodb://localhost'
