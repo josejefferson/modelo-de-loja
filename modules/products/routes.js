@@ -3,10 +3,11 @@ const routes = express.Router()
 const { render } = require('@modules/helpers')
 const { validate } = require('./validators')
 const db = require('./database')
+const { admin } = require('@modules/restrictions')
 
 routes.get('/view/:id', validate.id, db.get, render('product', 'Produto'))
 routes.get('/rate/:id/:client/:rating', validate.id, validate.rate, db.rate) // temporariamente get
-// routes.use(admin)
+routes.use(admin)
 routes.get('/', db.getALL, render('products', 'Produtos'))
 routes.get('/add', render('product-edit', 'Adicionar produto'))
 routes.get('/edit/:id', validate.id, db.get, render('product-edit', 'Editar produto'))

@@ -6,7 +6,7 @@ const { validate } = require('./validators')
 const { admin } = require('@modules/restrictions')
 module.exports = routes
 
-// routes.use(admin)
+routes.use(admin)
 routes.get('/', db.getAll, render('admins', 'Administradores'))
 routes.get('/add', render('admins-edit', 'Adicionar administrador'))
 routes.get('/edit/:id', validate.id, db.get, render('admins-edit', 'Editar administrador'))
